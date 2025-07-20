@@ -412,6 +412,7 @@ body.dark-mode .portfolio-section h2 {
 }
 
 .portfolio-card {
+    display: inline-block;
     position: relative;
     width: 350px;
     height: 450px;
