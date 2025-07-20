@@ -390,6 +390,7 @@ body.dark-mode .portfolio-section h2 {
     position: relative;
     width: 100%;
     margin: 0;
+    background: transparent;
 }
 
 .carousel-wrapper {
@@ -411,7 +412,7 @@ body.dark-mode .portfolio-section h2 {
 }
 
 .portfolio-card {
-    display: inline-block;
+    display: block;
     position: relative;
     width: 350px;
     height: 450px;
