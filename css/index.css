@@ -416,7 +416,6 @@ body.dark-mode .portfolio-section h2 {
     position: relative;
     width: 350px;
     height: 450px;
-    background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
