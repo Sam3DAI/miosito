@@ -84,9 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(body, { attributes: true, attributeFilter: ['class'] });
   }
 
-  // Monta il Chatbot React nel div dedicato
-  const chatbotRoot = document.getElementById('chatbot-root');
-  if (chatbotRoot && window.React && window.ReactDOM && window.App) {
-    ReactDOM.render(React.createElement(App), chatbotRoot);
-  }
+  // Monta il Chatbot React nel div dedicato con React 18 createRoot
+const chatbotRootElement = document.getElementById('chatbot-root');
+if (chatbotRootElement && window.React && window.ReactDOM && window.App) {
+  const root = ReactDOM.createRoot(chatbotRootElement);
+  root.render(React.createElement(App));
+} else {
+  console.error('Container #chatbot-root non trovato o React non caricato. Verifica DOM e script.');
+}
 });
