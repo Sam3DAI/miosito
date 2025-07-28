@@ -67,4 +67,26 @@ document.addEventListener('DOMContentLoaded', () => {
             carouselWrapper.scrollTo({ left: 0, behavior: 'smooth' });
         }
     });
+  // Sync dark mode con chatbot
+  const chatbotApp = document.querySelector('.app');  // Seleziona .app dal chatbot CSS
+  if (chatbotApp) {
+    if (body.classList.contains('dark-mode')) {
+      chatbotApp.classList.add('dark');
+    }
+    // Observer per cambiamenti futuri
+    const observer = new MutationObserver(() => {
+      if (body.classList.contains('dark-mode')) {
+        chatbotApp.classList.add('dark');
+      } else {
+        chatbotApp.classList.remove('dark');
+      }
+    });
+    observer.observe(body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // Monta il Chatbot React nel div dedicato
+  const chatbotRoot = document.getElementById('chatbot-root');
+  if (chatbotRoot && window.React && window.ReactDOM && window.App) {
+    ReactDOM.render(React.createElement(App), chatbotRoot);
+  }
 });
