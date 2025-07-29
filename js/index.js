@@ -122,4 +122,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
+    // Lazy Load for Background Images in Carousel
+
+    const cards = document.querySelectorAll('.portfolio-card');
+
+    const observer = new IntersectionObserver((entries) => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                const card = entry.target;
+
+                const bgUrl = card.getAttribute('data-bg');
+
+                if (bgUrl) {
+
+                    card.style.backgroundImage = `url('${bgUrl}')`;
+
+                    card.removeAttribute('data-bg'); // Rimuovi per non ricaricare
+
+                }
+
+                observer.unobserve(card); // Osserva solo una volta
+
+            }
+
+        });
+
+    }, { threshold: 0.1 }); // Carica quando 10% visibile
+
+    cards.forEach(card => observer.observe(card));
+
 });
