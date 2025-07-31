@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('header');
     const sunIcon = document.querySelector('.theme-icon.sun');
     const moonIcon = document.querySelector('.theme-icon.moon');
-    const carouselContainers = document.querySelectorAll('.carousel-container');
 
+    const carouselContainers = document.querySelectorAll('.carousel-container');
     carouselContainers.forEach(container => {
         const carouselWrapper = container.querySelector('.carousel-wrapper');
         const leftArrow = container.querySelector('.carousel-arrow.left');
@@ -84,11 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 speed: 2000,
                 animateGradually: {
                     enabled: true,
-                    delay: 300
+                    delay: 150
                 },
                 dynamicAnimation: {
                     enabled: true,
-                    speed: 700
+                    speed: 350
                 }
             },
             toolbar: {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plotOptions: {
             bar: {
                 horizontal: true,
-                barHeight: '70%',
+                barHeight: '75%',
                 distributed: true,
             }
         },
@@ -106,11 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
             enabled: false
         },
         series: [{
-            data: [85, 90, 80, 75]
+            data: [80, 90, 50, 65]
         }],
         xaxis: {
             categories: ['Efficienza Operativa', 'Precisione dei Dati', 'Risparmio di Tempo', 'Soddisfazione Clienti'],
             labels: {
+                formatter: function(val) { return val + '%'; },
                 style: {
                     colors: '#6e6e73',
                     fontSize: '14px'
@@ -125,6 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         yaxis: {
             labels: {
+                formatter: function (value) {
+                    if (value === 'Efficienza Operativa') {
+                        return ['Efficienza', 'Operativa'];
+                    } else if (value === 'Precisione dei Dati') {
+                        return ['Precisione', 'dei Dati'];
+                    } else if (value === 'Risparmio di Tempo') {
+                        return ['Risparmio', 'di Tempo'];
+                    } else if (value === 'Soddisfazione Clienti') {
+                        return ['Soddisfazione', 'Clienti'];
+                    }
+                    return value;
+                },
                 style: {
                     colors: '#6e6e73',
                     fontSize: '14px'
@@ -137,29 +150,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 show: false
             }
         },
+        colors: ['#45b6fe', '#6a9bfe', '#8f80fe', '#d95bc5'],
         grid: {
             show: false
         },
-        colors: ['#45b6fe', '#6a9bfe', '#8f80fe', '#d95bc5'],
         tooltip: {
-            y: {
-                formatter: function(val) {
-                    return val + "%";
-                }
-            }
+            enabled: false
         }
     };
 
     const whyChooseSection = document.getElementById('why-choose');
+    let statsChart = null;
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                const statsChart = new ApexCharts(document.querySelector("#stats-chart"), barChartOptions);
+                if (statsChart) {
+                    statsChart.destroy();
+                }
+                statsChart = new ApexCharts(document.querySelector("#stats-chart"), barChartOptions);
                 statsChart.render();
-                observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
+
     observer.observe(whyChooseSection);
 });

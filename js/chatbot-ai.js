@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ApexCharts con Stats Aggiornate
+    // ApexCharts con Stats Aggiornate e Allineamento Estetico
     const barChartOptions = {
         chart: {
             type: 'bar',
@@ -81,43 +81,98 @@ document.addEventListener('DOMContentLoaded', () => {
                 enabled: true,
                 easing: 'easeinout',
                 speed: 2000,
-                animateGradually: { enabled: true, delay: 300 },
-                dynamicAnimation: { enabled: true, speed: 700 }
+                animateGradually: {
+                    enabled: true,
+                    delay: 150
+                },
+                dynamicAnimation: {
+                    enabled: true,
+                    speed: 350
+                }
             },
-            toolbar: { show: false }
+            toolbar: {
+                show: false
+            }
         },
         plotOptions: {
-            bar: { horizontal: true, barHeight: '70%', distributed: true }
+            bar: {
+                horizontal: true,
+                barHeight: '75%',
+                distributed: true,
+            }
         },
-        dataLabels: { enabled: false },
-        series: [{ data: [80, 30, 85, 50] }],
+        dataLabels: {
+            enabled: false
+        },
+        series: [{
+            data: [85, 40, 70, 47]
+        }],
         xaxis: {
             categories: ['Riduzione Tempi di Risposta', 'Aumento Soddisfazione Clienti', 'Automatizzazione Processi', 'Riduzione Costi Operativi'],
-            labels: { style: { colors: '#6e6e73', fontSize: '14px' } },
-            axisBorder: { show: false },
-            axisTicks: { show: false }
+            labels: {
+                formatter: function(val) { return val + '%'; },
+                style: {
+                    colors: '#6e6e73',
+                    fontSize: '14px'
+                }
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
         },
         yaxis: {
-            labels: { style: { colors: '#6e6e73', fontSize: '14px' } },
-            axisBorder: { show: false },
-            axisTicks: { show: false }
+            labels: {
+                formatter: function (value) {
+                    if (value === 'Riduzione Tempi di Risposta') {
+                        return ['Riduzione Tempi', 'di Risposta'];
+                    } else if (value === 'Aumento Soddisfazione Clienti') {
+                        return ['Aumento', 'Soddisfazione Clienti'];
+                    } else if (value === 'Automatizzazione Processi') {
+                        return ['Automatizzazione', 'Processi'];
+                    } else if (value === 'Riduzione Costi Operativi') {
+                        return ['Riduzione Costi', 'Operativi'];
+                    }
+                    return value;
+                },
+                style: {
+                    colors: '#6e6e73',
+                    fontSize: '14px'
+                }
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
         },
-        grid: { show: false },
         colors: ['#45b6fe', '#6a9bfe', '#8f80fe', '#d95bc5'],
-        tooltip: { y: { formatter: val => val + '%' } }
+        grid: {
+            show: false
+        },
+        tooltip: {
+            enabled: false
+        }
     };
 
     // Animazione Fade-In e Render Grafico
     const whyChooseSection = document.getElementById('why-choose');
-    const observer = new IntersectionObserver(entries => {
+    let statsChart = null;
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                const statsChart = new ApexCharts(document.querySelector("#stats-chart"), barChartOptions);
+                if (statsChart) {
+                    statsChart.destroy();
+                }
+                statsChart = new ApexCharts(document.querySelector("#stats-chart"), barChartOptions);
                 statsChart.render();
-                observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
+
     observer.observe(whyChooseSection);
 });

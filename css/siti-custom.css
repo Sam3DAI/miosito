@@ -281,7 +281,6 @@ body.dark-mode .social-icon {
 
 /* Intro and Benefits Section */
 .intro-benefits-section {
-    padding: 0px 20px;
     background-color: var(--background-color);
 }
 
@@ -290,6 +289,13 @@ body.dark-mode .social-icon {
     max-width: 800px;
     margin: 0 auto 40px;
     padding-left: 200px;
+}
+
+@media (max-width: 769px) {
+.introduction {
+padding-left: 50px; /* Reduced padding for mobile */
+  margin-left: 30px;
+}
 }
 
 .introduction h2 {
@@ -329,6 +335,13 @@ body.dark-mode .introduction p {
     scrollbar-width: none;
     background: transparent;
     padding-left: 250px;
+}
+
+@media (max-width: 769px) {
+.carousel-wrapper 
+  padding: 0;
+  margin-left: 50px;
+}
 }
 
 .carousel-wrapper::-webkit-scrollbar {
@@ -1119,58 +1132,3 @@ body.dark-mode::-webkit-scrollbar-thumb {
     }
 }
 
-@media (max-width: 480px) {
-    .hero-section h1 {
-        font-size: 36px;
-    }
-
-    .introduction h2 {
-        font-size: 24px;
-    }
-
-    .introduction p {
-        font-size: 14px;
-    }
-
-    .benefit-card {
-        width: 250px;
-        height: 350px;
-    }
-
-    .card-content h3 {
-        font-size: 18px;
-    }
-
-    .card-content p {
-        font-size: 14px;
-    }
-
-    .service-container h2 {
-        font-size: 24px;
-    }
-
-    .service-container p {
-        font-size: 14px;
-    }
-
-    .onepage-cta p {
-        font-size: 14px;
-    }
-
-    .multipagina-cta p {
-        font-size: 14px;
-    }
-
-    .cta-section h2 {
-        font-size: 24px;
-    }
-
-    .cta-section p {
-        font-size: 14px;
-    }
-
-    .cta-button-large {
-        padding: 12px 25px;
-        font-size: 15px;
-    }
-}
