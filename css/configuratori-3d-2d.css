@@ -12,13 +12,18 @@ body.dark-mode {
 }
 
 /* General Styles */
+html, body {
+  overflow-x: hidden !important;
+  position: relative;
+  touch-action: pan-y; /* Permette solo swipe verticale sul body */
+}
+
 body {
 font-family: 'SF Pro Display', Arial, sans-serif;
 color: var(--text-color);
 margin: 0;
 padding: 0;
 background-color: var(--background-color);
-overflow-x: hidden;
 overflow-y: auto;
 scrollbar-width: thin;
 scrollbar-color: #d3d3d3 var(--background-color);
@@ -366,7 +371,11 @@ padding-left: 250px; /* Default */
 
 @media (max-width: 769px) {
 .carousel-wrapper {
-padding-left: 50px;
+padding-left: 20px; /* Ridotto per minor spazio iniziale, senza overflow */
+touch-action: pan-x; /* Confina swipe horizontal al carousel */
+}
+.carousel-container {
+overflow-x: hidden; /* Rinforzo overflow */
 }
 }
 
@@ -639,6 +648,40 @@ order: 3;
 
 /* Mobile: Stack, Cuffie sotto Sfondo */
 @media (max-width: 769px) {
+.configurator-section {
+padding: 30px 0; /* Rimuovi padding left/right per full-width */
+}
+.configurator-container {
+flex-direction: column-reverse;
+}
+.iframe-container {
+width: 100%; /* Semplice 100%, no calc o margini negativi */
+margin-left: 0;
+margin-right: 0;
+height: 400px;
+touch-action: pan-x pan-y; /* Permette gesture su iframe senza propagare */
+}
+.configurator-options {
+padding: 0 20px; /* Applica padding solo qui per indent testo/options */
+width: 100%;
+gap: 10px;
+}
+.configurator-options h2 {
+font-size: 24px;
+}
+.configurator-options p {
+font-size: 16px;
+}
+.configurator-option-group h3 {
+font-size: 18px;
+}
+.color-options, .background-options {
+gap: 10px;
+}
+.color__swatch, .texture__preview img {
+width: 30px;
+height: 30px;
+}
 .cuffie-group {
 margin-top: 20px;
 }
@@ -753,20 +796,21 @@ background-color: #1d1d1f;
 /* Responsive 2D */
 @media (max-width: 769px) {
 .configurator-2d-section {
-padding: 30px 20px;
+padding: 30px 0; /* Rimuovi padding left/right per full-width */
 }
 .configurator-2d-container {
 flex-direction: column;
 }
-.product-image-container,
-.configurator-2d-options {
-width: 100%;
-}
 .product-image-container {
+width: 100%; /* Semplice 100%, no margini negativi */
+margin-left: 0;
+margin-right: 0;
 order: 2;
 }
 .configurator-2d-options {
+padding: 0 20px; /* Applica padding solo qui */
 order: 1;
+width: 100%;
 }
 .configurator-2d-options h2 {
 font-size: 24px;
@@ -986,38 +1030,6 @@ display: block;
 margin-left: 0;
 font-size: 46px;
 font-weight: 600;
-}
-.configurator-section {
-padding: 30px 20px;
-}
-.configurator-container {
-flex-direction: column-reverse;
-}
-.iframe-container {
-width: 100%;
-margin-left: 0px;
-margin-right: 0px;
-height: 400px;
-}
-.configurator-options {
-width: 100%;
-gap: 10px;
-}
-.configurator-options h2 {
-font-size: 24px;
-}
-.configurator-options p {
-font-size: 16px;
-}
-.configurator-option-group h3 {
-font-size: 18px;
-}
-.color-options, .background-options {
-gap: 10px;
-}
-.color__swatch, .texture__preview img {
-width: 30px;
-height: 30px;
 }
 }
 
