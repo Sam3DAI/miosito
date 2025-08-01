@@ -60,12 +60,12 @@ body.dark-mode header.scrolled {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0 20px;
+  padding: 0;
 }
 
 .logo-link {
   display: inline-block;
-  margin-left: 15px;
+  margin-left: 35px;
   flex-shrink: 0;
 }
 
@@ -92,6 +92,7 @@ body.dark-mode header.scrolled {
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  margin-right: 20px;
 }
 
 .nav-menu li a {
