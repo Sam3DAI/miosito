@@ -1,4 +1,4 @@
-/* Theme Variables */
+/* Theme Variables - Ottimizzato */
 :root {
     --background-color: #fafafa;
     --text-color: #1d1d1f;
@@ -34,7 +34,7 @@ body.dark-mode {
     width: auto;
 }
 
-/* Header Styles (Memorizzato) */
+/* Header Styles */
 header {
     background-color: #fafafa;
     padding: 10px 20px;
@@ -292,10 +292,10 @@ body.dark-mode .social-icon {
 }
 
 @media (max-width: 769px) {
-.introduction {
-padding-left: 50px; /* Reduced padding for mobile */
-  margin-left: 30px;
-}
+    .introduction {
+        padding-left: 50px;
+        margin-left: 30px;
+    }
 }
 
 .introduction h2 {
@@ -338,10 +338,10 @@ body.dark-mode .introduction p {
 }
 
 @media (max-width: 769px) {
-.carousel-wrapper 
-  padding: 0;
-  margin-left: 50px;
-}
+    .carousel-wrapper {
+        padding: 0;
+        margin-left: 50px;
+    }
 }
 
 .carousel-wrapper::-webkit-scrollbar {
@@ -752,7 +752,7 @@ body.dark-mode .landing-page-features .feature-card p {
 .landing-page-preview iframe {
     width: 100%;
     height: 100%;
-    min-height: 380px; /* Matches height of two stacked cards */
+    min-height: 380px;
     border-radius: 10px;
 }
 
@@ -801,8 +801,8 @@ body.dark-mode .landing-page-features .feature-card p {
 
 .close-btn {
     position: absolute;
-    bottom: 10px; /* Modificato da top: 10px */
-    left: 10px; /* Modificato da right: 10px */
+    bottom: 10px;
+    left: 10px;
     padding: 10px 20px;
     background-color: #45b6fe;
     color: white;
@@ -861,33 +861,82 @@ body.dark-mode .landing-page-features .feature-card p {
 
 /* Responsive Adjustments */
 @media (max-width: 769px) {
-    .onepage-cta p,
-    .multipagina-cta p,
-    .landing-page-cta p {
+    .desktop-nav .nav-menu {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .hero-section h1 {
+        margin-left: 0;
+        font-size: 46px;
+        font-weight: 600;
+    }
+
+    .introduction {
+        padding-left: 20px;
+    }
+
+    .introduction h2 {
+        font-size: 30px;
+    }
+
+    .introduction p {
         font-size: 16px;
+    }
+
+    .carousel-wrapper {
+        padding-left: 20px;
+    }
+
+    .benefit-card {
+        width: 300px;
+        height: 400px;
+    }
+
+    .service-container h2 {
         margin-left: 20px;
+        font-size: 30px;
     }
 
-    .cta-button {
-        padding: 10px 20px; /* Ridotto per mobile */
-        font-size: 14px; /* Ridotto per mobile */
+    .service-container p {
+        margin-left: 20px;
+        font-size: 16px;
+    }
+
+    .onepage-cta p {
+        margin-left: 20px;
+        font-size: 16px;
+    }
+
+    .multipagina-cta p {
+        margin-left: 20px;
+        font-size: 16px;
+    }
+
+    .multipagina-image img {
+        margin: 10px 0;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-column {
+        text-align: center;
     }
 }
 
-@media (max-width: 480px) {
-    .onepage-cta p,
-    .multipagina-cta p,
-    .landing-page-cta p {
-        font-size: 14px;
-    }
-
-    .cta-button {
-        padding: 8px 16px; /* Ulteriore riduzione per schermi piccoli */
-        font-size: 12px;
-    }
+/* Accessibilità: Focus styles */
+:focus-visible {
+    outline: 2px solid #45b6fe;
+    outline-offset: 2px;
 }
 
-/* CTA Section */
+/* CTA Section - Aggiunto se utile, ma non nel codice orig */
 .cta-section {
     background-color: var(--background-color);
     padding: 60px 20px;
@@ -933,7 +982,7 @@ body.dark-mode .cta-button-large:hover {
     background-color: #000000;
 }
 
-/* Footer Styles (Memorizzato) */
+/* Footer Styles */
 .footer {
     background-color: #f5f5f7;
     padding: 40px 20px;
@@ -1028,24 +1077,6 @@ body.dark-mode::-webkit-scrollbar-thumb {
     background-color: #3a3a3c;
 }
 
-/* Scrollbar Styles for WebKit */
-body::-webkit-scrollbar {
-    width: 8px;
-}
-
-body::-webkit-scrollbar-track {
-    background: var(--background-color);
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: #d3d3d3;
-    border-radius: 10px;
-}
-
-body.dark-mode::-webkit-scrollbar-thumb {
-    background-color: #3a3a3c;
-}
-
 /* Gradient Text */
 .gradient-text {
     background: linear-gradient(90deg, #45b6fe, #d95bc5);
@@ -1053,82 +1084,32 @@ body.dark-mode::-webkit-scrollbar-thumb {
     -webkit-text-fill-color: transparent;
 }
 
-/* Responsive Design */
-@media (max-width: 769px) {
-    .desktop-nav .nav-menu {
-        display: none;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .hero-section h1 {
-        margin-left: 0;
-        font-size: 46px;
-        font-weight: 600;
-    }
-
+/* Tablet Responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
     .introduction {
-        padding-left: 20px;
-    }
-
-    .introduction h2 {
-        font-size: 30px;
-    }
-
-    .introduction p {
-        font-size: 16px;
+        padding-left: 100px;
     }
 
     .carousel-wrapper {
-        padding-left: 20px;
+        padding-left: 100px;
     }
 
-    .benefit-card {
-        width: 300px;
-        height: 400px;
+    .service-container h2, .service-container p {
+        margin-left: 30px;
     }
 
-    .service-container h2 {
-        margin-left: 20px;
-        font-size: 30px;
+    .onepage-features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
     }
 
-    .service-container p {
-        margin-left: 20px;
-        font-size: 16px;
-    }
-
-    .onepage-cta p {
-        margin-left: 20px;
-        font-size: 16px;
-    }
-
-    .multipagina-cta p {
-        margin-left: 20px;
-        font-size: 16px;
-    }
-
-    .multipagina-image img {
-        margin: 10px 0;
-    }
-
-    .cta-section h2 {
-        font-size: 30px;
-    }
-
-    .cta-section p {
-        font-size: 16px;
-    }
-
-    .footer-container {
+    .landing-page-content {
         flex-direction: column;
-        align-items: center;
     }
 
-    .footer-column {
-        text-align: center;
+    .landing-page-features {
+        width: 100%;
+        flex-direction: row;
+        gap: 30px;
     }
 }
-

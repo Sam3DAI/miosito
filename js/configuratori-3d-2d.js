@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elementi del menu
     const hamburger = document.querySelector('.hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuLinks = mobileMenu.querySelectorAll('a');
@@ -9,60 +8,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const sunIcon = document.querySelector('.theme-icon.sun');
     const moonIcon = document.querySelector('.theme-icon.moon');
 
-    // Funzione per toggle del menu
+    // Toggle Menu con keyboard
     function toggleMenu() {
         hamburger.classList.toggle('active');
         mobileMenu.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
     }
 
-    // Event listener per il menu
     hamburger.addEventListener('click', toggleMenu);
+    hamburger.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            toggleMenu();
+        }
+    });
     menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-    // Carica il tema salvato
-    if (localStorage.getItem('theme') === 'dark') {
-        body.classList.add('dark-mode');
-        sunIcon.style.display = 'block';
-        moonIcon.style.display = 'none';
-    } else {
-        body.classList.remove('dark-mode');
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'block';
+    // Theme Default: dark su mobile, light su desktop, con localStorage override
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    let savedTheme = localStorage.getItem('theme');
+
+    if (!savedTheme) {
+        savedTheme = isMobile ? 'dark' : 'light';
+        localStorage.setItem('theme', savedTheme);
     }
 
-    // Toggle del tema
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+    } else {
+        body.classList.remove('dark-mode');
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+    }
+
     themeToggle.addEventListener('click', () => {
         body.classList.toggle('dark-mode');
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('theme', 'dark');
-            sunIcon.style.display = 'block';
-            moonIcon.style.display = 'none';
-            updateModelBackground();
-        } else {
-            localStorage.setItem('theme', 'light');
+        const newTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        if (newTheme === 'dark') {
             sunIcon.style.display = 'none';
             moonIcon.style.display = 'block';
-            updateModelBackground();
-        }
-    });
-
-    // Effetto scroll dell'header
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
         } else {
-            header.classList.remove('scrolled');
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
         }
+        updateModelBackground();
     });
 
-    // Funzionalità carousel infiniti (ottimizzata per multipli)
+    // Header Scroll
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Carousel Infinite con debounce
     const carouselContainers = document.querySelectorAll('.carousel-container');
+    const debounce = (func, delay) => {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func(...args), delay);
+        };
+    };
+
     carouselContainers.forEach(container => {
         const carouselWrapper = container.querySelector('.carousel-wrapper');
         const leftArrow = container.querySelector('.carousel-arrow.left');
         const rightArrow = container.querySelector('.carousel-arrow.right');
 
-        // Debounce per evitare multi-click rapidi
         let isScrolling = false;
 
         leftArrow.addEventListener('click', () => {
@@ -74,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     carouselWrapper.scrollTo({ left: carouselWrapper.scrollWidth - carouselWrapper.clientWidth, behavior: 'smooth' });
                 }
                 isScrolling = false;
-            }, 300); // Sync con smooth scroll
+            }, 300);
         });
 
         rightArrow.addEventListener('click', () => {
@@ -82,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isScrolling = true;
             carouselWrapper.scrollBy({ left: 300, behavior: 'smooth' });
             setTimeout(() => {
-                if (carouselWrapper.scrollLeft + carouselWrapper.clientWidth >= carouselWrapper.scrollWidth - 1) { // Tolleranza pixel
+                if (carouselWrapper.scrollLeft + carouselWrapper.clientWidth >= carouselWrapper.scrollWidth - 1) {
                     carouselWrapper.scrollTo({ left: 0, behavior: 'smooth' });
                 }
                 isScrolling = false;
@@ -90,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Funzionalità Configuratore 3D (Sketchfab)
+    // Sketchfab API Load con error handling
     const loadSketchfabAPI = () => {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
@@ -110,16 +123,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const textures = {
                 color: {
-                    bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?format=auto',
-                    grigio: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?format=auto',
-                    bronzo: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?format=auto',
-                    nero: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?format=auto'
+                    bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
+                    grigio: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto',
+                    bronzo: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto',
+                    nero: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto'
                 },
                 background: {
-                    'sfondo-nero-bronzo': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?format=auto',
-                    'sfondo-arancio-nero': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?format=auto',
-                    'sfondo-nero-blu': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?format=auto',
-                    'sfondo-nero-viola': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?format=auto'
+                    'sfondo-nero-bronzo': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto',
+                    'sfondo-arancio-nero': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto',
+                    'sfondo-nero-blu': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto',
+                    'sfondo-nero-viola': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto'
                 }
             };
 
@@ -131,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 api.addEventListener('viewerready', function() {
                     updateModelBackground();
                     api.getMaterialList((err, materials) => {
-                        if (err) return console.error('Errore nel caricamento dei materiali:', err);
+                        if (err) return console.error('Errore materiali:', err);
                         const relevantMaterials = {
                             scocca: ["scocca retro", "pulsanti", "box camere", "bordi laterali", "dettagli laterali e carica"],
                             schermo: "schermo"
@@ -172,13 +185,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     });
 
-                    // Ottieni Node Map per Airpods
+                    // Node Map per Airpods
                     api.getNodeMap((err, nodes) => {
-                        if (err) return console.error('Errore nel caricamento dei nodi:', err);
+                        if (err) return console.error('Errore nodi:', err);
                         const airpodsNode = Object.values(nodes).find(node => node.name === 'Airpods');
                         if (airpodsNode) {
                             const airpodsID = airpodsNode.instanceID;
-                            api.hide(airpodsID); // Nascondi default
+                            api.hide(airpodsID); // Default hide
                             const toggle = document.getElementById('toggle-airpods');
                             toggle.addEventListener('change', () => {
                                 if (toggle.checked) {
@@ -207,9 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 transparent: 1,
             });
         })
-        .catch(err => console.error('Errore nel caricamento della Sketchfab API:', err));
+        .catch(err => console.error('Errore Sketchfab API:', err));
 
-    // Aggiorna sfondo modello
+    // Update Model Background
     function updateModelBackground() {
         if (window.sketchfabAPI) {
             const isDarkMode = body.classList.contains('dark-mode');
@@ -234,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Configurazione ApexCharts (stats aggiornate 2025)
+    // ApexCharts con stat aggiornate 2025
     const barChartOptions = {
         chart: {
             type: 'bar',
@@ -252,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
             bar: { horizontal: true, barHeight: '75%', distributed: true }
         },
         dataLabels: { enabled: false },
-        series: [{ data: [82, 94, 66, 30] }],
+        series: [{ data: [82, 94, 66, 40] }], // Aggiornato: engagement 82%, conversion 94%, satisfaction 66%, returns -40%
         xaxis: {
             categories: ['Engagement Utenti', 'Tasso di Conversione', 'Soddisfazione Clienti', 'Riduzione Resi'],
             labels: { formatter: val => val + '%', style: { colors: '#6e6e73', fontSize: '14px' } },
@@ -277,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tooltip: { enabled: false }
     };
 
-    // Observer per chart fade-in
+    // Observer per chart
     const whyChooseSection = document.getElementById('why-choose');
     let statsChart = null;
     const observer = new IntersectionObserver((entries) => {
@@ -292,5 +305,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { threshold: 0.1 });
+
     observer.observe(whyChooseSection);
+
+    // Resize per theme
+    window.addEventListener('resize', debounce(() => {
+        if (!localStorage.getItem('theme')) {
+            const newIsMobile = window.matchMedia("(max-width: 768px)").matches;
+            const newDefault = newIsMobile ? 'dark' : 'light';
+            if (newDefault !== savedTheme) {
+                location.reload();
+            }
+        }
+    }, 300));
 });

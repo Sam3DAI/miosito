@@ -1,4 +1,4 @@
-/* General Styles */
+/* General Styles - Ottimizzato, ridondanze rimosse */
 body {
     font-family: 'SF Pro Display', Arial, sans-serif;
     color: #1d1d1f;
@@ -272,27 +272,6 @@ body.dark-mode .hero-section {
     max-width: 1000px;
 }
 
-.hero-section h2 {
-    font-size: 36px;
-    font-weight: 575;
-    margin: 10px 0 10px 50px;
-    color: #1d1d1f;
-}
-
-body.dark-mode .hero-section h2 {
-    color: #f5f5f7;
-}
-
-.hero-section p {
-    font-size: 18px;
-    margin: 0 0 0 50px;
-    color: #6e6e73;
-}
-
-body.dark-mode .hero-section p {
-    color: #a1a1a6;
-}
-
 .intro-services-section {
     background-color: #fafafa;
 }
@@ -302,33 +281,29 @@ body.dark-mode .intro-services-section {
 }
 
 .introduction {
-text-align: left;
-max-width: 800px;
-margin: 0 auto 40px;
-padding-left: 200px; /* Default padding for larger screens */
-}
-
-@media (max-width: 769px) {
-.introduction {
-padding-left: 50px; /* Reduced padding for mobile */
-  margin-left: 30px;
-}
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    padding-left: 200px;
 }
 
 .introduction h2 {
-font-size: 36px;
-margin-bottom: 20px;
-color: var(--text-color);
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #1d1d1f;
+}
 
+body.dark-mode .introduction h2 {
+    color: #f5f5f7;
 }
 
 .introduction p {
-font-size: 18px;
-color: #6e6e73;
+    font-size: 18px;
+    color: #6e6e73;
 }
 
 body.dark-mode .introduction p {
-color: #a1a1a6;
+    color: #a1a1a6;
 }
 
 .carousel-container {
@@ -412,39 +387,38 @@ body.dark-mode .service-card {
 }
 
 .carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #1d1d1f;
-  transition: color 0.3s ease;
-  z-index: 10;
-  padding: 10px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #1d1d1f;
+    transition: color 0.3s ease;
+    z-index: 10;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 body.dark-mode .carousel-arrow {
-
-  color: #f5f5f7;
+    color: #f5f5f7;
 }
 
 .carousel-arrow:hover {
-  color: #45b6fe;
+    color: #45b6fe;
 }
 
 .carousel-arrow.left {
-  left: 10px;
+    left: 10px;
 }
 
 .carousel-arrow.right {
-  right: 10px;
+    right: 10px;
 }
 
 .why-choose-section {
@@ -462,7 +436,6 @@ body.dark-mode .why-choose-section {
     margin-bottom: 20px;
     color: #1d1d1f;
     margin: 10px 0 10px 50px;
-    margin-right: auto;
     text-align: left;
 }
 
@@ -641,78 +614,79 @@ body.dark-mode::-webkit-scrollbar-thumb {
     -webkit-text-fill-color: transparent;
 }
 
-/* Responsive Design */
+/* Accessibilità */
+:focus-visible {
+    outline: 2px solid #45b6fe;
+    outline-offset: 2px;
+}
+
+/* Responsive - Espanso */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .introduction {
+        padding-left: 100px;
+    }
+    .carousel-title {
+        padding-left: 100px;
+    }
+    .carousel-wrapper {
+        padding-left: 100px;
+    }
+}
+
 @media (max-width: 769px) {
     .nav-menu {
         display: none;
     }
-
     .hamburger {
         display: block;
     }
-
     .hero-section h1 {
         margin-left: 0;
         font-size: 46px;
         font-weight: 600;
     }
-
-    .hero-section h2, .hero-section p {
-        margin-left: 0;
-    }
-
     .introduction {
-        padding-left: 0;
+        padding-left: 50px;
+        margin-left: 30px;
     }
-
     .carousel-title {
         padding-left: 50px;
         font-size: 24px;
     }
-
     .carousel-wrapper {
         gap: 10px;
         padding-left: 50px;
     }
-
     .service-card {
         width: 300px;
         height: 400px;
     }
-
     .card-content h3 {
         font-size: 18px;
     }
-
     .card-content p {
         font-size: 14px;
     }
-
     .carousel-arrow {
         font-size: 20px;
     }
-
     .carousel-arrow.left {
         left: 5px;
     }
-
     .carousel-arrow.right {
         right: 5px;
     }
-
     .why-choose-section h2 {
         font-size: 30px;
+        margin-left: 0;
     }
-
     .why-choose-section p {
         font-size: 16px;
-        text-align: left;
+        margin-left: 0;
     }
-
     .contact-section h2 {
         font-size: 30px;
     }
-
     .contact-section p {
         font-size: 16px;
     }
