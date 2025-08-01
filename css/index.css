@@ -1,9 +1,4 @@
 /* General Styles - Ottimizzato per performance, rimosse ridondanze */
-
-* {
-  box-sizing: border-box;
-}
-
 body {
   font-family: "SF Pro Display", Arial, sans-serif;
   color: #1d1d1f;
