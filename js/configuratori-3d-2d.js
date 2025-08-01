@@ -157,6 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     if (!err) {
                                         material.channels.AlbedoPBR.texture.uid = textureUid;
                                         api.setMaterial(material);
+                                        console.log(`Texture aggiornata per ${materialName}: ${textureUrl}`); // Debug: Verifica update
+                                    } else {
+                                        console.error(`Errore caricamento texture: ${err}`);
                                     }
                                 });
                             }
@@ -166,8 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             api.gotoAnnotation(annotationIndex);
                         };
 
+                        // Usa 'change' invece di 'click' per colori - più robusto su mobile
                         document.querySelectorAll('.color-options input').forEach(input => {
-                            input.addEventListener('click', () => {
+                            input.addEventListener('change', () => {
+                                console.log(`Colore selezionato: ${input.id}`); // Debug: Verifica se evento fires
                                 const textureUrl = textures.color[input.id];
                                 relevantMaterials.scocca.forEach(materialName => {
                                     updateMaterialTexture(materialName, textureUrl);
@@ -176,8 +181,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         });
 
+                        // Usa 'change' invece di 'click' per backgrounds
                         document.querySelectorAll('.background-options input').forEach(input => {
-                            input.addEventListener('click', () => {
+                            input.addEventListener('change', () => {
+                                console.log(`Sfondo selezionato: ${input.id}`); // Debug
                                 const textureUrl = textures.background[input.id];
                                 updateMaterialTexture(relevantMaterials.schermo, textureUrl);
                                 moveToAnnotation(1);
@@ -185,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     });
 
-                    // Node Map per Airpods
+                    // Node Map per Airpods (già 'change', aggiungi debug)
                     api.getNodeMap((err, nodes) => {
                         if (err) return console.error('Errore nodi:', err);
                         const airpodsNode = Object.values(nodes).find(node => node.name === 'Airpods');
@@ -194,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             api.hide(airpodsID); // Default hide
                             const toggle = document.getElementById('toggle-airpods');
                             toggle.addEventListener('change', () => {
+                                console.log(`Toggle cuffie: ${toggle.checked}`); // Debug: Verifica toggle
                                 if (toggle.checked) {
                                     api.show(airpodsID);
                                 } else {
