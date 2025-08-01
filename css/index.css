@@ -1,4 +1,9 @@
 /* General Styles - Ottimizzato per performance, rimosse ridondanze */
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "SF Pro Display", Arial, sans-serif;
   color: #1d1d1f;
@@ -299,7 +304,7 @@ body.dark-mode .hero-section p {
   padding: 0;
   background-color: #fafafa;
   margin-top: 0px;
-  width: 100vw;
+  width: 100%;
 }
 
 body.dark-mode .services-grid {
