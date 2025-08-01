@@ -11,6 +11,12 @@ body {
   scrollbar-color: #d3d3d3 #fafafa;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body.dark-mode {
   background-color: #000000;
   color: #f5f5f7;
@@ -300,9 +306,6 @@ body.dark-mode .hero-section p {
   background-color: #fafafa;
   margin-top: 0px;
   width: 100%;
-  max-width:100%;
-  margin:0 auto;
-  box-sizing:border-box;
 }
 
 body.dark-mode .services-grid {
@@ -310,6 +313,7 @@ body.dark-mode .services-grid {
 }
 
 .vertical-layout {
+  max-width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -389,7 +393,6 @@ body.dark-mode .portfolio-section h2 {
 }
 
 .carousel-container {
-  overflow-x:hidden;
   position: relative;
   width: 100%;
   margin: 0;
@@ -398,8 +401,6 @@ body.dark-mode .portfolio-section h2 {
 
 .carousel-wrapper {
   display: flex;
-  box-sizing:border-box;
-  max-width:100%;
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 20px;
@@ -738,7 +739,6 @@ body.dark-mode::-webkit-scrollbar-thumb {
   }
   .services-grid {
     grid-template-columns: 1fr;
-    gap:0px;
   }
   .hero-section h1 {
     margin-left: 0;
@@ -756,7 +756,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
   }
   .carousel-wrapper {
     gap: 10px;
-    padding-left: 16px;
+    padding-left: 50px;
   }
   .portfolio-card {
     width: 300px;
