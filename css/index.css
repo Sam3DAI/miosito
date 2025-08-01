@@ -389,6 +389,7 @@ body.dark-mode .portfolio-section h2 {
 }
 
 .carousel-container {
+  overflow-x:hidden;
   position: relative;
   width: 100%;
   margin: 0;
@@ -397,6 +398,8 @@ body.dark-mode .portfolio-section h2 {
 
 .carousel-wrapper {
   display: flex;
+  box-sizing:border-box;
+  max-width:100%;
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 20px;
@@ -753,7 +756,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
   }
   .carousel-wrapper {
     gap: 10px;
-    padding-left: 50px;
+    padding-left: 16px;
   }
   .portfolio-card {
     width: 300px;
