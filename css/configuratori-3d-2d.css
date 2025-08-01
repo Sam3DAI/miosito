@@ -994,9 +994,9 @@ padding: 30px 20px;
 flex-direction: column-reverse;
 }
 .iframe-container {
-width: calc(100% + 40px);
-margin-left: -20px;
-margin-right: -20px;
+width: 100%;
+margin-left: 0px;
+margin-right: 0px;
 height: 400px;
 }
 .configurator-options {
