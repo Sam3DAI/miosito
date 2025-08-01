@@ -371,7 +371,7 @@ padding-left: 250px; /* Default */
 
 @media (max-width: 769px) {
 .carousel-wrapper {
-padding-left: 20px; /* Ridotto per minor spazio iniziale, senza overflow */
+padding-left: 50px; /* Ripristinato a 50px come originale per indent carousel */
 touch-action: pan-x; /* Confina swipe horizontal al carousel */
 }
 .carousel-container {
@@ -649,7 +649,7 @@ order: 3;
 /* Mobile: Stack, Cuffie sotto Sfondo */
 @media (max-width: 769px) {
 .configurator-section {
-padding: 30px 0; /* Rimuovi padding left/right per full-width */
+padding: 30px 20px; /* Ripristinato padding left/right per indent globale, come originale */
 }
 .configurator-container {
 flex-direction: column-reverse;
@@ -662,28 +662,43 @@ height: 400px;
 touch-action: pan-x pan-y; /* Permette gesture su iframe senza propagare */
 }
 .configurator-options {
-padding: 0 20px; /* Applica padding solo qui per indent testo/options */
 width: 100%;
 gap: 10px;
+display: flex;
+flex-wrap: wrap; /* Per affiancare opzioni */
 }
 .configurator-options h2 {
 font-size: 24px;
+width: 100%; /* H2 full row */
 }
 .configurator-options p {
 font-size: 16px;
+width: 100%; /* P full row */
+}
+.configurator-option-group {
+width: 50%; /* Colore Scocca e Sfondo Schermo affiancati (50% ciascuno) */
+}
+.configurator-option-group:nth-child(1) { /* Colore Scocca */
+order: 1;
+}
+.configurator-option-group:nth-child(2) { /* Sfondo Schermo */
+order: 2;
+}
+.cuffie-group {
+width: 100%; /* Cuffie sola sotto, full row */
+margin-top: 20px;
+order: 3;
 }
 .configurator-option-group h3 {
 font-size: 18px;
 }
 .color-options, .background-options {
 gap: 10px;
+flex-wrap: wrap; /* Per adattarsi se troppi items */
 }
 .color__swatch, .texture__preview img {
 width: 30px;
 height: 30px;
-}
-.cuffie-group {
-margin-top: 20px;
 }
 }
 
@@ -796,21 +811,20 @@ background-color: #1d1d1f;
 /* Responsive 2D */
 @media (max-width: 769px) {
 .configurator-2d-section {
-padding: 30px 0; /* Rimuovi padding left/right per full-width */
+padding: 30px 20px; /* Padding ripristinato per indent */
 }
 .configurator-2d-container {
 flex-direction: column;
 }
+.product-image-container,
+.configurator-2d-options {
+width: 100%;
+}
 .product-image-container {
-width: 100%; /* Semplice 100%, no margini negativi */
-margin-left: 0;
-margin-right: 0;
 order: 2;
 }
 .configurator-2d-options {
-padding: 0 20px; /* Applica padding solo qui */
 order: 1;
-width: 100%;
 }
 .configurator-2d-options h2 {
 font-size: 24px;
