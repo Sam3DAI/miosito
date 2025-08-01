@@ -735,6 +735,7 @@ body.dark-mode::-webkit-scrollbar-thumb {
   }
   .services-grid {
     grid-template-columns: 1fr;
+    gap:0px;
   }
   .hero-section h1 {
     margin-left: 0;
