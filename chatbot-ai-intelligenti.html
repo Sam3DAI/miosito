@@ -29,8 +29,10 @@
     <link rel="preload" href="https://res.cloudinary.com/dqhbriryo/image/upload/v1730808294/chatbot_ai_sparkly_technologies.webp?quality=auto&format=auto" as="image" fetchpriority="high">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="css/chatbot-ai-intelligenti.css">
-    <!-- CSP rafforzato -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src * data:; connect-src 'self' https://res.cloudinary.com;">
+    <!-- Cookie Banner CSS -->
+<link rel="stylesheet" href="css/cookie-banner.css">
+    <!-- CSP rafforzato per sicurezza - Espanso per banner, formsubmit e risorse site-wide -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data:; script-src 'self' 'unsafe-inline' https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src * data:; frame-src https://sketchfab.com; connect-src 'self' https://res.cloudinary.com https://formsubmit.co;">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     <!-- Schema.org espanso -->
     <script type="application/ld+json">
@@ -339,6 +341,9 @@ Assistente virtuale 24/7 su sito, WhatsApp e altro, riducendo tempi risposta fin
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
     <script src="js/chatbot-ai-intelligenti.js" defer></script>
+    <!-- CookieConsent Libreria e Script -->
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
+<script src="js/cookie-banner.js" defer></script>
     <noscript><!-- Fallback no-JS --></noscript>
 </body>
 
