@@ -51,14 +51,13 @@ body.dark-mode .cc-window {
 .cc-btn {
     flex: 1 !important;
     border-radius: 20px !important;
-    padding: 6px 12px !important;
-    font-size: 12px !important;
+    padding: 8px 14px !important;  /* Padding+ per size visibile */
+    font-size: 14px !important;  /* Aumentato: Leggibile, coerente sito (nav 13px) */
     transition: all 0.3s ease !important;
     cursor: pointer !important;
-    min-width: 80px !important;
+    min-width: 100px !important;  /* Min per no shrink */
     opacity: 1 !important;
 }
-
 .cc-allow {
     background: linear-gradient(90deg, #45b6fe, #d95bc5) !important;
     color: #fff !important;
@@ -130,8 +129,9 @@ body.dark-mode .cc-revoke {
         font-size: 11px !important;
     }
     .cc-btn {
-        font-size: 11px !important;
-        padding: 5px 10px !important;
+        font-size: 13px !important;  /* Rid minima mobile, no 11px piccolo */
+        padding: 6px 12px !important;
+        min-width: 80px !important;
     }
     .cc-revoke {
         width: 35px !important;
