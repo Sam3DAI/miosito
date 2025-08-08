@@ -1,123 +1,114 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.querySelector('.hamburger');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuLinks = mobileMenu.querySelectorAll('a');
-    const themeToggle = document.querySelector('.theme-toggle');
-    const body = document.body;
-    const header = document.querySelector('header');
-    const sunIcon = document.querySelector('.theme-icon.sun');
-    const moonIcon = document.querySelector('.theme-icon.moon');
-    const carouselWrapper = document.querySelector('.carousel-wrapper');
-    const leftArrow = document.querySelector('.carousel-arrow.left');
-    const rightArrow = document.querySelector('.carousel-arrow.right');
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuLinks = mobileMenu.querySelectorAll('a');
+  const themeToggle = document.querySelector('.theme-toggle');
+  const body = document.body;
+  const header = document.querySelector('header');
+  const sunIcon = document.querySelector('.theme-icon.sun');
+  const moonIcon = document.querySelector('.theme-icon.moon');
+  const carouselWrapper = document.querySelector('.carousel-wrapper');
+  const leftArrow = document.querySelector('.carousel-arrow.left');
+  const rightArrow = document.querySelector('.carousel-arrow.right');
 
-    // Toggle Menu - Aggiunto keyboard support
-    function toggleMenu() {
-        hamburger.classList.toggle('active');
-        mobileMenu.classList.toggle('open');
-        hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
-    }
+  // Utils
+  const debounce = (func, delay) => {
+    let timeout; return (...args) => { clearTimeout(timeout); timeout = setTimeout(() => func(...args), delay); };
+  };
 
-    hamburger.addEventListener('click', toggleMenu);
-    hamburger.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            toggleMenu();
-        }
-    });
-    menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
-
-    // Theme Toggle - Default basato su device, con localStorage override
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    let savedTheme = localStorage.getItem('theme');
-
-    if (!savedTheme) {
-        savedTheme = isMobile ? 'dark' : 'light';
-        localStorage.setItem('theme', savedTheme);
-    }
-
-    if (savedTheme === 'dark') {
-        body.classList.add('dark-mode');
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'block';
+  // Mobile menu (con aria e scroll lock)
+  const setMobileState = (open) => {
+    hamburger.classList.toggle('active', open);
+    mobileMenu.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    if (open) {
+      mobileMenu.removeAttribute('hidden');
+      document.documentElement.style.overflow = 'hidden';
     } else {
-        body.classList.remove('dark-mode');
-        sunIcon.style.display = 'block';
-        moonIcon.style.display = 'none';
+      document.documentElement.style.overflow = '';
+      // Manteniamo l'elemento in DOM per l'animazione ma lo nascondiamo ai reader
+      setTimeout(() => mobileMenu.setAttribute('hidden', ''), 300);
     }
+  };
+  const toggleMenu = () => setMobileState(!hamburger.classList.contains('active'));
 
-    themeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        const newTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-        localStorage.setItem('theme', newTheme);
-        if (newTheme === 'dark') {
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'block';
-        } else {
-            sunIcon.style.display = 'block';
-            moonIcon.style.display = 'none';
+  hamburger.addEventListener('click', toggleMenu);
+  hamburger.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') toggleMenu(); });
+  menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(false)));
+
+  // Tema: rispetta OS, poi override utente
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const applyTheme = (mode) => {
+    const isDark = mode === 'dark';
+    body.classList.toggle('dark-mode', isDark);
+    themeToggle.setAttribute('aria-pressed', String(isDark));
+    sunIcon.style.display = isDark ? 'none' : 'block';
+    moonIcon.style.display = isDark ? 'block' : 'none';
+  };
+
+  let savedTheme = localStorage.getItem('theme'); // 'light' | 'dark' | null
+  applyTheme(savedTheme ?? (prefersDark.matches ? 'dark' : 'light'));
+  prefersDark.addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
+  });
+  themeToggle.addEventListener('click', () => {
+    const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    applyTheme(newTheme);
+  });
+
+  // Header scroll shadow
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  // Carousel arrows + loop soft
+  leftArrow.addEventListener('click', () => {
+    carouselWrapper.scrollBy({ left: -300, behavior: 'smooth' });
+    if (carouselWrapper.scrollLeft <= 0) {
+      carouselWrapper.scrollTo({ left: carouselWrapper.scrollWidth - carouselWrapper.clientWidth, behavior: 'smooth' });
+    }
+  });
+  rightArrow.addEventListener('click', () => {
+    carouselWrapper.scrollBy({ left: 300, behavior: 'smooth' });
+    if (carouselWrapper.scrollLeft + carouselWrapper.clientWidth >= carouselWrapper.scrollWidth - 1) {
+      carouselWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  });
+  carouselWrapper.addEventListener('scroll', debounce(() => {}, 200), { passive: true });
+
+  // Lazy load per background images nelle card
+  const cards = document.querySelectorAll('.portfolio-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        const bgUrl = card.getAttribute('data-bg');
+        if (bgUrl) {
+          card.style.backgroundImage = `url('${bgUrl}')`;
+          card.removeAttribute('data-bg');
         }
+        observer.unobserve(card);
+      }
     });
+  }, { threshold: 0.1 });
+  cards.forEach(card => observer.observe(card));
 
-    // Header Scroll Effect
-    window.addEventListener('scroll', () => {
-        header.classList.toggle('scrolled', window.scrollY > 50);
-    });
+  // Evidenzia voce di menu corrente (a11y)
+  const currentPath = location.pathname.replace(/\/+$/, '');
+  document.querySelectorAll('.nav-menu a').forEach(a => {
+    const href = a.getAttribute('href').replace(/\/+$/, '');
+    if (href === currentPath) a.setAttribute('aria-current', 'page');
+  });
 
-    // Carousel with Infinite Loop - Aggiunto debounce per performance
-    const debounce = (func, delay) => {
-        let timeout;
-        return (...args) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func(...args), delay);
-        };
-    };
-
-    const handleScroll = () => {
-        // Logica infinite loop ottimizzata
-    };
-
-    leftArrow.addEventListener('click', () => {
-        carouselWrapper.scrollBy({ left: -300, behavior: 'smooth' });
-        if (carouselWrapper.scrollLeft <= 0) {
-            carouselWrapper.scrollTo({ left: carouselWrapper.scrollWidth - carouselWrapper.clientWidth, behavior: 'smooth' });
-        }
-    });
-
-    rightArrow.addEventListener('click', () => {
-        carouselWrapper.scrollBy({ left: 300, behavior: 'smooth' });
-        if (carouselWrapper.scrollLeft + carouselWrapper.clientWidth >= carouselWrapper.scrollWidth - 1) {
-            carouselWrapper.scrollTo({ left: 0, behavior: 'smooth' });
-        }
-    });
-
-    carouselWrapper.addEventListener('scroll', debounce(handleScroll, 200));
-
-    // Lazy Load for Background Images in Carousel - Threshold ottimizzato
-    const cards = document.querySelectorAll('.portfolio-card');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const card = entry.target;
-                const bgUrl = card.getAttribute('data-bg');
-                if (bgUrl) {
-                    card.style.backgroundImage = `url('${bgUrl}')`;
-                    card.removeAttribute('data-bg');
-                }
-                observer.unobserve(card);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    cards.forEach(card => observer.observe(card));
-
-    // Resize listener per theme default su rotate (es. tablet)
-    window.addEventListener('resize', debounce(() => {
-        if (!localStorage.getItem('theme')) {
-            const newIsMobile = window.matchMedia("(max-width: 768px)").matches;
-            const newDefault = newIsMobile ? 'dark' : 'light';
-            if (newDefault !== savedTheme) {
-                location.reload(); // Ricarica per applicare, ma raro
-            }
-        }
-    }, 300));
+  // Prefetch leggero dei link interni su hover (migliora percezione senza cambiare design)
+  const addPrefetch = (url) => {
+    if (document.head.querySelector(`link[rel="prefetch"][href="${url}"]`)) return;
+    const l = document.createElement('link');
+    l.rel = 'prefetch'; l.href = url; l.as = 'document';
+    document.head.appendChild(l);
+  };
+  document.querySelectorAll('a[href^="/"]').forEach(a => {
+    a.addEventListener('mouseenter', () => addPrefetch(a.href), { passive: true });
+  });
 });
