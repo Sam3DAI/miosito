@@ -274,7 +274,7 @@ body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
   .nav-menu { display: none; }
   .hamburger { display: block; }
   .services-grid { grid-template-columns: 1fr; }
-  .hero-section h1 { margin-left: 0; font-size: 46px; font-weight: 600; }
+  .hero-section h1 { margin-left: 0; font-size: 46px; font-weight: 700; }
   .hero-section h2, .hero-section p { margin-left: 0; }
   .portfolio-section h2 { font-size: 35px; margin-left: 50px; text-align: left; }
   .carousel-wrapper { gap: 10px; padding-left: 50px; }

@@ -219,7 +219,7 @@ body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
 @media (max-width: 769px) {
   .nav-menu { display: none; }
   .hamburger { display: block; }
-  .hero-section h1 { margin-left: 0; font-size: 46px; font-weight: 600; }
+  .hero-section h1 { margin-left: 0; font-size: 46px; font-weight: 700; }
   .introduction { padding-left: 50px; margin-left: 30px; }
   .carousel-title { padding-left: 50px; font-size: 24px; }
   .carousel-wrapper { gap: 10px; padding-left: 50px; }
