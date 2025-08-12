@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://solvex-ai3d.com/sitemap.xml
