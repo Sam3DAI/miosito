@@ -1,6 +1,6 @@
-/* Cookie Banner Styles - 2025 Finale: Solido, Responsivo, Revoke Icon Cookie Classico Left */
+/* Cookie Banner Styles - 2025 Finale (ottimizzato: system font stack, accessibile) */
 .cc-window {
-    font-family: 'SF Pro Display', Arial, sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif !important;
     border-radius: 10px !important;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
     padding: 12px !important;
@@ -37,10 +37,7 @@ body.dark-mode .cc-window {
     -webkit-text-fill-color: transparent !important;
     opacity: 1 !important;
 }
-
-.cc-link:hover {
-    text-decoration: underline !important;
-}
+.cc-link:hover { text-decoration: underline !important; }
 
 .cc-compliance {
     display: flex !important;
@@ -51,11 +48,11 @@ body.dark-mode .cc-window {
 .cc-btn {
     flex: 1 !important;
     border-radius: 20px !important;
-    padding: 8px 14px !important;  /* Padding+ per size visibile */
-    font-size: 14px !important;  /* Aumentato: Leggibile, coerente sito (nav 13px) */
+    padding: 8px 14px !important;
+    font-size: 14px !important;
     transition: all 0.3s ease !important;
     cursor: pointer !important;
-    min-width: 100px !important;  /* Min per no shrink */
+    min-width: 100px !important;
     opacity: 1 !important;
 }
 .cc-allow {
@@ -63,22 +60,19 @@ body.dark-mode .cc-window {
     color: #fff !important;
     border: none !important;
 }
-
-.cc-allow:hover {
-    opacity: 0.9 !important;
-}
+.cc-allow:hover { opacity: 0.9 !important; }
 
 .cc-dismiss, .cc-deny {
     background: transparent !important;
     color: inherit !important;
     border: 1px solid #45b6fe !important;
 }
-
 .cc-dismiss:hover, .cc-deny:hover {
     background: #45b6fe !important;
     color: #fff !important;
 }
 
+/* Pulsante di revoca (riapre banner) */
 .cc-revoke {
     background-color: #fafafa !important;
     border: 1px solid #45b6fe !important;
@@ -98,19 +92,17 @@ body.dark-mode .cc-window {
     justify-content: center !important;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
 }
-
 body.dark-mode .cc-revoke {
     background-color: #000000 !important;
     box-shadow: 0 2px 5px rgba(255,255,255,0.1) !important;
 }
-
 .cc-revoke:hover {
     opacity: 1 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
 }
-
+/* Icona cookie via Font Awesome (già incluso site-wide) */
 .cc-revoke::before {
-    content: '\f83a';  /* FA fa-cookie - Classico pieno/tondo con size+ per visibility */
+    content: '\f83a';
     font-family: 'Font Awesome 6 Free' !important;
     font-weight: 900 !important;
     font-size: 22px !important;
@@ -119,17 +111,16 @@ body.dark-mode .cc-revoke {
     -webkit-text-fill-color: transparent !important;
 }
 
+/* Mobile */
 @media (max-width: 769px) {
     .cc-window {
         max-width: 90% !important;
         padding: 10px !important;
         bottom: 10px !important;
     }
-    .cc-message {
-        font-size: 11px !important;
-    }
+    .cc-message { font-size: 11px !important; }
     .cc-btn {
-        font-size: 13px !important;  /* Rid minima mobile, no 11px piccolo */
+        font-size: 13px !important;
         padding: 6px 12px !important;
         min-width: 80px !important;
     }
@@ -139,12 +130,10 @@ body.dark-mode .cc-revoke {
         bottom: 5px !important;
         left: 5px !important;
     }
-    .cc-revoke::before {
-        font-size: 18px !important;
-    }
+    .cc-revoke::before { font-size: 18px !important; }
 }
 
-/* Skip-Link Hidden */
+/* Skip-Link Accessibile */
 .skip-link {
     position: absolute !important;
     left: -9999px !important;
@@ -154,7 +143,6 @@ body.dark-mode .cc-revoke {
     overflow: hidden !important;
     z-index: -9999 !important;
 }
-
 .skip-link:focus {
     position: fixed !important;
     left: 10px !important;
@@ -170,7 +158,6 @@ body.dark-mode .cc-revoke {
     border-radius: 5px !important;
     opacity: 1 !important;
 }
-
 body.dark-mode .skip-link:focus {
     background-color: #000000 !important;
     color: #f5f5f7 !important;
