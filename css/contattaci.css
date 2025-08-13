@@ -1,339 +1,315 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Automazioni AI per Processi Aziendali | Preventivi Smart, LeadFlow, Autodocs - SolveX AI3D 2025</title>
-  <meta name="description" content="Scopri Automazioni AI di SolveX AI3D: preventivi automatici, lead/email nurturing, report/FAQ/manuali. Ottimizza processi con efficienza +66%, tempi ridotti 60-70% (McKinsey 2025 trends).">
-  <meta name="keywords" content="automazioni AI business 2025, preventivi automatici AI, automazione lead email, generatore report AI, FAQ automatiche, manuali AI, SolveX AI3D, hyperautomation, ottimizzazione processi">
-  <meta name="author" content="SolveX AI3D">
-  <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-  <meta name="color-scheme" content="light dark">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="it_IT">
-  <meta property="og:title" content="Automazioni AI per Business | SolveX AI3D">
-  <meta property="og:description" content="Ottimizza con AI: preventivi smart, lead flow, autodocs. Efficienza +66%, precisione 70%, tempi -60% (trend 2025). Trasforma operations.">
-  <meta property="og:url" content="https://solvex-ai3d.com/automazioni-ai-business">
-  <meta property="og:image" content="https://res.cloudinary.com/dqhbriryo/image/upload/v1730808294/automazioni_ai_sparkly_technologies.webp?quality=auto&format=auto">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Automazioni AI per Business | SolveX AI3D">
-  <meta name="twitter:description" content="AI per preventivi, lead, docs: +66% productivity, -60% tempi (McKinsey). Hyperautomation 2025-ready.">
-  <meta name="twitter:image" content="https://res.cloudinary.com/dqhbriryo/image/upload/v1730808294/automazioni_ai_sparkly_technologies.webp?quality=auto&format=auto">
-  <link rel="canonical" href="https://solvex-ai3d.com/automazioni-ai-business">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-  <link rel="dns-prefetch" href="//www.googletagmanager.com">
-  <link rel="dns-prefetch" href="//www.google-analytics.com">
-  <link rel="preload" href="css/automazioni-ai-business.css" as="style">
-  <link rel="preload" as="image" href="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136917/Preventivi_Personalizzati_nnuz4x.webp?quality=auto&format=auto" fetchpriority="high">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="css/automazioni-ai-business.css">
-  <link rel="stylesheet" href="css/cookie-banner.css">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src * data:; frame-src https://sketchfab.com; connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com; base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Service",
-        "@id": "https://solvex-ai3d.com/automazioni-ai-business/#service",
-        "serviceType": "Automazioni AI per Business",
-        "provider": {
-          "@type": "LocalBusiness",
-          "@id": "https://solvex-ai3d.com/#organization",
-          "name": "SolveX AI3D",
-          "url": "https://solvex-ai3d.com",
-          "logo": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751448222/logo_hhdtg4.webp?quality=auto&format=auto",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Via della Cerva, 68A",
-            "addressLocality": "Noale",
-            "addressRegion": "VE",
-            "postalCode": "30033",
-            "addressCountry": "IT"
-          },
-          "telephone": "+39 3474380837",
-          "email": "info@solvex-ai3d.com"
-        },
-        "description": "AI per preventivi, lead/email, report/FAQ/manuali. Productivity +66%, tempi -60-70% (McKinsey 2025). Hyperautomation ready.",
-        "url": "https://solvex-ai3d.com/automazioni-ai-business",
-        "offers": [
-          {"@type": "Offer", "name": "Preventivi Smart", "description": "Preventivi real-time AI per vendite rapide."},
-          {"@type": "Offer", "name": "LeadFlow", "description": "Automazione lead/email per conversioni +30%."},
-          {"@type": "Offer", "name": "Autodocs AI", "description": "Docs automatici AI, risparmio risorse."}
-        ],
-        "areaServed": "IT",
-        "potentialAction": {"@type": "ContactAction", "target": "https://solvex-ai3d.com/contattaci"}
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {"@type": "Question", "name": "Cos'è l'automazione AI?", "acceptedAnswer": {"@type": "Answer", "text": "Tecnologia che ottimizza processi, riducendo tempi 60-70% (McKinsey)."}},
-          {"@type": "Question", "name": "Quanto costa?", "acceptedAnswer": {"@type": "Answer", "text": "Preventivo personalizzato su esigenze."}},
-          {"@type": "Question", "name": "Come integra?", "acceptedAnswer": {"@type": "Answer", "text": "Seamless con CRM/ERP, efficienza +40% (PwC trends)."}}
-        ]
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://solvex-ai3d.com/automazioni-ai-business/#breadcrumb",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://solvex-ai3d.com"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Automazioni AI",
-            "item": "https://solvex-ai3d.com/automazioni-ai-business"
-          }
-        ]
-      }
-    ]
-  }
-  </script>
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-      'ad_storage': 'denied',
-      'ad_user_data': 'denied',
-      'ad_personalization': 'denied',
-      'analytics_storage': 'denied'
-    });
-    window.__loadGA = function() {
-      if (window.__gaLoaded) return;
-      window.__gaLoaded = true;
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      document.head.appendChild(script);
-      script.onload = function() {
-        gtag('js', new Date());
-        gtag('config', 'G-VW0JHKW0ZW');
-      };
-    };
-  </script>
-</head>
-<body>
-  <a href="#intro-services" class="skip-link">Salta al contenuto principale</a>
-  <header>
-    <div class="header-container">
-      <a href="/" class="logo-link">
-        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751448222/logo_hhdtg4.webp?quality=auto&format=auto" alt="Logo di SolveX AI3D, automazioni AI per business ottimizzati" class="logo" width="160" height="25" decoding="async" fetchpriority="high">
-      </a>
-      <nav class="desktop-nav" role="navigation" aria-label="Navigazione principale">
-        <ul class="nav-menu">
-          <li><a href="/configuratori-3d-2d">Configuratori 3D/2D</a></li>
-          <li><a href="/automazioni-ai-business">Automazioni AI</a></li>
-          <li><a href="/siti-web-custom-seo">Siti Custom</a></li>
-          <li><a href="/chatbot-ai-intelligenti">Chatbot AI</a></li>
-          <li><a href="/contattaci">Contattaci</a></li>
-        </ul>
-      </nav>
-      <div class="header-right">
-        <button class="theme-toggle" aria-label="Cambia tema (chiaro/scuro)" aria-pressed="false">
-          <i class="fas fa-sun theme-icon sun" aria-hidden="true"></i>
-          <i class="fas fa-moon theme-icon moon" aria-hidden="true" style="display:none;"></i>
-        </button>
-        <div class="hamburger" role="button" aria-label="Apri menu mobile" aria-controls="mobile-menu" aria-expanded="false" tabindex="0">
-          <span></span><span></span>
-        </div>
-      </div>
-    </div>
-  </header>
-  <div id="mobile-menu" class="mobile-menu" hidden>
-    <ul role="navigation" aria-label="Menu mobile">
-      <li><a href="/configuratori-3d-2d">Configuratori 3D/2D</a></li>
-      <li><a href="/automazioni-ai-business">Automazioni AI</a></li>
-      <li><a href="/siti-web-custom-seo">Siti Custom</a></li>
-      <li><a href="/chatbot-ai-intelligenti">Chatbot AI</a></li>
-      <li><a href="/contattaci">Contattaci</a></li>
-      <li class="social-icons">
-        <a href="https://www.instagram.com/sparklytechnologies" class="social-icon" aria-label="Profilo Instagram">
-          <i class="fab fa-instagram" aria-hidden="true"></i>
-        </a>
-        <a href="https://x.com/sparklytech" class="social-icon" aria-label="Profilo X (Twitter)">
-          <i class="fab fa-x-twitter" aria-hidden="true"></i>
-        </a>
-        <a href="https://www.linkedin.com/company/sparklytechnologies" class="social-icon" aria-label="Profilo LinkedIn">
-          <i class="fab fa-linkedin-in" aria-hidden="true"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <main id="main-content">
-    <section class="hero-section">
-      <h1>Automazioni AI.<br>Ottimizza i <span class="gradient-text">Processi Aziendali</span></h1>
-    </section>
-    <section id="intro-services" class="intro-services-section">
-      <div class="introduction">
-        <h2>Automazione ed Efficienza con AI.</h2>
-        <p>Trasforma i processi aziendali con soluzioni AI: genera preventivi automatici, gestisci lead ed email, crea report, FAQ e manuali. <br><br>Immagina un'azienda che riduce i tempi del 60-70% con preventivi AI – come un e-commerce che automatizza offerte personalizzate (McKinsey 2025).<grok-card data-id="9d7031" data-type="citation_card"></grok-card></p>
-      </div>
-      <div class="carousel-container" role="region" aria-label="Carousel Preventivi Smart">
-        <h3 class="carousel-title"><span class="gradient-text">Preventivi Smart.</span> Genera preventivi in automatico.</h3>
-        <button class="carousel-arrow left" aria-label="Slide precedente"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-        <div class="carousel-wrapper">
-          <div class="service-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752136917/Preventivi_Personalizzati_nnuz4x.webp?quality=auto&format=auto');">
-            <div class="card-content">
-              <h3>Preventivi Personalizzati</h3>
-              <p>Genera preventivi su misura in base alle esigenze del cliente in pochi secondi, boostando vendite.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136918/Integrazione_Semplice_y7if7v.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Integrazione Semplice</h3>
-              <p>Si integra facilmente con i tuoi sistemi CRM e ERP per automazione seamless.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136917/Efficienza_Migliorata_lcpa5q.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Efficienza Migliorata</h3>
-              <p>Riduci errori umani e tempi di elaborazione, ottimizzando per AI SERPs 2025.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136917/Facile_da_Usare_bl1mmq.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Facile da Usare</h3>
-              <p>Interfaccia user-friendly per gestione senza stress, con focus su conversioni.</p>
-            </div>
-          </div>
-        </div>
-        <button class="carousel-arrow right" aria-label="Slide successivo"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-      </div>
-      <div class="carousel-container" role="region" aria-label="Carousel LeadFlow">
-        <h3 class="carousel-title"><span class="gradient-text">LeadFlow.</span> Automazione Lead ed email automatiche</h3>
-        <button class="carousel-arrow left" aria-label="Slide precedente"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-        <div class="carousel-wrapper">
-          <div class="service-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752136918/Gestione_Lead_xkcba7.webp?quality=auto&format=auto');">
-            <div class="card-content">
-              <h3>Gestione Lead</h3>
-              <p>Automatizza raccolta e qualificazione lead per efficienza 2025.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136917/Email_Personalizzate_ztwm4z.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Email Personalizzate</h3>
-              <p>Invia email automatiche basate su comportamento utente.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136918/Migliora_le_Conversioni_zbg1l3.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Migliora le Conversioni</h3>
-              <p>Aumenta conversioni e fidelizzazione con AI nurturing.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136917/Integrazione_Marketing_vpnwpf.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Integrazione Marketing</h3>
-              <p>Si integra con piattaforme marketing per automazione completa.</p>
-            </div>
-          </div>
-        </div>
-        <button class="carousel-arrow right" aria-label="Slide successivo"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-      </div>
-      <div class="carousel-container" role="region" aria-label="Carousel Autodocs AI">
-        <h3 class="carousel-title"><span class="gradient-text">Autodocs AI.</span> Generatore automatico di report, FAQ e manuali.</h3>
-        <button class="carousel-arrow left" aria-label="Slide precedente"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-        <div class="carousel-wrapper">
-          <div class="service-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752137603/Report_Dettagli_ysg2nt.webp?quality=auto&format=auto');">
-            <div class="card-content">
-              <h3>Report Dettagliati</h3>
-              <p>Genera report completi automaticamente con AI precision.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136917/FAQ_e_Manuali_k3al1y.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>FAQ e Manuali</h3>
-              <p>Crea e aggiorna FAQ/manuali in real-time per support 2025.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136918/Risparmio_Tempo_v6bkxf.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Risparmio Tempo</h3>
-              <p>Risparmia risorse team con automazione documenti.</p>
-            </div>
-          </div>
-          <div class="service-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1752136918/Personalizzazione_pdtoio.webp?quality=auto&format=auto">
-            <div class="card-content">
-              <h3>Personalizzazione</h3>
-              <p>Adatta documenti a esigenze aziendali specifiche.</p>
-            </div>
-          </div>
-        </div>
-        <button class="carousel-arrow right" aria-label="Slide successivo"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-      </div>
-    </section>
-    <section id="why-choose" class="why-choose-section">
-      <h2>Perché Scegliere le Nostre <span class="gradient-text">Automazioni AI</span>?</h2>
-      <p>Le nostre soluzioni di Automazioni AI offrono efficienza, precisione e risparmio, permettendoti focus strategico. <br><br>Esempio: In manifattura, LeadFlow aumenta conversioni +30% con email AI (PwC trends)<grok-card data-id="141f9a" data-type="citation_card"></grok-card>, allineato hyperautomation (+4x productivity).<grok-card data-id="ebd478" data-type="citation_card"></grok-card></p>
-      <div id="stats-chart"></div>
-    </section>
-    <section id="contact-section" class="contact-section">
-      <h2>Contattaci per una Consulenza Gratuita</h2>
-      <p>Scopri come le nostre Automazioni AI possono trasformare il tuo business. Contattaci oggi stesso!</p>
-      <a href="/contattaci" class="cta-button">Contattaci Ora</a>
-    </section>
-  </main>
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-column">
-        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751448222/logo_hhdtg4.webp?quality=auto&format=auto" alt="Logo di SolveX AI3D nel footer, automazioni AI" class="footer-logo" width="320" height="50" loading="lazy" decoding="async">
-        <p>P. IVA: 04930620275</p>
-        <p>Via della Cerva, 68A<br>30033 - Noale (VE)</p>
-      </div>
-      <div class="footer-column">
-        <h3>Link Utili</h3>
-        <ul>
-          <li><a href="/configuratori-3d-2d">Configuratori 3D/2D</a></li>
-          <li><a href="/automazioni-ai-business">Automazioni AI</a></li>
-          <li><a href="/siti-web-custom-seo">Siti Custom</a></li>
-          <li><a href="/chatbot-ai-intelligenti">Chatbot AI</a></li>
-          <li><a href="/contattaci">Contattaci</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3>Contatti</h3>
-        <p>Email: info@solvex-ai3d.com</p>
-        <p>Telefono: +39 3474380837</p>
-      </div>
-      <div class="footer-column">
-        <h3>Seguici</h3>
-        <div class="social-icons">
-          <a href="https://www.instagram.com/sparklytechnologies" class="social-icon" aria-label="Profilo Instagram">
-            <i class="fab fa-instagram" aria-hidden="true"></i>
-          </a>
-          <a href="https://x.com/sparklytech" class="social-icon" aria-label="Profilo X (Twitter)">
-            <i class="fab fa-x-twitter" aria-hidden="true"></i>
-          </a>
-          <a href="https://www.linkedin.com/company/sparklytechnologies" class="social-icon" aria-label="Profilo LinkedIn">
-            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 SolveX AI3D - Tutti i diritti riservati. | <a href="/privacy-policy">Privacy Policy</a> | <a href="/termini-condizioni">Termini e Condizioni</a></p>
-    </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
-  <script src="js/automazioni-ai-business.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
-  <script src="js/cookie-banner.js" defer></script>
-  <div id="root"></div>
-  <script src="chatbot/js/main.996591d1.js" defer></script>
-  <noscript>Per un'esperienza completa abilita JavaScript.</noscript>
-</body>
-</html>
+/* Base: system-UI stack (niente font remoti, stesso look Apple su macOS) */
+:root { color-scheme: light dark; }
+
+body {
+  font-family: system-ui, -apple-system, "SF Pro Text", "SF Pro Display",
+               "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: #1d1d1f;
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d3d3d3 #fafafa;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+/* (lasciamo il tuo override header content-box invariato per non cambiare layout) */
+header, header * { box-sizing: content-box; }
+
+body.dark-mode { background-color: #000000; color: #f5f5f7; }
+
+/* Accessibilità: skip link visibile al focus */
+.skip-link {
+  position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+}
+.skip-link:focus {
+  left: 10px; top: 10px; width: auto; height: auto; padding: 8px 12px;
+  background: #000; color: #fff; border-radius: 6px; z-index: 3001;
+}
+
+/* Logo */
+.logo { height: 25px; width: auto; }
+
+/* Header */
+header {
+  background-color: #fafafa;
+  padding: 10px 20px;
+  position: fixed; width: 100%; top: 0; z-index: 2500;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+header.scrolled { background-color: rgba(250,250,250,0.8); backdrop-filter: blur(5px); }
+body.dark-mode header { background-color: rgba(0,0,0,0.9); }
+body.dark-mode header.scrolled { background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+
+.header-container { display: flex; align-items: center; width: 100%; padding: 0; }
+.logo-link { display: inline-block; margin-left: 35px; flex-shrink: 0; }
+.desktop-nav { flex: 1; display: flex; justify-content: center; }
+.nav-menu { list-style: none; display: flex; justify-content: center; align-items: center; margin: 0; padding: 0; }
+.nav-menu li { margin: 0 20px; }
+
+.header-right { display: flex; align-items: center; flex-shrink: 0; margin-right: 20px; }
+
+.nav-menu li a {
+  text-decoration: none; color: #1d1d1f; font-size: 13px; font-weight: 525; transition: color 0.3s ease;
+}
+body.dark-mode .nav-menu li a { color: #f5f5f7; }
+.nav-menu li a:hover, body.dark-mode .nav-menu li a:hover {
+  color: #45b6fe;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  background: none; border: none; cursor: pointer; padding: 0; width: 17px; height: 17px;
+  display: flex; align-items: center; justify-content: center; margin-right: 30px; margin-left: 0;
+}
+.theme-icon { font-size: 17px; color: #1d1d1f; transition: color 0.3s ease; }
+body.dark-mode .theme-icon { color: #f5f5f7; }
+.theme-toggle:hover .theme-icon {
+  color: #45b6fe;
+  background: linear-gradient(90deg, #45b6fe, #d95bc5);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.theme-icon.moon { display: none; }
+body.dark-mode .theme-icon.sun { display: none; }
+body.dark-mode .theme-icon.moon { display: block; }
+
+/* Hamburger */
+.hamburger { display: block; cursor: pointer; margin-right: 15px; z-index: 3000; }
+.hamburger span {
+  display: block; width: 20px; height: 3px; background-color: #000; margin: 6px 0;
+  transform-origin: center center; transition: transform 0.3s ease;
+}
+body.dark-mode .hamburger span { background-color: #f5f5f7; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(6px); }
+.hamburger.active span:nth-child(2) { transform: rotate(-45deg) translateY(-6px); }
+
+/* Mobile menu */
+.mobile-menu {
+  transform: translateY(-100%); transition: transform 1s ease;
+  position: fixed; top: 0; right: 0; width: 100%; height: 100%;
+  background: #fafafa; z-index: 2000; text-align: center;
+}
+body.dark-mode .mobile-menu { background: #000000; }
+.mobile-menu.open { transform: translateY(0); }
+.mobile-menu[hidden] { display: block; } /* per animazione, ma nascosto ai reader via aria-expanded */
+
+.mobile-menu ul li { margin-bottom: 40px; }
+.mobile-menu ul li a {
+  text-decoration: none; color: #1d1d1f; font-size: 30px; font-weight: 600; transition: color 0.3s ease;
+}
+body.dark-mode .mobile-menu ul li a { color: #f5f5f7; }
+.mobile-menu ul li a:hover, body.dark-mode .mobile-menu ul li a:hover {
+  color: #45b6fe;
+}
+.mobile-menu ul {
+  list-style: none; padding: 0; margin: 0;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+.mobile-menu .social-icons, .footer .social-icons {
+  display: flex; justify-content: center; gap: 20px; margin-top: 20px;
+}
+.social-icon { display: inline-block; font-size: 24px; color: #1d1d1f; transition: color 0.3s ease; }
+body.dark-mode .social-icon { color: #f5f5f7; }
+.social-icon:hover {
+  color: #45b6fe;
+  background: linear-gradient(90deg, #45b6fe, #d95bc5);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* Hero */
+.hero-section { background: #fafafa; text-align: left; padding: 40px 20px 40px; }
+body.dark-mode .hero-section { background: #000000; }
+.hero-section h1 { margin-left: 50px; font-size: 70px; max-width: 800px; }
+.hero-section h2 { font-size: 36px; font-weight: 600; margin: 10px 0 10px 50px; color: #1d1d1f; }
+body.dark-mode .hero-section h2 { color: #f5f5f7; }
+.hero-section p { font-size: 18px; margin: 0 0 0 50px; color: #6e6e73; }
+body.dark-mode .hero-section p { color: #a1a1a6; }
+
+/* Contact Section Specific */
+.contact-section {
+  background-color: #fafafa; padding: 60px 20px; display: flex; justify-content: center;
+}
+body.dark-mode .contact-section { background-color: #000000; }
+.contact-container { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; max-width: 1200px; width: 100%; }
+.card-gradient {
+  border-radius: 20px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: box-shadow 0.3s ease;
+}
+.contact-form-card { background: linear-gradient(90deg, rgba(69,182,254,0.1), rgba(217,91,197,0.1)); }
+body.dark-mode .contact-form-card { background: linear-gradient(90deg, rgba(69,182,254,0.2), rgba(217,91,197,0.2)); }
+.contact-info-card { background: linear-gradient(135deg, #fafafa, #e0e0e0); max-height: 300px; }
+body.dark-mode .contact-info-card { background: linear-gradient(135deg, #000000, #1c1c1e); }
+.card-gradient:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+.contact-form h2, .contact-info h2 { font-size: 30px; margin-bottom: 20px; }
+.contact-form form { display: flex; flex-direction: column; }
+.contact-form label { margin-bottom: 5px; font-weight: 500; display: flex; align-items: center; }
+.icon-form { margin-right: 10px; color: #45b6fe; }
+.contact-form input, .contact-form textarea {
+  margin-bottom: 20px; padding: 10px; border: 1px solid #d2d2d7; border-radius: 5px; font-size: 16px;
+}
+body.dark-mode .contact-form input, body.dark-mode .contact-form textarea {
+  background-color: #1c1c1e; border-color: #3a3a3c; color: #f5f5f7;
+}
+.contact-form input:focus, .contact-form textarea:focus { border-color: #45b6fe; outline: none; }
+.error { border-color: #ff3b30 !important; }
+.error::placeholder { color: #ff3b30; }
+.error-message { color: #ff3b30; font-size: 14px; display: none; }
+.error + .error-message { display: block; }
+.services-accordion { margin-bottom: 20px; }
+.accordion-item { border-bottom: 1px solid #d2d2d7; margin-bottom: 10px; }
+.accordion-item summary {
+  cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; transition: color 0.3s ease;
+}
+.accordion-item summary:hover { color: #45b6fe; }
+.accordion-item[open] summary i { transform: rotate(180deg); }
+.subservices { padding: 10px 0; display: flex; flex-direction: column; }
+.checkbox-label { display: flex; align-items: center; margin-bottom: 10px; cursor: pointer; }
+.checkbox-label input { display: none; }
+.checkbox-custom {
+  width: 20px; height: 20px; border: 1px solid #d2d2d7; border-radius: 4px; margin-right: 10px;
+  position: relative; transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.checkbox-label input:checked + .checkbox-custom { background-color: #45b6fe; border-color: #45b6fe; }
+.checkbox-label input:checked + .checkbox-custom::after {
+  content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; color: white;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px;
+}
+body.dark-mode .checkbox-custom { border-color: #3a3a3c; }
+body.dark-mode .checkbox-label input:checked + .checkbox-custom { background-color: #5ec2fe; }
+.privacy-checkbox { display: flex; align-items: center; margin-bottom: 20px; }
+.privacy-checkbox label { font-size: 14px; }
+.contact-info p { font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; }
+.gradient-icon {
+  font-size: 30px; color: #45b6fe; background: linear-gradient(90deg, #45b6fe, #d95bc5);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 15px;
+}
+.gradient-icon:hover { opacity: 0.8; }
+
+/* Testimonials Carousel (adapted from portfolio) */
+.testimonials-section {
+  background-color: #fafafa; padding: 30px 0; text-align: left; width: 100%; margin: 0;
+}
+body.dark-mode .testimonials-section { background-color: #000000; }
+.testimonials-section h2 { font-size: 50px; margin-bottom: 40px; color: #1d1d1f; margin-left: 100px; }
+body.dark-mode .testimonials-section h2 { color: #f5f5f7; }
+.carousel-container { position: relative; width: 100%; margin: 0; background: transparent; }
+.carousel-wrapper.testimonials-carousel {
+  display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 20px; padding: 20px 0 20px 100px;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.carousel-wrapper.testimonials-carousel::-webkit-scrollbar { display: none; }
+.testimonial-card {
+  position: relative; width: 350px; height: 200px; background-color: #fff; border-radius: 10px; overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; flex-shrink: 0; padding: 20px;
+}
+body.dark-mode .testimonial-card { background-color: #1c1c1e; }
+.testimonial-card:hover { transform: scale(1.025); box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
+.testimonial-card p { font-size: 16px; margin-bottom: 10px; color: #6e6e73; }
+body.dark-mode .testimonial-card p { color: #a1a1a6; }
+.testimonial-card cite { font-size: 14px; font-weight: 500; color: #1d1d1f; }
+body.dark-mode .testimonial-card cite { color: #f5f5f7; }
+.carousel-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); background-color: transparent; border: none;
+  font-size: 24px; cursor: pointer; color: #1d1d1f; transition: color 0.3s ease; z-index: 10; padding: 10px;
+  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+}
+body.dark-mode .carousel-arrow { color: #f5f5f7; }
+.carousel-arrow:hover { color: #45b6fe; }
+.carousel-arrow.left { left: 10px; }
+.carousel-arrow.right { right: 10px; }
+
+/* CTA Buttons (ripristinato stile originale per pulsante invio form) */
+.cta-button, .cta-button-large {
+  padding: 10px 20px; background-color: transparent; color: #45b6fe; text-decoration: none;
+  border-radius: 40px; font-size: 17px; font-weight: 400; letter-spacing: -0.022em; cursor: pointer;
+  border: 1px solid #45b6fe; transition: background-color 0.3s ease, color 0.3s ease;
+  align-self: flex-start;
+}
+.cta-button-large:hover { background-color: #45b6fe; color: white; border: 1px solid #45b6fe; }
+.cta-button-preventivo-button {
+  padding: 10px 15px; background-color: transparent; color: white; text-decoration: none;
+  border-radius: 40px; font-size: 15px; font-weight: 400; letter-spacing: -0.022em; cursor: pointer;
+  border: 1px solid #45b6fe; transition: background-color 0.3s ease, color 0.3s ease;
+}
+.cta-button-preventivo-button:hover { background-color: #45b6fe; color: white; border: 1px solid #45b6fe; }
+
+/* Footer (from home) */
+.footer { background-color: #f5f5f7; padding: 40px 20px; color: #1d1d1f; content-visibility: auto; contain-intrinsic-size: 1200px 600px; }
+body.dark-mode .footer { background-color: #373737; color: #f5f5f7; }
+.footer-container { display: flex; justify-content: space-around; flex-wrap: wrap; }
+.footer-column { margin: 10px; min-width: 200px; }
+.footer-logo { height: 50px; width: auto; margin-bottom: 10px; }
+.footer-column h3 { font-size: 18px; margin-bottom: 10px; }
+.footer-column ul { list-style: none; padding: 0; }
+.footer-column ul li { margin-bottom: 5px; }
+.footer-column ul li a { text-decoration: none; color: #1d1d1f; transition: color 0.3s ease; }
+body.dark-mode .footer-column ul li a { color: #f5f5f7; }
+.footer-column ul li a:hover, body.dark-mode .footer-column ul li a:hover { color: #45b6fe; }
+.footer-bottom { text-align: center; margin-top: 20px; font-size: 14px; }
+.footer-bottom a { color: #1d1d1f; text-decoration: none; }
+body.dark-mode .footer-bottom a { color: #f5f5f7; }
+.footer-bottom a:hover { color: #45b6fe; }
+
+/* Scrollbar */
+body::-webkit-scrollbar { width: 8px; }
+body::-webkit-scrollbar-track { background: #fafafa; }
+body.dark-mode::-webkit-scrollbar-track { background: #000000; }
+body::-webkit-scrollbar-thumb { background-color: #d3d3d3; border-radius: 10px; }
+body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
+
+.gradient-text {
+  background: linear-gradient(90deg, #45b6fe, #d95bc5);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* Focus visibile */
+:focus-visible { outline: 2px solid #45b6fe; outline-offset: 2px; }
+
+/* Reduced motion: evita animazioni invadenti per utenti che lo richiedono */
+@media (prefers-reduced-motion: reduce) {
+  .hamburger span, .portfolio-card, .benefit-item, .carousel-arrow { transition: none !important; }
+  .portfolio-card:hover, .benefit-item:hover { transform: none !important; }
+}
+
+/* Modal Specific (ripristinato stile originale con gradient e icona) */
+.modal-overlay {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
+  z-index: 3000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;
+}
+.modal-overlay.show { display: flex; opacity: 1; }
+.modal-content {
+  background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease;
+}
+body.dark-mode .modal-content { background: #1c1c1e; }
+.modal-icon { font-size: 50px; margin-bottom: 20px; }
+.modal-content h2 { font-size: 28px; margin-bottom: 10px; }
+.modal-content p { font-size: 16px; margin-bottom: 20px; color: #6e6e73; }
+body.dark-mode .modal-content p { color: #a1a1a6; }
+.modal-content .cta-button-large { align-self: center; }
+@keyframes fadeIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .hero-section h1 { font-size: 60px; font-weight: 700; }
+  .contact-container { grid-template-columns: 1.5fr 1fr; }
+}
+@media (max-width: 769px) {
+  .nav-menu { display: none; }
+  .hamburger { display: block; }
+  .hero-section h1 { margin-left: 0; font-size: 46px; font-weight: 700; }
+  .hero-section h2, .hero-section p { margin-left: 0; }
+  .testimonials-section h2 { font-size: 35px; margin-left: 50px; text-align: left; }
+  .carousel-wrapper.testimonials-carousel { gap: 10px; padding-left: 50px; }
+  .testimonial-card { width: 300px; height: 180px; }
+  .carousel-arrow { font-size: 20px; }
+  .carousel-arrow.left { left: 5px; }
+  .carousel-arrow.right { right: 5px; }
+  .contact-container { grid-template-columns: 1fr; }
+}
