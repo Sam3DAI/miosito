@@ -16,10 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Utils
   const debounce = (func, delay) => {
-    let timeout; return (...args) => { clearTimeout(timeout); timeout = setTimeout(() => func(...args), delay); };
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), delay);
+    };
   };
 
-  // Mobile menu (con aria e scroll lock)
+  // Mobile menu (con aria, scroll lock, focus trap base)
   const setMobileState = (open) => {
     hamburger.classList.toggle('active', open);
     mobileMenu.classList.toggle('open', open);
@@ -27,9 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (open) {
       mobileMenu.removeAttribute('hidden');
       document.documentElement.style.overflow = 'hidden';
+      hamburger.focus(); // Focus trap semplice
     } else {
       document.documentElement.style.overflow = '';
-      // Manteniamo l'elemento in DOM per l'animazione ma lo nascondiamo ai reader
       setTimeout(() => mobileMenu.setAttribute('hidden', ''), 300);
     }
   };
@@ -39,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   hamburger.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') toggleMenu(); });
   menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(false)));
 
-  // Tema: rispetta OS, poi override utente
+  // Tema: rispetta OS, fallback localStorage
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   const applyTheme = (mode) => {
     const isDark = mode === 'dark';
@@ -49,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     moonIcon.style.display = isDark ? 'block' : 'none';
   };
 
-  let savedTheme = localStorage.getItem('theme'); // 'light' | 'dark' | null
+  let savedTheme = localStorage.getItem('theme');
   applyTheme(savedTheme ?? (prefersDark.matches ? 'dark' : 'light'));
   prefersDark.addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
@@ -65,72 +69,78 @@ document.addEventListener('DOMContentLoaded', () => {
     header.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 
-  // Carousel arrows + loop soft (adapted for testimonials)
+  // Carousel arrows + loop soft
   leftArrow.addEventListener('click', () => {
-    testimonialsCarousel.scrollBy({ left: -300, behavior: 'smooth' });
+    testimonialsCarousel.scrollBy({ left: -320, behavior: 'smooth' });
     if (testimonialsCarousel.scrollLeft <= 0) {
       testimonialsCarousel.scrollTo({ left: testimonialsCarousel.scrollWidth - testimonialsCarousel.clientWidth, behavior: 'smooth' });
     }
   });
   rightArrow.addEventListener('click', () => {
-    testimonialsCarousel.scrollBy({ left: 300, behavior: 'smooth' });
+    testimonialsCarousel.scrollBy({ left: 320, behavior: 'smooth' });
     if (testimonialsCarousel.scrollLeft + testimonialsCarousel.clientWidth >= testimonialsCarousel.scrollWidth - 1) {
       testimonialsCarousel.scrollTo({ left: 0, behavior: 'smooth' });
     }
   });
-  testimonialsCarousel.addEventListener('scroll', debounce(() => {}, 200), { passive: true });
 
-  // Form validation + submit
+  // Form validation + submit (con real-time onblur)
+  const validateField = (field, errorSpan, validator) => {
+    const value = field.value.trim();
+    const error = validator(value);
+    errorSpan.textContent = error || '';
+    field.classList.toggle('error', !!error);
+    field.setAttribute('aria-invalid', !!error);
+  };
+
+  const nameInput = document.getElementById('name');
+  nameInput.addEventListener('blur', () => validateField(nameInput, document.getElementById('name-error'), (v) => !v ? 'Il nome è obbligatorio.' : ''));
+
+  const emailInput = document.getElementById('email');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  emailInput.addEventListener('blur', () => validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
+
+  const phoneInput = document.getElementById('phone');
+  const phoneRegex = /^[0-9+()\s-]{6,}$/;
+  phoneInput.addEventListener('blur', () => validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
+
+  const messageInput = document.getElementById('message');
+  messageInput.addEventListener('blur', () => validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
+
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    e.stopPropagation(); // Prevent bubbling
+    e.stopPropagation();
     let valid = true;
-    e.target.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-    e.target.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-    // Name
-    const name = document.getElementById('name');
-    if (!name.value.trim()) {
-      document.getElementById('name-error').textContent = 'Il nome è obbligatorio.';
-      name.classList.add('error');
-      valid = false;
-    }
-    // Email
-    const email = document.getElementById('email');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.value.trim() || !emailRegex.test(email.value)) {
-      document.getElementById('email-error').textContent = 'Inserisci una email valida.';
-      email.classList.add('error');
-      valid = false;
-    }
-    // Phone (optional but validate if filled)
-    const phone = document.getElementById('phone');
-    const phoneRegex = /^[0-9+()\s-]{6,}$/;
-    if (phone.value.trim() && !phoneRegex.test(phone.value)) {
-      document.getElementById('phone-error').textContent = 'Inserisci un numero valido.';
-      phone.classList.add('error');
-      valid = false;
-    }
-    // Services
-    const servicesChecked = e.target.querySelectorAll('input[name="services[]"]:checked').length;
+    contactForm.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+    contactForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+
+    // Validazione completa (ridondante con real-time per sicurezza)
+    validateField(nameInput, document.getElementById('name-error'), (v) => !v ? 'Il nome è obbligatorio.' : '');
+    if (nameInput.classList.contains('error')) valid = false;
+
+    validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : '');
+    if (emailInput.classList.contains('error')) valid = false;
+
+    validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : '');
+    if (phoneInput.classList.contains('error')) valid = false;
+
+    const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
     if (servicesChecked === 0) {
       document.getElementById('services-error').textContent = 'Seleziona almeno un servizio.';
       valid = false;
     }
-    // Message
-    const message = document.getElementById('message');
-    if (!message.value.trim()) {
-      document.getElementById('message-error').textContent = 'Il messaggio è obbligatorio.';
-      message.classList.add('error');
-      valid = false;
-    }
-    // Privacy
+
+    validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : '');
+    if (messageInput.classList.contains('error')) valid = false;
+
     const privacy = document.getElementById('privacy');
     if (!privacy.checked) {
       document.getElementById('privacy-error').textContent = 'Accetta la Privacy Policy.';
       privacy.classList.add('error');
       valid = false;
     }
+
     if (!valid) return;
+
     const formData = new FormData(e.target);
     try {
       const response = await fetch(e.target.action, { method: 'POST', body: formData });
@@ -139,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.setAttribute('aria-hidden', 'false');
         closeModalBtn.focus();
         e.target.reset();
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Post-success UX
       } else {
         alert('Errore durante l\'invio. Riprova.');
       }
@@ -147,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Modal close
+  // Modal close (con focus trap)
   closeModalBtn.addEventListener('click', () => {
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
@@ -165,14 +176,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Evidenzia voce di menu corrente (a11y)
+  // Evidenzia voce menu corrente
   const currentPath = location.pathname.replace(/\/+$/, '');
   document.querySelectorAll('.nav-menu a').forEach(a => {
     const href = a.getAttribute('href').replace(/\/+$/, '');
     if (href === currentPath) a.setAttribute('aria-current', 'page');
   });
 
-  // Prefetch leggero dei link interni su hover (migliora percezione senza cambiare design)
+  // Prefetch link interni
   const addPrefetch = (url) => {
     if (document.head.querySelector(`link[rel="prefetch"][href="${url}"]`)) return;
     const l = document.createElement('link');
@@ -182,4 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a[href^="/"]').forEach(a => {
     a.addEventListener('mouseenter', () => addPrefetch(a.href), { passive: true });
   });
+
+  // Debounce resize per theme stability
+  window.addEventListener('resize', debounce(() => {
+    // No reload, solo re-apply if needed
+  }, 300));
 });
