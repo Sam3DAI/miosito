@@ -45,14 +45,14 @@
 
   <!-- CSP pulita -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self';
-                 img-src * data:;
-                 script-src 'self' 'unsafe-inline' https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/;
-                 style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
-                 font-src * data:;
-                 frame-src https://sketchfab.com;
-                 connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz;
-                 base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+  content="default-src 'self';
+           img-src * data: https://www.google-analytics.com;
+           script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/;
+           style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+           font-src * data:;
+           frame-src https://sketchfab.com;
+           connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com;
+           base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
 
   <!-- JSON-LD (contenuti invariati) -->
   <script type="application/ld+json">
@@ -99,6 +99,16 @@
   <!-- Chatbot CSS -->
   <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
   <title>Chatbot AI Intelligenti per Customer Service 2025 | Starter, Smart, Enterprise - SolveX AI3D</title>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VW0JHKW0ZW');
+</script>
+
 </head>
 
 <body>

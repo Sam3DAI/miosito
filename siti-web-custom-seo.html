@@ -30,8 +30,16 @@
     <!-- Cookie Banner CSS -->
 <link rel="stylesheet" href="css/cookie-banner.css">
     <!-- CSP rafforzato per sicurezza - Espanso per banner, formsubmit e risorse site-wide -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data:; script-src 'self' 'unsafe-inline' https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src * data:; frame-src https://sketchfab.com; connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz;;">
-    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self';
+           img-src * data: https://www.google-analytics.com;
+           script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/;
+           style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+           font-src * data:;
+           frame-src https://sketchfab.com;
+           connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com;
+           base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -83,6 +91,16 @@
     }
     </script>
 <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VW0JHKW0ZW');
+</script>
+
 </head>
 
 <body>
