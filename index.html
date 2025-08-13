@@ -45,14 +45,14 @@
 
   <!-- CSP rafforzata (meta: compatibile con JSON-LD e banner cookie) -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self';
-                 img-src * data:;
-                 script-src 'self' 'unsafe-inline' https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/;
-                 style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
-                 font-src * data:;
-                 frame-src https://sketchfab.com;
-                 connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz;
-                 base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+  content="default-src 'self';
+           img-src * data: https://www.google-analytics.com;
+           script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/;
+           style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+           font-src * data:;
+           frame-src https://sketchfab.com;
+           connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com;
+           base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
