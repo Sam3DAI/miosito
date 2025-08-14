@@ -103,28 +103,33 @@
   }
   </script>
   <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-      'ad_storage': 'denied',
-      'ad_user_data': 'denied',
-      'ad_personalization': 'denied',
-      'analytics_storage': 'denied'
-    });
-    window.__loadGA = function() {
-      if (window.__gaLoaded) return;
-      window.__gaLoaded = true;
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      document.head.appendChild(script);
-      script.onload = function() {
-        gtag('js', new Date());
-        gtag('config', 'G-VW0JHKW0ZW');
-      };
+  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+
+  /* Default: tutto negato fino a consenso */
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied'
+  });
+
+  /* Loader invocato dal cookie banner quando l’utente ACCETTA */
+  window.__loadGA = function(){
+    if (window.__gaLoaded) return; window.__gaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX';
+    s.onload = function(){
+      const isDev = location.hostname !== 'solvex-ai3d.com';
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXX', { debug_mode: isDev ? true : undefined });
     };
-  </script>
+    document.head.appendChild(s);
+  };
+</script>
 </head>
 <body>
   <a href="#intro-services" class="skip-link">Salta al contenuto principale</a>
@@ -335,5 +340,6 @@
   <div id="root"></div>
   <script src="chatbot/js/main.996591d1.js" defer></script>
   <noscript>Per un'esperienza completa abilita JavaScript.</noscript>
+<script src="/assets/js/ga-autotrack.js" defer></script>
 </body>
 </html>
