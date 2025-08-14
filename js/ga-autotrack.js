@@ -1,7 +1,12 @@
+/* GA4 Autotrack — versione con gating consenso (no eventi senza opt-in) */
 (function () {
+  'use strict';
+
+  // gtag stub sicuro
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
 
+  // Helpers
   const now = () => Date.now().toString();
   const isLeftClick = (e) => (e.button === 0);
   const closest = (el, sel) => el ? el.closest(sel) : null;
@@ -10,24 +15,24 @@
     .replace(/\s+/g, ' ')
     .replace(/[\r\n\t]+/g, ' ')
     .trim()
-    .slice(0, 80); // evita PII + stringhe troppo lunghe
+    .slice(0, 80); // evita PII e stringhe troppo lunghe
 
   function nearestSectionName(el){
-    // cerca il titolo di sezione più vicino (h1..h3) per contestualizzare
-    const h = el.closest('section, article, main, div')?.querySelector('h1, h2, h3');
+    const scope = el.closest('section, article, main, div');
+    const h = scope ? scope.querySelector('h1, h2, h3') : null;
     return h ? sanitize(h.textContent) : '';
   }
 
+  // Invio eventi: BLOCCATO se non c’è consenso
   function sendGAEvent(name, params = {}) {
-    const base = {
-      page_path: location.pathname,
-      page_title: document.title
-    };
+    if (!window.__gaConsentGranted) return; // <-- gating: senza consenso non mando nulla
+
+    const base = { page_path: location.pathname, page_title: document.title };
     const eventParams = Object.assign({ event_id: now() }, base, params);
     window.gtag('event', name, eventParams);
   }
 
-  // 1) Click dichiarativi: data-ga-name / data-ga-params
+  // 1) Click dichiarativi via data-*
   document.addEventListener('click', function (e) {
     if (!isLeftClick(e)) return;
     const trackEl = closest(e.target, '[data-ga-name]');
@@ -47,12 +52,11 @@
   document.addEventListener('click', function (e) {
     if (!isLeftClick(e)) return;
 
-    // se è già un elemento dichiarativo, non duplicare
+    // se già tracciato in modo dichiarativo, non duplico
     if (closest(e.target, '[data-ga-name]')) return;
 
     const a = closest(e.target, 'a[href]');
     const btn = a ? null : closest(e.target, 'button, [role="button"]');
-
     if (!a && !btn) return;
 
     const el = a || btn;
@@ -60,16 +64,16 @@
     const text = sanitize(el.getAttribute('aria-label') || el.textContent);
     const sec = nearestSectionName(el);
 
-    // Evita di etichettare come ui_click se è già un tel/mailto/download/outbound:
+    // Evita ui_click se è già coperto dagli handler specifici
     if (a) {
       const href = a.getAttribute('href') || '';
       const url = new URL(href, location.href);
 
-      if (href.startsWith('tel:') || href.startsWith('mailto:')) return; // gestiti sotto
+      if (href.startsWith('tel:') || href.startsWith('mailto:')) return;
       const dlExt = /\.(pdf|zip|rar|7z|csv|xlsx?|pptx?|docx?)$/i;
-      if (dlExt.test(url.pathname)) return; // gestiti sotto
+      if (dlExt.test(url.pathname)) return;
       const isOutbound = url.origin !== location.origin;
-      if (isOutbound) return; // gestiti sotto
+      if (isOutbound) return;
 
       sendGAEvent('ui_click', {
         el_role: role,
@@ -128,24 +132,26 @@
     }
   }, { passive: true });
 
-  // 4) Form submit (opt-in via data-ga-form)
+  // 4) Form submit (opt-in via data-ga-form sul <form>)
   document.addEventListener('submit', function (e) {
     const form = e.target;
     if (!form || !form.matches('form[data-ga-form]')) return;
 
     const formName = form.getAttribute('data-ga-form') || 'form';
-    const formParamsRaw = form.getAttribute('data-ga-params');
+    const raw = form.getAttribute('data-ga-params');
     let extra = {};
-    try { extra = formParamsRaw ? JSON.parse(formParamsRaw) : {}; } catch {}
+    try { extra = raw ? JSON.parse(raw) : {}; } catch {}
     sendGAEvent('form_submit', Object.assign({ form_name: formName }, extra));
   }, { passive: true });
 
   // 5) Scroll depth 25/50/75/100
-  const marks = [25,50,75,100];
-  let sent = new Set();
+  const marks = [25, 50, 75, 100];
+  const sent = new Set();
   function onScrollDepth() {
     const h = document.documentElement;
-    const perc = Math.round( (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 );
+    const denom = (h.scrollHeight - h.clientHeight);
+    if (denom <= 0) return;
+    const perc = Math.round((h.scrollTop / denom) * 100);
     marks.forEach(m => {
       if (perc >= m && !sent.has(m)) {
         sent.add(m);

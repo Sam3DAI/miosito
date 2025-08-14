@@ -98,33 +98,36 @@
   </script>
   <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
   <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
+</script>
+  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
+  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
 
-  /* Default: tutto negato fino a consenso */
+  // di default tutto negato + attendo eventuale update (evita page_view prematuro)
   gtag('consent', 'default', {
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied',
-    'analytics_storage': 'denied'
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 1000
   });
 
-  /* Loader invocato dal cookie banner quando l’utente ACCETTA */
+  // loader invocato dal banner quando l’utente accetta
   window.__loadGA = function(){
     if (window.__gaLoaded) return; window.__gaLoaded = true;
     var s = document.createElement('script');
     s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX';
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
     s.onload = function(){
       const isDev = location.hostname !== 'solvex-ai3d.com';
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXX', { debug_mode: isDev ? true : undefined });
+      gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
     };
     document.head.appendChild(s);
   };
 </script>
-
 </head>
 <body>
   <a href="#intro-benefits" class="skip-link">Salta al contenuto principale</a>
