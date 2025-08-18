@@ -36,34 +36,33 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   // Menu mobile con aria + scroll lock (stile automazioni-ai-business.js)
-const setMobileState = (open) => {
-  hamburger.classList.toggle('active', open);
-  mobileMenu.classList.toggle('open', open);
-  hamburger.setAttribute('aria-expanded', String(open));
+  const setMobileState = (open) => {
+    hamburger.classList.toggle('active', open);
+    mobileMenu.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
 
-  if (open) {
-    mobileMenu.removeAttribute('hidden');          // mostra il menu (transizione CSS già presente)
-    document.documentElement.style.overflow = 'hidden';  // blocca lo scroll pagina
-  } else {
-    document.documentElement.style.overflow = '';       // sblocca lo scroll
-    setTimeout(() => mobileMenu.setAttribute('hidden', ''), 300); // nascondi dopo transizione
-  }
-};
+    if (open) {
+      mobileMenu.removeAttribute('hidden'); // mostra il menu (transizione CSS già presente)
+      document.documentElement.style.overflow = 'hidden'; // blocca lo scroll pagina
+    } else {
+      document.documentElement.style.overflow = ''; // sblocca lo scroll
+      setTimeout(() => mobileMenu.setAttribute('hidden', ''), 300); // nascondi dopo transizione
+    }
+  };
 
-const toggleMenu = () => setMobileState(!hamburger.classList.contains('active'));
+  const toggleMenu = () => setMobileState(!hamburger.classList.contains('active'));
 
-hamburger.addEventListener('click', toggleMenu);
-hamburger.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    toggleMenu();
-  }
-});
+  hamburger.addEventListener('click', toggleMenu);
+  hamburger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleMenu();
+    }
+  });
 
-// Chiudi il menu quando clicchi una voce
-const menuLinks = mobileMenu.querySelectorAll('a');
-menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(false)));
-
+  // Chiudi il menu quando clicchi una voce
+  const menuLinks = mobileMenu.querySelectorAll('a');
+  menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(false)));
 
   /* ---------------------------------
    * Header shadow / stato su scroll (passive)
@@ -99,18 +98,13 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
     }, false, true);
   }
 
+  // Funzione per background Babylon (sync con tema)
+  let babylonScene = null; // Ref per scena Babylon
   function updateModelBackground() {
-  if (window.sketchfabAPI) {
-    // Valori normalizzati 0..1
-    const rgb = document.body.classList.contains('dark-mode')
-      ? [0, 0, 0]                    // nero per dark
-      : [250/255, 250/255, 250/255]; // #FAFAFA per light
-
-    // ✅ API corretta: array [r,g,b]
-    window.sketchfabAPI.setBackground({ color: rgb });
+    if (!babylonScene) return;
+    const isDark = body.classList.contains('dark-mode');
+    babylonScene.clearColor = isDark ? new BABYLON.Color4(0, 0, 0, 1) : new BABYLON.Color4(250/255, 250/255, 250/255, 1);
   }
-}
-
 
   function applyTheme(theme) {
     const isDark = theme === 'dark';
@@ -120,11 +114,11 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
       sunIcon.style.display = isDark ? 'none' : 'block';
       moonIcon.style.display = isDark ? 'block' : 'none';
     }
-    updateModelBackground();
     updateChartTheme();
+    updateModelBackground();
   }
 
-  // Inizializza tema (nessun reload su resize)
+  // Inizializza tema
   applyTheme(currentTheme());
 
   if (themeToggle) {
@@ -135,7 +129,6 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
     });
   }
 
-  // Segui i cambi del sistema solo se non esiste override
   mediaDark.addEventListener('change', (e) => {
     if (!localStorage.getItem(THEME_KEY)) {
       applyTheme(e.matches ? 'dark' : 'light');
@@ -151,11 +144,8 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
     const leftArrow = container.querySelector('.carousel-arrow.left');
     const rightArrow = container.querySelector('.carousel-arrow.right');
     let isScrolling = false;
-
     if (!wrapper || !leftArrow || !rightArrow) return;
-
     const scrollByAmount = 300;
-
     leftArrow.addEventListener('click', () => {
       if (isScrolling) return;
       isScrolling = true;
@@ -167,7 +157,6 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
         isScrolling = false;
       }, 300);
     });
-
     rightArrow.addEventListener('click', () => {
       if (isScrolling) return;
       isScrolling = true;
@@ -209,8 +198,8 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
     const already = new Set();
     const addPrefetch = (href) => {
       if (!href || already.has(href)) return;
-      if (href.includes('#')) return;               // evita anchor
-      if (!href.startsWith('/')) return;            // solo same-origin
+      if (href.includes('#')) return;
+      if (!href.startsWith('/')) return;
       const link = document.createElement('link');
       link.rel = 'prefetch';
       link.href = href;
@@ -222,124 +211,6 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
       a.addEventListener('mouseenter', () => addPrefetch(href));
       a.addEventListener('touchstart', () => addPrefetch(href), { passive: true });
     });
-  })();
-
-  /* ---------------------------------
-   * Sketchfab API: caricamento sicuro + controlli configuratore 3D
-   * --------------------------------- */
-  (function initSketchfab() {
-    const iframe = document.getElementById('api-frame');
-    if (!iframe) return;
-
-    const loadAPI = () => new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js';
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-
-    loadAPI()
-      .then(() => {
-        const version = '1.12.1';
-        const uid = 'd8d8df55647a45c0beecc1b22e6b6c79';
-        const client = new Sketchfab(version, iframe);
-
-        const textures = {
-          color: {
-            bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
-            grigio: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto',
-            bronzo: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto',
-            nero:   'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto'
-          },
-          background: {
-            'sfondo-nero-bronzo':  'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto',
-            'sfondo-arancio-nero': 'https://res.cloudinary.com/dqhbriryo/image_upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto'.replace('_upload','/image/upload'),
-            'sfondo-nero-blu':     'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto',
-            'sfondo-nero-viola':   'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto'
-          }
-        };
-
-        function onSuccess(api) {
-          window.sketchfabAPI = api;
-          api.start();
-
-          api.addEventListener('viewerready', function () {
-            // Allinea background viewer al tema
-            updateModelBackground();
-
-            // Gestione materiali / texture
-            api.getMaterialList((err, materials) => {
-              if (err) return console.error('Errore materiali:', err);
-
-              const relevantMaterials = {
-                scocca: ["scocca retro", "pulsanti", "box camere", "bordi laterali", "dettagli laterali e carica"],
-                schermo: "schermo"
-              };
-
-              const setAlbedoTexture = (materialName, textureUrl) => {
-                const mat = materials.find(m => m.name === materialName);
-                if (!mat) return;
-                api.addTexture(textureUrl, (err2, textureUid) => {
-                  if (err2) return console.error('Errore caricamento texture:', err2);
-                  mat.channels.AlbedoPBR.texture.uid = textureUid;
-                  api.setMaterial(mat);
-                });
-              };
-
-              const goTo = (idx) => api.gotoAnnotation(idx);
-
-              document.querySelectorAll('.color-options input').forEach(input => {
-                input.addEventListener('change', () => {
-                  const url = textures.color[input.id];
-                  relevantMaterials.scocca.forEach(name => setAlbedoTexture(name, url));
-                  goTo(0);
-                });
-              });
-
-              document.querySelectorAll('.background-options input').forEach(input => {
-                input.addEventListener('change', () => {
-                  const url = textures.background[input.id];
-                  setAlbedoTexture(relevantMaterials.schermo, url);
-                  goTo(1);
-                });
-              });
-            });
-
-            // Mostra/Nascondi cuffie
-            api.getNodeMap((err, nodes) => {
-              if (err) return console.error('Errore nodi:', err);
-              const airpodsNode = Object.values(nodes).find(n => n.name === 'Airpods');
-              const toggle = document.getElementById('toggle-airpods');
-              if (airpodsNode && toggle) {
-                const id = airpodsNode.instanceID;
-                api.hide(id);
-                toggle.addEventListener('change', () => {
-                  if (toggle.checked) api.show(id); else api.hide(id);
-                });
-              }
-            });
-          });
-        }
-
-        function onError(err) {
-          console.error('Errore Sketchfab API:', err);
-        }
-
-        client.init(uid, {
-          success: onSuccess,
-          error: onError,
-          ui_infos: 0,
-          ui_controls: 0,
-          ui_stop: 0,
-          ui_watermark: 0,
-          ui_fullscreen: 0,
-          ui_annotations: 0,
-          ui_hint: 0,
-          transparent: 0
-        });
-      })
-      .catch(err => console.error('Sketchfab API non caricata:', err));
   })();
 
   /* ---------------------------------
@@ -371,7 +242,6 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
   (function initChartOnView() {
     const target = document.getElementById('why-choose');
     if (!target || typeof ApexCharts === 'undefined') return;
-
     const options = () => ({
       chart: {
         type: 'bar',
@@ -387,7 +257,7 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
       },
       plotOptions: { bar: { horizontal: true, barHeight: '75%', distributed: true } },
       dataLabels: { enabled: false },
-      series: [{ data: [82, 94, 66, 40] }], // engagement, conversioni, soddisfazione, riduzione resi
+      series: [{ data: [82, 94, 66, 40] }],
       xaxis: {
         categories: ['Engagement Utenti', 'Tasso di Conversione', 'Soddisfazione Clienti', 'Riduzione Resi'],
         labels: { formatter: v => `${v}%`, style: { colors: getAxisLabelColor(), fontSize: '14px' } },
@@ -410,7 +280,6 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
       grid: { show: false },
       tooltip: { enabled: false }
     });
-
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !statsChart) {
@@ -421,38 +290,194 @@ menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(fa
     }, { threshold: 0.1 });
     obs.observe(target);
   })();
-  
+
   // Pulsante per aprire/attivare il chatbot
-(function initChatbotButton() {
-  const btn = document.getElementById('open-chatbot');
-  if (!btn) return;
-
-  function openChatbot() {
-    // 1) API ufficiale se esiste (adatta il nome se il tuo widget espone un altro oggetto)
-    if (window.SolvexChatbot && typeof window.SolvexChatbot.open === 'function') {
-      window.SolvexChatbot.open();
-      return;
+  (function initChatbotButton() {
+    const btn = document.getElementById('open-chatbot');
+    if (!btn) return;
+    function openChatbot() {
+      if (window.SolvexChatbot && typeof window.SolvexChatbot.open === 'function') {
+        window.SolvexChatbot.open();
+        return;
+      }
+      window.dispatchEvent(new CustomEvent('solvex:chatbot:open'));
+      const launcher = document.querySelector(
+        '[data-chatbot-launcher], .chatbot-launcher, #chatbot-launcher, [aria-label="Apri chatbot"], [aria-label="Open chat"]'
+      );
+      if (launcher) launcher.click();
+      const widget = document.querySelector('.chatbot-widget, #chatbot, #root .chatbot-widget');
+      if (widget) widget.style.display = 'block';
     }
-
-    // 2) Dispatch di un evento personalizzato che il widget può intercettare
-    window.dispatchEvent(new CustomEvent('solvex:chatbot:open'));
-
-    // 3) Fallback: clicca il "launcher" se presente nel DOM
-    const launcher = document.querySelector(
-      '[data-chatbot-launcher], .chatbot-launcher, #chatbot-launcher, [aria-label="Apri chatbot"], [aria-label="Open chat"]'
-    );
-    if (launcher) launcher.click();
-
-    // 4) Ultimo fallback: prova a mostrare il widget se è solo nascosto
-    const widget = document.querySelector('.chatbot-widget, #chatbot, #root .chatbot-widget');
-    if (widget) widget.style.display = 'block';
-  }
-
-  btn.addEventListener('click', openChatbot);
-})();
-
+    btn.addEventListener('click', openChatbot);
+  })();
 
   /* ---------------------------------
-   * Fine
+   * Codice Babylon.js per configuratore 3D (sostituisce Sketchfab)
    * --------------------------------- */
+  if (document.getElementById('renderCanvas')) {  // Esegui solo se canvas esiste
+    const canvas = document.getElementById('renderCanvas');
+    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true });
+
+    function createScene() {
+      const scene = new BABYLON.Scene(engine);
+      // Background sync con tema (chiaro/scuro)
+      function updateBackground() {
+        const isDark = document.body.classList.contains('dark-mode');
+        scene.clearColor = isDark ? new BABYLON.Color4(0, 0, 0, 1) : new BABYLON.Color4(250/255, 250/255, 250/255, 1);
+      }
+      updateBackground(); // Iniziale
+      // Ascolta cambio tema (dal tuo theme-toggle)
+      document.querySelector('.theme-toggle').addEventListener('click', updateBackground);
+
+      // Luci soft/multi
+      const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+      hemiLight.intensity = 0.4;
+      const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
+      dirLight.position = new BABYLON.Vector3(5, 10, 5);
+      dirLight.intensity = 0.5;
+
+      const pointLight = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene);
+      pointLight.intensity = 0.3;
+
+      const shadowGenerator = new BABYLON.ShadowGenerator(512, dirLight);
+      shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCF;
+      shadowGenerator.blurKernel = 32;
+
+      const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
+      camera.attachControl(canvas, true);
+      camera.lowerRadiusLimit = 0.01;
+      camera.upperRadiusLimit = 10;
+      camera.wheelPrecision = 150;
+      camera.minZ = 0.01;
+
+      let autoRotateTimer = null;
+      let isRotating = true;
+      scene.beforeRender = function () {
+        if (isRotating) {
+          camera.alpha += 0.003;
+        }
+      };
+      canvas.addEventListener('pointerdown', () => {
+        isRotating = false;
+        clearTimeout(autoRotateTimer);
+        autoRotateTimer = setTimeout(() => isRotating = true, 3000);
+      });
+
+      const envTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/studio.env", scene);
+      scene.environmentTexture = envTexture;
+      scene.environmentIntensity = 0.6;
+
+      const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
+      pipeline.bloomEnabled = true;
+      pipeline.bloomThreshold = 0.8;
+      pipeline.bloomWeight = 0.3;
+      pipeline.sharpenEnabled = true;
+      pipeline.sharpen.edgeAmount = 0.5;
+      pipeline.samples = 16;
+      pipeline.fxaaEnabled = true;
+
+      return scene;
+    }
+
+    const scene = createScene();
+
+    console.log('Inizio caricamento GLB...');
+    BABYLON.SceneLoader.ImportMesh("", "./", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
+      console.log('SUCCESSO: GLB caricato! Mesh totali:', meshes.length);
+      console.log('Mesh dettagli:', meshes.map(m => m.name));
+
+      const model = meshes[0];
+      model.position = BABYLON.Vector3.Zero();
+      model.scaling = new BABYLON.Vector3(-1, 1, 1);
+
+      model.receiveShadows = true;
+
+      const allMaterials = scene.materials;
+      console.log('Materiali trovati:', allMaterials.map(m => m.name));
+      const scoccaMaterials = allMaterials.filter(m => /scocca|retro|pulsanti|box|bordi|dettagli/i.test(m.name)).map(m => m.name);
+      const schermoMaterial = allMaterials.find(m => /schermo|screen/i.test(m.name))?.name;
+      const airpodsNode = scene.getNodeByName('Airpods') || scene.getNodeByName('airpods') || scene.getNodeByName('Cuffie') || scene.getNodeByName('cuffie') || scene.getTransformNodeByName('Airpods');
+
+      console.log('Scocca:', scoccaMaterials);
+      console.log('Schermo:', schermoMaterial);
+      console.log('Airpods nodo:', airpodsNode ? airpodsNode.name : 'Non trovato');
+
+      const textures = {
+        color: {
+          bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
+          grigio: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto',
+          bronzo: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto',
+          nero: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto'
+        },
+        background: {
+          'sfondo-nero-bronzo': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto',
+          'sfondo-arancio-nero': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto',
+          'sfondo-nero-blu': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto',
+          'sfondo-nero-viola': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto'
+        }
+      };
+
+      function setTexture(materialNames, textureUrl) {
+        materialNames.forEach(name => {
+          const mat = scene.getMaterialByName(name);
+          if (mat) {
+            mat.albedoTexture = new BABYLON.Texture(textureUrl, scene);
+            console.log(`Texture applicata a ${name}: ${textureUrl}`);
+          } else {
+            console.log(`Materiale non trovato: ${name}`);
+          }
+        });
+      }
+
+      document.querySelectorAll('.color-options input').forEach(input => {
+        input.addEventListener('change', () => {
+          const url = textures.color[input.id];
+          if (url) setTexture(scoccaMaterials, url);
+        });
+      });
+
+      document.querySelectorAll('.background-options input').forEach(input => {
+        input.addEventListener('change', () => {
+          const url = textures.background[input.id];
+          if (url && schermoMaterial) setTexture([schermoMaterial], url);
+        });
+      });
+
+      const toggle = document.getElementById('toggle-airpods');
+      if (airpodsNode && toggle) {
+        airpodsNode.setEnabled(false);
+        toggle.addEventListener('change', () => {
+          airpodsNode.setEnabled(toggle.checked);
+          console.log(`Airpods: ${toggle.checked ? 'Visibili' : 'Nascoste'}`);
+        });
+      } else {
+        console.log('Airpods non trovato – verifica nome livello in Rhino');
+      }
+
+      // AR sincronizzato
+      const arButton = document.getElementById('ar-button');
+      if (arButton) {
+        arButton.addEventListener('click', async () => {
+          try {
+            const xr = await scene.createDefaultXRExperienceAsync({
+              uiOptions: { sessionMode: 'immersive-ar' },
+              optionalFeatures: true
+            });
+            console.log('AR avviato – menu sincronizzato!');
+          } catch (error) {
+            console.error('AR errore:', error);
+            alert('AR non disponibile – verifica HTTPS/device.');
+          }
+        });
+      }
+
+    }, function (progress) {
+      console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
+    }, function (error) {
+      console.error('ERRORE CARICAMENTO:', error.message);
+    });
+
+    engine.runRenderLoop(() => scene.render());
+    window.addEventListener('resize', () => engine.resize());
+  }
 });

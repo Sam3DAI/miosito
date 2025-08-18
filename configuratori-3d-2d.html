@@ -262,73 +262,77 @@
   </section>
   <section id="configuratore" class="configurator-section">
     <div class="configurator-container">
-      <div class="iframe-container">
-        <iframe id="api-frame" src="https://sketchfab.com/models/d8d8df55647a45c0beecc1b22e6b6c79/embed?autostart=1&ui_infos=0&ui_controls=0&ui_stop=0&ui_watermark=0&ui_fullscreen=0" frameborder="0" loading="lazy" allow="autoplay; fullscreen; xr-spatial-tracking" title="Modello 3D configurabile interattivo" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-        <div class="frame-overlay"></div>
-      </div>
-      <div class="configurator-options">
-        <h2>Prova il Configuratore 3D</h2>
-        <p>Personalizza i colori della scocca e lo sfondo dello schermo in tempo reale.<br>Seleziona una combinazione per vedere subito l’effetto sul modello 3D.</p>
-        <div class="configurator-option-group">
-          <h3>Colore Scocca</h3>
-          <div class="color-options">
-            <label>
-              <input type="radio" name="color" id="bianco" aria-label="Colore scocca bianco">
-              <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto');"></span>
-            </label>
-            <label>
-              <input type="radio" name="color" id="grigio" aria-label="Colore scocca grigio">
-              <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto');"></span>
-            </label>
-            <label>
-              <input type="radio" name="color" id="bronzo" aria-label="Colore scocca bronzo">
-              <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto');"></span>
-            </label>
-            <label>
-              <input type="radio" name="color" id="nero" aria-label="Colore scocca nero">
-              <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto');"></span>
-            </label>
-          </div>
-        </div>
-        <div class="configurator-option-group">
-          <h3>Sfondo Schermo</h3>
-          <div class="background-options">
-            <label>
-              <input type="radio" name="background" id="sfondo-nero-bronzo" aria-label="Sfondo schermo nero e bronzo">
-              <div class="texture__preview">
-                <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto" alt="Sfondo Nero &amp; Bronzo" loading="lazy">
-              </div>
-            </label>
-            <label>
-              <input type="radio" name="background" id="sfondo-arancio-nero" aria-label="Sfondo schermo arancio e nero">
-              <div class="texture__preview">
-                <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto" alt="Sfondo Arancio &amp; Nero" loading="lazy">
-              </div>
-            </label>
-            <label>
-              <input type="radio" name="background" id="sfondo-nero-blu" aria-label="Sfondo schermo nero e blu">
-              <div class="texture__preview">
-                <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto" alt="Sfondo Nero &amp; Blu" loading="lazy">
-              </div>
-            </label>
-            <label>
-              <input type="radio" name="background" id="sfondo-nero-viola" aria-label="Sfondo schermo nero e viola">
-              <div class="texture__preview">
-                <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto" alt="Sfondo Nero &amp; Viola" loading="lazy">
-              </div>
-            </label>
-          </div>
-        </div>
-        <div class="configurator-option-group cuffie-group">
-          <h3>Cuffie</h3>
-          <div class="toggle-switch">
-            <input type="checkbox" id="toggle-airpods" aria-label="Attiva/disattiva visualizzazione cuffie">
-            <label for="toggle-airpods" class="toggle-label"></label>
-          </div>
-        </div>
+  <div class="iframe-container">
+    <canvas id="renderCanvas"></canvas>
+    <!-- Bottone AR in basso dx -->
+    <div class="ar-button-container">
+      <button class="ar-button" id="ar-button" title="Entra in AR">
+        <i class="fas fa-expand-arrows-alt" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+  <div class="configurator-options">
+    <h2>Prova il Configuratore 3D</h2>
+    <p>Personalizza i colori della scocca e lo sfondo dello schermo in tempo reale.<br>Seleziona una combinazione per vedere subito l’effetto sul modello 3D.</p>
+    <div class="configurator-option-group">
+      <h3>Colore Scocca</h3>
+      <div class="color-options">
+        <label>
+          <input type="radio" name="color" id="bianco" aria-label="Colore scocca bianco">
+          <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto');"></span>
+        </label>
+        <label>
+          <input type="radio" name="color" id="grigio" aria-label="Colore scocca grigio">
+          <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto');"></span>
+        </label>
+        <label>
+          <input type="radio" name="color" id="bronzo" aria-label="Colore scocca bronzo">
+          <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto');"></span>
+        </label>
+        <label>
+          <input type="radio" name="color" id="nero" aria-label="Colore scocca nero">
+          <span class="color__swatch" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto');"></span>
+        </label>
       </div>
     </div>
-  </section>
+    <div class="configurator-option-group">
+      <h3>Sfondo Schermo</h3>
+      <div class="background-options">
+        <label>
+          <input type="radio" name="background" id="sfondo-nero-bronzo" aria-label="Sfondo schermo nero e bronzo">
+          <div class="texture__preview">
+            <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto" alt="Sfondo Nero &amp; Bronzo" loading="lazy">
+          </div>
+        </label>
+        <label>
+          <input type="radio" name="background" id="sfondo-arancio-nero" aria-label="Sfondo schermo arancio e nero">
+          <div class="texture__preview">
+            <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto" alt="Sfondo Arancio &amp; Nero" loading="lazy">
+          </div>
+        </label>
+        <label>
+          <input type="radio" name="background" id="sfondo-nero-blu" aria-label="Sfondo schermo nero e blu">
+          <div class="texture__preview">
+            <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto" alt="Sfondo Nero &amp; Blu" loading="lazy">
+          </div>
+        </label>
+        <label>
+          <input type="radio" name="background" id="sfondo-nero-viola" aria-label="Sfondo schermo nero e viola">
+          <div class="texture__preview">
+            <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto" alt="Sfondo Nero &amp; Viola" loading="lazy">
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="configurator-option-group cuffie-group">
+      <h3>Cuffie</h3>
+      <div class="toggle-switch">
+        <input type="checkbox" id="toggle-airpods" aria-label="Attiva/disattiva visualizzazione cuffie">
+        <label for="toggle-airpods" class="toggle-label"></label>
+      </div>
+    </div>
+  </div>
+</section>
   <div class="cta-container">
     <a href="/contattaci" class="cta-button" title="Richiedi un preventivo per configuratore 3D personalizzato">Richiedi un Preventivo</a>
   </div>
@@ -419,6 +423,10 @@
       <p>© 2025 SolveX AI3D - Tutti i diritti riservati. | <a href="/privacy-policy">Privacy Policy</a> | <a href="/termini-condizioni">Termini e Condizioni</a></p>
     </div>
   </footer>
+<!-- Babylon.js per rendering 3D superiore -->
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<!-- Loader per tuo GLB file -->
+<script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/configuratori-3d-2d.js" defer></script>

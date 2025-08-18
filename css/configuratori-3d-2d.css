@@ -352,6 +352,32 @@ body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
 /* Gradient Text */
 .gradient-text { background: linear-gradient(90deg, #45b6fe, #d95bc5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
+/* Stile bottone AR (minimal, elegante, Apple-style) */
+.ar-button-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+}
+.ar-button {
+  background-color: rgba(69, 182, 254, 0.8); /* Blu semi-trasparente */
+  color: white;
+  border: none;
+  border-radius: 50%; /* Rotondo per eleganza */
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 24px; /* Icona grande */
+}
+.ar-button:hover {
+  background-color: #3a9de0;
+  transform: scale(1.1);
+}
+
 /* Responsive */
 @media (max-width: 769px) {
   .nav-menu { display: none; }
