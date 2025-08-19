@@ -384,6 +384,24 @@ body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
   display: block; /* Fix eventuali spazi */
 }
 
+/* Modal QR per AR */
+#ar-qr-modal {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+#ar-qr-modal button {
+  background-color: #45b6fe;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+body.dark-mode #ar-qr-modal button {
+  background-color: #3a9de0;
+}
+
 /* Responsive */
 @media (max-width: 769px) {
   .nav-menu { display: none; }

@@ -124,6 +124,10 @@
     };
     document.head.appendChild(s);
   };
+<!-- Babylon.js per rendering 3D superiore -->
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<!-- Loader per tuo GLB file -->
+<script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
 </script>
 </head>
 <body>
@@ -261,6 +265,12 @@
     <div class="configurator-container">
   <div class="iframe-container">
     <canvas id="renderCanvas"></canvas>
+    <!-- Modal QR per AR su PC -->
+<div id="ar-qr-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; text-align: center; z-index: 1000;">
+  <h3>Scansiona per AR su Mobile!</h3>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fsolvex-ai3d.com%2Fconfiguratori-3d-2d%3Far%3D1&size=200x200" alt="QR Code per AR" loading="lazy">
+  <button onclick="document.getElementById('ar-qr-modal').style.display='none'">Chiudi</button>
+</div>
     <!-- Bottone AR in basso dx -->
     <div class="ar-button-container">
       <button class="ar-button" id="ar-button" title="Entra in AR">
@@ -420,10 +430,8 @@
       <p>© 2025 SolveX AI3D - Tutti i diritti riservati. | <a href="/privacy-policy">Privacy Policy</a> | <a href="/termini-condizioni">Termini e Condizioni</a></p>
     </div>
   </footer>
-<!-- Babylon.js per rendering 3D superiore -->
-<script src="https://cdn.babylonjs.com/babylon.js"></script>
-<!-- Loader per tuo GLB file -->
-<script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
+<!-- QRCode.js per generate QR AR su PC -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/configuratori-3d-2d.js" defer></script>

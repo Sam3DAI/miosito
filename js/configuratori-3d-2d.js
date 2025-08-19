@@ -322,9 +322,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const scene = new BABYLON.Scene(engine);
   // Background sync con tema
   function updateBackground() {
-    const isDark = document.body.classList.contains('dark-mode');
-    scene.clearColor = isDark ? new BABYLON.Color4(0, 0, 0, 1) : new BABYLON.Color4(250/255, 250/255, 250/255, 1);
-  }
+  const isDark = document.body.classList.contains('dark-mode');
+  const bgColor = getComputedStyle(document.body).getPropertyValue(isDark ? '--frame-color' : '--background-color').trim();
+  const rgb = bgColor.match(/\d+/g).map(n => parseInt(n) / 255);
+  scene.clearColor = new BABYLON.Color4(rgb[0], rgb[1], rgb[2], 1);
+}
   updateBackground();
   document.querySelector('.theme-toggle').addEventListener('click', updateBackground);
 
@@ -455,22 +457,27 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Airpods non trovato – verifica nome livello in Rhino');
       }
 
-      // AR sincronizzato
-      const arButton = document.getElementById('ar-button');
-      if (arButton) {
-        arButton.addEventListener('click', async () => {
-          try {
-            const xr = await scene.createDefaultXRExperienceAsync({
-              uiOptions: { sessionMode: 'immersive-ar' },
-              optionalFeatures: true
-            });
-            console.log('AR avviato – menu sincronizzato!');
-          } catch (error) {
-            console.error('AR errore:', error);
-            alert('AR non disponibile – verifica HTTPS/device.');
-          }
-        });
+      // AR sincronizzato con fallback
+const arButton = document.getElementById('ar-button');
+if (arButton) {
+  arButton.addEventListener('click', async () => {
+    try {
+      // Check if mobile/HTTPS
+      if (!navigator.userAgent.match(/iPhone|iPad|Android/i) || location.protocol !== 'https:') {
+        alert('AR disponibile solo su mobile con HTTPS – usa QR per scan!');
+        return;
       }
+      const xr = await scene.createDefaultXRExperienceAsync({
+        uiOptions: { sessionMode: 'immersive-ar' },
+        optionalFeatures: true
+      });
+      console.log('AR avviato – menu sincronizzato!');
+    } catch (error) {
+      console.error('AR errore:', error);
+      alert('AR non disponibile – verifica permission camera/motion o device support. Prova refresh.');
+    }
+  });
+}
 
     }, function (progress) {
   if (progress.total > 0) {
