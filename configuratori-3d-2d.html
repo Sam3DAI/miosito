@@ -123,6 +123,8 @@
   <script src="https://cdn.babylonjs.com/babylon.js"></script>
   <!-- Loader per tuo GLB file -->
   <script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3/dist/model-viewer.min.js"></script>
+
 </head>
 <body>
   <a href="#intro-benefits" class="skip-link">Salta al contenuto principale</a>
@@ -259,6 +261,14 @@
     <div class="configurator-container">
       <div class="iframe-container">
         <canvas id="renderCanvas"></canvas>
+<model-viewer id="ar-bridge"
+  src="./assets/iphone_16_pro_configuratore_3d.glb"
+  ar
+  ar-modes="webxr scene-viewer quick-look"
+  camera-controls
+  style="position:fixed;width:0;height:0;opacity:0;pointer-events:none">
+</model-viewer>
+
         <!-- Modal QR per AR su PC -->
 <div id="ar-qr-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; text-align: center; z-index: 1000;">
   <h3>Scansiona per AR su Mobile!</h3>

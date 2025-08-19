@@ -436,47 +436,83 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         console.log('Airpods non trovato – verifica nome livello in Rhino');
       }
-      // AR sincronizzato with permissions check + guide
+      // --- AR ibrida: WebXR (Android) + fallback <model-viewer> (iOS/Scene Viewer) ---
 const arButton = document.getElementById('ar-button');
+const mv = document.getElementById('ar-bridge');
+
+// Usa i nomi materiali che hai già calcolato dopo l'import del GLB:
+//  - scoccaMaterials: array di nomi materiali della scocca
+//  - schermoMaterial: nome materiale dello "schermo"
+//  - textures: { color: {id->url}, background: {id->url} }
+// (sono definiti più sopra nello stesso scope dove importi il GLB)
+
+async function syncMVFromPageState() {
+  if (!mv) return;
+  // Leggi selezioni correnti dal menu HTML
+  const colorId = document.querySelector('.color-options input:checked')?.id;
+  const bgId    = document.querySelector('.background-options input:checked')?.id;
+
+  const colorUrl = colorId && textures?.color?.[colorId];
+  const bgUrl    = bgId    && textures?.background?.[bgId];
+
+  await mv.updateComplete; // assicura che il modello sia carico
+
+  // Applica texture su <model-viewer> usando la Scene Graph API
+  const applyTextureMV = (matName, url) => {
+    if (!url || !mv.model) return;
+    const mat = mv.model.materials?.find(m => m.name === matName);
+    const texInfo = mat?.pbrMetallicRoughness?.baseColorTexture;
+    if (texInfo?.texture?.source?.setURI) {
+      texInfo.texture.source.setURI(url); // aggiorna la sorgente texture
+    } else {
+      console.warn('Slot texture mancante o materiale non trovato in <model-viewer>:', matName);
+    }
+  };
+
+  (scoccaMaterials || []).forEach(name => applyTextureMV(name, colorUrl));
+  if (schermoMaterial) applyTextureMV(schermoMaterial, bgUrl);
+}
+
 if (arButton) {
   arButton.addEventListener('click', async () => {
-    const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+    const ua = navigator.userAgent;
+    const isAndroid = /Android/i.test(ua);
+    const isMobile  = /Android|iPhone|iPad/i.test(ua);
+
+    // Su desktop mostra il QR (comportamento attuale)
     if (!isMobile) {
-      document.getElementById('ar-qr-modal').style.display = 'block';
+      const m = document.getElementById('ar-qr-modal');
+      if (m) m.style.display = 'block';
       return;
     }
+
+    // 1) Tenta WebXR (Android): qui le modifiche Babylon si vedono direttamente
     try {
-      // Check AR support
-      if (!navigator.xr || !await navigator.xr.isSessionSupported('immersive-ar')) {
-        alert('AR not supported. Enable in browser: iOS - Settings > Safari > Motion & Orientation On. Android - Chrome > chrome://flags > #webxr On. Retry after restart.');
-        return;
+      if (isAndroid && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar')) {
+        await scene.createDefaultXRExperienceAsync({
+          uiOptions: { sessionMode: 'immersive-ar' },
+          optionalFeatures: ['hit-test', 'dom-overlay'],
+          referenceSpaceType: 'local-floor'
+        });
+        return; // AR avviata in WebXR
       }
-      // Request camera
-      await navigator.mediaDevices.getUserMedia({ video: true });
-      // Request motion permissions
-      const accelPerm = await navigator.permissions.query({ name: 'accelerometer' });
-      const gyroPerm = await navigator.permissions.query({ name: 'gyroscope' });
-      if (accelPerm.state === 'prompt' || gyroPerm.state === 'prompt') {
-        // Prompt if needed
-        alert('Allow motion sensors for AR – click OK and grant.');
-      }
-      if (accelPerm.state !== 'granted' || gyroPerm.state !== 'granted') {
-        alert('Motion denied – Enable: iOS Settings > Safari > Motion On; Android Chrome > flags > WebXR On. Retry.');
-        return;
-      }
-      const xr = await scene.createDefaultXRExperienceAsync({
-        uiOptions: { sessionMode: 'immersive-ar' },
-        floorMeshes: [model], // For AR placement
-        optionalFeatures: ['hit-test', 'dom-overlay'],
-        referenceSpaceType: 'local-floor' // For stable AR floor
-      });
-      console.log('AR avviato – menu sincronizzato!');
-    } catch (error) {
-      console.error('AR errore:', error);
-      alert('AR not available – enable permissions in browser settings, retry. Or device not support.');
+    } catch (err) {
+      console.warn('WebXR non disponibile, uso fallback <model-viewer>:', err);
+    }
+
+    // 2) Fallback universale: iOS Quick Look o Android Scene Viewer
+    try {
+      await syncMVFromPageState();      // trasferisci le tue scelte (texture) a <model-viewer>
+      await mv.activateAR();            // iOS: Quick Look (USDZ auto) / Android: Scene Viewer
+      // Nota: Scene Viewer NON riflette le modifiche runtime del browser;
+      // se vuoi fedeltà totale anche qui, vedi la nota "bake GLB" più sotto.
+    } catch (e) {
+      console.error('Fallback AR fallito:', e);
+      alert('AR non disponibile su questo dispositivo/navigatore.');
     }
   });
 }
+
 
 // Auto-avvia AR if URL has ?ar=1 (from QR)
 if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
