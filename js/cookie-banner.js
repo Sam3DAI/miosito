@@ -2,7 +2,6 @@
 (function () {
   'use strict';
   // --- Stato globale di consenso per l'autotracker ---
-  // (usato da ga-autotrack.js per bloccare ogni evento senza consenso)
   window.__gaConsentGranted = false;
   // --- Helper GA/Consent ---
   function gtag(){ (window.dataLayer = window.dataLayer || []).push(arguments); }
@@ -17,11 +16,9 @@
       window.__gaConsentGranted = true;
       localStorage.setItem('cookieconsent_status', 'allow');
       if (typeof window.__loadGA === 'function') {
-        window.__loadGA(); // carica gtag.js solo dopo consenso
+        window.__loadGA();
       }
-      // Sync theme con Babylon se presente
       if (typeof updateModelBackground === 'function') updateModelBackground();
-      // console.log('[Cookie] Analytics: GRANTED');
     } catch (e) {
       console.warn('[Cookie] grantAnalytics error', e);
     }
@@ -36,9 +33,7 @@
       });
       window.__gaConsentGranted = false;
       localStorage.setItem('cookieconsent_status', 'deny');
-      // Sync theme con Babylon se presente
       if (typeof updateModelBackground === 'function') updateModelBackground();
-      // console.log('[Cookie] Analytics: DENIED');
     } catch (e) {
       console.warn('[Cookie] denyAnalytics error', e);
     }
@@ -51,14 +46,12 @@
     return n;
   }
   function buildBanner() {
-    // finestra
     const wrap = el('div', {
       class: 'cc-window',
       role: 'dialog',
       'aria-live': 'polite',
       'aria-label': 'Impostazioni cookie'
     });
-    // testo principale (copy chiaro e persuasivo)
     const msg = el(
       'div',
       { class: 'cc-message' },
@@ -67,14 +60,12 @@
        Accettando le statistiche ci aiuti a <b>migliorare servizi, contenuti e prestazioni</b>.
        <a href="/privacy-policy" class="cc-link">Scopri di più</a>.`
     );
-    // pulsanti principali
     const btnRow = el('div', { class: 'cc-compliance' });
     const btnDeny = el('button', { class: 'cc-btn cc-deny', type: 'button' }, 'Solo essenziali');
     const btnPrefs = el('button', { class: 'cc-btn cc-prefs', type: 'button' }, 'Preferenze');
     const btnAllow = el('button', { class: 'cc-btn cc-allow', type: 'button' }, 'Accetta tutto');
     btnRow.append(btnDeny, btnPrefs, btnAllow);
     wrap.append(msg, btnRow);
-    // pannello preferenze (toggle Essenziali disabilitato, Analytics attivo)
     const panel = el('div', { class: 'cc-panel', hidden: '' });
     panel.innerHTML = `
       <div class="cc-panel-title">Preferenze cookie</div>
@@ -104,10 +95,8 @@
       </div>
     `;
     wrap.append(panel);
-    // pulsante per riaprire preferenze
     const revoke = el('button', { class: 'cc-revoke', type: 'button', 'aria-label': 'Apri preferenze cookie' });
     document.body.append(wrap, revoke);
-    // stato iniziale da localStorage
     const prior = localStorage.getItem('cookieconsent_status');
     if (prior === 'allow') {
       window.__gaConsentGranted = true;
@@ -122,11 +111,8 @@
       denyAnalytics();
       wrap.style.display = '';
     }
-    // elementi pannello
     const analyticsChk = panel.querySelector('#cc-analytics');
-    // sincronizza il toggle allo stato corrente
     analyticsChk.checked = !!window.__gaConsentGranted;
-    // --- Azioni ---
     function openPrefs() { panel.hidden = false; }
     function closePrefs(){ panel.hidden = true; }
     btnPrefs.addEventListener('click', openPrefs);
@@ -156,7 +142,7 @@
       wrap.style.display = '';
       openPrefs();
     });
-    // Tema dark/chiaro dinamico (se usi .dark-mode sul <body>)
+    // Tema dark/chiaro dinamico
     const win = wrap;
     function restyle() {
       const isDark = document.body.classList.contains('dark-mode');
@@ -171,7 +157,7 @@
       switches.forEach(switchEl => {
         switchEl.style.backgroundColor = isDark ? '#3a3a3c' : '#ccc';
       });
-      // Sync con Babylon se presente (chiama updateModelBackground)
+      // Sync con Babylon
       if (typeof updateModelBackground === 'function') updateModelBackground();
     }
     restyle();
