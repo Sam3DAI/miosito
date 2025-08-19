@@ -314,22 +314,19 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Codice Babylon.js per configuratore 3D (sostituisce Sketchfab)
    * --------------------------------- */
-  if (document.getElementById('renderCanvas')) {
+  if (document.getElementById('renderCanvas')) {  // Esegui solo se canvas esiste
     const canvas = document.getElementById('renderCanvas');
-    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true, forceSRGBBufferSupportState: false });
+    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true });
 
     function createScene() {
       const scene = new BABYLON.Scene(engine);
-      // Background sync con theme (parse var CSS per match perfetto)
+      // Background sync con tema
       function updateBackground() {
-        const isDark = body.classList.contains('dark-mode');
-        const bgVar = isDark ? '--frame-color' : '--background-color';
-        const bgColor = getComputedStyle(body).getPropertyValue(bgVar).trim();
-        const rgb = bgColor.match(/\d+/g).map(n => parseInt(n) / 255);
-        scene.clearColor = new BABYLON.Color4(rgb[0], rgb[1], rgb[2], 1);
+        const isDark = document.body.classList.contains('dark-mode');
+        scene.clearColor = isDark ? new BABYLON.Color4(0, 0, 0, 1) : new BABYLON.Color4(250/255, 250/255, 250/255, 1);
       }
       updateBackground();
-      themeToggle.addEventListener('click', updateBackground);
+      document.querySelector('.theme-toggle').addEventListener('click', updateBackground);
 
       // Luci soft/multi
       const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
@@ -369,15 +366,13 @@ document.addEventListener('DOMContentLoaded', () => {
       scene.environmentTexture = envTexture;
       scene.environmentIntensity = 0.6;
 
-      // Optimize for mobile (detect + low quality)
-      const isMobile = /Android|iPhone/i.test(navigator.userAgent);
       const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
-      pipeline.bloomEnabled = !isMobile;
+      pipeline.bloomEnabled = true;
       pipeline.bloomThreshold = 0.8;
       pipeline.bloomWeight = 0.3;
       pipeline.sharpenEnabled = true;
       pipeline.sharpen.edgeAmount = 0.5;
-      pipeline.samples = isMobile ? 4 : 16;
+      pipeline.samples = 16;
       pipeline.fxaaEnabled = true;
 
       return scene;
@@ -386,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scene = createScene();
 
     console.log('Inizio caricamento GLB...');
-    BABYLON.SceneLoader.ImportMesh("", "./", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
+    BABYLON.SceneLoader.ImportMesh("", "./assets/", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
       console.log('SUCCESSO: GLB caricato! Mesh totali:', meshes.length);
       console.log('Mesh dettagli:', meshes.map(m => m.name));
 
@@ -470,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('AR avviato – menu sincronizzato!');
           } catch (error) {
             console.error('AR errore:', error);
-            alert('AR non disponibile – verifica permission camera/motion o device support. Prova refresh.');
+            alert('AR non disponibile – verifica HTTPS/device.');
           }
         });
       }
