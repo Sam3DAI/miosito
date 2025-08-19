@@ -314,10 +314,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Codice Babylon.js per configuratore 3D (sostituisce Sketchfab)
    * --------------------------------- */
-  if (document.getElementById('renderCanvas')) {  // Esegui solo se canvas esiste
+  if (document.getElementById('renderCanvas')) { // Esegui solo se canvas esiste
     const canvas = document.getElementById('renderCanvas');
     const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true });
-
     function createScene() {
       const scene = new BABYLON.Scene(engine);
       // Background sync con tema
@@ -327,28 +326,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       updateBackground();
       document.querySelector('.theme-toggle').addEventListener('click', updateBackground);
-
       // Luci soft/multi
       const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
       hemiLight.intensity = 0.4;
       const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
       dirLight.position = new BABYLON.Vector3(5, 10, 5);
       dirLight.intensity = 0.5;
-
       const pointLight = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene);
       pointLight.intensity = 0.3;
-
       const shadowGenerator = new BABYLON.ShadowGenerator(512, dirLight);
       shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCF;
       shadowGenerator.blurKernel = 32;
-
       const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
       camera.attachControl(canvas, true, false, true); // Prevent wheel scroll
       camera.lowerRadiusLimit = 0.01;
       camera.upperRadiusLimit = 10;
       camera.wheelPrecision = 150;
       camera.minZ = 0.01;
-
       let autoRotateTimer = null;
       let isRotating = true;
       scene.beforeRender = function () {
@@ -361,11 +355,9 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(autoRotateTimer);
         autoRotateTimer = setTimeout(() => isRotating = true, 3000);
       });
-
       const envTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/studio.env", scene);
       scene.environmentTexture = envTexture;
       scene.environmentIntensity = 0.6;
-
       const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
       pipeline.bloomEnabled = true;
       pipeline.bloomThreshold = 0.8;
@@ -374,33 +366,25 @@ document.addEventListener('DOMContentLoaded', () => {
       pipeline.sharpen.edgeAmount = 0.5;
       pipeline.samples = 16;
       pipeline.fxaaEnabled = true;
-
       return scene;
     }
-
     const scene = createScene();
-
     console.log('Inizio caricamento GLB...');
     BABYLON.SceneLoader.ImportMesh("", "./assets/", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
       console.log('SUCCESSO: GLB caricato! Mesh totali:', meshes.length);
       console.log('Mesh dettagli:', meshes.map(m => m.name));
-
       const model = meshes[0];
       model.position = BABYLON.Vector3.Zero();
       model.scaling = new BABYLON.Vector3(-1, 1, 1);
-
       model.receiveShadows = true;
-
       const allMaterials = scene.materials;
       console.log('Materiali trovati:', allMaterials.map(m => m.name));
       const scoccaMaterials = allMaterials.filter(m => /scocca|retro|pulsanti|box|bordi|dettagli/i.test(m.name)).map(m => m.name);
       const schermoMaterial = allMaterials.find(m => /schermo|screen/i.test(m.name))?.name;
       const airpodsNode = scene.getNodeByName('Airpods') || scene.getNodeByName('airpods') || scene.getNodeByName('Cuffie') || scene.getNodeByName('cuffie') || scene.getTransformNodeByName('Airpods');
-
       console.log('Scocca:', scoccaMaterials);
       console.log('Schermo:', schermoMaterial);
       console.log('Airpods nodo:', airpodsNode ? airpodsNode.name : 'Non trovato');
-
       const textures = {
         color: {
           bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
@@ -415,7 +399,6 @@ document.addEventListener('DOMContentLoaded', () => {
           'sfondo-nero-viola': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto'
         }
       };
-
       function setTexture(materialNames, textureUrl) {
         materialNames.forEach(name => {
           const mat = scene.getMaterialByName(name);
@@ -427,21 +410,18 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       }
-
       document.querySelectorAll('.color-options input').forEach(input => {
         input.addEventListener('change', () => {
           const url = textures.color[input.id];
           if (url) setTexture(scoccaMaterials, url);
         });
       });
-
       document.querySelectorAll('.background-options input').forEach(input => {
         input.addEventListener('change', () => {
           const url = textures.background[input.id];
           if (url && schermoMaterial) setTexture([schermoMaterial], url);
         });
       });
-
       const toggle = document.getElementById('toggle-airpods');
       if (airpodsNode && toggle) {
         airpodsNode.setEnabled(false);
@@ -452,35 +432,45 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         console.log('Airpods non trovato – verifica nome livello in Rhino');
       }
-
       // AR sincronizzato con permission e QR
-const arButton = document.getElementById('ar-button');
-if (arButton) {
-  arButton.addEventListener('click', async () => {
-    const isMobile = /Android|iPhone/i.test(navigator.userAgent);
-    if (!isMobile) {
-      // Su PC, mostra modal QR con URL dinamico (current page + ?ar=1)
-      document.getElementById('ar-qr-modal').style.display = 'block';
-      return;
-    }
-    try {
-      // Request permission for camera/motion (gesture on click)
-      await navigator.mediaDevices.getUserMedia({ video: true });
-      await navigator.permissions.query({ name: 'accelerometer' });
-      await navigator.permissions.query({ name: 'gyroscope' });
-      const xr = await scene.createDefaultXRExperienceAsync({
-        uiOptions: { sessionMode: 'immersive-ar' },
-        optionalFeatures: true
-      });
-      console.log('AR avviato – menu sincronizzato!');
-    } catch (error) {
-      console.error('AR errore:', error);
-      alert('AR non disponibile – consente permission camera/motion in browser settings, poi retry. O device non supporta.');
-    }
-  });
-}
+      const arButton = document.getElementById('ar-button');
+      if (arButton) {
+        arButton.addEventListener('click', async () => {
+          const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+          if (!isMobile) {
+            // Su PC, mostra modal QR con URL dinamico
+            document.getElementById('ar-qr-modal').style.display = 'block';
+            return;
+          }
+          try {
+            // Request permission for camera/motion
+            await navigator.mediaDevices.getUserMedia({ video: true });
+            await navigator.permissions.query({ name: 'accelerometer' });
+            await navigator.permissions.query({ name: 'gyroscope' });
+            const xr = await scene.createDefaultXRExperienceAsync({
+              uiOptions: { sessionMode: 'immersive-ar' },
+              optionalFeatures: true
+            });
+            console.log('AR avviato – menu sincronizzato!');
+          } catch (error) {
+            console.error('AR errore:', error);
+            alert('AR non disponibile – consente permission camera/motion in browser settings, poi retry. O device non supporta.');
+          }
+        });
+      }
+      // Auto-avvia AR if URL has ?ar=1 (from QR scan on mobile)
+      if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
+        arButton.click(); // Simulate click for gesture
+      }
+    }, function (progress) {
+      if (progress.total > 0) {
+        console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
+      }
+    }, function (error) {
+      console.error('ERRORE CARICAMENTO:', error.message);
+    });
 
-// Auto-avvia AR if URL has ?ar=1 (from QR scan on mobile)
-if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
-  arButton.click(); // Simulate click for gesture
-}
+    engine.runRenderLoop(() => scene.render());
+    window.addEventListener('resize', () => engine.resize());
+  }
+});
