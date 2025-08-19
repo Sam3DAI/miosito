@@ -316,68 +316,69 @@ document.addEventListener('DOMContentLoaded', () => {
    * --------------------------------- */
   if (document.getElementById('renderCanvas')) {  // Esegui solo se canvas esiste
     const canvas = document.getElementById('renderCanvas');
-    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true });
+    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true, forceSRGBBufferSupportState: false }); // Fix quality online
 
     function createScene() {
-      const scene = new BABYLON.Scene(engine);
-      // Background sync con tema (chiaro/scuro)
-      function updateBackground() {
-        const isDark = document.body.classList.contains('dark-mode');
-        scene.clearColor = isDark ? new BABYLON.Color4(0, 0, 0, 1) : new BABYLON.Color4(250/255, 250/255, 250/255, 1);
-      }
-      updateBackground(); // Iniziale
-      // Ascolta cambio tema (dal tuo theme-toggle)
-      document.querySelector('.theme-toggle').addEventListener('click', updateBackground);
+  const scene = new BABYLON.Scene(engine);
+  // Background sync con tema
+  function updateBackground() {
+    const isDark = document.body.classList.contains('dark-mode');
+    scene.clearColor = isDark ? new BABYLON.Color4(0, 0, 0, 1) : new BABYLON.Color4(250/255, 250/255, 250/255, 1);
+  }
+  updateBackground();
+  document.querySelector('.theme-toggle').addEventListener('click', updateBackground);
 
-      // Luci soft/multi
-      const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
-      hemiLight.intensity = 0.4;
-      const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
-      dirLight.position = new BABYLON.Vector3(5, 10, 5);
-      dirLight.intensity = 0.5;
+  // Luci soft/multi
+  const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+  hemiLight.intensity = 0.4;
+  const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
+  dirLight.position = new BABYLON.Vector3(5, 10, 5);
+  dirLight.intensity = 0.5;
 
-      const pointLight = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene);
-      pointLight.intensity = 0.3;
+  const pointLight = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene);
+  pointLight.intensity = 0.3;
 
-      const shadowGenerator = new BABYLON.ShadowGenerator(512, dirLight);
-      shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCF;
-      shadowGenerator.blurKernel = 32;
+  const shadowGenerator = new BABYLON.ShadowGenerator(512, dirLight);
+  shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCF;
+  shadowGenerator.blurKernel = 32;
 
-      const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
-      camera.attachControl(canvas, true);
-      camera.lowerRadiusLimit = 0.01;
-      camera.upperRadiusLimit = 10;
-      camera.wheelPrecision = 150;
-      camera.minZ = 0.01;
+  const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
+  camera.attachControl(canvas, true, false, true); // Prevent wheel scroll
+  camera.lowerRadiusLimit = 0.01;
+  camera.upperRadiusLimit = 10;
+  camera.wheelPrecision = 150;
+  camera.minZ = 0.01;
 
-      let autoRotateTimer = null;
-      let isRotating = true;
-      scene.beforeRender = function () {
-        if (isRotating) {
-          camera.alpha += 0.003;
-        }
-      };
-      canvas.addEventListener('pointerdown', () => {
-        isRotating = false;
-        clearTimeout(autoRotateTimer);
-        autoRotateTimer = setTimeout(() => isRotating = true, 3000);
-      });
-
-      const envTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/studio.env", scene);
-      scene.environmentTexture = envTexture;
-      scene.environmentIntensity = 0.6;
-
-      const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
-      pipeline.bloomEnabled = true;
-      pipeline.bloomThreshold = 0.8;
-      pipeline.bloomWeight = 0.3;
-      pipeline.sharpenEnabled = true;
-      pipeline.sharpen.edgeAmount = 0.5;
-      pipeline.samples = 16;
-      pipeline.fxaaEnabled = true;
-
-      return scene;
+  let autoRotateTimer = null;
+  let isRotating = true;
+  scene.beforeRender = function () {
+    if (isRotating) {
+      camera.alpha += 0.003;
     }
+  };
+  canvas.addEventListener('pointerdown', () => {
+    isRotating = false;
+    clearTimeout(autoRotateTimer);
+    autoRotateTimer = setTimeout(() => isRotating = true, 3000);
+  });
+
+  const envTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/studio.env", scene);
+  scene.environmentTexture = envTexture;
+  scene.environmentIntensity = 0.6;
+
+  // Optimize for mobile (detect + low quality)
+  const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+  const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
+  pipeline.bloomEnabled = !isMobile; // Disable bloom on mobile for no crash
+  pipeline.bloomThreshold = 0.8;
+  pipeline.bloomWeight = 0.3;
+  pipeline.sharpenEnabled = true;
+  pipeline.sharpen.edgeAmount = 0.5;
+  pipeline.samples = isMobile ? 4 : 16; // Low MSAA on mobile
+  pipeline.fxaaEnabled = true;
+
+  return scene;
+}
 
     const scene = createScene();
 
@@ -472,8 +473,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
     }, function (progress) {
-      console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
-    }, function (error) {
+  if (progress.total > 0) {
+    console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
+  }
+}, function (error) {
       console.error('ERRORE CARICAMENTO:', error.message);
     });
 
