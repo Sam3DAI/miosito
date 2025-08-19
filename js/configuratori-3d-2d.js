@@ -314,78 +314,79 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Codice Babylon.js per configuratore 3D (sostituisce Sketchfab)
    * --------------------------------- */
-  if (document.getElementById('renderCanvas')) {  // Esegui solo se canvas esiste
+  if (document.getElementById('renderCanvas')) {
     const canvas = document.getElementById('renderCanvas');
-    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true, forceSRGBBufferSupportState: false }); // Fix quality online
+    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true, forceSRGBBufferSupportState: false });
 
     function createScene() {
-  const scene = new BABYLON.Scene(engine);
-  // Background sync con tema
-  function updateBackground() {
-  const isDark = document.body.classList.contains('dark-mode');
-  const bgColor = getComputedStyle(document.body).getPropertyValue(isDark ? '--frame-color' : '--background-color').trim();
-  const rgb = bgColor.match(/\d+/g).map(n => parseInt(n) / 255);
-  scene.clearColor = new BABYLON.Color4(rgb[0], rgb[1], rgb[2], 1);
-}
-  updateBackground();
-  document.querySelector('.theme-toggle').addEventListener('click', updateBackground);
+      const scene = new BABYLON.Scene(engine);
+      // Background sync con theme (parse var CSS per match perfetto)
+      function updateBackground() {
+        const isDark = body.classList.contains('dark-mode');
+        const bgVar = isDark ? '--frame-color' : '--background-color';
+        const bgColor = getComputedStyle(body).getPropertyValue(bgVar).trim();
+        const rgb = bgColor.match(/\d+/g).map(n => parseInt(n) / 255);
+        scene.clearColor = new BABYLON.Color4(rgb[0], rgb[1], rgb[2], 1);
+      }
+      updateBackground();
+      themeToggle.addEventListener('click', updateBackground);
 
-  // Luci soft/multi
-  const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
-  hemiLight.intensity = 0.4;
-  const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
-  dirLight.position = new BABYLON.Vector3(5, 10, 5);
-  dirLight.intensity = 0.5;
+      // Luci soft/multi
+      const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+      hemiLight.intensity = 0.4;
+      const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
+      dirLight.position = new BABYLON.Vector3(5, 10, 5);
+      dirLight.intensity = 0.5;
 
-  const pointLight = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene);
-  pointLight.intensity = 0.3;
+      const pointLight = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene);
+      pointLight.intensity = 0.3;
 
-  const shadowGenerator = new BABYLON.ShadowGenerator(512, dirLight);
-  shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCF;
-  shadowGenerator.blurKernel = 32;
+      const shadowGenerator = new BABYLON.ShadowGenerator(512, dirLight);
+      shadowGenerator.filter = BABYLON.ShadowGenerator.FILTER_PCF;
+      shadowGenerator.blurKernel = 32;
 
-  const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
-  camera.attachControl(canvas, true, false, true); // Prevent wheel scroll
-  camera.lowerRadiusLimit = 0.01;
-  camera.upperRadiusLimit = 10;
-  camera.wheelPrecision = 150;
-  camera.minZ = 0.01;
+      const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
+      camera.attachControl(canvas, true, false, true); // Prevent wheel scroll
+      camera.lowerRadiusLimit = 0.01;
+      camera.upperRadiusLimit = 10;
+      camera.wheelPrecision = 150;
+      camera.minZ = 0.01;
 
-  let autoRotateTimer = null;
-  let isRotating = true;
-  scene.beforeRender = function () {
-    if (isRotating) {
-      camera.alpha += 0.003;
+      let autoRotateTimer = null;
+      let isRotating = true;
+      scene.beforeRender = function () {
+        if (isRotating) {
+          camera.alpha += 0.003;
+        }
+      };
+      canvas.addEventListener('pointerdown', () => {
+        isRotating = false;
+        clearTimeout(autoRotateTimer);
+        autoRotateTimer = setTimeout(() => isRotating = true, 3000);
+      });
+
+      const envTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/studio.env", scene);
+      scene.environmentTexture = envTexture;
+      scene.environmentIntensity = 0.6;
+
+      // Optimize for mobile (detect + low quality)
+      const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+      const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
+      pipeline.bloomEnabled = !isMobile;
+      pipeline.bloomThreshold = 0.8;
+      pipeline.bloomWeight = 0.3;
+      pipeline.sharpenEnabled = true;
+      pipeline.sharpen.edgeAmount = 0.5;
+      pipeline.samples = isMobile ? 4 : 16;
+      pipeline.fxaaEnabled = true;
+
+      return scene;
     }
-  };
-  canvas.addEventListener('pointerdown', () => {
-    isRotating = false;
-    clearTimeout(autoRotateTimer);
-    autoRotateTimer = setTimeout(() => isRotating = true, 3000);
-  });
-
-  const envTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/studio.env", scene);
-  scene.environmentTexture = envTexture;
-  scene.environmentIntensity = 0.6;
-
-  // Optimize for mobile (detect + low quality)
-  const isMobile = /Android|iPhone/i.test(navigator.userAgent);
-  const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
-  pipeline.bloomEnabled = !isMobile; // Disable bloom on mobile for no crash
-  pipeline.bloomThreshold = 0.8;
-  pipeline.bloomWeight = 0.3;
-  pipeline.sharpenEnabled = true;
-  pipeline.sharpen.edgeAmount = 0.5;
-  pipeline.samples = isMobile ? 4 : 16; // Low MSAA on mobile
-  pipeline.fxaaEnabled = true;
-
-  return scene;
-}
 
     const scene = createScene();
 
     console.log('Inizio caricamento GLB...');
-    BABYLON.SceneLoader.ImportMesh("", "./assets/", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
+    BABYLON.SceneLoader.ImportMesh("", "./", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
       console.log('SUCCESSO: GLB caricato! Mesh totali:', meshes.length);
       console.log('Mesh dettagli:', meshes.map(m => m.name));
 
@@ -457,33 +458,28 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Airpods non trovato – verifica nome livello in Rhino');
       }
 
-      // AR sincronizzato con fallback
-const arButton = document.getElementById('ar-button');
-if (arButton) {
-  arButton.addEventListener('click', async () => {
-    try {
-      // Check if mobile/HTTPS
-      if (!navigator.userAgent.match(/iPhone|iPad|Android/i) || location.protocol !== 'https:') {
-        alert('AR disponibile solo su mobile con HTTPS – usa QR per scan!');
-        return;
+      // AR sincronizzato
+      const arButton = document.getElementById('ar-button');
+      if (arButton) {
+        arButton.addEventListener('click', async () => {
+          try {
+            const xr = await scene.createDefaultXRExperienceAsync({
+              uiOptions: { sessionMode: 'immersive-ar' },
+              optionalFeatures: true
+            });
+            console.log('AR avviato – menu sincronizzato!');
+          } catch (error) {
+            console.error('AR errore:', error);
+            alert('AR non disponibile – verifica permission camera/motion o device support. Prova refresh.');
+          }
+        });
       }
-      const xr = await scene.createDefaultXRExperienceAsync({
-        uiOptions: { sessionMode: 'immersive-ar' },
-        optionalFeatures: true
-      });
-      console.log('AR avviato – menu sincronizzato!');
-    } catch (error) {
-      console.error('AR errore:', error);
-      alert('AR non disponibile – verifica permission camera/motion o device support. Prova refresh.');
-    }
-  });
-}
 
     }, function (progress) {
-  if (progress.total > 0) {
-    console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
-  }
-}, function (error) {
+      if (progress.total > 0) {
+        console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
+      }
+    }, function (error) {
       console.error('ERRORE CARICAMENTO:', error.message);
     });
 
