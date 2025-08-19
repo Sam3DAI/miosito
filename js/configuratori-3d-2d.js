@@ -453,32 +453,34 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Airpods non trovato – verifica nome livello in Rhino');
       }
 
-      // AR sincronizzato
-      const arButton = document.getElementById('ar-button');
-      if (arButton) {
-        arButton.addEventListener('click', async () => {
-          try {
-            const xr = await scene.createDefaultXRExperienceAsync({
-              uiOptions: { sessionMode: 'immersive-ar' },
-              optionalFeatures: true
-            });
-            console.log('AR avviato – menu sincronizzato!');
-          } catch (error) {
-            console.error('AR errore:', error);
-            alert('AR non disponibile – verifica HTTPS/device.');
-          }
-        });
-      }
+      // AR sincronizzato con permission e QR
+const arButton = document.getElementById('ar-button');
+if (arButton) {
+  arButton.addEventListener('click', async () => {
+    const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+    if (!isMobile) {
+      // Su PC, mostra modal QR con URL dinamico (current page + ?ar=1)
+      document.getElementById('ar-qr-modal').style.display = 'block';
+      return;
+    }
+    try {
+      // Request permission for camera/motion (gesture on click)
+      await navigator.mediaDevices.getUserMedia({ video: true });
+      await navigator.permissions.query({ name: 'accelerometer' });
+      await navigator.permissions.query({ name: 'gyroscope' });
+      const xr = await scene.createDefaultXRExperienceAsync({
+        uiOptions: { sessionMode: 'immersive-ar' },
+        optionalFeatures: true
+      });
+      console.log('AR avviato – menu sincronizzato!');
+    } catch (error) {
+      console.error('AR errore:', error);
+      alert('AR non disponibile – consente permission camera/motion in browser settings, poi retry. O device non supporta.');
+    }
+  });
+}
 
-    }, function (progress) {
-      if (progress.total > 0) {
-        console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
-      }
-    }, function (error) {
-      console.error('ERRORE CARICAMENTO:', error.message);
-    });
-
-    engine.runRenderLoop(() => scene.render());
-    window.addEventListener('resize', () => engine.resize());
-  }
-});
+// Auto-avvia AR if URL has ?ar=1 (from QR scan on mobile)
+if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
+  arButton.click(); // Simulate click for gesture
+}
