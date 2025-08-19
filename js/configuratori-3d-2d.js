@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scene = createScene();
 
     console.log('Inizio caricamento GLB...');
-    BABYLON.SceneLoader.ImportMesh("", "./", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
+    BABYLON.SceneLoader.ImportMesh("", "./assets/", "iphone_16_pro_configuratore_3d.glb", scene, function (meshes) {
       console.log('SUCCESSO: GLB caricato! Mesh totali:', meshes.length);
       console.log('Mesh dettagli:', meshes.map(m => m.name));
 
