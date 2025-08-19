@@ -157,7 +157,7 @@
       switches.forEach(switchEl => {
         switchEl.style.backgroundColor = isDark ? '#3a3a3c' : '#ccc';
       });
-      // Sync con Babylon
+      // Sync with Babylon
       if (typeof updateModelBackground === 'function') updateModelBackground();
     }
     restyle();
