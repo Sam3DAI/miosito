@@ -317,6 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('renderCanvas')) { // Esegui solo se canvas esiste
     const canvas = document.getElementById('renderCanvas');
     const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true });
+engine.forceSRGBBufferSupportState = false; // Fix quality
+if (!engine._gl) {
+  alert('WebGL not supported – update browser.');
+}
     function createScene() {
       const scene = new BABYLON.Scene(engine);
       // Background sync con tema
@@ -432,53 +436,43 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         console.log('Airpods non trovato – verifica nome livello in Rhino');
       }
-      // AR sincronizzato con permissions e fallback
+      // AR sincronizzato con check support e guide permission
 const arButton = document.getElementById('ar-button');
 if (arButton) {
   arButton.addEventListener('click', async () => {
     const isMobile = /Android|iPhone/i.test(navigator.userAgent);
     if (!isMobile) {
+      // Su PC, mostra modal QR
       document.getElementById('ar-qr-modal').style.display = 'block';
       return;
     }
     try {
-      // Check device support
+      // Check AR support
       if (!navigator.xr || !await navigator.xr.isSessionSupported('immersive-ar')) {
-        alert('AR not supported on this device/browser. Try Chrome Android or Safari iOS with motion enabled.');
+        alert('AR not supported. Enable in browser: iOS - Settings > Safari > Motion & Orientation On. Android - Chrome > chrome://flags > #webxr On. Retry after restart.');
         return;
       }
-      // Request permissions (camera + motion)
+      // Request permissions
       await navigator.mediaDevices.getUserMedia({ video: true });
       const accelPerm = await navigator.permissions.query({ name: 'accelerometer' });
       const gyroPerm = await navigator.permissions.query({ name: 'gyroscope' });
       if (accelPerm.state !== 'granted' || gyroPerm.state !== 'granted') {
-        alert('Enable motion sensors: On iOS, Settings > Safari > Motion & Orientation On. On Android, Chrome Flags > #enable-webxr On. Retry.');
+        alert('Enable motion: iOS - Settings > Safari > Motion On. Android - chrome://flags > WebXR On. Retry.');
         return;
       }
       const xr = await scene.createDefaultXRExperienceAsync({
         uiOptions: { sessionMode: 'immersive-ar' },
-        optionalFeatures: true
+        optionalFeatures: ['hit-test', 'dom-overlay'] // For AR placement/overlay
       });
       console.log('AR avviato – menu sincronizzato!');
     } catch (error) {
       console.error('AR errore:', error);
-      alert('AR non disponibile – enable permissions in browser settings, retry. Or device not support.');
+      alert('AR not available – enable permissions in browser settings, retry. Or device not support.');
     }
   });
 }
-      // Auto-avvia AR if URL has ?ar=1 (from QR scan on mobile)
-      if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
-        arButton.click(); // Simulate click for gesture
-      }
-    }, function (progress) {
-      if (progress.total > 0) {
-        console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
-      }
-    }, function (error) {
-      console.error('ERRORE CARICAMENTO:', error.message);
-    });
 
-    engine.runRenderLoop(() => scene.render());
-    window.addEventListener('resize', () => engine.resize());
-  }
-});
+// Auto-avvia AR if URL has ?ar=1 (from QR)
+if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
+  arButton.click(); // Simulate for gesture
+}
