@@ -1,3 +1,4 @@
+// configuratori-3d-2d.js
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Selettori base
@@ -270,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
       series: [{ data: [82, 94, 66, 40] }],
       xaxis: {
         categories: ['Engagement Utenti', 'Tasso di Conversione', 'Soddisfazione Clienti', 'Riduzione Resi'],
-        labels: { formatter: v => `${v}%`, style: { colors: getAxisLabelColor(), fontSize: '14px' } },
+        labels: { formatter: v => `${v}%`, style: { colors: getAxisLabelColor(), fontSize: '14px' } } ,
         axisBorder: { show: false }, axisTicks: { show: false }
       },
       yaxis: {
@@ -341,6 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Niente tone mapping per non alterare il background
       scene.imageProcessingConfiguration.toneMappingEnabled = false;
       scene.imageProcessingConfiguration.exposure = 1.0;
+      scene.imageProcessingConfiguration.isEnabled = false; // Fix background mismatch
       // Background tema (canvas opaco + CSS)
       function updateBackground() {
         const isDark = document.body.classList.contains('dark-mode');
@@ -353,13 +355,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       updateBackground();
       if (themeToggle) themeToggle.addEventListener('click', updateBackground);
-      // Luci ridotte per match background light (fix "troppo chiaro")
-      const hemi = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
-      hemi.intensity = document.body.classList.contains('dark-mode') ? 0.4 : 0.3;
+      // Luci
+      new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene).intensity = 0.4;
       const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
       dirLight.position = new BABYLON.Vector3(5, 10, 5);
-      dirLight.intensity = 0.4;
-      new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene).intensity = 0.25;
+      dirLight.intensity = 0.5;
+      new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene).intensity = 0.3;
       // Camera
       const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
       camera.attachControl(canvas, true, false, true);
@@ -370,15 +371,14 @@ document.addEventListener('DOMContentLoaded', () => {
       camera.inertia = 0.88;
       camera.panningInertia = 0.85;
       camera.minZ = 0.01;
-      // Pan con tasto destro (non Ctrl) + sensibilità ridotta per controllo
+      // Pan con tasto destro (non Ctrl) + sensibilità
       const pi = camera.inputs.attached.pointers;
       if (pi) {
-        pi.buttons = [0, 1, 2]; // abilita tutti i pulsanti
+        pi.buttons = [0, 2]; // Exclude middle to avoid conflicts
         pi.useCtrlForPanning = false;
         pi.panningMouseButton = 2; // tasto destro = pan
-        pi.multiTouchPanning = false; // disabilita multi-touch pan per evitare conflitti
       }
-      camera.panningSensibility = 1000; // più basso = pan più sensibile, ajust per "spostare"
+      camera.panningSensibility = 500; // Più basso = pan più sensibile
       // Autorotate: ruota PIVOT (iphone + airpods)
       let pivot = null;
       let autoRotateTimer = null;
@@ -393,14 +393,14 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(autoRotateTimer);
         autoRotateTimer = setTimeout(() => isRotating = true, 3000);
       });
-      // Env map + post FX soft (ridotto bloom per non schiarire)
+      // Env map + post FX soft
       scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
         "https://assets.babylonjs.com/environments/studio.env", scene
       );
-      scene.environmentIntensity = 0.5;
+      scene.environmentIntensity = 0.6;
       const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
-      pipeline.bloomEnabled = true; pipeline.bloomThreshold = 0.9; pipeline.bloomWeight = 0.2;
-      pipeline.sharpenEnabled = true; pipeline.sharpen.edgeAmount = 0.4;
+      pipeline.bloomEnabled = true; pipeline.bloomThreshold = 1.0; pipeline.bloomWeight = 0.3; // Threshold alto per non alterare bg
+      pipeline.sharpenEnabled = true; pipeline.sharpen.edgeAmount = 0.5;
       pipeline.samples = 16; pipeline.fxaaEnabled = true;
       // Espone global per update tema
       babylonScene = scene;
@@ -419,7 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
         scene.getNodeByName('airpods') ||
         scene.getNodeByName('Cuffie') ||
         scene.getNodeByName('cuffie') ||
-        scene.getTransformNodeByName('Airpods');
+        scene.getTransformNodeByName('Airpods') ||
+        scene.getTransformNodeByName('airpods'); // Fallback lowercase
       // Bounding e pivot centrato su iPhone
       const printable = meshes.filter(m => m.getBoundingInfo);
       const { center, maxDim } = computeBounds(iphoneNode?.getChildMeshes ? iphoneNode.getChildMeshes() : printable);
@@ -450,16 +451,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // Texture (Cloudinary)
       const textures = {
         color: {
-          bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto&fl=progressive',
-          grigio: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto&fl=progressive',
-          bronzo: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto&fl=progressive',
-          nero: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto&fl=progressive'
+          bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
+          grigio: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto',
+          bronzo: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto',
+          nero: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto'
         },
         background: {
-          'sfondo-nero-bronzo': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto&fl=progressive',
-          'sfondo-arancio-nero': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto&fl=progressive',
-          'sfondo-nero-blu': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto&fl=progressive',
-          'sfondo-nero-viola': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto&fl=progressive'
+          'sfondo-nero-bronzo': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto',
+          'sfondo-arancio-nero': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto',
+          'sfondo-nero-blu': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto',
+          'sfondo-nero-viola': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto'
         }
       };
       window.textures = textures;
@@ -503,13 +504,12 @@ document.addEventListener('DOMContentLoaded', () => {
           if (url && schermoMaterial) setAlbedoFromCache([schermoMaterial], url);
         });
       });
-      // Toggle cuffie: visibility 0 + isVisible false per hide definitivo (no ombra baked)
+      // Toggle cuffie nel render Babylon (nasconde l'intero nodo)
       const toggle = document.getElementById('toggle-airpods');
       if (airpodsNode && toggle) {
-        airpodsNode.getChildMeshes().forEach(m => { m.visibility = 0; m.isVisible = false; }); // default OFF
+        airpodsNode.setEnabled(false); // default OFF
         toggle.addEventListener('change', () => {
-          const visible = toggle.checked;
-          airpodsNode.getChildMeshes().forEach(m => { m.visibility = visible ? 1 : 0; m.isVisible = visible; });
+          airpodsNode.setEnabled(toggle.checked);
         });
       }
       /* -------- AR ibrida (WebXR + <model-viewer>) -------- */
@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!mv) return;
         await mv.updateComplete;
         if (!mv.model) return;
-        // Texture correnti (forza PNG su iOS, override per fix blob error)
+        // Texture correnti (forza PNG su iOS)
         const colorId = document.querySelector('.color-options input:checked')?.id;
         const bgId = document.querySelector('.background-options input:checked')?.id;
         const colorUrl = colorId ? cloudinaryForcePNG(textures.color[colorId]) : null;
@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
           for (const matName of window.scoccaMaterials) await applyBaseColorTexture(matName, colorUrl);
         }
         if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
-        // Cuffie OFF in AR: invisibili (alpha 0 + MASK + metall/rough neutri)
+        // Cuffie OFF in AR iOS: invisibili (alpha 0 + MASK + metall/rough neutri) + hide mesh
         const headphonesOn = document.getElementById('toggle-airpods')?.checked !== false;
         mv.model.materials.forEach(mat => {
           if (!shouldHideMatName(mat.name)) return;
@@ -573,35 +573,44 @@ document.addEventListener('DOMContentLoaded', () => {
             mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
           }
         });
-      }
-      // Parse state da URL per AR dinamico
-      const params = new URLSearchParams(location.search);
-      const colorParam = params.get('color');
-      const bgParam = params.get('bg');
-      const cuffieParam = params.get('cuffie');
-      if (colorParam) {
-        const colorInput = document.getElementById(colorParam);
-        if (colorInput) { colorInput.checked = true; colorInput.dispatchEvent(new Event('change')); }
-      }
-      if (bgParam) {
-        const bgInput = document.getElementById(bgParam);
-        if (bgInput) { bgInput.checked = true; bgInput.dispatchEvent(new Event('change')); }
-      }
-      if (cuffieParam) {
-        const toggle = document.getElementById('toggle-airpods');
-        if (toggle) { toggle.checked = cuffieParam === 'on'; toggle.dispatchEvent(new Event('change')); }
-      }
-      // Genera QR con state corrente
-      if (document.getElementById('ar-qr-modal')) {
-        const currentColor = document.querySelector('.color-options input:checked')?.id || '';
-        const currentBg = document.querySelector('.background-options input:checked')?.id || '';
-        const currentCuffie = document.getElementById('toggle-airpods')?.checked ? 'on' : 'off';
-        const qrUrl = `${location.href.split('?')[0]}?color=${currentColor}&bg=${currentBg}&cuffie=${currentCuffie}&ar=1`;
-        new QRCode(document.getElementById("qr-code"), {
-          text: qrUrl,
-          width: 200,
-          height: 200
+        // Hide mesh primitives for no shadow/leak
+        mv.model.meshes.forEach(mesh => {
+          if (!/(airpods|cuffie)/i.test(mesh.name)) return;
+          mesh.primitives.forEach(prim => {
+            prim.mesh.visible = headphonesOn;
+          });
         });
+      }
+      // State persist via URL params
+      const urlParams = new URLSearchParams(location.search);
+      const initColor = urlParams.get('color');
+      const initBg = urlParams.get('background');
+      const initAirpods = urlParams.get('airpods') === 'on';
+      if (initColor) {
+        const input = document.getElementById(initColor);
+        if (input) {
+          input.checked = true;
+          input.dispatchEvent(new Event('change'));
+        }
+      }
+      if (initBg) {
+        const input = document.getElementById(initBg);
+        if (input) {
+          input.checked = true;
+          input.dispatchEvent(new Event('change'));
+        }
+      }
+      if (toggle) {
+        toggle.checked = initAirpods;
+        toggle.dispatchEvent(new Event('change'));
+      }
+      // Function to get current state
+      function getCurrentState() {
+        return {
+          color: document.querySelector('.color-options input:checked')?.id || 'bianco',
+          background: document.querySelector('.background-options input:checked')?.id || 'sfondo-nero-bronzo',
+          airpods: document.getElementById('toggle-airpods')?.checked ? 'on' : 'off'
+        };
       }
       if (arButton) {
         arButton.addEventListener('click', async () => {
@@ -609,6 +618,16 @@ document.addEventListener('DOMContentLoaded', () => {
           const isAndroid = /Android/i.test(ua);
           const isMobile = /Android|iPhone|iPad/i.test(ua);
           if (!isMobile) {
+            // PC: Generate dynamic QR with state
+            const state = getCurrentState();
+            const qrUrl = `${location.origin}${location.pathname}?color=${state.color}&background=${state.background}&airpods=${state.airpods}&ar=1`;
+            const qrDiv = document.getElementById('qr-code');
+            qrDiv.innerHTML = ''; // Clear old QR
+            new QRCode(qrDiv, {
+              text: qrUrl,
+              width: 200,
+              height: 200
+            });
             const m = document.getElementById('ar-qr-modal');
             if (m) m.style.display = 'block';
             return;
@@ -637,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       // Auto-avvio via QR
-      if (params.has('ar') && /Android|iPhone/i.test(navigator.userAgent)) {
+      if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
         const arBtn = document.getElementById('ar-button');
         arBtn && arBtn.click();
       }

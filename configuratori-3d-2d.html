@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="css/configuratori-3d-2d.css">
   <link rel="stylesheet" href="css/cookie-banner.css">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data: blob: https://www.google-analytics.com https://*.sketchfab.com https://assets.babylonjs.com https://api.qrserver.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/ https://*.sketchfab.com https://cdn.babylonjs.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src * data:; frame-src https://sketchfab.com https://*.sketchfab.com; connect-src; worker-src 'self' blob:; 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-ai3d.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.sketchfab.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io; base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data: blob: https://www.google-analytics.com https://*.sketchfab.com https://assets.babylonjs.com https://api.qrserver.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/ https://*.sketchfab.com https://cdn.babylonjs.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src * data:; frame-src https://sketchfab.com https://*.sketchfab.com; connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-ai3d.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.sketchfab.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io; base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
 <meta http-equiv="Permissions-Policy" content="accelerometer=(self 'https://sketchfab.com'), gyroscope=(self 'https://sketchfab.com'), magnetometer=(self 'https://sketchfab.com'), xr-spatial-tracking=(self 'https://sketchfab.com')">
   <script type="application/ld+json">
   {
@@ -124,7 +124,6 @@
   <!-- Loader per tuo GLB file -->
   <script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
 <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3/dist/model-viewer.min.js"></script>
-
 </head>
 <body>
   <a href="#intro-benefits" class="skip-link">Salta al contenuto principale</a>
@@ -268,23 +267,12 @@
   camera-controls
   style="position:fixed;width:0;height:0;opacity:0;pointer-events:none">
 </model-viewer>
-
         <!-- Modal QR per AR su PC -->
-<div id="ar-qr-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; text-align: center; z-index: 1000;">
-  <h3>Scansiona per AR su Mobile!</h3>
-  <div id="qr-code"></div> <!-- QR generated here -->
-  <button onclick="document.getElementById('ar-qr-modal').style.display='none'">Chiudi</button>
+<div id="ar-qr-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 16px; text-align: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 300px; position: relative;">
+  <span class="close-x" onclick="document.getElementById('ar-qr-modal').style.display='none'" style="position: absolute; top: 10px; right: 10px; color: #3FA9F5; font-size: 24px; cursor: pointer; font-weight: bold;">X</span>
+  <h3 style="margin-bottom: 20px;">Scansiona il QR CODE con la fotocamera del tuo smartphone/tablet per simulare la scena 3D nel tuo ambiente.</h3>
+  <div id="qr-code" style="margin: 20px auto; display: block;"></div> <!-- QR generated here -->
 </div>
-<script>
-  // Generate dynamic QR for current page + ?ar=1
-  if (document.getElementById('ar-qr-modal')) {
-    new QRCode(document.getElementById("qr-code"), {
-      text: location.href + (location.href.includes('?') ? '&ar=1' : '?ar=1'),
-      width: 200,
-      height: 200
-    });
-  }
-</script>
         <!-- Bottone AR in basso dx -->
         <div class="ar-button-container">
           <button class="ar-button" id="ar-button" title="Entra in AR">
