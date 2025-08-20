@@ -12,7 +12,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const moonIcon = document.querySelector('.theme-icon.moon');
 
   /* ---------------------------------
-   * Hardening markup: rimuovi/unwrap <grok-card> se presenti
+   * Sostituisci icona AR e stile pulsante
+   * --------------------------------- */
+  (function setupArButtonUI() {
+    const arBtn = document.getElementById('ar-button');
+    if (!arBtn) return;
+    arBtn.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="24" height="24" aria-hidden="true" focusable="false">
+  <g stroke="#222" stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M100 20 l-10 15 h20 z"/>
+    <path d="M100 180 l-10 -15 h20 z"/>
+    <path d="M20 100 l15 -10 v20 z"/>
+    <path d="M180 100 l-15 -10 v20 z"/>
+    <path d="M50 50 l15 5 -5 -15 z"/>
+    <path d="M150 50 l-15 5 5 -15 z"/>
+    <path d="M50 150 l15 -5 -5 15 z"/>
+    <path d="M150 150 l-15 -5 5 15 z"/>
+  </g>
+  <text x="100" y="110" text-anchor="middle" font-family="Arial, sans-serif"
+        font-size="36" font-weight="bold" fill="#3FA9F5">AR</text>
+</svg>`;
+    // Stile coerente (bianco sempre), hover elegante
+    Object.assign(arBtn.style, {
+      background: '#fff',
+      borderRadius: '999px',
+      boxShadow: '0 4px 10px rgba(63,169,245,0.15)',
+      transition: 'transform .15s ease, box-shadow .2s ease',
+      color: '#111'
+    });
+    arBtn.addEventListener('mouseenter', () => {
+      arBtn.style.transform = 'scale(1.04)';
+      arBtn.style.boxShadow = '0 8px 24px rgba(63,169,245,0.25)';
+    });
+    arBtn.addEventListener('mouseleave', () => {
+      arBtn.style.transform = 'scale(1)';
+      arBtn.style.boxShadow = '0 4px 10px rgba(63,169,245,0.15)';
+    });
+  })();
+
+  /* ---------------------------------
+   * Hardening markup: unwrap <grok-card> se presenti
    * --------------------------------- */
   (function unwrapGrokCard() {
     const nodes = document.querySelectorAll('grok-card');
@@ -24,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ---------------------------------
-   * ARIA: evidenzia link corrente (desktop + mobile)
+   * ARIA: evidenzia link corrente
    * --------------------------------- */
   (function setAriaCurrent() {
     const norm = p => (p || '/').replace(/\/+$/, '') || '/';
@@ -35,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  // Menu mobile con aria + scroll lock
+  // Menu mobile + scroll lock
   const setMobileState = (open) => {
     if (!hamburger || !mobileMenu) return;
     hamburger.classList.toggle('active', open);
@@ -61,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ---------------------------------
-   * Header shadow / stato su scroll (passive)
+   * Header shadow su scroll
    * --------------------------------- */
   window.addEventListener('scroll', () => {
     if (header) header.classList.toggle('scrolled', window.scrollY > 50);
@@ -273,66 +312,49 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ---------------------------------
-   * Chatbot launcher
-   * --------------------------------- */
-  (function initChatbotButton() {
-    const btn = document.getElementById('open-chatbot');
-    if (!btn) return;
-    function openChatbot() {
-      if (window.SolvexChatbot && typeof window.SolvexChatbot.open === 'function') {
-        window.SolvexChatbot.open(); return;
-      }
-      window.dispatchEvent(new CustomEvent('solvex:chatbot:open'));
-      const launcher = document.querySelector('[data-chatbot-launcher], .chatbot-launcher, #chatbot-launcher, [aria-label="Apri chatbot"], [aria-label="Open chat"]');
-      if (launcher) launcher.click();
-      const widget = document.querySelector('.chatbot-widget, #chatbot, #root .chatbot-widget');
-      if (widget) widget.style.display = 'block';
-    }
-    btn.addEventListener('click', openChatbot);
-  })();
-
-  /* ---------------------------------
    * Babylon.js configuratore 3D
    * --------------------------------- */
   if (document.getElementById('renderCanvas')) {
     const canvas = document.getElementById('renderCanvas');
-    const engine = new BABYLON.Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true });
+    const engine = new BABYLON.Engine(canvas, true, {
+      antialias: true,
+      adaptToDeviceRatio: true,
+      preserveDrawingBuffer: true,
+      stencil: true
+    });
     engine.forceSRGBBufferSupportState = false;
     if (!engine._gl) alert('WebGL not supported – update browser.');
 
-    // Utility: centra modello & adatta camera al bounding
-    function frameToMeshes(camera, meshes) {
-      // Calcola bounding min/max complessivo
-      let min = new BABYLON.Vector3(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
-      let max = new BABYLON.Vector3(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY);
+    // Utility: frame su bounding e ritorna centro/massima dimensione
+    function computeBounds(meshes) {
+      let min = new BABYLON.Vector3(+Infinity, +Infinity, +Infinity);
+      let max = new BABYLON.Vector3(-Infinity, -Infinity, -Infinity);
       meshes.forEach(m => {
         const i = m.getBoundingInfo();
-        const bmin = i.boundingBox.minimumWorld;
-        const bmax = i.boundingBox.maximumWorld;
-        min = BABYLON.Vector3.Minimize(min, bmin);
-        max = BABYLON.Vector3.Maximize(max, bmax);
+        min = BABYLON.Vector3.Minimize(min, i.boundingBox.minimumWorld);
+        max = BABYLON.Vector3.Maximize(max, i.boundingBox.maximumWorld);
       });
       const center = min.add(max).scale(0.5);
       const size = max.subtract(min);
       const maxDim = Math.max(size.x, size.y, size.z);
-
-      // Target al centro effettivo e raggio calcolato
+      return { center, maxDim };
+    }
+    function frameCamera(camera, center, maxDim) {
       camera.setTarget(center);
-      // calcolo raggio in base al FOV per evitare clipping e avere framing comodo
       const fov = camera.fov || (Math.PI / 3);
       const radius = (maxDim * 0.6) / Math.tan(fov / 2) + maxDim * 0.2;
       camera.radius = radius;
-
-      // Limiti più stretti per evitare “salti” con la rotella/pinch
       camera.lowerRadiusLimit = Math.max(radius * 0.35, 0.02);
       camera.upperRadiusLimit = radius * 3;
-
-      // Muovi anche la posizione del root se serve riportare il centro al (0,0,0)
-      // (opzionale) — noi lasciamo world-space così com’è per non rompere AR.
     }
 
     function createScene() {
       const scene = new BABYLON.Scene(engine);
+
+      // Tonemapping + exposure lock (più coerenza cromatica)
+      scene.imageProcessingConfiguration.toneMappingEnabled = true;
+      scene.imageProcessingConfiguration.toneMappingType = BABYLON.ImageProcessingConfiguration.TONEMAPPING_NEUTRAL;
+      scene.imageProcessingConfiguration.exposure = 1.0;
 
       // Background tema
       function updateBackground() {
@@ -356,38 +378,44 @@ document.addEventListener('DOMContentLoaded', () => {
       // Camera
       const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
       camera.attachControl(canvas, true, false, true);
-
-      // Zoom più morbido: usa delta percentage coerente su tutti i device
-      // (valori più piccoli = movimento più lento)
       const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-      camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02;  // rotella mouse
-      camera.pinchDeltaPercentage = 0.01;                    // pinch zoom mobile
+      camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02; // super morbido
+      camera.pinchDeltaPercentage = 0.01;
       camera.useNaturalPinchZoom = true;
-
-      // Inerzia leggera, ma non esagerata
       camera.inertia = 0.88;
       camera.panningInertia = 0.85;
-
-      // Evita “salti” con minZ grande in AR; tieni molto vicino ma sicuro
       camera.minZ = 0.01;
 
-      // Autorotate dolce con pausa al tocco
+      // Pan con tasto destro mouse
+      const pi = camera.inputs.attached.pointers;
+      if (pi) {
+        pi.buttons = [0, 1, 2];           // abilita tutti
+        pi.panningMouseButton = 2;        // tasto destro = pan
+      }
+      camera.panningSensibility = 2000;   // più alto = più lento (più controllo)
+
+      // Autorotate: ruota l'OGGETTO (non la camera) attorno al suo asse
+      let pivot = null;
       let autoRotateTimer = null;
       let isRotating = true;
-      scene.beforeRender = () => { if (isRotating) camera.alpha += 0.003; };
+
+      scene.onBeforeRenderObservable.add(() => {
+        if (isRotating && pivot) {
+          pivot.rotate(BABYLON.Axis.Y, 0.003, BABYLON.Space.LOCAL);
+        }
+      });
       canvas.addEventListener('pointerdown', () => {
         isRotating = false;
         clearTimeout(autoRotateTimer);
         autoRotateTimer = setTimeout(() => isRotating = true, 3000);
       });
 
-      // Env map
+      // Env map + post FX
       scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
         "https://assets.babylonjs.com/environments/studio.env", scene
       );
       scene.environmentIntensity = 0.6;
 
-      // Post FX leggeri
       const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
       pipeline.bloomEnabled = true; pipeline.bloomThreshold = 0.8; pipeline.bloomWeight = 0.3;
       pipeline.sharpenEnabled = true; pipeline.sharpen.edgeAmount = 0.5;
@@ -396,24 +424,38 @@ document.addEventListener('DOMContentLoaded', () => {
       // Espone global per sync tema
       babylonScene = scene;
 
-      return scene;
+      // Ritorna riferimenti utili
+      return { scene, camera, getPivot: () => pivot, setPivot: (p) => (pivot = p) };
     }
 
-    const scene = createScene();
+    const { scene, camera, setPivot } = createScene();
 
     // ---- CARICAMENTO MODELLO ----
     console.log('Inizio caricamento GLB...');
     BABYLON.SceneLoader.ImportMesh("", "./assets/", "iphone_16_pro_configuratore_3d.glb", scene, (meshes) => {
       console.log('SUCCESSO: GLB caricato! Mesh totali:', meshes.length);
-      const printable = meshes.filter(m => m.getBoundingInfo);
-      // Centra e adatta camera al nuovo modello ridimensionato
-      frameToMeshes(scene.activeCamera, printable);
 
-      // Root/model setup (se ti serve uno scaling aggiuntivo mantienilo qui)
-      const model = meshes[0];
-      model.receiveShadows = true;
-      // Niente flip asse qui a meno che ti serva davvero:
-      // model.scaling = new BABYLON.Vector3(-1, 1, 1);
+      // Trova nodo "iphone" se esiste, altrimenti prendi il primo mesh come root
+      const iphoneNode =
+        scene.getTransformNodeByName('iphone') ||
+        scene.getNodeByName('iphone') ||
+        meshes[0];
+
+      // Calcola centro e raggio sul set “stampabile”
+      const printable = meshes.filter(m => m.getBoundingInfo);
+      const { center, maxDim } = computeBounds(printable);
+
+      // PIVOT al centro del nodo iphone: ruota oggetto su sé stesso
+      const pivot = new BABYLON.TransformNode('pivot', scene);
+      pivot.setAbsolutePosition(center);
+      iphoneNode.setParent(pivot); // mantiene la world matrix
+      setPivot(pivot);
+
+      // Framing camera sul bounding
+      frameCamera(camera, center, maxDim);
+
+      // Root receive shadows se necessario
+      if (iphoneNode && iphoneNode.receiveShadows !== undefined) iphoneNode.receiveShadows = true;
 
       // Materiali noti
       const allMaterials = scene.materials;
@@ -434,6 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scoccaMaterials  = scoccaMaterials;
       window.schermoMaterial  = schermoMaterial;
 
+      // Materiali realmente usati dalle cuffie (dal nodo Airpods)
       const airpodsMaterials = (window.airpodsMaterials = (() => {
         try {
           if (!airpodsNode) return [];
@@ -503,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Toggle cuffie nel render Babylon
+      // Toggle cuffie nel render Babylon (nasconde l'intero nodo)
       const toggle = document.getElementById('toggle-airpods');
       if (airpodsNode && toggle) {
         airpodsNode.setEnabled(false); // default OFF
@@ -524,6 +567,19 @@ document.addEventListener('DOMContentLoaded', () => {
           if (u.hostname.includes('res.cloudinary.com')) u.searchParams.set('format', 'png');
           return u.toString();
         } catch { return url.replace('format=auto','format=png'); }
+      }
+
+      // Helper: quali materiali cuffie "oscurare" in AR (solo quelli del nodo Airpods)
+      function getAirpodsMaterialsToHide(modelViewer) {
+        if (!modelViewer?.model) return [];
+        // Materiali del nodo cuffie (se i nomi coincidono con Babylon) oppure heuristics
+        const allMats = modelViewer.model.materials;
+        // priorità assoluta: "parti_scure cuffie"
+        const exact = allMats.filter(m => /^parti[_\s]?scure\s*cuffie$/i.test(m.name)).map(m => m.name);
+        if (exact.length) return exact;
+
+        // fallback: qualunque materiale che includa "cuffie" o "airpods"
+        return allMats.filter(m => /(cuffie|airpods)/i.test(m.name)).map(m => m.name);
       }
 
       async function syncMVFromPageState() {
@@ -551,17 +607,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
 
-        // Nascondi/mostra cuffie in AR iOS via alpha
-        const airpodsMatNames = (window.airpodsMaterials && window.airpodsMaterials.length)
-          ? window.airpodsMaterials
-          : mv.model.materials.filter(m => /(airpods|cuffie|headphone)/i.test(m.name)).map(m => m.name);
-
+        // Cuffie OFF in AR iOS: azzera alpha SOLO sui materiali cuffie
         const headphonesOn = document.getElementById('toggle-airpods')?.checked !== false;
-        for (const name of airpodsMatNames) {
+        const matsToHide = getAirpodsMaterialsToHide(mv);
+        for (const name of matsToHide) {
           const mat = mv.model.materials.find(m => m.name === name);
           if (!mat) continue;
           try { mat.setAlphaMode('BLEND'); } catch {}
-          mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1, headphonesOn ? 1 : 0]);
+          // Quando OFF: alpha 0; ON: alpha 1
+          mat.pbrMetallicRoughness.setBaseColorFactor([1, 1, 1, headphonesOn ? 1 : 0]);
         }
       }
 
