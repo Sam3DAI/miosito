@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const moonIcon = document.querySelector('.theme-icon.moon');
 
   /* ---------------------------------
-   * Sostituisci icona AR e stile pulsante
+   * Sostituisci icona AR e stile pulsante (bianco fisso)
    * --------------------------------- */
   (function setupArButtonUI() {
     const arBtn = document.getElementById('ar-button');
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   <text x="100" y="110" text-anchor="middle" font-family="Arial, sans-serif"
         font-size="36" font-weight="bold" fill="#3FA9F5">AR</text>
 </svg>`;
-    // Stile coerente (bianco sempre), hover elegante
     Object.assign(arBtn.style, {
       background: '#fff',
       borderRadius: '999px',
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ---------------------------------
-   * Hardening markup: unwrap <grok-card> se presenti
+   * Hardening markup
    * --------------------------------- */
   (function unwrapGrokCard() {
     const nodes = document.querySelectorAll('grok-card');
@@ -134,10 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateModelBackground() {
     if (!babylonScene) return;
     const isDark = body.classList.contains('dark-mode');
-    // Giorno esattamente #FAFAFA, Notte nero pieno
-    babylonScene.clearColor = isDark
-      ? BABYLON.Color4.FromHexString('#000000FF')
-      : BABYLON.Color4.FromHexString('#FAFAFAFF');
+    const bg = isDark ? '#000000' : '#FAFAFA';
+    // Canvas e contenitore: assicurati che il compositing non inquini il colore
+    const canvas = document.getElementById('renderCanvas');
+    if (canvas) canvas.style.backgroundColor = bg;
+    const container = canvas?.parentElement;
+    if (container) container.style.backgroundColor = bg;
+    // WebGL clearColor (opaco)
+    const c = BABYLON.Color3.FromHexString(bg);
+    babylonScene.clearColor = new BABYLON.Color4(c.r, c.g, c.b, 1);
   }
 
   function applyTheme(theme) {
@@ -316,16 +320,21 @@ document.addEventListener('DOMContentLoaded', () => {
    * --------------------------------- */
   if (document.getElementById('renderCanvas')) {
     const canvas = document.getElementById('renderCanvas');
+
+    // Impedisci menu tasto destro (serve per pan)
+    canvas.addEventListener('contextmenu', e => e.preventDefault());
+
     const engine = new BABYLON.Engine(canvas, true, {
       antialias: true,
       adaptToDeviceRatio: true,
+      alpha: false,                 // canvas opaco -> colore identico allo sfondo pagina
       preserveDrawingBuffer: true,
       stencil: true
     });
     engine.forceSRGBBufferSupportState = false;
     if (!engine._gl) alert('WebGL not supported – update browser.');
 
-    // Utility: frame su bounding e ritorna centro/massima dimensione
+    // Utility: bounds e framing
     function computeBounds(meshes) {
       let min = new BABYLON.Vector3(+Infinity, +Infinity, +Infinity);
       let max = new BABYLON.Vector3(-Infinity, -Infinity, -Infinity);
@@ -351,50 +360,51 @@ document.addEventListener('DOMContentLoaded', () => {
     function createScene() {
       const scene = new BABYLON.Scene(engine);
 
-      // Tonemapping + exposure lock (più coerenza cromatica)
-      scene.imageProcessingConfiguration.toneMappingEnabled = true;
-      scene.imageProcessingConfiguration.toneMappingType = BABYLON.ImageProcessingConfiguration.TONEMAPPING_NEUTRAL;
+      // Niente tone mapping per non alterare il background
+      scene.imageProcessingConfiguration.toneMappingEnabled = false;
       scene.imageProcessingConfiguration.exposure = 1.0;
 
-      // Background tema
+      // Background tema (canvas opaco + CSS)
       function updateBackground() {
         const isDark = document.body.classList.contains('dark-mode');
-        scene.clearColor = isDark
-          ? BABYLON.Color4.FromHexString('#000000FF')
-          : BABYLON.Color4.FromHexString('#FAFAFAFF');
+        const bg = isDark ? '#000000' : '#FAFAFA';
+        canvas.style.backgroundColor = bg;
+        const container = canvas.parentElement;
+        if (container) container.style.backgroundColor = bg;
+        const c = BABYLON.Color3.FromHexString(bg);
+        scene.clearColor = new BABYLON.Color4(c.r, c.g, c.b, 1);
       }
       updateBackground();
       if (themeToggle) themeToggle.addEventListener('click', updateBackground);
 
       // Luci
-      const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
-      hemiLight.intensity = 0.4;
+      new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene).intensity = 0.4;
       const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
       dirLight.position = new BABYLON.Vector3(5, 10, 5);
       dirLight.intensity = 0.5;
-      const pointLight = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene);
-      pointLight.intensity = 0.3;
+      new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene).intensity = 0.3;
 
       // Camera
       const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
       camera.attachControl(canvas, true, false, true);
       const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-      camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02; // super morbido
+      camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02; // zoom molto morbido
       camera.pinchDeltaPercentage = 0.01;
       camera.useNaturalPinchZoom = true;
       camera.inertia = 0.88;
       camera.panningInertia = 0.85;
       camera.minZ = 0.01;
 
-      // Pan con tasto destro mouse
+      // Pan con tasto destro (non Ctrl) + sensibilità
       const pi = camera.inputs.attached.pointers;
       if (pi) {
-        pi.buttons = [0, 1, 2];           // abilita tutti
+        pi.buttons = [0, 1, 2];           // abilita tutti i pulsanti
+        pi.useCtrlForPanning = false;
         pi.panningMouseButton = 2;        // tasto destro = pan
       }
-      camera.panningSensibility = 2000;   // più alto = più lento (più controllo)
+      camera.panningSensibility = 2000;   // più alto = pan più lento/controllato
 
-      // Autorotate: ruota l'OGGETTO (non la camera) attorno al suo asse
+      // Autorotate: ruota PIVOT (iphone + airpods)
       let pivot = null;
       let autoRotateTimer = null;
       let isRotating = true;
@@ -410,61 +420,32 @@ document.addEventListener('DOMContentLoaded', () => {
         autoRotateTimer = setTimeout(() => isRotating = true, 3000);
       });
 
-      // Env map + post FX
+      // Env map + post FX soft
       scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
         "https://assets.babylonjs.com/environments/studio.env", scene
       );
       scene.environmentIntensity = 0.6;
-
       const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
       pipeline.bloomEnabled = true; pipeline.bloomThreshold = 0.8; pipeline.bloomWeight = 0.3;
       pipeline.sharpenEnabled = true; pipeline.sharpen.edgeAmount = 0.5;
       pipeline.samples = 16; pipeline.fxaaEnabled = true;
 
-      // Espone global per sync tema
+      // Espone global per update tema
       babylonScene = scene;
 
-      // Ritorna riferimenti utili
-      return { scene, camera, getPivot: () => pivot, setPivot: (p) => (pivot = p) };
+      return { scene, camera, setPivot: (p) => (pivot = p) };
     }
 
     const { scene, camera, setPivot } = createScene();
 
     // ---- CARICAMENTO MODELLO ----
-    console.log('Inizio caricamento GLB...');
     BABYLON.SceneLoader.ImportMesh("", "./assets/", "iphone_16_pro_configuratore_3d.glb", scene, (meshes) => {
-      console.log('SUCCESSO: GLB caricato! Mesh totali:', meshes.length);
-
-      // Trova nodo "iphone" se esiste, altrimenti prendi il primo mesh come root
+      // Nodi principali
       const iphoneNode =
         scene.getTransformNodeByName('iphone') ||
         scene.getNodeByName('iphone') ||
         meshes[0];
 
-      // Calcola centro e raggio sul set “stampabile”
-      const printable = meshes.filter(m => m.getBoundingInfo);
-      const { center, maxDim } = computeBounds(printable);
-
-      // PIVOT al centro del nodo iphone: ruota oggetto su sé stesso
-      const pivot = new BABYLON.TransformNode('pivot', scene);
-      pivot.setAbsolutePosition(center);
-      iphoneNode.setParent(pivot); // mantiene la world matrix
-      setPivot(pivot);
-
-      // Framing camera sul bounding
-      frameCamera(camera, center, maxDim);
-
-      // Root receive shadows se necessario
-      if (iphoneNode && iphoneNode.receiveShadows !== undefined) iphoneNode.receiveShadows = true;
-
-      // Materiali noti
-      const allMaterials = scene.materials;
-      const scoccaMaterials = allMaterials
-        .filter(m => /scocca|retro|pulsanti|box|bordi|dettagli/i.test(m.name))
-        .map(m => m.name);
-      const schermoMaterial = allMaterials.find(m => /schermo|screen/i.test(m.name))?.name;
-
-      // Nodo cuffie
       const airpodsNode =
         scene.getNodeByName('Airpods') ||
         scene.getNodeByName('airpods') ||
@@ -472,11 +453,29 @@ document.addEventListener('DOMContentLoaded', () => {
         scene.getNodeByName('cuffie')  ||
         scene.getTransformNodeByName('Airpods');
 
-      // Esponi per <model-viewer> bridge
+      // Bounding e pivot centrato su iPhone
+      const printable = meshes.filter(m => m.getBoundingInfo);
+      const { center, maxDim } = computeBounds(iphoneNode?.getChildMeshes ? iphoneNode.getChildMeshes() : printable);
+      const pivot = new BABYLON.TransformNode('pivot', scene);
+      pivot.setAbsolutePosition(center);
+      if (iphoneNode) iphoneNode.setParent(pivot);
+      if (airpodsNode) airpodsNode.setParent(pivot); // ruotano insieme
+      setPivot(pivot);
+
+      // Framing camera su bounding iPhone
+      frameCamera(camera, center, maxDim);
+
+      // Materiali e mapping
+      const allMaterials = scene.materials;
+      const scoccaMaterials = allMaterials
+        .filter(m => /scocca|retro|pulsanti|box|bordi|dettagli/i.test(m.name))
+        .map(m => m.name);
+      const schermoMaterial = allMaterials.find(m => /schermo|screen/i.test(m.name))?.name;
+
       window.scoccaMaterials  = scoccaMaterials;
       window.schermoMaterial  = schermoMaterial;
 
-      // Materiali realmente usati dalle cuffie (dal nodo Airpods)
+      // Materiali effettivi del nodo Airpods
       const airpodsMaterials = (window.airpodsMaterials = (() => {
         try {
           if (!airpodsNode) return [];
@@ -532,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // UI listeners: colori & sfondo
+      // UI: colori & sfondo
       document.querySelectorAll('.color-options input').forEach(input => {
         input.addEventListener('change', () => {
           const url = textures.color[input.id];
@@ -569,17 +568,18 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch { return url.replace('format=auto','format=png'); }
       }
 
-      // Helper: quali materiali cuffie "oscurare" in AR (solo quelli del nodo Airpods)
-      function getAirpodsMaterialsToHide(modelViewer) {
-        if (!modelViewer?.model) return [];
-        // Materiali del nodo cuffie (se i nomi coincidono con Babylon) oppure heuristics
-        const allMats = modelViewer.model.materials;
-        // priorità assoluta: "parti_scure cuffie"
-        const exact = allMats.filter(m => /^parti[_\s]?scure\s*cuffie$/i.test(m.name)).map(m => m.name);
-        if (exact.length) return exact;
+      // Elenco materiali AR da nascondere (esatti + fallback)
+      const AIRPODS_HIDE_LIST = [
+        'bianco lucido',
+        'gomma',
+        'parti_scure cuffie'
+      ].map(s => s.toLowerCase());
 
-        // fallback: qualunque materiale che includa "cuffie" o "airpods"
-        return allMats.filter(m => /(cuffie|airpods)/i.test(m.name)).map(m => m.name);
+      function shouldHideMatName(name) {
+        const n = (name || '').toLowerCase().trim();
+        if (AIRPODS_HIDE_LIST.includes(n)) return true;
+        // fallback generico per sicurezza
+        return /(cuffie|airpods)/i.test(n);
       }
 
       async function syncMVFromPageState() {
@@ -597,8 +597,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!url) return;
           const mat = mv.model.materials.find(m => m.name === materialName);
           if (!mat) return;
-          const tex = await mv.createTexture(url);
           const ti = mat.pbrMetallicRoughness.baseColorTexture;
+          const tex = await mv.createTexture(url);
           if (ti) ti.setTexture(tex);
         };
 
@@ -607,16 +607,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
 
-        // Cuffie OFF in AR iOS: azzera alpha SOLO sui materiali cuffie
+        // Cuffie OFF in AR iOS: invisibili (alpha 0 + MASK + metall/rough neutri)
         const headphonesOn = document.getElementById('toggle-airpods')?.checked !== false;
-        const matsToHide = getAirpodsMaterialsToHide(mv);
-        for (const name of matsToHide) {
-          const mat = mv.model.materials.find(m => m.name === name);
-          if (!mat) continue;
-          try { mat.setAlphaMode('BLEND'); } catch {}
-          // Quando OFF: alpha 0; ON: alpha 1
-          mat.pbrMetallicRoughness.setBaseColorFactor([1, 1, 1, headphonesOn ? 1 : 0]);
-        }
+        mv.model.materials.forEach(mat => {
+          if (!shouldHideMatName(mat.name)) return;
+          try { mat.setAlphaMode(headphonesOn ? 'BLEND' : 'MASK'); } catch {}
+          if (!headphonesOn) {
+            // invisibile
+            mat.alphaCutoff = 1.0;
+            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
+            mat.pbrMetallicRoughness.metallicFactor = 0;
+            mat.pbrMetallicRoughness.roughnessFactor = 1;
+          } else {
+            // visibile
+            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
+          }
+        });
       }
 
       if (arButton) {
