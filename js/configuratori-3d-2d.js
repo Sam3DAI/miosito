@@ -1,6 +1,8 @@
 // configuratori-3d-2d.js
 document.addEventListener('DOMContentLoaded', () => {
-  /* ---------- Utilities ---------- */
+  /* ---------------------------------
+   * Selettori base
+   * --------------------------------- */
   const body = document.body;
   const header = document.querySelector('header');
   const hamburger = document.querySelector('.hamburger');
@@ -9,33 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const sunIcon = document.querySelector('.theme-icon.sun');
   const moonIcon = document.querySelector('.theme-icon.moon');
 
-  // Legge il vero background opaco risalendo il DOM
-  function getOpaqueBg(startEl) {
-    let el = startEl || document.getElementById('renderCanvas')?.parentElement || document.body;
-    while (el) {
-      const c = getComputedStyle(el).backgroundColor;
-      const m = c && c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/i);
-      if (m) {
-        const a = m[4] ? parseFloat(m[4]) : 1;
-        if (a >= 0.99) return `rgb(${m[1]}, ${m[2]}, ${m[3]})`;
-      } else if (c && c.startsWith('#')) {
-        return c;
-      }
-      el = el.parentElement;
-    }
-    return '#FAFAFA';
-  }
-  const rgbObj = (css) => {
-    if (css.startsWith('#')) {
-      const h = css.replace('#','');
-      const n = parseInt(h.length === 3 ? h.split('').map(x=>x+x).join('') : h, 16);
-      return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
-    }
-    const m = css.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-    return m ? { r:+m[1], g:+m[2], b:+m[3] } : { r:250,g:250,b:250 };
-  };
-
-  /* ---------- Pulsante AR: icona & stile ---------- */
+  /* ---------------------------------
+   * Sostituisci icona AR e stile pulsante (bianco fisso)
+   * --------------------------------- */
   (function setupArButtonUI() {
     const arBtn = document.getElementById('ar-button');
     if (!arBtn) return;
@@ -71,16 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  /* ---------- Unwrap eventuali <grok-card> ---------- */
+  /* ---------------------------------
+   * Hardening markup
+   * --------------------------------- */
   (function unwrapGrokCard() {
-    document.querySelectorAll('grok-card').forEach(node => {
+    const nodes = document.querySelectorAll('grok-card');
+    nodes.forEach(node => {
       const parent = node.parentNode;
       while (node.firstChild) parent.insertBefore(node.firstChild, node);
       parent.removeChild(node);
     });
   })();
 
-  /* ---------- Nav corrente ---------- */
+  /* ---------------------------------
+   * ARIA: evidenzia link corrente
+   * --------------------------------- */
   (function setAriaCurrent() {
     const norm = p => (p || '/').replace(/\/+$/, '') || '/';
     const here = norm(location.pathname);
@@ -90,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  /* ---------- Menu mobile ---------- */
+  // Menu mobile + scroll lock
   const setMobileState = (open) => {
     if (!hamburger || !mobileMenu) return;
     hamburger.classList.toggle('active', open);
@@ -115,67 +98,243 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMobileState(false)));
   }
 
-  /* ---------- Header shadow ---------- */
+  /* ---------------------------------
+   * Header shadow su scroll
+   * --------------------------------- */
   window.addEventListener('scroll', () => {
     if (header) header.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 
-  /* ---------- Tema ---------- */
+  /* ---------------------------------
+   * Tema & chart
+   * --------------------------------- */
   const THEME_KEY = 'theme';
   const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
   let statsChart = null;
+
   function currentTheme() {
     const saved = localStorage.getItem(THEME_KEY);
     if (saved === 'light' || saved === 'dark') return saved;
     return mediaDark.matches ? 'dark' : 'light';
   }
-  function applyTheme(t) {
-    const isDark = t === 'dark';
-    body.classList.toggle('dark-mode', isDark);
-    themeToggle?.setAttribute('aria-pressed', String(isDark));
-    if (sunIcon && moonIcon) { sunIcon.style.display = isDark ? 'none' : 'block'; moonIcon.style.display = isDark ? 'block' : 'none'; }
-    updateSceneBg(); // aggiorna bg canvas
+  function getAxisLabelColor() {
+    return body.classList.contains('dark-mode') ? '#a1a1a6' : '#6e6e73';
   }
+  function updateChartTheme() {
+    if (!statsChart) return;
+    statsChart.updateOptions({
+      xaxis: { labels: { style: { colors: getAxisLabelColor(), fontSize: '14px' } } },
+      yaxis: { labels: { style: { colors: getAxisLabelColor(), fontSize: '14px' } } }
+    }, false, true);
+  }
+
+  // Ref scena per aggiornare il background
+  let babylonScene = null;
+  function updateModelBackground() {
+    if (!babylonScene) return;
+    const isDark = body.classList.contains('dark-mode');
+    const bg = isDark ? '#000000' : '#FAFAFA';
+    // Canvas e contenitore: assicurati che il compositing non inquini il colore
+    const canvas = document.getElementById('renderCanvas');
+    if (canvas) canvas.style.backgroundColor = bg;
+    const container = canvas?.parentElement;
+    if (container) container.style.backgroundColor = bg;
+    // WebGL clearColor (opaco)
+    const c = BABYLON.Color3.FromHexString(bg);
+    babylonScene.clearColor = new BABYLON.Color4(c.r, c.g, c.b, 1);
+  }
+
+  function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    body.classList.toggle('dark-mode', isDark);
+    if (themeToggle) themeToggle.setAttribute('aria-pressed', String(isDark));
+    if (sunIcon && moonIcon) {
+      sunIcon.style.display = isDark ? 'none' : 'block';
+      moonIcon.style.display = isDark ? 'block' : 'none';
+    }
+    updateChartTheme();
+    updateModelBackground();
+  }
+
   applyTheme(currentTheme());
-  themeToggle?.addEventListener('click', () => {
-    const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-    localStorage.setItem(THEME_KEY, newTheme);
-    applyTheme(newTheme);
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, newTheme);
+      applyTheme(newTheme);
+    });
+  }
+  mediaDark.addEventListener('change', (e) => {
+    if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches ? 'dark' : 'light');
   });
-  mediaDark.addEventListener('change', (e) => { if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches ? 'dark' : 'light'); });
 
-  /* ---------- Carousel / lazy / prefetch / 2D (invariati, omessi per brevità) ---------- */
-  // ... (lascia intatti i tuoi blocchi esistenti per carousel, lazy backgrounds, prefetch e configuratore 2D)
-  // Se preferisci riavere questi blocchi qui dentro, li posso reinserire 1:1; non influenzano i fix richiesti.
+  /* ---------------------------------
+   * Carousel
+   * --------------------------------- */
+  const carouselContainers = document.querySelectorAll('.carousel-container');
+  carouselContainers.forEach(container => {
+    const wrapper = container.querySelector('.carousel-wrapper');
+    const leftArrow = document.querySelector('.carousel-arrow.left');
+    const rightArrow = document.querySelector('.carousel-arrow.right');
+    let isScrolling = false;
+    if (!wrapper || !leftArrow || !rightArrow) return;
+    const scrollByAmount = 300;
+    leftArrow.addEventListener('click', () => {
+      if (isScrolling) return;
+      isScrolling = true;
+      wrapper.scrollBy({ left: -scrollByAmount, behavior: 'smooth' });
+      setTimeout(() => {
+        if (wrapper.scrollLeft <= 0) {
+          wrapper.scrollTo({ left: wrapper.scrollWidth - wrapper.clientWidth, behavior: 'smooth' });
+        }
+        isScrolling = false;
+      }, 300);
+    });
+    rightArrow.addEventListener('click', () => {
+      if (isScrolling) return;
+      isScrolling = true;
+      wrapper.scrollBy({ left: scrollByAmount, behavior: 'smooth' });
+      setTimeout(() => {
+        if (wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 1) {
+          wrapper.scrollTo({ left: 0, behavior: 'smooth' });
+        }
+        isScrolling = false;
+      }, 300);
+    });
+  });
 
-  /* ---------- Babylon.js configuratore 3D ---------- */
-  const canvas = document.getElementById('renderCanvas');
-  let babylonScene = null, camera = null;
+  /* ---------------------------------
+   * Lazy background
+   * --------------------------------- */
+  (function lazyBackgrounds() {
+    const lazyCards = document.querySelectorAll('.benefit-card.lazy-bg[data-bg]');
+    if (!lazyCards.length) return;
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const url = el.getAttribute('data-bg');
+        if (url) {
+          el.style.backgroundImage = `url('${url}')`;
+          el.removeAttribute('data-bg');
+        }
+        o.unobserve(el);
+      });
+    }, { rootMargin: '200px 0px' });
+    lazyCards.forEach(el => obs.observe(el));
+  })();
 
-  if (canvas) {
-    // Niente context menu: tasto destro = pan
+  /* ---------------------------------
+   * Prefetch link interni
+   * --------------------------------- */
+  (function prefetchInternalLinks() {
+    const already = new Set();
+    const addPrefetch = (href) => {
+      if (!href || already.has(href)) return;
+      if (href.includes('#')) return;
+      if (!href.startsWith('/')) return;
+      const link = document.createElement('link');
+      link.rel = 'prefetch'; link.href = href;
+      document.head.appendChild(link);
+      already.add(href);
+    };
+    document.querySelectorAll('a[href^="/"]').forEach(a => {
+      const href = a.getAttribute('href');
+      a.addEventListener('mouseenter', () => addPrefetch(href));
+      a.addEventListener('touchstart', () => addPrefetch(href), { passive: true });
+    });
+  })();
+
+  /* ---------------------------------
+   * Configuratore 2D
+   * --------------------------------- */
+  (function initConfigurator2D() {
+    const img = document.getElementById('product-image-2d');
+    if (!img) return;
+    document.querySelectorAll('.color-options-2d input').forEach(input => {
+      input.addEventListener('change', () => {
+        const swatch = input.nextElementSibling;
+        if (!swatch) return;
+        const newSrc = swatch.getAttribute('data-image');
+        const name = (input.value || '').trim();
+        const newAlt = `Prodotto Configurabile 2D - ${name.charAt(0).toUpperCase() + name.slice(1)}`;
+        img.style.opacity = 0;
+        setTimeout(() => { img.src = newSrc; img.alt = newAlt; img.style.opacity = 1; }, 180);
+      });
+    });
+  })();
+
+  /* ---------------------------------
+   * ApexCharts
+   * --------------------------------- */
+  (function initChartOnView() {
+    const target = document.getElementById('why-choose');
+    if (!target || typeof ApexCharts === 'undefined') return;
+    const options = () => ({
+      chart: {
+        type: 'bar',
+        height: 350,
+        animations: {
+          enabled: true, easing: 'easeinout', speed: 2000,
+          animateGradually: { enabled: true, delay: 150 },
+          dynamicAnimation: { enabled: true, speed: 350 }
+        },
+        toolbar: { show: false }
+      },
+      plotOptions: { bar: { horizontal: true, barHeight: '75%', distributed: true } },
+      dataLabels: { enabled: false },
+      series: [{ data: [82, 94, 66, 40] }],
+      xaxis: {
+        categories: ['Engagement Utenti', 'Tasso di Conversione', 'Soddisfazione Clienti', 'Riduzione Resi'],
+        labels: { formatter: v => `${v}%`, style: { colors: getAxisLabelColor(), fontSize: '14px' } },
+        axisBorder: { show: false }, axisTicks: { show: false }
+      },
+      yaxis: {
+        labels: {
+          formatter: value => {
+            if (value === 'Engagement Utenti') return ['Engagement','Utenti'];
+            if (value === 'Tasso di Conversione') return ['Tasso di','Conversione'];
+            if (value === 'Soddisfazione Clienti') return ['Soddisfazione','Clienti'];
+            return value;
+          },
+          style: { colors: getAxisLabelColor(), fontSize: '14px' }
+        },
+        axisBorder: { show: false }, axisTicks: { show: false }
+      },
+      colors: ['#45b6fe','#6a9bfe','#8f80fe','#d95bc5'],
+      grid: { show: false }, tooltip: { enabled: false }
+    });
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsChart) {
+          statsChart = new ApexCharts(document.querySelector('#stats-chart'), options());
+          statsChart.render();
+        }
+      });
+    }, { threshold: 0.1 });
+    obs.observe(target);
+  })();
+
+  /* ---------------------------------
+   * Babylon.js configuratore 3D
+   * --------------------------------- */
+  if (document.getElementById('renderCanvas')) {
+    const canvas = document.getElementById('renderCanvas');
+
+    // Impedisci menu tasto destro (serve per pan)
     canvas.addEventListener('contextmenu', e => e.preventDefault());
 
     const engine = new BABYLON.Engine(canvas, true, {
       antialias: true,
       adaptToDeviceRatio: true,
-      alpha: false, // canvas opaco → match perfetto del colore di pagina
+      alpha: false,                 // canvas opaco -> colore identico allo sfondo pagina
       preserveDrawingBuffer: true,
       stencil: true
     });
     engine.forceSRGBBufferSupportState = false;
-    if (!engine._gl) alert('WebGL non supportato: aggiorna il browser.');
+    if (!engine._gl) alert('WebGL not supported – update browser.');
 
-    function updateSceneBg() {
-      if (!babylonScene) return;
-      const isDark = body.classList.contains('dark-mode');
-      const cssBg = isDark ? '#000000' : getOpaqueBg(canvas.parentElement);
-      canvas.style.backgroundColor = cssBg;
-      canvas.parentElement && (canvas.parentElement.style.backgroundColor = cssBg);
-      const rgb = rgbObj(cssBg);
-      babylonScene.clearColor = new BABYLON.Color4(rgb.r/255, rgb.g/255, rgb.b/255, 1);
-    }
-
+    // Utility: bounds e framing
     function computeBounds(meshes) {
       let min = new BABYLON.Vector3(+Infinity, +Infinity, +Infinity);
       let max = new BABYLON.Vector3(-Infinity, -Infinity, -Infinity);
@@ -189,59 +348,99 @@ document.addEventListener('DOMContentLoaded', () => {
       const maxDim = Math.max(size.x, size.y, size.z);
       return { center, maxDim };
     }
-    function frameCamera(cam, center, maxDim) {
-      cam.setTarget(center);
-      const fov = cam.fov || (Math.PI / 3);
+    function frameCamera(camera, center, maxDim) {
+      camera.setTarget(center);
+      const fov = camera.fov || (Math.PI / 3);
       const radius = (maxDim * 0.6) / Math.tan(fov / 2) + maxDim * 0.2;
-      cam.radius = radius;
-      cam.lowerRadiusLimit = Math.max(radius * 0.35, 0.02);
-      cam.upperRadiusLimit = radius * 3;
+      camera.radius = radius;
+      camera.lowerRadiusLimit = Math.max(radius * 0.35, 0.02);
+      camera.upperRadiusLimit = radius * 3;
     }
 
-    const scene = new BABYLON.Scene(engine);
-    babylonScene = scene;
+    function createScene() {
+      const scene = new BABYLON.Scene(engine);
 
-    // Luci base
-    new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0,1,0), scene).intensity = 0.4;
-    const d = new BABYLON.DirectionalLight("dir", new BABYLON.Vector3(-1,-2,-1), scene);
-    d.position = new BABYLON.Vector3(5,10,5); d.intensity = 0.5;
-    new BABYLON.PointLight("pt", new BABYLON.Vector3(-3,2,0), scene).intensity = 0.3;
+      // Niente tone mapping per non alterare il background
+      scene.imageProcessingConfiguration.toneMappingEnabled = false;
+      scene.imageProcessingConfiguration.exposure = 1.0;
 
-    // Camera
-    camera = new BABYLON.ArcRotateCamera("cam", Math.PI, Math.PI/2, 1.2, BABYLON.Vector3.Zero(), scene);
-    camera.attachControl(canvas, true, false, true);
-    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-    camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02;
-    camera.pinchDeltaPercentage = 0.01;
-    camera.useNaturalPinchZoom = true;
-    camera.inertia = 0.88;
-    camera.panningInertia = 0.85;
-    camera.minZ = 0.01;
+      // Background tema (canvas opaco + CSS)
+      function updateBackground() {
+        const isDark = document.body.classList.contains('dark-mode');
+        const bg = isDark ? '#000000' : '#FAFAFA';
+        canvas.style.backgroundColor = bg;
+        const container = canvas.parentElement;
+        if (container) container.style.backgroundColor = bg;
+        const c = BABYLON.Color3.FromHexString(bg);
+        scene.clearColor = new BABYLON.Color4(c.r, c.g, c.b, 1);
+      }
+      updateBackground();
+      if (themeToggle) themeToggle.addEventListener('click', updateBackground);
 
-    // Mappo i pulsanti corretti: sinistro=rotate, destro=pan
-    const pi = camera.inputs.attached.pointers;
-    if (pi) {
-      pi.useCtrlForPanning = false;
-      pi.panningMouseButton = 2;  // tasto destro → pan
-      pi.buttons = [0];           // SOLO sinistro ruota (rimuovo il destro dalla rotazione)
+      // Luci
+      new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene).intensity = 0.4;
+      const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
+      dirLight.position = new BABYLON.Vector3(5, 10, 5);
+      dirLight.intensity = 0.5;
+      new BABYLON.PointLight("pointLight", new BABYLON.Vector3(-3, 2, 0), scene).intensity = 0.3;
+
+      // Camera
+      const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
+      camera.attachControl(canvas, true, false, true);
+      const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+      camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02; // zoom molto morbido
+      camera.pinchDeltaPercentage = 0.01;
+      camera.useNaturalPinchZoom = true;
+      camera.inertia = 0.88;
+      camera.panningInertia = 0.85;
+      camera.minZ = 0.01;
+
+      // Pan con tasto destro (non Ctrl) + sensibilità
+      const pi = camera.inputs.attached.pointers;
+      if (pi) {
+        pi.buttons = [0, 1, 2];           // abilita tutti i pulsanti
+        pi.useCtrlForPanning = false;
+        pi.panningMouseButton = 2;        // tasto destro = pan
+      }
+      camera.panningSensibility = 2000;   // più alto = pan più lento/controllato
+
+      // Autorotate: ruota PIVOT (iphone + airpods)
+      let pivot = null;
+      let autoRotateTimer = null;
+      let isRotating = true;
+
+      scene.onBeforeRenderObservable.add(() => {
+        if (isRotating && pivot) {
+          pivot.rotate(BABYLON.Axis.Y, 0.003, BABYLON.Space.LOCAL);
+        }
+      });
+      canvas.addEventListener('pointerdown', () => {
+        isRotating = false;
+        clearTimeout(autoRotateTimer);
+        autoRotateTimer = setTimeout(() => isRotating = true, 3000);
+      });
+
+      // Env map + post FX soft
+      scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+        "https://assets.babylonjs.com/environments/studio.env", scene
+      );
+      scene.environmentIntensity = 0.6;
+      const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
+      pipeline.bloomEnabled = true; pipeline.bloomThreshold = 0.8; pipeline.bloomWeight = 0.3;
+      pipeline.sharpenEnabled = true; pipeline.sharpen.edgeAmount = 0.5;
+      pipeline.samples = 16; pipeline.fxaaEnabled = true;
+
+      // Espone global per update tema
+      babylonScene = scene;
+
+      return { scene, camera, setPivot: (p) => (pivot = p) };
     }
-    camera.panningSensibility = 2000;
 
-    // Ambiente + pipeline leggera
-    scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
-      "https://assets.babylonjs.com/environments/studio.env", scene
-    );
-    scene.environmentIntensity = 0.6;
-    const pipeline = new BABYLON.DefaultRenderingPipeline("p", true, scene, [camera]);
-    pipeline.bloomEnabled = true; pipeline.bloomThreshold = 0.8; pipeline.bloomWeight = 0.3;
-    pipeline.sharpenEnabled = true; pipeline.sharpen.edgeAmount = 0.5;
-    pipeline.samples = 16; pipeline.fxaaEnabled = true;
+    const { scene, camera, setPivot } = createScene();
 
-    updateSceneBg();
-    themeToggle?.addEventListener('click', updateSceneBg);
-
-    /* ---- Import GLB ---- */
+    // ---- CARICAMENTO MODELLO ----
     BABYLON.SceneLoader.ImportMesh("", "./assets/", "iphone_16_pro_configuratore_3d.glb", scene, (meshes) => {
+      // Nodi principali
       const iphoneNode =
         scene.getTransformNodeByName('iphone') ||
         scene.getNodeByName('iphone') ||
@@ -254,39 +453,37 @@ document.addEventListener('DOMContentLoaded', () => {
         scene.getNodeByName('cuffie')  ||
         scene.getTransformNodeByName('Airpods');
 
-      // Pivot centrato su iPhone, ruotano insieme
-      const iphMeshes = iphoneNode?.getChildMeshes ? iphoneNode.getChildMeshes() : meshes;
-      const { center, maxDim } = computeBounds(iphMeshes);
+      // Bounding e pivot centrato su iPhone
+      const printable = meshes.filter(m => m.getBoundingInfo);
+      const { center, maxDim } = computeBounds(iphoneNode?.getChildMeshes ? iphoneNode.getChildMeshes() : printable);
       const pivot = new BABYLON.TransformNode('pivot', scene);
       pivot.setAbsolutePosition(center);
       if (iphoneNode) iphoneNode.setParent(pivot);
-      if (airpodsNode) airpodsNode.setParent(pivot);
+      if (airpodsNode) airpodsNode.setParent(pivot); // ruotano insieme
+      setPivot(pivot);
+
+      // Framing camera su bounding iPhone
       frameCamera(camera, center, maxDim);
 
-      // Auto-rotate morbida del pivot (oggetti ruotano assieme)
-      let isRotating = true, autoRotateTimer = null;
-      scene.onBeforeRenderObservable.add(() => { if (isRotating) pivot.rotate(BABYLON.Axis.Y, 0.003, BABYLON.Space.LOCAL); });
-      canvas.addEventListener('pointerdown', () => {
-        isRotating = false; clearTimeout(autoRotateTimer);
-        autoRotateTimer = setTimeout(() => isRotating = true, 3000);
-      });
-
-      // Materiali utili
+      // Materiali e mapping
       const allMaterials = scene.materials;
-      const scoccaMaterials = allMaterials.filter(m => /scocca|retro|pulsanti|box|bordi|dettagli/i.test(m.name)).map(m => m.name);
+      const scoccaMaterials = allMaterials
+        .filter(m => /scocca|retro|pulsanti|box|bordi|dettagli/i.test(m.name))
+        .map(m => m.name);
       const schermoMaterial = allMaterials.find(m => /schermo|screen/i.test(m.name))?.name;
-      window.scoccaMaterials = scoccaMaterials;
-      window.schermoMaterial = schermoMaterial;
 
-      // Materiali del nodo Airpods (per bridge AR)
-      window.airpodsMaterials = (() => {
+      window.scoccaMaterials  = scoccaMaterials;
+      window.schermoMaterial  = schermoMaterial;
+
+      // Materiali effettivi del nodo Airpods
+      const airpodsMaterials = (window.airpodsMaterials = (() => {
         try {
           if (!airpodsNode) return [];
           const mats = new Set();
           airpodsNode.getChildMeshes().forEach(m => { if (m.material?.name) mats.add(m.material.name); });
           return Array.from(mats);
-        } catch { return []; }
-      })();
+        } catch (e) { return []; }
+      })());
 
       // Texture (Cloudinary)
       const textures = {
@@ -305,25 +502,36 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       window.textures = textures;
 
-      // Cache Babylon (riduce “flash” al cambio)
+      /* -------- Preloading / cache Babylon -------- */
       const allTextureUrls = [...Object.values(textures.color), ...Object.values(textures.background)];
       const babylonTexCache = new Map();
+      function preloadBabylonTextures(urls) {
+        urls.forEach(url => {
+          if (babylonTexCache.has(url)) return;
+          const t = new BABYLON.Texture(url, scene, true, false, BABYLON.Texture.TRILINEAR_SAMPLINGMODE);
+          t.wrapU = t.wrapV = BABYLON.Texture.WRAP_ADDRESSMODE;
+          babylonTexCache.set(url, t);
+        });
+      }
+      preloadBabylonTextures(allTextureUrls);
+      allTextureUrls.forEach(u => {
+        const l = document.createElement('link');
+        l.rel = 'prefetch'; l.as = 'image'; l.href = u;
+        document.head.appendChild(l);
+      });
+
       function setAlbedoFromCache(materialNames, url) {
         const tex = babylonTexCache.get(url) || new BABYLON.Texture(
           url, scene, true, false, BABYLON.Texture.TRILINEAR_SAMPLINGMODE
         );
-        tex.wrapU = tex.wrapV = BABYLON.Texture.WRAP_ADDRESSMODE;
         babylonTexCache.set(url, tex);
         materialNames.forEach(name => {
           const mat = scene.getMaterialByName(name);
           if (mat) mat.albedoTexture = tex;
         });
       }
-      allTextureUrls.forEach(u => {
-        const l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'image'; l.href = u; document.head.appendChild(l);
-      });
 
-      // UI → Babylon
+      // UI: colori & sfondo
       document.querySelectorAll('.color-options input').forEach(input => {
         input.addEventListener('change', () => {
           const url = textures.color[input.id];
@@ -337,61 +545,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Toggle cuffie in Babylon
+      // Toggle cuffie nel render Babylon (nasconde l'intero nodo)
       const toggle = document.getElementById('toggle-airpods');
       if (airpodsNode && toggle) {
         airpodsNode.setEnabled(false); // default OFF
-        toggle.addEventListener('change', () => airpodsNode.setEnabled(toggle.checked));
+        toggle.addEventListener('change', () => {
+          airpodsNode.setEnabled(toggle.checked);
+        });
       }
 
-      /* ---------- AR bridge (Android WebXR + iOS/Android via <model-viewer>) ---------- */
+      /* -------- AR ibrida (WebXR + <model-viewer>) -------- */
+      const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
       const arButton = document.getElementById('ar-button');
       const mv = document.getElementById('ar-bridge');
-      const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
-      const AIRPODS_HIDE_LIST = ['bianco lucido','gomma','parti_scure cuffie'].map(s => s.toLowerCase());
-      const TRANSPARENT_PX =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';
 
       function cloudinaryForcePNG(url) {
         if (!IS_IOS) return url;
-        try { const u = new URL(url); if (u.hostname.includes('res.cloudinary.com')) u.searchParams.set('format','png'); return u.toString(); }
-        catch { return url.replace('format=auto','format=png'); }
-      }
-      const shouldHideMatName = (name) => {
-        const n = (name||'').toLowerCase().trim();
-        return AIRPODS_HIDE_LIST.includes(n) || /(cuffie|airpods)/i.test(n);
-      };
-
-      async function makeMaterialInvisibleMV(mat, mvEl) {
-        try { mat.setAlphaMode('MASK'); } catch {}
-        mat.alphaCutoff = 1.0;
-        mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
-        mat.pbrMetallicRoughness.metallicFactor = 0;
-        mat.pbrMetallicRoughness.roughnessFactor = 1;
-        const t = await mvEl.createTexture(TRANSPARENT_PX);
-        const ti = mat.pbrMetallicRoughness.baseColorTexture;
-        ti && ti.setTexture(t);
-        try { mat.normalTexture && mat.normalTexture.setTexture(null); } catch {}
-        try { mat.occlusionTexture && mat.occlusionTexture.setTexture(null); } catch {}
-        try { mat.emissiveTexture && mat.emissiveTexture.setTexture(null); } catch {}
-      }
-
-      // Tenta anche di “nascondere” il nodo Airpods a livello di nodo (elimina eventuale ombra residua)
-      function hideAirpodsNodeMV(mvEl) {
         try {
-          const names = ['Airpods','airpods','Cuffie','cuffie'];
-          for (const n of names) {
-            const node = mvEl.model?.getNodeByName?.(n);
-            if (node?.setScale) {
-              node.setScale({x:1e-6,y:1e-6,z:1e-6});
-            } else if (node?.setMatrix) {
-              const m = new Float32Array([
-                1e-6,0,0,0, 0,1e-6,0,0, 0,0,1e-6,0, 0,0,0,1
-              ]);
-              node.setMatrix(m);
-            }
-          }
-        } catch {}
+          const u = new URL(url);
+          if (u.hostname.includes('res.cloudinary.com')) u.searchParams.set('format', 'png');
+          return u.toString();
+        } catch { return url.replace('format=auto','format=png'); }
+      }
+
+      // Elenco materiali AR da nascondere (esatti + fallback)
+      const AIRPODS_HIDE_LIST = [
+        'bianco lucido',
+        'gomma',
+        'parti_scure cuffie'
+      ].map(s => s.toLowerCase());
+
+      function shouldHideMatName(name) {
+        const n = (name || '').toLowerCase().trim();
+        if (AIRPODS_HIDE_LIST.includes(n)) return true;
+        // fallback generico per sicurezza
+        return /(cuffie|airpods)/i.test(n);
       }
 
       async function syncMVFromPageState() {
@@ -399,160 +587,95 @@ document.addEventListener('DOMContentLoaded', () => {
         await mv.updateComplete;
         if (!mv.model) return;
 
+        // Texture correnti (forza PNG su iOS)
         const colorId = document.querySelector('.color-options input:checked')?.id;
         const bgId    = document.querySelector('.background-options input:checked')?.id;
         const colorUrl = colorId ? cloudinaryForcePNG(textures.color[colorId]) : null;
         const bgUrl    = bgId    ? cloudinaryForcePNG(textures.background[bgId]) : null;
 
-        const applyBaseColorTexture = async (matName, url) => {
+        const applyBaseColorTexture = async (materialName, url) => {
           if (!url) return;
-          const mat = mv.model.materials.find(m => m.name === matName);
+          const mat = mv.model.materials.find(m => m.name === materialName);
           if (!mat) return;
           const ti = mat.pbrMetallicRoughness.baseColorTexture;
           const tex = await mv.createTexture(url);
-          ti && ti.setTexture(tex);
+          if (ti) ti.setTexture(tex);
         };
+
         if (window.scoccaMaterials) {
-          for (const mName of window.scoccaMaterials) await applyBaseColorTexture(mName, colorUrl);
+          for (const matName of window.scoccaMaterials) await applyBaseColorTexture(matName, colorUrl);
         }
         if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
 
+        // Cuffie OFF in AR iOS: invisibili (alpha 0 + MASK + metall/rough neutri)
         const headphonesOn = document.getElementById('toggle-airpods')?.checked !== false;
-        for (const mat of mv.model.materials) {
-          if (!shouldHideMatName(mat.name)) continue;
-          if (headphonesOn) {
-            try { mat.setAlphaMode('BLEND'); } catch {}
-            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
+        mv.model.materials.forEach(mat => {
+          if (!shouldHideMatName(mat.name)) return;
+          try { mat.setAlphaMode(headphonesOn ? 'BLEND' : 'MASK'); } catch {}
+          if (!headphonesOn) {
+            // invisibile
+            mat.alphaCutoff = 1.0;
+            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
+            mat.pbrMetallicRoughness.metallicFactor = 0;
+            mat.pbrMetallicRoughness.roughnessFactor = 1;
           } else {
-            await makeMaterialInvisibleMV(mat, mv);
+            // visibile
+            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
           }
-        }
-        if (!headphonesOn) hideAirpodsNodeMV(mv); // ulteriore assicurazione contro “ombra”
+        });
       }
 
-      // Stato ↔ URL (per QR)
-      function buildStateURL() {
-        const colorId = document.querySelector('.color-options input:checked')?.id || '';
-        const bgId    = document.querySelector('.background-options input:checked')?.id || '';
-        const hp      = document.getElementById('toggle-airpods')?.checked ? '1' : '0';
-        const url = new URL(location.href);
-        url.searchParams.set('c', colorId);
-        url.searchParams.set('bg', bgId);
-        url.searchParams.set('hp', hp);
-        url.searchParams.set('ar', '1');
-        return url.toString();
-      }
-      function applyStateFromURL() {
-        const params = new URLSearchParams(location.search);
-        const c  = params.get('c');
-        const bg = params.get('bg');
-        const hp = params.get('hp');
+      if (arButton) {
+        arButton.addEventListener('click', async () => {
+          const ua = navigator.userAgent;
+          const isAndroid = /Android/i.test(ua);
+          const isMobile  = /Android|iPhone|iPad/i.test(ua);
 
-        const setRadio = (groupSel, id) => {
-          if (!id) return;
-          const el = document.querySelector(`${groupSel} input#${CSS.escape(id)}`);
-          if (el) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
-        };
-        setRadio('.color-options', c);
-        setRadio('.background-options', bg);
-        const t = document.getElementById('toggle-airpods');
-        if (t && hp !== null) {
-          t.checked = (hp === '1');
-          t.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      }
-      // Applica stato se arrivo da QR
-      applyStateFromURL();
-
-      /* ---------- QR desktop: usa il tuo modal esistente ---------- */
-      function openQRModal() {
-        const modal = document.getElementById('ar-qr-modal');
-        if (!modal) return;
-
-        // Stile card centrata e “X” azzurra
-        modal.style.display = 'block';
-        modal.style.zIndex = '10000';
-
-        const title = modal.querySelector('h3');
-        if (title) {
-          title.textContent = 'Scansiona il QR CODE con la fotocamera del tuo smartphone/tablet per simulare la scena 3D nel tuo ambiente.';
-          title.style.margin = '0 0 12px 0';
-          title.style.fontSize = '16px';
-          title.style.color = '#111';
-          title.style.fontWeight = '600';
-        }
-
-        // Sostituisci il bottone "Chiudi" con una X in alto a destra
-        const oldBtn = modal.querySelector('button');
-        if (oldBtn) oldBtn.remove();
-        let closeBtn = modal.querySelector('.qr-close-x');
-        if (!closeBtn) {
-          closeBtn = document.createElement('button');
-          closeBtn.className = 'qr-close-x';
-          closeBtn.setAttribute('aria-label', 'Chiudi');
-          closeBtn.textContent = '×';
-          Object.assign(closeBtn.style, {
-            position:'absolute', top:'10px', right:'12px',
-            background:'transparent', border:'none',
-            color:'#3FA9F5', fontSize:'22px', fontWeight:'700', cursor:'pointer'
-          });
-          modal.appendChild(closeBtn);
-        }
-        closeBtn.onclick = () => modal.style.display = 'none';
-
-        // Rigenera il QR centrato
-        const qrWrap = modal.querySelector('#qr-code');
-        if (qrWrap) {
-          qrWrap.innerHTML = ''; // pulisci eventuale QR precedente
-          const url = buildStateURL();
-          new QRCode(qrWrap, { text: url, width: 220, height: 220, margin: 0 });
-        }
-      }
-
-      /* ---------- Click AR ---------- */
-      arButton?.addEventListener('click', async () => {
-        const ua = navigator.userAgent;
-        const isAndroid = /Android/i.test(ua);
-        const isMobile  = /Android|iPhone|iPad/i.test(ua);
-
-        if (!isMobile) {
-          // Desktop → mostra il tuo modal con QR centrato e stato corrente
-          openQRModal();
-          return;
-        }
-
-        // 1) WebXR (Android)
-        try {
-          if (isAndroid && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar')) {
-            await scene.createDefaultXRExperienceAsync({
-              uiOptions: { sessionMode: 'immersive-ar' },
-              optionalFeatures: ['hit-test', 'dom-overlay'],
-              referenceSpaceType: 'local-floor'
-            });
+          if (!isMobile) {
+            const m = document.getElementById('ar-qr-modal');
+            if (m) m.style.display = 'block';
             return;
           }
-        } catch (err) {
-          console.warn('WebXR non disponibile; uso fallback <model-viewer>:', err);
-        }
 
-        // 2) Fallback: iOS Quick Look / Android Scene Viewer
-        try {
-          await syncMVFromPageState();
-          await mv.activateAR();
-        } catch (e) {
-          console.error('Fallback AR fallito:', e);
-          alert('AR non disponibile su questo dispositivo/navigatore.');
-        }
-      });
+          // 1) WebXR (Android)
+          try {
+            if (isAndroid && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar')) {
+              await scene.createDefaultXRExperienceAsync({
+                uiOptions: { sessionMode: 'immersive-ar' },
+                optionalFeatures: ['hit-test', 'dom-overlay'],
+                referenceSpaceType: 'local-floor'
+              });
+              return;
+            }
+          } catch (err) {
+            console.warn('WebXR non disponibile, uso fallback <model-viewer>:', err);
+          }
 
-      // Auto-AR se arrivo da QR (dopo aver applicato lo stato)
-      if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
-        setTimeout(() => document.getElementById('ar-button')?.click(), 120);
+          // 2) Fallback iOS Quick Look / Android Scene Viewer
+          try {
+            await syncMVFromPageState();
+            await mv.activateAR();
+          } catch (e) {
+            console.error('Fallback AR fallito:', e);
+            alert('AR non disponibile su questo dispositivo/navigatore.');
+          }
+        });
       }
+
+      // Auto-avvio via QR
+      if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
+        const arBtn = document.getElementById('ar-button');
+        arBtn && arBtn.click();
+      }
+    }, (progress) => {
+      if (progress.total > 0) {
+        console.log('Progresso: ', Math.round(progress.loaded / progress.total * 100) + '%');
+      }
+    }, (error) => {
+      console.error('ERRORE CARICAMENTO:', error.message);
     });
 
     engine.runRenderLoop(() => babylonScene && babylonScene.render());
     window.addEventListener('resize', () => engine.resize());
   }
-
 });
