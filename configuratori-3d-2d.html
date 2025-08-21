@@ -267,11 +267,26 @@
   camera-controls
   style="position:fixed;width:0;height:0;opacity:0;pointer-events:none">
 </model-viewer>
-        <!-- Modal QR per AR su PC -->
-<div id="ar-qr-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 16px; text-align: center; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 300px; position: relative;">
-  <span class="close-x" onclick="document.getElementById('ar-qr-modal').style.display='none'" style="position: absolute; top: 10px; right: 10px; color: #3FA9F5; font-size: 24px; cursor: pointer; font-weight: bold;">X</span>
-  <h3 style="margin-bottom: 20px;">Scansiona il QR CODE con la fotocamera del tuo smartphone/tablet per simulare la scena 3D nel tuo ambiente.</h3>
-  <div id="qr-code" style="margin: 20px auto; display: block;"></div> <!-- QR generated here -->
+        <!-- Modal QR per AR su PC (NUOVO) -->
+<div id="ar-qr-modal" style="
+  display:none; position:fixed; inset:0; z-index:1000;
+  background: rgba(0,0,0,0.35);
+">
+  <div style="
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    background: var(--background-color); color: var(--text-color);
+    width:min(92vw, 420px); padding:24px; border-radius:16px;
+    box-shadow:0 10px 35px rgba(0,0,0,.25);
+  ">
+    <button class="qr-close" aria-label="Chiudi"
+      style="position:absolute; top:10px; right:12px; border:none; background:transparent;
+             font-size:24px; font-weight:700; color:#45b6fe; cursor:pointer; line-height:1;">
+      ×
+    </button>
+
+    <h3 style="margin:0 0 8px 0; font-size:18px;">Scansiona il QR CODE con la fotocamera del tuo smartphone/tablet per simulare la scena 3D nel tuo ambiente.</h3>
+    <div id="qr-code" style="display:flex; align-items:center; justify-content:center; padding:12px;"></div>
+  </div>
 </div>
         <!-- Bottone AR in basso dx -->
         <div class="ar-button-container">
