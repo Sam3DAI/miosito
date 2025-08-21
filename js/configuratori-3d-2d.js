@@ -1,4 +1,4 @@
-// configuratori-3d-2d.js — build 2025-08-21d (Sam, deep-link AR deterministico)
+// configuratori-3d-2d.js — build 2025-08-21e (Sam, auto-AR con tap overlay se richiesto)
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Selettori base / UI
@@ -456,6 +456,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch {}
       }
 
+      function forcePNG(url) {
+        try { const u = new URL(url); if (u.hostname.includes('res.cloudinary.com')) u.searchParams.set('format','png'); return u.toString(); }
+        catch { return url.replace('format=auto','format=png'); }
+      }
+
       async function syncMVFromPageState() {
         if (!mv) return;
         await mv.updateComplete;
@@ -482,6 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const headphonesOn = !!document.getElementById('toggle-airpods')?.checked;
         setAirpodsVisibleInMV(headphonesOn);
+
         mv.model.materials.forEach(mat => {
           if (!shouldHideMatName(mat.name)) return;
 
@@ -519,10 +525,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Helpers URL/config
-      function forcePNG(url) {
-        try { const u = new URL(url); if (u.hostname.includes('res.cloudinary.com')) u.searchParams.set('format','png'); return u.toString(); }
-        catch { return url.replace('format=auto','format=png'); }
-      }
       function getQuery() {
         const q = new URLSearchParams(location.search);
         return {
@@ -534,16 +536,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       function setFormSelectionsFromQuery() {
         const { color, bg, airpods } = getQuery();
-        if (color) {
-          const el = document.getElementById(color);
-          if (el && el.type === 'radio') { el.checked = true; }
-        }
-        if (bg) {
-          const el = document.getElementById(bg);
-          if (el && el.type === 'radio') { el.checked = true; }
-        }
+        if (color) { const el = document.getElementById(color); if (el && el.type === 'radio') el.checked = true; }
+        if (bg) { const el = document.getElementById(bg); if (el && el.type === 'radio') el.checked = true; }
         const tgl = document.getElementById('toggle-airpods');
-        if (tgl && typeof airpods === 'boolean') { tgl.checked = airpods; }
+        if (tgl && typeof airpods === 'boolean') tgl.checked = airpods;
       }
       function applyConfigToBabylonDirect() {
         const { color, bg, airpods } = getQuery();
@@ -556,7 +552,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const tgl = document.getElementById('toggle-airpods');
         if (tgl && airpods !== undefined && airpodsNode) {
           airpodsNode.setEnabled(!!airpods);
-          // fallback: eventuali mesh "ombra cuffie"
           scene.meshes.forEach(m => {
             if (!m || m.name == null) return;
             if (/(cuffie|airpods).*(shadow|ombra)|(shadow|ombra).*(cuffie|airpods)/i.test(m.name)) {
@@ -581,7 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return url.toString();
       }
 
-      // Toggle cuffie Babylon + MV
+      // Toggle cuffie Babylon
       const toggle = document.getElementById('toggle-airpods');
       if (airpodsNode && toggle) {
         airpodsNode.setEnabled(!!toggle.checked);
@@ -639,37 +634,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // -------- Deep-link da QR: flusso deterministico --------
+      // -------- Deep-link da QR: flusso deterministico con overlay tap --------
       (function handleDeepLink() {
         const q = getQuery();
         const isMobileUA = /Android|iPhone|iPad/i.test(navigator.userAgent);
         if (!isMobileUA) return;
 
-        // 1) Imposta UI senza innescare rimbalzi
+        // 1) Imposta UI (senza dispatch di change) + applica SUBITO a Babylon
         setFormSelectionsFromQuery();
-
-        // 2) Applica SUBITO anche a Babylon (niente attese di 'change')
         applyConfigToBabylonDirect();
 
-        // 3) Auto-AR se ar=1
+        // 2) Auto-AR se ar=1
         if (!q.ar) return;
 
         const startAR = async () => {
-          // iOS: rimuovi ios-src => Quick Look userà USDZ dalla scena corrente (material edits inclusi)
+          // iOS: rimuovi ios-src (USDZ auto-generata riflette le modifiche). 
           if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
 
-          // Applica config ALLA SCENA <model-viewer>
           await syncMVFromPageState();
-
-          // Aspetta due frame per sicurezza (evita corsa tra texture-set e activateAR)
           await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-          // Chiama activateAR, con un piccolo retry che copre Safari che ignora la 1ª chiamata sporadica
-          try { await mv.activateAR(); }
-          catch (e1) {
-            console.warn('activateAR() prima chiamata non riuscita, ritento...', e1);
-            await new Promise(r => setTimeout(r, 120));
-            try { await mv.activateAR(); } catch(e2){ console.warn('activateAR() retry fallito:', e2); }
+          // Prova ad aprire subito
+          let opened = false;
+          try { await mv.activateAR(); opened = true; } catch {}
+
+          if (!opened) {
+            // Mostra overlay "tap per aprire AR" (richiesta gesto utente su iOS)
+            const overlay = document.createElement('div');
+            overlay.id = 'ar-autostart-overlay';
+            overlay.setAttribute('role','dialog');
+            overlay.style.cssText = `
+              position:fixed; inset:0; z-index:10000; display:flex; align-items:center; justify-content:center;
+              background:rgba(0,0,0,0.45); -webkit-backdrop-filter:saturate(120%) blur(2px); backdrop-filter:saturate(120%) blur(2px);
+            `;
+            overlay.innerHTML = `
+              <div style="background:var(--background-color,#fff); color:var(--text-color,#111); padding:20px 18px; border-radius:16px; width:min(92vw,420px);
+                          text-align:center; box-shadow:0 10px 35px rgba(0,0,0,.25);">
+                <div style="font-weight:700; font-size:18px; margin-bottom:6px;">Tocca per aprire la Realtà Aumentata</div>
+                <div style="font-size:14px; opacity:.9; margin-bottom:14px;">Apri la scena AR con la configurazione che hai scelto.</div>
+                <button id="ar-open-now" style="display:inline-block; padding:10px 16px; border-radius:999px; border:0; cursor:pointer;
+                        background:#45b6fe; color:#fff; font-weight:700;">Apri in AR</button>
+              </div>`;
+            document.body.appendChild(overlay);
+
+            const openNow = overlay.querySelector('#ar-open-now');
+            const handler = async () => {
+              try { await mv.activateAR(); } finally { overlay.remove(); }
+            };
+            // primo gesto valido: click/touch su bottone o overlay
+            openNow.addEventListener('click', handler, { once:true });
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) handler(); }, { once:true });
           }
         };
 
