@@ -1,4 +1,4 @@
-// configuratori-3d-2d.js — build 2025-08-21 (Sam)
+// configuratori-3d-2d.js — build 2025-08-21b (Sam, fix AR+QR+Chart)
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Selettori base
@@ -122,12 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!babylonScene) return;
     const isDark = body.classList.contains('dark-mode');
     const bg = isDark ? '#000000' : '#FAFAFA';
-    // Canvas e contenitore: assicurati che il compositing non inquini il colore
     const canvas = document.getElementById('renderCanvas');
     if (canvas) canvas.style.backgroundColor = bg;
     const container = canvas?.parentElement;
     if (container) container.style.backgroundColor = bg;
-    // WebGL clearColor (opaco)
     const c = BABYLON.Color3.FromHexString(bg);
     babylonScene.clearColor = new BABYLON.Color4(c.r, c.g, c.b, 1);
   }
@@ -216,30 +214,45 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ---------------------------------
-   * Grafico stat (ApexCharts)
+   * ApexCharts — ripristino versione orizzontale/distributed
    * --------------------------------- */
   (function initStatsChart() {
     if (typeof ApexCharts === 'undefined') return;
     const target = document.querySelector('#stats-chart');
     if (!target) return;
     const options = () => ({
-      chart: { type: 'radar', height: 330, toolbar: { show: false }, animations: { enabled: true } },
-      series: [{ name: 'Impatto', data: [90, 85, 88, 92] }],
-      labels: ['Tempo Sviluppo', 'Tasso di Conversione', 'Costi Manutenzione', 'Soddisfazione Clienti'],
-      xaxis: { labels: { style: { colors: getAxisLabelColor(), fontSize: '14px' } } },
-      yaxis: {
-        show: true, tickAmount: 4, min: 0, max: 100,
-        labels: {
-          formatter: (v) => (v % 25 === 0 ? v : ''),
-          style: { colors: getAxisLabelColor(), fontSize: '12px' }
-        }
+      chart: {
+        type: 'bar',
+        height: 350,
+        animations: {
+          enabled: true, easing: 'easeinout', speed: 2000,
+          animateGradually: { enabled: true, delay: 150 },
+          dynamicAnimation: { enabled: true, speed: 350 }
+        },
+        toolbar: { show: false }
       },
+      plotOptions: { bar: { horizontal: true, barHeight: '75%', distributed: true } },
       dataLabels: { enabled: false },
-      stroke: { width: 2 },
-      fill: { opacity: 0.2 },
-      markers: { size: 3 },
-      grid: { show: false },
-      colors: ['#45b6fe']
+      series: [{ data: [82, 94, 66, 40] }],
+      xaxis: {
+        categories: ['Engagement Utenti', 'Tasso di Conversione', 'Soddisfazione Clienti', 'Riduzione Resi'],
+        labels: { formatter: v => `${v}%`, style: { colors: getAxisLabelColor(), fontSize: '14px' } },
+        axisBorder: { show: false }, axisTicks: { show: false }
+      },
+      yaxis: {
+        labels: {
+          formatter: value => {
+            if (value === 'Engagement Utenti') return ['Engagement','Utenti'];
+            if (value === 'Tasso di Conversione') return ['Tasso di','Conversione'];
+            if (value === 'Soddisfazione Clienti') return ['Soddisfazione','Clienti'];
+            return value;
+          },
+          style: { colors: getAxisLabelColor(), fontSize: '14px' }
+        },
+        axisBorder: { show: false }, axisTicks: { show: false }
+      },
+      colors: ['#45b6fe','#6a9bfe','#8f80fe','#d95bc5'],
+      grid: { show: false }, tooltip: { enabled: false }
     });
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -250,21 +263,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, { threshold: 0.1 });
     obs.observe(target);
-  })();
+  })(); // Fonte originale del setup grafico: file della tua pagina. :contentReference[oaicite:3]{index=3}:contentReference[oaicite:4]{index=4}
 
   /* ---------------------------------
    * Babylon.js configuratore 3D
    * --------------------------------- */
   if (document.getElementById('renderCanvas')) {
     const canvas = document.getElementById('renderCanvas');
-
-    // Impedisci menu tasto destro (serve per pan)
     canvas.addEventListener('contextmenu', e => e.preventDefault());
 
     const engine = new BABYLON.Engine(canvas, true, {
       antialias: true,
       adaptToDeviceRatio: true,
-      alpha: false,                // canvas opaco = stesso colore dello sfondo pagina
+      alpha: false,
       preserveDrawingBuffer: true,
       stencil: true
     });
@@ -290,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateBackground();
     if (themeToggle) themeToggle.addEventListener('click', updateBackground);
 
-    // Luci base
+    // Luci
     new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene).intensity = 0.4;
     const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
     dirLight.position = new BABYLON.Vector3(5, 10, 5);
@@ -300,22 +311,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Camera
     const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-    camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02; // zoom morbido
+    camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02;
     camera.pinchDeltaPercentage = 0.01;
     camera.useNaturalPinchZoom = true;
     camera.inertia = 0.88;
     camera.panningInertia = 0.85;
     camera.minZ = 0.01;
 
-    // Pan con tasto destro (non Ctrl) + sensibilità (PRIMA di attachControl)
+    // Pan con RMB
     const pi = camera.inputs.attached.pointers;
     if (pi) {
-      pi.buttons = [0, 1, 2];           // abilita tutti i pulsanti
+      pi.buttons = [0, 1, 2];
       pi.useCtrlForPanning = false;
-      pi.panningMouseButton = 2;        // RMB = pan
+      pi.panningMouseButton = 2; // destro = pan
     }
-    camera.panningSensibility = 2000;   // più alto = pan più lento/controllato
-
+    camera.panningSensibility = 2000;
     camera.attachControl(canvas, true, false, true);
 
     // Autorotate dolce sul pivot
@@ -331,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
       autoRotateTimer = setTimeout(() => (isRotating = true), 3000);
     });
 
-    // Env + Post (bloom con soglia alta: non altera lo sfondo)
+    // Env + Post
     scene.environmentTexture  = BABYLON.CubeTexture.CreateFromPrefilteredData(
       'https://assets.babylonjs.com/environments/studio.env', scene
     );
@@ -401,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scoccaMaterials  = scoccaMaterials;
       window.schermoMaterial  = schermoMaterial;
 
-      // Textures (no preload/prefetch)
+      // Textures (niente preload)
       const textures = {
         color: {
           bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
@@ -418,7 +428,6 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       window.textures = textures;
 
-      // Assegnazione texture senza preload/prefetch
       function setAlbedo(materialNames, url) {
         const tex = new BABYLON.Texture(url, scene, true, false, BABYLON.Texture.TRILINEAR_SAMPLINGMODE);
         tex.wrapU = tex.wrapV = BABYLON.Texture.WRAP_ADDRESSMODE;
@@ -442,26 +451,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Toggle cuffie: OFF = nodo intero disabilitato (sparisce anche qualsiasi ombra)
-      const toggle = document.getElementById('toggle-airpods');
-      if (airpodsNode && toggle) {
-        airpodsNode.setEnabled(!!toggle.checked);
-        toggle.addEventListener('change', () => {
-          airpodsNode.setEnabled(toggle.checked);
-          // fallback: se esistono mesh con pattern “ombra/shadow” delle cuffie
-          scene.meshes.forEach(m => {
-            if (!m || m.name == null) return;
-            if (/(cuffie|airpods).*(shadow|ombra)|(shadow|ombra).*(cuffie|airpods)/i.test(m.name)) {
-              m.setEnabled(toggle.checked);
-            }
-          });
-        });
-      }
-
-      /* -------- AR ibrida (WebXR + <model-viewer>) -------- */
+      // ---------- AR bridge ----------
       const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
       const arButton = document.getElementById('ar-button');
       const mv = document.getElementById('ar-bridge');
+
+      // Forza niente ombre lato viewer (non Quick Look)
+      if (mv) mv.setAttribute('shadow-intensity','0');
 
       // Utility URL <-> stato configuratore
       function getQuery() {
@@ -477,23 +473,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const { color, bg, airpods } = getQuery();
         if (color) {
           const el = document.getElementById(color);
-          if (el && el.type === 'radio') {
-            el.checked = true;
-            el.dispatchEvent(new Event('change', { bubbles: true }));
-          }
+          if (el && el.type === 'radio') { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
         }
         if (bg) {
           const el = document.getElementById(bg);
-          if (el && el.type === 'radio') {
-            el.checked = true;
-            el.dispatchEvent(new Event('change', { bubbles: true }));
-          }
+          if (el && el.type === 'radio') { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
         }
         const tgl = document.getElementById('toggle-airpods');
-        if (tgl && typeof airpods === 'boolean') {
+        if (tgl) {
           const prev = !!tgl.checked;
-          tgl.checked = airpods;
-          if (prev !== airpods) tgl.dispatchEvent(new Event('change', { bubbles: true }));
+          const want = getQuery().airpods;
+          if (typeof want === 'boolean') { tgl.checked = want; if (prev !== want) tgl.dispatchEvent(new Event('change', { bubbles: true })); }
         }
       }
       function getCurrentConfig() {
@@ -511,7 +501,6 @@ document.addEventListener('DOMContentLoaded', () => {
         url.searchParams.set('airpods', airpodsOn ? '1' : '0');
         return url.toString();
       }
-
       function cloudinaryForcePNG(url) {
         if (!IS_IOS) return url;
         try {
@@ -521,7 +510,30 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch { return url.replace('format=auto','format=png'); }
       }
 
-      // Elenco materiali AR da nascondere (esatti + fallback)
+      // ---- HIDE/SHOW Airpods in <model-viewer> (oltre ai materiali)
+      // Usa scene graph interno di model-viewer (Three.js) per togglare .visible
+      // NB: API non pubblica; funziona come fallback robusto per AR. :contentReference[oaicite:5]{index=5}
+      function setAirpodsVisibleInMV(visible) {
+        try {
+          if (!mv) return;
+          const sceneSym = Object.getOwnPropertySymbols(mv).find(s => s.description === 'scene');
+          const threeScene = mv[sceneSym];
+          const root = threeScene?.children?.[0];
+          if (!root) return;
+          const names = ['Airpods','airpods','Cuffie','cuffie'];
+          let changed = false;
+          names.forEach(n => {
+            const obj = root.getObjectByName(n);
+            if (obj) { obj.visible = visible; changed = true; }
+          });
+          if (changed) {
+            threeScene.updateShadow?.(); // aggiorna contatto/ombra
+            threeScene.queueRender?.();
+          }
+        } catch (e) { /* no-op */ }
+      }
+
+      // Elenco materiali AR da nascondere (fallback)
       const AIRPODS_HIDE_LIST = ['bianco lucido','gomma','parti_scure cuffie'].map(s => s.toLowerCase());
       function shouldHideMatName(name) {
         const n = (name || '').toLowerCase().trim();
@@ -534,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await mv.updateComplete;
         if (!mv.model) return;
 
-        // Texture correnti (forza PNG su iOS)
+        // Texture correnti (PNG su iOS per Quick Look)
         const colorId = document.querySelector('.color-options input:checked')?.id;
         const bgId    = document.querySelector('.background-options input:checked')?.id;
         const colorUrl = colorId ? cloudinaryForcePNG(textures.color[colorId]) : null;
@@ -554,11 +566,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
 
-        // Cuffie ON/OFF
-        const headphonesOn = document.getElementById('toggle-airpods')?.checked !== false;
+        // Cuffie ON/OFF (materiali + nodo visibilità) — ombre sparite quando OFF
+        const headphonesOn = !!document.getElementById('toggle-airpods')?.checked;
+        setAirpodsVisibleInMV(headphonesOn);
         mv.model.materials.forEach(mat => {
           if (!shouldHideMatName(mat.name)) return;
-          try { mat.setAlphaMode(headphonesOn ? 'BLEND' : 'MASK'); } catch {}
+          try { mat.setAlphaMode(headphonesOn ? 'OPAQUE' : 'MASK'); } catch {}
           if (!headphonesOn) {
             mat.alphaCutoff = 1.0;
             mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
@@ -570,6 +583,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
+      // Toggle cuffie: Babylon (nodo intero) + model-viewer (visibilità)
+      const toggle = document.getElementById('toggle-airpods');
+      if (airpodsNode && toggle) {
+        airpodsNode.setEnabled(!!toggle.checked);
+        setAirpodsVisibleInMV(!!toggle.checked);
+        toggle.addEventListener('change', () => {
+          airpodsNode.setEnabled(toggle.checked);
+          setAirpodsVisibleInMV(toggle.checked);
+          // fallback per eventuali mesh "ombra cuffie"
+          scene.meshes.forEach(m => {
+            if (!m || m.name == null) return;
+            if (/(cuffie|airpods).*(shadow|ombra)|(shadow|ombra).*(cuffie|airpods)/i.test(m.name)) {
+              m.setEnabled(toggle.checked);
+            }
+          });
+        });
+      }
+
       // Click AR
       if (arButton) {
         arButton.addEventListener('click', async () => {
@@ -578,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const isMobile  = /Android|iPhone|iPad/i.test(ua);
 
           if (!isMobile) {
-            // Desktop: genera QR con configurazione corrente
+            // Desktop: QR dinamico con configurazione incorporata
             const m = document.getElementById('ar-qr-modal');
             const box = document.getElementById('qr-code');
             if (m && box && window.QRCode) {
@@ -616,14 +647,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Auto-avvio + ripristino via QR
+      // Deep-link da QR: **prima** applico configurazione, **poi** attivo AR dopo 'load'
       const q = getQuery();
-      if ((q.color || q.bg || typeof q.airpods === 'boolean') && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
+      if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
         setFormSelectionsFromQuery();
-      }
-      if (q.ar && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
-        const arBtn = document.getElementById('ar-button');
-        arBtn && arBtn.click();
+        if (q.ar) {
+          const startAR = async () => { await syncMVFromPageState(); try { await mv.activateAR(); } catch(e){} };
+          if (mv?.model) startAR();
+          else mv.addEventListener('load', startAR, { once: true }); // attendi modello pronto. :contentReference[oaicite:6]{index=6}
+        }
       }
     }, (progress) => {
       if (progress.total > 0) {
