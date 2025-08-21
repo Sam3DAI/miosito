@@ -1,4 +1,4 @@
-// configuratori-3d-2d.js — build 2025-08-21b (Sam, fix AR+QR+Chart)
+// configuratori-3d-2d.js — build 2025-08-21c (Sam, auto-AR+no-flash+dark-parts fix)
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Selettori base
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* ---------------------------------
-   * ApexCharts — ripristino versione orizzontale/distributed
+   * ApexCharts — versione orizzontale/distributed (ripristinata)
    * --------------------------------- */
   (function initStatsChart() {
     if (typeof ApexCharts === 'undefined') return;
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, { threshold: 0.1 });
     obs.observe(target);
-  })(); // Fonte originale del setup grafico: file della tua pagina. :contentReference[oaicite:3]{index=3}:contentReference[oaicite:4]{index=4}
+  })();
 
   /* ---------------------------------
    * Babylon.js configuratore 3D
@@ -411,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scoccaMaterials  = scoccaMaterials;
       window.schermoMaterial  = schermoMaterial;
 
-      // Textures (niente preload)
+      // Textures (niente preload/prefetch)
       const textures = {
         color: {
           bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
@@ -428,14 +428,27 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       window.textures = textures;
 
+      // ----- NO-FLASH texture swap (applica solo dopo load) -----
       function setAlbedo(materialNames, url) {
-        const tex = new BABYLON.Texture(url, scene, true, false, BABYLON.Texture.TRILINEAR_SAMPLINGMODE);
-        tex.wrapU = tex.wrapV = BABYLON.Texture.WRAP_ADDRESSMODE;
-        materialNames.forEach(name => {
-          const mat = scene.getMaterialByName(name);
-          if (mat) mat.albedoTexture = tex;
+        const newTex = new BABYLON.Texture(
+          url, scene, /*noMipMap*/ true, /*invertY*/ false, BABYLON.Texture.TRILINEAR_SAMPLINGMODE
+        );
+        newTex.wrapU = newTex.wrapV = BABYLON.Texture.WRAP_ADDRESSMODE;
+        newTex.onLoadObservable.addOnce(() => {
+          materialNames.forEach(name => {
+            const mat = scene.getMaterialByName(name);
+            if (mat) mat.albedoTexture = newTex;
+          });
         });
       }
+
+      // Warm-up cache (senza blob, solo <img>) per evitare flash al primissimo cambio
+      (function warmTexturesForCache(){
+        const urls = [...Object.values(textures.color), ...Object.values(textures.background)];
+        setTimeout(() => {
+          urls.forEach(u => { const img = new Image(); img.decoding = 'async'; img.src = u; });
+        }, 100);
+      })();
 
       // UI listeners (colori, sfondi)
       document.querySelectorAll('.color-options input').forEach(input => {
@@ -451,12 +464,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // ---------- AR bridge ----------
+      /* -------- AR ibrida (WebXR + <model-viewer>) -------- */
       const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
       const arButton = document.getElementById('ar-button');
       const mv = document.getElementById('ar-bridge');
 
-      // Forza niente ombre lato viewer (non Quick Look)
+      // Disattiva ombre del viewer (non Quick Look)
       if (mv) mv.setAttribute('shadow-intensity','0');
 
       // Utility URL <-> stato configuratore
@@ -480,10 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
           if (el && el.type === 'radio') { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
         }
         const tgl = document.getElementById('toggle-airpods');
-        if (tgl) {
+        if (tgl && typeof airpods === 'boolean') {
           const prev = !!tgl.checked;
-          const want = getQuery().airpods;
-          if (typeof want === 'boolean') { tgl.checked = want; if (prev !== want) tgl.dispatchEvent(new Event('change', { bubbles: true })); }
+          tgl.checked = airpods;
+          if (prev !== airpods) tgl.dispatchEvent(new Event('change', { bubbles: true }));
         }
       }
       function getCurrentConfig() {
@@ -510,9 +523,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch { return url.replace('format=auto','format=png'); }
       }
 
-      // ---- HIDE/SHOW Airpods in <model-viewer> (oltre ai materiali)
-      // Usa scene graph interno di model-viewer (Three.js) per togglare .visible
-      // NB: API non pubblica; funziona come fallback robusto per AR. :contentReference[oaicite:5]{index=5}
+      // ---- Stato originale materiali cuffie (ripristino quando ON)
+      const AR_MAT_ORIG = new Map(); // name -> {alphaMode, alphaCutoff, baseColorFactor, metallicFactor, roughnessFactor}
+
+      // ---- scene graph internamente a <model-viewer> per nascondere nodo cuffie (no ombre)
       function setAirpodsVisibleInMV(visible) {
         try {
           if (!mv) return;
@@ -527,13 +541,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (obj) { obj.visible = visible; changed = true; }
           });
           if (changed) {
-            threeScene.updateShadow?.(); // aggiorna contatto/ombra
+            threeScene.updateShadow?.();
             threeScene.queueRender?.();
           }
         } catch (e) { /* no-op */ }
       }
 
-      // Elenco materiali AR da nascondere (fallback)
+      // Materiali cuffie da considerare per ON/OFF
       const AIRPODS_HIDE_LIST = ['bianco lucido','gomma','parti_scure cuffie'].map(s => s.toLowerCase());
       function shouldHideMatName(name) {
         const n = (name || '').toLowerCase().trim();
@@ -566,19 +580,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
 
-        // Cuffie ON/OFF (materiali + nodo visibilità) — ombre sparite quando OFF
+        // Cuffie ON/OFF in AR
         const headphonesOn = !!document.getElementById('toggle-airpods')?.checked;
+
+        // 1) Nodo visibile/invisibile (no ombre quando OFF)
         setAirpodsVisibleInMV(headphonesOn);
+
+        // 2) Materiali: salva originali una volta e applica OFF/ON
         mv.model.materials.forEach(mat => {
           if (!shouldHideMatName(mat.name)) return;
-          try { mat.setAlphaMode(headphonesOn ? 'OPAQUE' : 'MASK'); } catch {}
+
+          if (!AR_MAT_ORIG.has(mat.name)) {
+            AR_MAT_ORIG.set(mat.name, {
+              alphaMode: mat.alphaMode,
+              alphaCutoff: mat.alphaCutoff,
+              baseColorFactor: (mat.pbrMetallicRoughness.baseColorFactor || [1,1,1,1]).slice(),
+              metallicFactor: mat.pbrMetallicRoughness.metallicFactor,
+              roughnessFactor: mat.pbrMetallicRoughness.roughnessFactor
+            });
+          }
+
           if (!headphonesOn) {
+            try { mat.setAlphaMode('MASK'); } catch {}
             mat.alphaCutoff = 1.0;
             mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
             mat.pbrMetallicRoughness.metallicFactor = 0;
             mat.pbrMetallicRoughness.roughnessFactor = 1;
           } else {
-            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
+            const o = AR_MAT_ORIG.get(mat.name);
+            if (o) {
+              try { mat.setAlphaMode(o.alphaMode || 'OPAQUE'); } catch {}
+              mat.alphaCutoff = (o.alphaCutoff !== undefined ? o.alphaCutoff : 0.5);
+              mat.pbrMetallicRoughness.setBaseColorFactor(o.baseColorFactor);
+              mat.pbrMetallicRoughness.metallicFactor = o.metallicFactor;
+              mat.pbrMetallicRoughness.roughnessFactor = o.roughnessFactor;
+            } else {
+              try { mat.setAlphaMode('OPAQUE'); } catch {}
+              mat.alphaCutoff = 0.5;
+              mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
+            }
           }
         });
       }
@@ -591,7 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toggle.addEventListener('change', () => {
           airpodsNode.setEnabled(toggle.checked);
           setAirpodsVisibleInMV(toggle.checked);
-          // fallback per eventuali mesh "ombra cuffie"
+          // fallback per eventuali mesh "ombra cuffie" in Babylon
           scene.meshes.forEach(m => {
             if (!m || m.name == null) return;
             if (/(cuffie|airpods).*(shadow|ombra)|(shadow|ombra).*(cuffie|airpods)/i.test(m.name)) {
@@ -647,14 +687,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Deep-link da QR: **prima** applico configurazione, **poi** attivo AR dopo 'load'
+      // -------- Deep-link da QR: auto-AR + configurazione corretta --------
       const q = getQuery();
       if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
         setFormSelectionsFromQuery();
+
         if (q.ar) {
-          const startAR = async () => { await syncMVFromPageState(); try { await mv.activateAR(); } catch(e){} };
+          const startAR = async () => {
+            // iOS: rimuovi ios-src per usare USDZ auto-generata dalla scena corrente
+            if (IS_IOS && mv?.hasAttribute('ios-src')) {
+              mv.removeAttribute('ios-src');
+            }
+            await syncMVFromPageState();
+            try { await mv.activateAR(); } catch(e){ console.warn('activateAR() non riuscito:', e); }
+          };
           if (mv?.model) startAR();
-          else mv.addEventListener('load', startAR, { once: true }); // attendi modello pronto. :contentReference[oaicite:6]{index=6}
+          else mv.addEventListener('load', startAR, { once: true });
         }
       }
     }, (progress) => {
