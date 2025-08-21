@@ -524,62 +524,67 @@ document.addEventListener('DOMContentLoaded', () => {
           return u.toString();
         } catch { return url.replace('format=auto','format=png'); }
       }
-      // Elenco materiali AR da nascondere (esatti + fallback)
+      // Elenco materiali AR da nascondere (ampliato con fallback)
       const AIRPODS_HIDE_LIST = [
         'bianco lucido',
         'gomma',
-        'parti_scure cuffie'
+        'parti_scure cuffie',
+        'airpods_material', // fallback aggiuntivi
+        'cuffie_base',
+        'earbuds'
       ].map(s => s.toLowerCase());
       function shouldHideMatName(name) {
         const n = (name || '').toLowerCase().trim();
         if (AIRPODS_HIDE_LIST.includes(n)) return true;
-        // fallback generico per sicurezza
-        return /(cuffie|airpods)/i.test(n);
+        return /(cuffie|airpods|earbuds|headphones)/i.test(n); // Regex ampliata
       }
       async function syncMVFromPageState() {
         if (!mv) return;
-        await mv.updateComplete;
-        if (!mv.model) return;
-        // Texture correnti (forza PNG su iOS)
-        const colorId = document.querySelector('.color-options input:checked')?.id;
-        const bgId = document.querySelector('.background-options input:checked')?.id;
-        const colorUrl = colorId ? cloudinaryForcePNG(textures.color[colorId]) : null;
-        const bgUrl = bgId ? cloudinaryForcePNG(textures.background[bgId]) : null;
-        const applyBaseColorTexture = async (materialName, url) => {
-          if (!url) return;
-          const mat = mv.model.materials.find(m => m.name === materialName);
-          if (!mat) return;
-          const ti = mat.pbrMetallicRoughness.baseColorTexture;
-          const tex = await mv.createTexture(url);
-          if (ti) ti.setTexture(tex);
-        };
-        if (window.scoccaMaterials) {
-          for (const matName of window.scoccaMaterials) await applyBaseColorTexture(matName, colorUrl);
-        }
-        if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
-        // Cuffie OFF in AR iOS: invisibili (alpha 0 + MASK + metall/rough neutri) + hide mesh
-        const headphonesOn = document.getElementById('toggle-airpods')?.checked !== false;
-        mv.model.materials.forEach(mat => {
-          if (!shouldHideMatName(mat.name)) return;
-          try { mat.setAlphaMode(headphonesOn ? 'BLEND' : 'MASK'); } catch {}
-          if (!headphonesOn) {
-            // invisibile
-            mat.alphaCutoff = 1.0;
-            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
-            mat.pbrMetallicRoughness.metallicFactor = 0;
-            mat.pbrMetallicRoughness.roughnessFactor = 1;
-          } else {
-            // visibile
-            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
+        try {
+          await mv.updateComplete;
+          if (!mv.model) return;
+          // Texture correnti (forza PNG su iOS)
+          const colorId = document.querySelector('.color-options input:checked')?.id;
+          const bgId = document.querySelector('.background-options input:checked')?.id;
+          const colorUrl = colorId ? cloudinaryForcePNG(textures.color[colorId]) : null;
+          const bgUrl = bgId ? cloudinaryForcePNG(textures.background[bgId]) : null;
+          const applyBaseColorTexture = async (materialName, url) => {
+            if (!url) return;
+            const mat = mv.model.materials.find(m => m.name === materialName);
+            if (!mat) return;
+            const ti = mat.pbrMetallicRoughness.baseColorTexture;
+            const tex = await mv.createTexture(url);
+            if (ti) ti.setTexture(tex);
+            mat.pbrMetallicRoughness.baseColorTexture.texture.update(); // Force reload
+          };
+          if (window.scoccaMaterials) {
+            for (const matName of window.scoccaMaterials) await applyBaseColorTexture(matName, colorUrl);
           }
-        });
-        // Hide mesh primitives for no shadow/leak
-        mv.model.meshes.forEach(mesh => {
-          if (!/(airpods|cuffie)/i.test(mesh.name)) return;
-          mesh.primitives.forEach(prim => {
-            prim.mesh.visible = headphonesOn;
+          if (window.schermoMaterial) await applyBaseColorTexture(window.schermoMaterial, bgUrl);
+          // Cuffie OFF in AR: invisibili + hide mesh
+          const headphonesOn = document.getElementById('toggle-airpods')?.checked !== false;
+          mv.model.materials.forEach(mat => {
+            if (!shouldHideMatName(mat.name)) return;
+            try { mat.setAlphaMode(headphonesOn ? 'BLEND' : 'MASK'); } catch {}
+            if (!headphonesOn) {
+              mat.alphaCutoff = 1.0;
+              mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
+              mat.pbrMetallicRoughness.metallicFactor = 0;
+              mat.pbrMetallicRoughness.roughnessFactor = 1;
+            } else {
+              mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
+            }
           });
-        });
+          // Hide mesh primitives for no shadow/leak
+          mv.model.meshes.forEach(mesh => {
+            if (!/(airpods|cuffie|earbuds|headphones)/i.test(mesh.name)) return;
+            mesh.primitives.forEach(prim => {
+              prim.mesh.visible = headphonesOn;
+            });
+          });
+        } catch (e) {
+          console.error('Sync MV error:', e); // Catch blob/ other
+        }
       }
       // State persist via URL params
       const urlParams = new URLSearchParams(location.search);
@@ -612,6 +617,19 @@ document.addEventListener('DOMContentLoaded', () => {
           airpods: document.getElementById('toggle-airpods')?.checked ? 'on' : 'off'
         };
       }
+      // Await mv load for auto-AR
+      if (mv) {
+        mv.addEventListener('load', async () => {
+          await syncMVFromPageState();
+          if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
+            try {
+              await mv.activateAR();
+            } catch (e) {
+              console.error('Auto AR fail:', e);
+            }
+          }
+        });
+      }
       if (arButton) {
         arButton.addEventListener('click', async () => {
           const ua = navigator.userAgent;
@@ -621,15 +639,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // PC: Generate dynamic QR with state
             const state = getCurrentState();
             const qrUrl = `${location.origin}${location.pathname}?color=${state.color}&background=${state.background}&airpods=${state.airpods}&ar=1`;
-            const qrDiv = document.getElementById('qr-code');
-            qrDiv.innerHTML = ''; // Clear old QR
-            new QRCode(qrDiv, {
-              text: qrUrl,
-              width: 200,
-              height: 200
-            });
             const m = document.getElementById('ar-qr-modal');
             if (m) m.style.display = 'block';
+            setTimeout(() => { // Delay for DOM flush
+              const qrDiv = document.getElementById('qr-code');
+              qrDiv.innerHTML = ''; // Clear old QR
+              new QRCode(qrDiv, {
+                text: qrUrl,
+                width: 200,
+                height: 200
+              });
+            }, 0);
             return;
           }
           // 1) WebXR (Android)
@@ -654,11 +674,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('AR non disponibile su questo dispositivo/navigatore.');
           }
         });
-      }
-      // Auto-avvio via QR
-      if (location.search.includes('ar=1') && /Android|iPhone/i.test(navigator.userAgent)) {
-        const arBtn = document.getElementById('ar-button');
-        arBtn && arBtn.click();
       }
     }, (progress) => {
       if (progress.total > 0) {
