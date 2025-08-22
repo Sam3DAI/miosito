@@ -1,7 +1,10 @@
-// configuratori-3d-2d.js — build 2025-08-21e (Sam)
+// configuratori-3d-2d.js — build 2025-08-22f (Sam)
+// - Default UI/scene forzati: prima scelta Colore/Background, Cuffie OFF
 // - Deep-link AR robusto con auto-launch + overlay one-tap se bloccato da iOS
-// - Config AR corretta: setURI() (niente blob) + timing deterministico
+// - AR unificata: sempre tramite <model-viewer> (niente WebXR Babylon)
+// - Texture AR sicure: createTexture()+setTexture() e attese reali prima di activateAR()
 // - Babylon: no-flash texture swap; cuffie invisibili senza ombre
+
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Selettori base / UI
@@ -15,46 +18,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const moonIcon = document.querySelector('.theme-icon.moon');
 
   /* ---------------------------------
- * Icona AR: usa immagine Cloudinary
- * --------------------------------- */
-(function setupArButtonUI() {
-  const arBtn = document.getElementById('ar-button');
-  if (!arBtn) return;
+   * Icona AR: usa immagine Cloudinary
+   * --------------------------------- */
+  (function setupArButtonUI() {
+    const arBtn = document.getElementById('ar-button');
+    if (!arBtn) return;
 
-  // icona AR quasi grande quanto il bottone
-  arBtn.innerHTML = `
-    <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1755855493/icona_Realt%C3%A0_Aumentata_y2p4ga.webp"
-         alt=""
-         decoding="async"
-         loading="eager"
-         style="display:block; width:100%; height:100%; object-fit:contain; padding:12%;" />
-  `;
+    arBtn.innerHTML = `
+      <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1755855493/icona_Realt%C3%A0_Aumentata_y2p4ga.webp"
+           alt=""
+           decoding="async"
+           loading="eager"
+           style="display:block; width:100%; height:100%; object-fit:contain; padding:12%;" />
+    `;
 
-  // stile bottone (manteniamo un cerchio con dimensione fissa)
-  Object.assign(arBtn.style, {
-    background: '#fff',
-    borderRadius: '999px',
-    width: '64px',   // diametro bottone
-    height: '64px',
-    padding: '0',
-    lineHeight: '0',
-    boxShadow: '0 4px 10px rgba(63,169,245,0.15)',
-    transition: 'transform .15s ease, box-shadow .2s ease',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden'
-  });
+    Object.assign(arBtn.style, {
+      background: '#fff',
+      borderRadius: '999px',
+      width: '64px',
+      height: '64px',
+      padding: '0',
+      lineHeight: '0',
+      boxShadow: '0 4px 10px rgba(63,169,245,0.15)',
+      transition: 'transform .15s ease, box-shadow .2s ease',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden'
+    });
 
-  arBtn.addEventListener('mouseenter', () => {
-    arBtn.style.transform = 'scale(1.06)';
-    arBtn.style.boxShadow = '0 8px 24px rgba(63,169,245,0.25)';
-  });
-  arBtn.addEventListener('mouseleave', () => {
-    arBtn.style.transform = 'scale(1)';
-    arBtn.style.boxShadow = '0 4px 10px rgba(63,169,245,0.15)';
-  });
-})();
+    arBtn.addEventListener('mouseenter', () => {
+      arBtn.style.transform = 'scale(1.06)';
+      arBtn.style.boxShadow = '0 8px 24px rgba(63,169,245,0.25)';
+    });
+    arBtn.addEventListener('mouseleave', () => {
+      arBtn.style.transform = 'scale(1)';
+      arBtn.style.boxShadow = '0 4px 10px rgba(63,169,245,0.15)';
+    });
+  })();
 
   (function setAriaCurrent() {
     const norm = p => (p || '/').replace(/\/+$/, '') || '/';
@@ -254,8 +255,8 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
    * Babylon.js configuratore 3D
    * --------------------------------- */
-  if (document.getElementById('renderCanvas')) {
-    const canvas = document.getElementById('renderCanvas');
+  const canvas = document.getElementById('renderCanvas');
+  if (canvas) {
     canvas.addEventListener('contextmenu', e => e.preventDefault());
 
     const engine = new BABYLON.Engine(canvas, true, {
@@ -295,8 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Camera + pan RMB
     const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2, 1.2, BABYLON.Vector3.Zero(), scene);
-    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-    camera.wheelDeltaPercentage = isMobile ? 0.01 : 0.02;
+    const isMobileUA = /Android|iPhone|iPad/i.test(navigator.userAgent);
+    camera.wheelDeltaPercentage = isMobileUA ? 0.01 : 0.02;
     camera.pinchDeltaPercentage = 0.01;
     camera.useNaturalPinchZoom = true;
     camera.inertia = 0.88;
@@ -364,13 +365,13 @@ document.addEventListener('DOMContentLoaded', () => {
       setPivot(pv);
       frameCamera(camera, center, maxDim);
 
+      // Materiali & textures
       const allMaterials = scene.materials;
       const scoccaMaterials = allMaterials.filter(m => /scocca|retro|pulsanti|box|bordi|dettagli/i.test(m.name)).map(m => m.name);
       const schermoMaterial = allMaterials.find(m => /schermo|screen/i.test(m.name))?.name;
       window.scoccaMaterials = scoccaMaterials;
       window.schermoMaterial = schermoMaterial;
 
-      // Textures (no preload pesante)
       const textures = {
         color: {
           bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
@@ -387,7 +388,19 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       window.textures = textures;
 
-      // --- NO-FLASH: applica texture in Babylon solo quando caricate ---
+      // ---- DEFAULT DI AVVIO (se non arriva una query string) ----
+      function enforceDefaultsIfMissing() {
+        const ensureFirstChecked = (selector) => {
+          const radios = document.querySelectorAll(`${selector} input[type="radio"]`);
+          if (radios.length && ![...radios].some(r => r.checked)) radios[0].checked = true;
+        };
+        ensureFirstChecked('.color-options');
+        ensureFirstChecked('.background-options');
+        const tgl = document.getElementById('toggle-airpods');
+        if (tgl) tgl.checked = false; // cuffie OFF di default
+      }
+
+      // --- NO-FLASH Babylon: applica texture quando caricate ---
       function setAlbedo(materialNames, url) {
         const newTex = new BABYLON.Texture(url, scene, true, false, BABYLON.Texture.TRILINEAR_SAMPLINGMODE);
         newTex.wrapU = newTex.wrapV = BABYLON.Texture.WRAP_ADDRESSMODE;
@@ -457,34 +470,34 @@ document.addEventListener('DOMContentLoaded', () => {
         catch { return url.replace('format=auto','format=png'); }
       }
       function getQuery() {
-  const q = new URLSearchParams(location.search);
-  const airpodsParam = q.get('airpods'); // può essere null
-  return {
-    ar: q.get('ar') === '1',
-    color: q.get('color') || null,
-    bg: q.get('bg') || null,
-    airpods: airpodsParam === null ? null : airpodsParam === '1'
-  };
-}
+        const q = new URLSearchParams(location.search);
+        const airpodsParam = q.get('airpods');
+        return {
+          ar: q.get('ar') === '1',
+          color: q.get('color') || null,
+          bg: q.get('bg') || null,
+          airpods: airpodsParam === null ? null : airpodsParam === '1'
+        };
+      }
       function setFormSelectionsFromQuery() {
         const { color, bg, airpods } = getQuery();
         if (color) { const el = document.getElementById(color); if (el && el.type === 'radio') el.checked = true; }
         if (bg)    { const el = document.getElementById(bg);    if (el && el.type === 'radio') el.checked = true; }
         const tgl = document.getElementById('toggle-airpods');
-if (tgl && airpods !== null) tgl.checked = airpods;
+        if (tgl && airpods !== null) tgl.checked = airpods;
       }
       function applyConfigToBabylonDirect() {
         const { color, bg, airpods } = getQuery();
         if (color && window.textures?.color[color] && scoccaMaterials?.length) setAlbedo(scoccaMaterials, window.textures.color[color]);
         if (bg && window.textures?.background[bg] && schermoMaterial)         setAlbedo([schermoMaterial], window.textures.background[bg]);
         const tgl = document.getElementById('toggle-airpods');
-if (tgl && airpods !== null && airpodsNode) {
-  airpodsNode.setEnabled(!!airpods);
-  scene.meshes.forEach(m => {
-    if (!m || m.name == null) return;
-    if (/(cuffie|airpods).*(shadow|ombra)|(shadow|ombra).*(cuffie|airpods)/i.test(m.name)) m.setEnabled(!!airpods);
-  });
-}
+        if (tgl && airpods !== null && airpodsNode) {
+          airpodsNode.setEnabled(!!airpods);
+          scene.meshes.forEach(m => {
+            if (!m || m.name == null) return;
+            if (/(cuffie|airpods).*(shadow|ombra)|(shadow|ombra).*(cuffie|airpods)/i.test(m.name)) m.setEnabled(!!airpods);
+          });
+        }
       }
       function getCurrentConfig() {
         const colorId   = document.querySelector('.color-options input:checked')?.id || 'bianco';
@@ -502,29 +515,33 @@ if (tgl && airpods !== null && airpodsNode) {
         return url.toString();
       }
 
-      // === Applica configurazione al <model-viewer> SENZA blob ===
+      // ---- DEFAULT vs Deep-link ----
+      const q = getQuery();
+      const hasDeepLink = q.color || q.bg || (q.airpods !== null);
+      if (!hasDeepLink) {
+        enforceDefaultsIfMissing();
+        applyConfigToBabylonDirect();
+      }
+
+      // === TEXTURE SYNC NEL <model-viewer> ===
       async function applyTextureByURI(materialName, url) {
         if (!url || !mv?.model) return;
         const mat = mv.model.materials.find(m => m.name === materialName);
         if (!mat) return;
-        // PNG forzato su iOS (Quick Look)
+
+        const texInfo = mat.pbrMetallicRoughness.baseColorTexture;
         const uri = IS_IOS ? forcePNG(url) : url;
 
-        // Se esiste la baseColorTexture → setURI sul source (niente blob:)
-        const texInfo = mat.pbrMetallicRoughness.baseColorTexture;
-        const texObj  = texInfo?.texture;
-        const source  = texObj?.source;
-        if (source && typeof source.setURI === 'function') {
-          source.setURI(uri);
-          return;
+        // Carica e assegna (attende davvero il caricamento)
+        const tex = await mv.createTexture(uri);
+        if (texInfo && typeof texInfo.setTexture === 'function') {
+          texInfo.setTexture(tex);
+        } else {
+          // fallback raro: assegna direttamente la texture info
+          mat.pbrMetallicRoughness.baseColorTexture = { texture: tex };
         }
 
-        // Fallback raro: se il materiale non ha una texture (solo fattore), creo la texture.
-        // (Questo usa internamente blob:; serve CSP aggiornata. Vedi patch in fondo.)
-        if (typeof mv.createTexture === 'function' && typeof texInfo?.setTexture === 'function') {
-          const tex = await mv.createTexture(uri);
-          texInfo.setTexture(tex);
-        }
+        await mv.updateComplete;
       }
 
       async function syncMVFromPageState() {
@@ -537,50 +554,21 @@ if (tgl && airpods !== null && airpodsNode) {
         const colorUrl = colorId ? window.textures.color[colorId] : null;
         const bgUrl    = bgId    ? window.textures.background[bgId] : null;
 
-        if (window.scoccaMaterials) {
-          for (const mName of window.scoccaMaterials) await applyTextureByURI(mName, colorUrl);
+        const tasks = [];
+        if (window.scoccaMaterials && colorUrl) {
+          for (const name of window.scoccaMaterials) tasks.push(applyTextureByURI(name, colorUrl));
         }
-        if (window.schermoMaterial) await applyTextureByURI(window.schermoMaterial, bgUrl);
+        if (window.schermoMaterial && bgUrl) {
+          tasks.push(applyTextureByURI(window.schermoMaterial, bgUrl));
+        }
+        await Promise.all(tasks);
 
-        // Cuffie ON/OFF: nodo invisibile (niente ombre) + materiali ripristinati quando ON
-        const headphonesOn = !!document.getElementById('toggle-airpods')?.checked;
-        setAirpodsVisibleInMV(headphonesOn);
-
-        mv.model.materials.forEach(mat => {
-          if (!shouldHideMatName(mat.name)) return;
-
-          if (!AR_MAT_ORIG.has(mat.name)) {
-            AR_MAT_ORIG.set(mat.name, {
-              alphaMode: mat.alphaMode,
-              alphaCutoff: mat.alphaCutoff,
-              baseColorFactor: (mat.pbrMetallicRoughness.baseColorFactor || [1,1,1,1]).slice(),
-              metallicFactor: mat.pbrMetallicRoughness.metallicFactor,
-              roughnessFactor: mat.pbrMetallicRoughness.roughnessFactor
-            });
-          }
-
-          if (!headphonesOn) {
-            try { mat.setAlphaMode('MASK'); } catch {}
-            mat.alphaCutoff = 1.0;
-            mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,0]);
-            mat.pbrMetallicRoughness.metallicFactor = 0;
-            mat.pbrMetallicRoughness.roughnessFactor = 1;
-          } else {
-            const o = AR_MAT_ORIG.get(mat.name);
-            try { mat.setAlphaMode((o && o.alphaMode) || 'OPAQUE'); } catch {}
-            mat.alphaCutoff = (o && o.alphaCutoff !== undefined) ? o.alphaCutoff : 0.5;
-            if (o) {
-              mat.pbrMetallicRoughness.setBaseColorFactor(o.baseColorFactor);
-              mat.pbrMetallicRoughness.metallicFactor = o.metallicFactor;
-              mat.pbrMetallicRoughness.roughnessFactor = o.roughnessFactor;
-            } else {
-              mat.pbrMetallicRoughness.setBaseColorFactor([1,1,1,1]);
-            }
-          }
-        });
+        // Cuffie ON/OFF nel viewer (invisibilità = niente ombre)
+        const on = !!document.getElementById('toggle-airpods')?.checked;
+        setAirpodsVisibleInMV(on);
       }
 
-      // Toggle cuffie in Babylon
+      // Toggle cuffie in Babylon (3D preview)
       const toggle = document.getElementById('toggle-airpods');
       if (airpodsNode && toggle) {
         airpodsNode.setEnabled(!!toggle.checked);
@@ -593,13 +581,26 @@ if (tgl && airpods !== null && airpodsNode) {
         });
       }
 
-      // Click AR (desktop => QR; mobile => WebXR/Quick Look)
+      // === AR UNIFICATA: sempre tramite <model-viewer> ===
+      async function launchARWithSync() {
+        try {
+          // iOS: niente ios-src => USDZ generato dallo stato corrente
+          if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
+
+          await mv.updateComplete;
+          await syncMVFromPageState();            // aspetta texture realmente pronte
+          await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+          await mv.activateAR();                  // potrebbe richiedere gesto su Safari
+        } catch (e) {
+          console.error('AR non disponibile o bloccata:', e);
+          alert('AR non disponibile su questo dispositivo/navigatore.');
+        }
+      }
+
+      // Click AR (desktop => QR; mobile => MV.activateAR con sync)
       if (arButton) {
         arButton.addEventListener('click', async () => {
-          const ua = navigator.userAgent;
-          const isAndroid = /Android/i.test(ua);
-          const isMobile  = /Android|iPhone|iPad/i.test(ua);
-
+          const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
           if (!isMobile) {
             const m = document.getElementById('ar-qr-modal');
             const box = document.getElementById('qr-code');
@@ -610,49 +611,22 @@ if (tgl && airpods !== null && airpodsNode) {
             } else if (m) { m.style.display = 'block'; }
             return;
           }
-
-          // Android WebXR se disponibile
-          try {
-            if (isAndroid && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar')) {
-              await scene.createDefaultXRExperienceAsync({
-                uiOptions: { sessionMode: 'immersive-ar' },
-                optionalFeatures: ['hit-test', 'dom-overlay'],
-                referenceSpaceType: 'local-floor'
-              });
-              return;
-            }
-          } catch (err) { console.warn('WebXR non disponibile, fallback:', err); }
-
-          // Fallback iOS/Android: aggiorna scena e attiva AR
-          try {
-            // iOS: niente ios-src per avere USDZ auto-generata dallo stato corrente
-            if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
-            await mv.updateComplete;
-            await syncMVFromPageState();
-            // due frame di attesa per sicurezza
-            await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-            await mv.activateAR();
-          } catch (e) {
-            console.error('Fallback AR fallito:', e);
-            alert('AR non disponibile su questo dispositivo/navigatore.');
-          }
+          await launchARWithSync();
         });
       }
 
-      // -------- Deep-link da QR: auto-AR (con overlay se serve gesto) --------
+      // -------- Deep-link da QR: auto-AR (overlay “tap per aprire” se serve) --------
       (function handleDeepLink() {
         const q = getQuery();
-        const isMobileUA = /Android|iPhone|iPad/i.test(navigator.userAgent);
-        if (!isMobileUA) return;
+        const isMobileUA2 = /Android|iPhone|iPad/i.test(navigator.userAgent);
+        if (!isMobileUA2) return;
 
-        // 1) imposta UI (senza generare eventi)
+        // 1) imposta UI e Babylon senza flash
         setFormSelectionsFromQuery();
-        // 2) applica subito anche in Babylon (no-flash)
         applyConfigToBabylonDirect();
 
         if (!q.ar) return;
 
-        // overlay "tap per aprire AR" (fallback se l’auto-launch viene bloccato)
         let overlay = null;
         function ensureOverlay() {
           if (overlay || !document.body) return;
@@ -660,34 +634,21 @@ if (tgl && airpods !== null && airpodsNode) {
           overlay.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);backdrop-filter:saturate(140%) blur(2px);z-index:9999;cursor:pointer;';
           overlay.innerHTML = '<div style="background:#fff;border-radius:16px;padding:14px 16px;font:600 16px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.18)">Tocca per aprire la Realtà Aumentata</div>';
           overlay.addEventListener('pointerdown', async () => {
-            try { await tryLaunchAR(true); } finally { overlay?.remove(); overlay=null; }
+            try { await launchARWithSync(); } finally { overlay?.remove(); overlay=null; }
           }, { once:true });
           document.body.appendChild(overlay);
         }
 
-        async function tryLaunchAR(fromGesture=false){
-          // iOS: rimuovi ios-src per USDZ runtime con materiali aggiornati (model-viewer doc) 
-          // (Quick Look riflette le modifiche se ios-src non è impostato) 
-          if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
-
-          await mv.updateComplete;
-          await syncMVFromPageState();
-          await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-
+        async function tryAutoLaunch() {
           try {
-            await mv.activateAR(); // può essere ignorata se non c’è user gesture
-          } catch (e1) {
-            // piccolo retry (alcuni Safari ignorano la 1ª)
-            await new Promise(r => setTimeout(r, 180));
-            try { await mv.activateAR(); } catch(e2){
-              if (!fromGesture) ensureOverlay(); // chiedi un tap e riprova
-            }
+            await launchARWithSync(); // può fallire senza user gesture su Safari
+          } catch {
+            ensureOverlay();
           }
         }
 
-        // Prova auto-launch appena il modello è pronto
-        if (mv?.model) tryLaunchAR(false);
-        else mv.addEventListener('load', () => tryLaunchAR(false), { once:true });
+        if (mv?.model) tryAutoLaunch();
+        else mv.addEventListener('load', tryAutoLaunch, { once:true });
       })();
 
     }, (progress) => {
