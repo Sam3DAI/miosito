@@ -285,10 +285,13 @@
   ar-modes="webxr scene-viewer quick-look"
   camera-controls
   crossorigin="anonymous"
-  loading="eager"
-  reveal="auto"
   style="position:fixed;width:0;height:0;opacity:0;pointer-events:none">
 </model-viewer>
+        <!-- Modal QR per AR su PC (NUOVO) -->
+<div id="ar-qr-modal" style="
+  display:none; position:fixed; inset:0; z-index:1000;
+  background: rgba(0,0,0,0.35);
+">
   <div style="
     position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     background: var(--background-color); color: var(--text-color);
