@@ -14,39 +14,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const sunIcon = document.querySelector('.theme-icon.sun');
   const moonIcon = document.querySelector('.theme-icon.moon');
 
-  (function setupArButtonUI() {
-    const arBtn = document.getElementById('ar-button');
-    if (!arBtn) return;
-    arBtn.innerHTML = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="24" height="24" aria-hidden="true" focusable="false">
-  <g stroke="#222" stroke-width="6" stroke-linecap="round" fill="none">
-    <path d="M100 20 l-10 15 h20 z"/>
-    <path d="M100 180 l-10 -15 h20 z"/>
-    <path d="M20 100 l15 -10 v20 z"/>
-    <path d="M180 100 l-15 -10 v20 z"/>
-    <path d="M50 50 l15 5 -5 -15 z"/>
-    <path d="M150 50 l-15 5 5 -15 z"/>
-    <path d="M50 150 l15 -5 -5 15 z"/>
-    <path d="M150 150 l-15 -5 5 15 z"/>
-  </g>
-  <text x="100" y="110" text-anchor="middle" font-family="Arial, sans-serif"
-        font-size="36" font-weight="bold" fill="#3FA9F5">AR</text>
-</svg>`;
-    Object.assign(arBtn.style, {
-      background: '#fff', borderRadius: '999px',
-      boxShadow: '0 4px 10px rgba(63,169,245,0.15)',
-      transition: 'transform .15s ease, box-shadow .2s ease',
-      color: '#111'
-    });
-    arBtn.addEventListener('mouseenter', () => {
-      arBtn.style.transform = 'scale(1.04)';
-      arBtn.style.boxShadow = '0 8px 24px rgba(63,169,245,0.25)';
-    });
-    arBtn.addEventListener('mouseleave', () => {
-      arBtn.style.transform = 'scale(1)';
-      arBtn.style.boxShadow = '0 4px 10px rgba(63,169,245,0.15)';
-    });
-  })();
+  /* ---------------------------------
+ * Icona AR: usa immagine Cloudinary
+ * --------------------------------- */
+(function setupArButtonUI() {
+  const arBtn = document.getElementById('ar-button');
+  if (!arBtn) return;
+
+  // icona AR (immagine) — niente testo dentro il bottone
+  arBtn.innerHTML = `
+    <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1755855493/icona_Realt%C3%A0_Aumentata_y2p4ga.webp"
+         alt=""
+         width="28" height="28"
+         decoding="async"
+         loading="eager"
+         style="display:block; width:28px; height:28px;" />
+  `;
+
+  // stile bottone (resta bianco per avere contrasto anche in dark mode)
+  Object.assign(arBtn.style, {
+    background: '#fff',
+    borderRadius: '999px',
+    padding: '10px',
+    lineHeight: '0',
+    boxShadow: '0 4px 10px rgba(63,169,245,0.15)',
+    transition: 'transform .15s ease, box-shadow .2s ease',
+    color: '#111'
+  });
+
+  arBtn.addEventListener('mouseenter', () => {
+    arBtn.style.transform = 'scale(1.04)';
+    arBtn.style.boxShadow = '0 8px 24px rgba(63,169,245,0.25)';
+  });
+  arBtn.addEventListener('mouseleave', () => {
+    arBtn.style.transform = 'scale(1)';
+    arBtn.style.boxShadow = '0 4px 10px rgba(63,169,245,0.15)';
+  });
+})();
+
 
   (function setAriaCurrent() {
     const norm = p => (p || '/').replace(/\/+$/, '') || '/';
