@@ -21,29 +21,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const arBtn = document.getElementById('ar-button');
   if (!arBtn) return;
 
-  // icona AR (immagine) — niente testo dentro il bottone
+  // icona AR quasi grande quanto il bottone
   arBtn.innerHTML = `
     <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1755855493/icona_Realt%C3%A0_Aumentata_y2p4ga.webp"
          alt=""
-         width="28" height="28"
          decoding="async"
          loading="eager"
-         style="display:block; width:28px; height:28px;" />
+         style="display:block; width:100%; height:100%; object-fit:contain; padding:12%;" />
   `;
 
-  // stile bottone (resta bianco per avere contrasto anche in dark mode)
+  // stile bottone (manteniamo un cerchio con dimensione fissa)
   Object.assign(arBtn.style, {
     background: '#fff',
     borderRadius: '999px',
-    padding: '10px',
+    width: '64px',   // diametro bottone
+    height: '64px',
+    padding: '0',
     lineHeight: '0',
     boxShadow: '0 4px 10px rgba(63,169,245,0.15)',
     transition: 'transform .15s ease, box-shadow .2s ease',
-    color: '#111'
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden'
   });
 
   arBtn.addEventListener('mouseenter', () => {
-    arBtn.style.transform = 'scale(1.04)';
+    arBtn.style.transform = 'scale(1.06)';
     arBtn.style.boxShadow = '0 8px 24px rgba(63,169,245,0.25)';
   });
   arBtn.addEventListener('mouseleave', () => {
@@ -51,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     arBtn.style.boxShadow = '0 4px 10px rgba(63,169,245,0.15)';
   });
 })();
-
 
   (function setAriaCurrent() {
     const norm = p => (p || '/').replace(/\/+$/, '') || '/';
