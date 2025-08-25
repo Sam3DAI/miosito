@@ -1,7 +1,7 @@
-// configuratori-3d-2d.js — build 2025-08-25c (Sam) — AR parity iOS + Android (WebXR)
-// - Usa <model-viewer> con ar-modes="webxr quick-look" e ar-placement="floor"
-// - Evita Scene Viewer (non supporta src blob) e mantiene bake & swap per primo tap
-// - Esperienza: reticolo + tap-to-place + drag su piano (Android WebXR), Quick Look (iOS)
+// configuratori-3d-2d.js — build 2025-08-25d (Sam) — AR parity iOS + Android (WebXR)
+// - iOS: bake & swap prima di activateAR (Quick Look).
+// - Android: NIENTE bake (usa WebXR direttamente), stessa UX (piano, tap-to-place, drag).
+// - Deep-link QR: overlay tap-to-launch anche su Android (richiesta gesture).
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
   function currentTheme() {
     const saved = localStorage.getItem(THEME_KEY);
-    if (saved === 'light' || 'dark') return saved;
+    if (saved === 'light' || saved === 'dark') return saved;
     return mediaDark.matches ? 'dark' : 'light';
   }
   let statsChart = null;
@@ -432,12 +432,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       /* -------- AR bridge (model-viewer) -------- */
       const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+      const IS_ANDROID = /Android/i.test(navigator.userAgent);
       const arButton = document.getElementById('ar-button');
       const mv = document.getElementById('ar-bridge');
       if (mv) {
         mv.setAttribute('shadow-intensity','0');   // viewer nascosto
         mv.setAttribute('ar','');                  // abilita AR
-        mv.setAttribute('ar-modes','webxr quick-look'); // Android WebXR + iOS QuickLook (niente Scene Viewer con blob)
+        mv.setAttribute('ar-modes','webxr quick-look'); // Android WebXR + iOS QuickLook
         mv.setAttribute('ar-placement','floor');   // rilevamento piano e posizionamento a pavimento
         mv.setAttribute('ar-scale','auto');        // scala naturale con pinch se supportato
         mv.setAttribute('reveal','auto');
@@ -576,11 +577,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Click AR (unificato: Android WebXR, iOS Quick Look)
+      // ---------- UTIL COMUNI ----------
+      async function bakeAndSwapSrcIOS() {
+        const blob = await mv.exportScene({binary: true}); // GLB baked
+        const url = URL.createObjectURL(blob);
+        const prev = mv.getAttribute('src') || '';
+        mv.setAttribute('src', url + '#cfg=' + Date.now());
+        if (!mv.model) await new Promise(res => mv.addEventListener('load', res, { once:true }));
+        else await new Promise(r => setTimeout(r, 0));
+        return { url, prev };
+      }
+      function showTapOverlayAndRun(fn) {
+        let overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);backdrop-filter:saturate(140%) blur(2px);z-index:9999;cursor:pointer;';
+        overlay.innerHTML = '<div style="background:#fff;border-radius:16px;padding:14px 16px;font:600 16px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.18)">Tocca per aprire la Realtà Aumentata</div>';
+        overlay.addEventListener('pointerdown', async () => {
+          try { await fn(); } finally { overlay?.remove(); overlay=null; }
+        }, { once:true });
+        document.body.appendChild(overlay);
+      }
+
+      // ---------- Click AR (unificato) ----------
       if (arButton) {
         arButton.addEventListener('click', async () => {
-          const ua = navigator.userAgent;
-          const isMobile  = /Android|iPhone|iPad/i.test(ua);
+          const isMobile  = /Android|iPhone|iPad/i.test(navigator.userAgent);
           if (!isMobile) {
             // Desktop -> QR
             const m = document.getElementById('ar-qr-modal');
@@ -596,32 +616,23 @@ document.addEventListener('DOMContentLoaded', () => {
           // iOS: rimuovi ios-src per auto-USDZ
           if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
 
-          // Android/iOS: assicura attributi AR corretti
+          // Assicura attributi AR
           mv.setAttribute('ar','');
           mv.setAttribute('ar-modes','webxr quick-look');
           mv.setAttribute('ar-placement','floor');
           mv.setAttribute('ar-scale','auto');
 
-          // Applica configurazione + bake & swap
           try {
             await applyConfigToModelViewer();
 
-            const baked = await (async function bakeAndSwapSrc() {
-              const blob = await mv.exportScene({binary: true});
-              const url = URL.createObjectURL(blob);
-              const prev = mv.getAttribute('src') || '';
-              mv.setAttribute('src', url + '#cfg=' + Date.now());
-              if (!mv.model) await new Promise(res => mv.addEventListener('load', res, { once:true }));
-              else await new Promise(r => setTimeout(r, 0));
-              return { url, prev };
-            })();
-
-            await mv.activateAR();
-
-            setTimeout(() => {
-              URL.revokeObjectURL(baked.url);
-              if (baked.prev) mv.setAttribute('src', baked.prev);
-            }, 1500);
+            if (IS_IOS) {
+              const baked = await bakeAndSwapSrcIOS();
+              await mv.activateAR();
+              setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
+            } else {
+              // ANDROID: niente bake, entra direttamente in WebXR
+              await mv.activateAR();
+            }
           } catch (e) {
             console.error('AR non disponibile:', e);
             alert('AR non disponibile su questo dispositivo/navigatore.');
@@ -629,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Deep-link da QR: auto-AR
+      // ---------- Deep-link da QR ----------
       (function handleDeepLink() {
         const q = getQuery();
         const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
@@ -653,35 +664,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!q.ar) return;
 
-        async function tryLaunchAR(){
-          if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
-          mv.setAttribute('ar','');
-          mv.setAttribute('ar-modes','webxr quick-look');
-          mv.setAttribute('ar-placement','floor');
-          mv.setAttribute('ar-scale','auto');
+        const tryLaunchAR = async () => {
           try {
-            await applyConfigToModelViewer();
-            const baked = await (async function bakeAndSwapSrc() {
-              const blob = await mv.exportScene({binary: true});
-              const url = URL.createObjectURL(blob);
-              const prev = mv.getAttribute('src') || '';
-              mv.setAttribute('src', url + '#cfg=' + Date.now());
-              if (!mv.model) await new Promise(res => mv.addEventListener('load', res, { once:true }));
-              else await new Promise(r => setTimeout(r, 0));
-              return { url, prev };
-            })();
-            await mv.activateAR();
-            setTimeout(() => {
-              URL.revokeObjectURL(baked.url);
-              if (baked.prev) mv.setAttribute('src', baked.prev);
-            }, 1500);
-          } catch (e) {
-            console.warn('[AR deep link] auto-launch non riuscito:', e);
-          }
-        }
+            if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
+            mv.setAttribute('ar','');
+            mv.setAttribute('ar-modes','webxr quick-look');
+            mv.setAttribute('ar-placement','floor');
+            mv.setAttribute('ar-scale','auto');
 
-        if (mv?.model) tryLaunchAR();
-        else mv.addEventListener('load', () => tryLaunchAR(), { once:true });
+            await applyConfigToModelViewer();
+
+            if (IS_IOS) {
+              const baked = await bakeAndSwapSrcIOS();
+              await mv.activateAR();
+              setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
+            } else {
+              // ANDROID: serve gesto utente → overlay
+              showTapOverlayAndRun(async () => { await mv.activateAR(); });
+            }
+          } catch (e) {
+            console.warn('[AR deep link] launch non riuscito:', e);
+          }
+        };
+
+        if (mv?.model) tryLaunchAR(); else mv.addEventListener('load', () => tryLaunchAR(), { once:true });
       })();
 
     }, (progress) => {
@@ -706,7 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 });
 
-/* ==== AR First-Tap FIX — Bake & Swap (iOS Quick Look + Android WebXR) ==== */
+/* ==== AR First-Tap FIX — Bake & Swap (iOS) + WebXR diretto (Android) ==== */
 (function hardPatchARFirstTap() {
   const mv = document.getElementById('ar-bridge');
   const oldBtn = document.getElementById('ar-button');
@@ -716,7 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const arBtn = oldBtn.cloneNode(true);
   oldBtn.parentNode.replaceChild(arBtn, oldBtn);
 
-  // Assicura settaggi AR corretti (Android WebXR + iOS Quick Look)
+  // Assicura settaggi AR corretti
   mv.setAttribute('loading', 'eager');
   mv.removeAttribute('ios-src');
   mv.setAttribute('reveal', 'auto');
@@ -769,7 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
     await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
   }
 
-  async function bakeAndSwapSrc() {
+  async function bakeAndSwapSrcIOS() {
     const blob = await mv.exportScene({binary: true});
     const url = URL.createObjectURL(blob);
     const prev = mv.getAttribute('src') || '';
@@ -780,8 +786,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   arBtn.addEventListener('click', async () => {
-    const ua = navigator.userAgent;
-    const isMobile = /Android|iPhone|iPad/i.test(ua);
+    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+    const IS_IOS_LOCAL = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+
     if (!isMobile) {
       const modal = document.getElementById('ar-qr-modal');
       const box = document.getElementById('qr-code');
@@ -800,9 +807,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!mv.model) { await mv.updateComplete; if (!mv.model) await once(mv, 'load'); }
       await applyCurrentConfigToMV();
 
-      const baked = await bakeAndSwapSrc();
-      await mv.activateAR();
-      setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
+      if (IS_IOS_LOCAL) {
+        const baked = await bakeAndSwapSrcIOS();
+        await mv.activateAR();
+        setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
+      } else {
+        // ANDROID: WebXR diretto, niente bake
+        await mv.activateAR();
+      }
     } catch (err) {
       console.error('[AR first-tap fix] Errore:', err);
       alert('AR non disponibile su questo dispositivo/navigatore.');
@@ -817,9 +829,21 @@ document.addEventListener('DOMContentLoaded', () => {
         await mv.updateComplete;
         if (!mv.model) await once(mv, 'load');
         await applyCurrentConfigToMV();
-        const baked = await bakeAndSwapSrc();
-        await mv.activateAR();
-        setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
+
+        if (IS_IOS) {
+          const baked = await bakeAndSwapSrcIOS();
+          await mv.activateAR();
+          setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
+        } else {
+          // ANDROID: richiedi gesto utente con overlay
+          let overlay = document.createElement('div');
+          overlay.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);backdrop-filter:saturate(140%) blur(2px);z-index:9999;cursor:pointer;';
+          overlay.innerHTML = '<div style="background:#fff;border-radius:16px;padding:14px 16px;font:600 16px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.18)">Tocca per aprire la Realtà Aumentata</div>';
+          overlay.addEventListener('pointerdown', async () => {
+            try { await mv.activateAR(); } finally { overlay?.remove(); overlay=null; }
+          }, { once:true });
+          document.body.appendChild(overlay);
+        }
       } catch (e) {
         console.warn('[AR deep link] auto-launch non riuscito:', e);
       }
