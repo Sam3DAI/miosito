@@ -1,9 +1,7 @@
-// configuratori-3d-2d.js — build 2025-08-25a (Sam) — AR first-tap fix (iOS/Quick Look)
-// - Model-Viewer: sempre createTexture() + setTexture() (no setURI diretto)
-// - Attese deterministiche prima di activateAR() (updateComplete + 2×rAF)
-// - Cache-bust iOS con stamp della configurazione (evita USDZ "vecchio")
-// - Default radio di Colore/Sfondo auto-selezionati se mancanti
-// - Nessuna modifica HTML richiesta
+// configuratori-3d-2d.js — build 2025-08-25b (Sam) — AR parity iOS + Android (WebXR)
+// - Usa <model-viewer> con ar-modes="webxr quick-look" e ar-placement="floor"
+// - Evita Scene Viewer (non supporta src blob) e mantiene bake & swap per primo tap
+// - Esperienza: reticolo + tap-to-place + drag su piano (Android WebXR), Quick Look (iOS)
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
@@ -436,7 +434,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
       const arButton = document.getElementById('ar-button');
       const mv = document.getElementById('ar-bridge');
-      if (mv) mv.setAttribute('shadow-intensity','0'); // niente ombre nel viewer nascosto
+      if (mv) {
+        mv.setAttribute('shadow-intensity','0');   // viewer nascosto
+        mv.setAttribute('ar','');                  // abilita AR
+        mv.setAttribute('ar-modes','webxr quick-look'); // Android WebXR + iOS QuickLook (niente Scene Viewer con blob)
+        mv.setAttribute('ar-placement','floor');   // rilevamento piano e posizionamento a pavimento
+        mv.setAttribute('ar-scale','auto');        // scala naturale con pinch se supportato
+        mv.setAttribute('reveal','auto');
+      }
 
       // AirPods visibilità in model-viewer
       function setAirpodsVisibleInMV(visible) {
@@ -476,14 +481,8 @@ document.addEventListener('DOMContentLoaded', () => {
       function toIOSPngWithStamp(url, stamp) {
         try {
           const u = new URL(url);
-          if (u.hostname.includes('res.cloudinary.com')) {
-            u.searchParams.set('format','png');
-            u.searchParams.set('v', stamp);
-          } else {
-            // fallback generico
-            u.searchParams.set('format','png');
-            u.searchParams.set('v', stamp);
-          }
+          u.searchParams.set('format','png');
+          u.searchParams.set('v', stamp);
           return u.toString();
         } catch {
           const sep = url.includes('?') ? '&' : '?';
@@ -525,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const uri = IS_IOS ? toIOSPngWithStamp(url, stamp) : url;
         const mat = mv.model.materials.find(m => m.name === materialName);
         if (!mat) return;
-        const tex = await mv.createTexture(uri); // garantisce immagine caricata
+        const tex = await mv.createTexture(uri);
         const texInfo = mat.pbrMetallicRoughness.baseColorTexture;
         if (texInfo && typeof texInfo.setTexture === 'function') {
           texInfo.setTexture(tex);
@@ -577,15 +576,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Click AR
+      // Click AR (unificato: Android WebXR, iOS Quick Look)
       if (arButton) {
         arButton.addEventListener('click', async () => {
           const ua = navigator.userAgent;
-          const isAndroid = /Android/i.test(ua);
           const isMobile  = /Android|iPhone|iPad/i.test(ua);
-
-          // Desktop -> QR
           if (!isMobile) {
+            // Desktop -> QR
             const m = document.getElementById('ar-qr-modal');
             const box = document.getElementById('qr-code');
             if (m && box && window.QRCode) {
@@ -596,33 +593,42 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
           }
 
-          // Android WebXR se disponibile
+          // iOS: rimuovi ios-src per auto-USDZ
+          if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
+
+          // Android/iOS: assicura attributi AR corretti
+          mv.setAttribute('ar','');
+          mv.setAttribute('ar-modes','webxr quick-look');
+          mv.setAttribute('ar-placement','floor');
+          mv.setAttribute('ar-scale','auto');
+
+          // Applica configurazione + bake & swap
           try {
-            if (isAndroid && navigator.xr && await navigator.xr.isSessionSupported('immersive-ar')) {
-              await scene.createDefaultXRExperienceAsync({
-                uiOptions: { sessionMode: 'immersive-ar' },
-                optionalFeatures: ['hit-test', 'dom-overlay'],
-                referenceSpaceType: 'local-floor'
-              });
+            await applyConfigToModelViewer();
+            // Verifica disponibilità AR (WebXR o QuickLook)
+            if (typeof mv.canActivateAR === 'boolean' && !mv.canActivateAR) {
+              alert('AR non disponibile su questo dispositivo/navigatore (servono ARCore/WebXR o iOS Quick Look).');
               return;
             }
-          } catch (err) { console.warn('WebXR non disponibile, fallback:', err); }
+            const baked = await (async function bakeAndSwapSrc() {
+              const blob = await mv.exportScene({binary: true});
+              const url = URL.createObjectURL(blob);
+              const prev = mv.getAttribute('src') || '';
+              mv.setAttribute('src', url + '#cfg=' + Date.now());
+              if (!mv.model) await new Promise(res => mv.addEventListener('load', res, { once:true }));
+              else await new Promise(r => setTimeout(r, 0));
+              return { url, prev };
+            })();
 
-          // iOS/Android fallback via model-viewer (deterministico)
-          try {
-            // iOS: assicura USDZ runtime (niente ios-src statico)
-            if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
-            await applyConfigToModelViewer(); // <<--- FIX CHIAVE
             await mv.activateAR();
+
+            setTimeout(() => {
+              URL.revokeObjectURL(baked.url);
+              if (baked.prev) mv.setAttribute('src', baked.prev);
+            }, 1500);
           } catch (e) {
-            // piccolo retry (alcuni Safari ignorano la 1ª)
-            try {
-              await new Promise(r => setTimeout(r, 180));
-              await mv.activateAR();
-            } catch (e2) {
-              console.error('AR non disponibile:', e2);
-              alert('AR non disponibile su questo dispositivo/navigatore.');
-            }
+            console.error('AR non disponibile:', e);
+            alert('AR non disponibile su questo dispositivo/navigatore.');
           }
         });
       }
@@ -651,33 +657,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!q.ar) return;
 
-        let overlay = null;
-        function ensureOverlay() {
-          if (overlay || !document.body) return;
-          overlay = document.createElement('div');
-          overlay.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);backdrop-filter:saturate(140%) blur(2px);z-index:9999;cursor:pointer;';
-          overlay.innerHTML = '<div style="background:#fff;border-radius:16px;padding:14px 16px;font:600 16px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.18)">Tocca per aprire la Realtà Aumentata</div>';
-          overlay.addEventListener('pointerdown', async () => {
-            try { await tryLaunchAR(true); } finally { overlay?.remove(); overlay=null; }
-          }, { once:true });
-          document.body.appendChild(overlay);
-        }
-
-        async function tryLaunchAR(fromGesture=false){
+        async function tryLaunchAR(){
           if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
-          await applyConfigToModelViewer(); // <<--- FIX CHIAVE ANCHE QUI
+          mv.setAttribute('ar','');
+          mv.setAttribute('ar-modes','webxr quick-look');
+          mv.setAttribute('ar-placement','floor');
+          mv.setAttribute('ar-scale','auto');
           try {
+            await applyConfigToModelViewer();
+            const baked = await (async function bakeAndSwapSrc() {
+              const blob = await mv.exportScene({binary: true});
+              const url = URL.createObjectURL(blob);
+              const prev = mv.getAttribute('src') || '';
+              mv.setAttribute('src', url + '#cfg=' + Date.now());
+              if (!mv.model) await new Promise(res => mv.addEventListener('load', res, { once:true }));
+              else await new Promise(r => setTimeout(r, 0));
+              return { url, prev };
+            })();
             await mv.activateAR();
-          } catch (e1) {
-            await new Promise(r => setTimeout(r, 180));
-            try { await mv.activateAR(); } catch(e2){
-              if (!fromGesture) ensureOverlay();
-            }
+            setTimeout(() => {
+              URL.revokeObjectURL(baked.url);
+              if (baked.prev) mv.setAttribute('src', baked.prev);
+            }, 1500);
+          } catch (e) {
+            console.warn('[AR deep link] auto-launch non riuscito:', e);
           }
         }
 
-        if (mv?.model) tryLaunchAR(false);
-        else mv.addEventListener('load', () => tryLaunchAR(false), { once:true });
+        if (mv?.model) tryLaunchAR();
+        else mv.addEventListener('load', () => tryLaunchAR(), { once:true });
       })();
 
     }, (progress) => {
@@ -701,145 +709,115 @@ document.addEventListener('DOMContentLoaded', () => {
     x && x.addEventListener('click', () => { modal.style.display = 'none'; });
   })();
 });
-/* ==== AR First-Tap FIX — Bake & Swap (iOS/Quick Look + Android Scene Viewer) ==== */
+
+/* ==== AR First-Tap FIX — Bake & Swap (iOS Quick Look + Android WebXR) ==== */
 (function hardPatchARFirstTap() {
   const mv = document.getElementById('ar-bridge');
   const oldBtn = document.getElementById('ar-button');
   if (!mv || !oldBtn) return;
 
-  // 1) rimuovi i vecchi listener dal bottone (clonandolo)
+  // Rimuovi vecchi listener clonando il bottone
   const arBtn = oldBtn.cloneNode(true);
   oldBtn.parentNode.replaceChild(arBtn, oldBtn);
 
-  // 2) garantisci preload e USDZ auto-generata (no ios-src statico)
-  mv.setAttribute('loading', 'eager');         // vedi doc: pre-carica il modello
-  mv.removeAttribute('ios-src');               // Quick Look deve generare la USDZ dallo stato corrente
-  mv.setAttribute('reveal', 'auto');           // nessun poster blocking
+  // Assicura settaggi AR corretti (Android WebXR + iOS Quick Look)
+  mv.setAttribute('loading', 'eager');
+  mv.removeAttribute('ios-src');
+  mv.setAttribute('reveal', 'auto');
+  mv.setAttribute('ar','');
+  mv.setAttribute('ar-modes','webxr quick-look');
+  mv.setAttribute('ar-placement','floor');
+  mv.setAttribute('ar-scale','auto');
 
   const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
-
-  // util: attende un evento una sola volta
   const once = (el, event) => new Promise(res => el.addEventListener(event, () => res(), { once:true }));
 
-  // Applica la config corrente al model-viewer (usa oggetti già presenti nel tuo JS: window.textures, window.scoccaMaterials, window.schermoMaterial)
   async function applyCurrentConfigToMV() {
     await mv.updateComplete;
     if (!mv.model) return;
 
     const colorId = document.querySelector('.color-options input:checked')?.id || 'bianco';
     const bgId    = document.querySelector('.background-options input:checked')?.id || 'sfondo-nero-bronzo';
-
     const colorUrl = window.textures?.color?.[colorId] || null;
     const bgUrl    = window.textures?.background?.[bgId] || null;
 
-    // Applica usando Scene Graph API: createTexture + setTexture (riflette in Quick Look se USDZ è auto-generata)
     async function setBaseColor(matName, url) {
       if (!url || !mv.model) return;
       const mat = mv.model.materials.find(m => m.name === matName);
       if (!mat) return;
       const texInfo = mat.pbrMetallicRoughness.baseColorTexture;
-      const tex = await mv.createTexture(url);
+      const uri = IS_IOS ? (function toIOSPngWithStamp(url){
+        try { const u = new URL(url); u.searchParams.set('format','png'); u.searchParams.set('v', Date.now()); return u.toString(); }
+        catch { const sep = url.includes('?') ? '&':'?'; return `${url}${sep}format=png&v=${Date.now()}`; }
+      })(url) : url;
+      const tex = await mv.createTexture(uri);
       texInfo?.setTexture(tex);
     }
 
     if (Array.isArray(window.scoccaMaterials)) {
-      for (const name of window.scoccaMaterials) {
-        await setBaseColor(name, colorUrl);
-      }
+      for (const name of window.scoccaMaterials) await setBaseColor(name, colorUrl);
     }
-    if (window.schermoMaterial) {
-      await setBaseColor(window.schermoMaterial, bgUrl);
-    }
+    if (window.schermoMaterial) await setBaseColor(window.schermoMaterial, bgUrl);
 
-    // Visibilità cuffie in MV (se esiste il toggle)
-    const hpOn = !!document.getElementById('toggle-airpods')?.checked;
+    // cuffie
     try {
+      const hpOn = !!document.getElementById('toggle-airpods')?.checked;
       const sceneSym = Object.getOwnPropertySymbols(mv).find(s => s.description === 'scene');
       const threeScene = mv[sceneSym];
       const root = threeScene?.children?.[0];
-      ['Airpods','airpods','Cuffie','cuffie'].forEach(n => {
-        const obj = root?.getObjectByName(n);
-        if (obj) obj.visible = hpOn;
-      });
+      ['Airpods','airpods','Cuffie','cuffie'].forEach(n => { const o = root?.getObjectByName(n); if (o) o.visible = hpOn; });
       threeScene?.queueRender?.();
     } catch {}
-    
-    // assicura commit
+
     await mv.updateComplete;
     await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
   }
 
-  // Bake: esporta la scena attuale in GLB e ricaricala come src
   async function bakeAndSwapSrc() {
-    // NB: exportScene è parte dell’API ufficiale di <model-viewer>
-    // https://modelviewer.dev/docs/  (metodo exportScene)
-    const blob = await mv.exportScene({binary: true}); // GLB con texture già “baked”
+    const blob = await mv.exportScene({binary: true});
     const url = URL.createObjectURL(blob);
     const prev = mv.getAttribute('src') || '';
-    mv.setAttribute('src', url + '#cfg=' + Date.now()); // cache-bust
-    // attende il nuovo load prima di lanciare l’AR
+    mv.setAttribute('src', url + '#cfg=' + Date.now());
     if (!mv.model) await once(mv, 'load');
     else await new Promise(r => setTimeout(r, 0));
     return { url, prev };
   }
 
-  // Gestione click AR (desktop => QR rimane invariato: usa il tuo handler di QR se serve)
   arBtn.addEventListener('click', async () => {
     const ua = navigator.userAgent;
     const isMobile = /Android|iPhone|iPad/i.test(ua);
     if (!isMobile) {
-      // lascia invariato: desktop QR (se hai già un modale QR, resta quello)
       const modal = document.getElementById('ar-qr-modal');
       const box = document.getElementById('qr-code');
       if (modal && box && window.QRCode) {
-        const shareUrl = (function buildShareUrl(){
-          const url = new URL(location.href);
-          const colorId = document.querySelector('.color-options input:checked')?.id || 'bianco';
-          const bgId    = document.querySelector('.background-options input:checked')?.id || 'sfondo-nero-bronzo';
-          const hp      = !!document.getElementById('toggle-airpods')?.checked;
-          url.searchParams.set('ar','1');
-          url.searchParams.set('color', colorId);
-          url.searchParams.set('bg', bgId);
-          url.searchParams.set('airpods', hp ? '1' : '0');
-          return url.toString();
-        })();
-        box.innerHTML = '';
-        new QRCode(box, { text: shareUrl, width: 220, height: 220 });
-        modal.style.display = 'block';
+        const url = new URL(location.href);
+        const colorId = document.querySelector('.color-options input:checked')?.id || 'bianco';
+        const bgId    = document.querySelector('.background-options input:checked')?.id || 'sfondo-nero-bronzo';
+        const hp      = !!document.getElementById('toggle-airpods')?.checked;
+        url.searchParams.set('ar','1'); url.searchParams.set('color', colorId); url.searchParams.set('bg', bgId); url.searchParams.set('airpods', hp ? '1' : '0');
+        box.innerHTML = ''; new QRCode(box, { text: url.toString(), width: 220, height: 220 }); modal.style.display = 'block';
       }
       return;
     }
 
     try {
-      // 1) assicura che il model-viewer sia realmente pronto la prima volta
-      if (!mv.model) {
-        await mv.updateComplete;
-        if (!mv.model) await once(mv, 'load');
-      }
-
-      // 2) applica la configurazione corrente nel MV
+      if (!mv.model) { await mv.updateComplete; if (!mv.model) await once(mv, 'load'); }
       await applyCurrentConfigToMV();
 
-      // 3) B A K E  (GLB blob con texture già applicate) e reimposta src
+      if (typeof mv.canActivateAR === 'boolean' && !mv.canActivateAR) {
+        alert('AR non disponibile su questo dispositivo/navigatore (servono ARCore/WebXR o iOS Quick Look).');
+        return;
+      }
+
       const baked = await bakeAndSwapSrc();
-
-      // 4) (iOS/Quick Look + Android/Scene Viewer) → AR sempre dalla GLB “baked”
-      //    Nota: Quick Look riflette le texture quando la USDZ è auto-generata dallo stato corrente
-      //          (e noi stiamo proprio forzando quello stato) — vedi doc scena/scenegraph.
       await mv.activateAR();
-
-      // 5) cleanup URL blob dopo il rientro dall’AR (piccolo timeout per sicurezza)
-      setTimeout(() => {
-        URL.revokeObjectURL(baked.url);
-        if (baked.prev) mv.setAttribute('src', baked.prev);
-      }, 1500);
+      setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
     } catch (err) {
       console.error('[AR first-tap fix] Errore:', err);
       alert('AR non disponibile su questo dispositivo/navigatore.');
     }
   }, { passive: true });
 
-  // HARDENING: se arrivi da QR (con ?ar=1), lancia AR con bake appena pronto
   (function deepLinkAutoAR(){
     const q = new URLSearchParams(location.search);
     if (q.get('ar') !== '1') return;
@@ -852,12 +830,9 @@ document.addEventListener('DOMContentLoaded', () => {
         await mv.activateAR();
         setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
       } catch (e) {
-        // Se il browser blocca l’auto-launch, rimani in silenzio (l’utente può toccare il bottone)
         console.warn('[AR deep link] auto-launch non riuscito:', e);
       }
     };
-    // avvia non appena possibile
     if (mv.model) tryLaunch(); else mv.addEventListener('load', tryLaunch, { once:true });
   })();
 })();
-
