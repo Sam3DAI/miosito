@@ -154,7 +154,8 @@ body.dark-mode .social-icon { color: #f5f5f7; }
 .intro-benefits-section,
 .configurator-section,
 .configurator-2d-section,
-.why-choose-section {
+.why-choose-section,
+.chatbot-invite-section {
   content-visibility: auto;
   contain-intrinsic-size: 800px; /* placeholder per evitare layout shift */
 }
@@ -313,6 +314,16 @@ body.dark-mode .why-choose-section p { color: #a1a1a6; }
   .why-choose-section p { font-size: 16px; text-align: left; }
 }
 
+/* Chatbot Invite Section */
+.chatbot-invite-section { padding: 20px 0px; background-color: var(--background-color); text-align: center; }
+.chatbot-invite-section h2 { font-size: 36px; margin-bottom: 20px; color: var(--text-color); }
+.chatbot-invite-section p { font-size: 18px; color: #6e6e73; margin-bottom: 40px; }
+body.dark-mode .chatbot-invite-section p { color: #a1a1a6; }
+@media (max-width: 769px) {
+  .chatbot-invite-section { padding: 30px 20px; }
+  .chatbot-invite-section h2 { font-size: 24px; }
+  .chatbot-invite-section p { font-size: 16px; }
+}
 
 /* Footer */
 .footer { background-color: #f5f5f7; padding: 40px 20px; color: #1d1d1f; }
