@@ -701,3 +701,163 @@ document.addEventListener('DOMContentLoaded', () => {
     x && x.addEventListener('click', () => { modal.style.display = 'none'; });
   })();
 });
+/* ==== AR First-Tap FIX — Bake & Swap (iOS/Quick Look + Android Scene Viewer) ==== */
+(function hardPatchARFirstTap() {
+  const mv = document.getElementById('ar-bridge');
+  const oldBtn = document.getElementById('ar-button');
+  if (!mv || !oldBtn) return;
+
+  // 1) rimuovi i vecchi listener dal bottone (clonandolo)
+  const arBtn = oldBtn.cloneNode(true);
+  oldBtn.parentNode.replaceChild(arBtn, oldBtn);
+
+  // 2) garantisci preload e USDZ auto-generata (no ios-src statico)
+  mv.setAttribute('loading', 'eager');         // vedi doc: pre-carica il modello
+  mv.removeAttribute('ios-src');               // Quick Look deve generare la USDZ dallo stato corrente
+  mv.setAttribute('reveal', 'auto');           // nessun poster blocking
+
+  const IS_IOS = /iPad|iPhone|iPod/i.test(navigator.userAgent);
+
+  // util: attende un evento una sola volta
+  const once = (el, event) => new Promise(res => el.addEventListener(event, () => res(), { once:true }));
+
+  // Applica la config corrente al model-viewer (usa oggetti già presenti nel tuo JS: window.textures, window.scoccaMaterials, window.schermoMaterial)
+  async function applyCurrentConfigToMV() {
+    await mv.updateComplete;
+    if (!mv.model) return;
+
+    const colorId = document.querySelector('.color-options input:checked')?.id || 'bianco';
+    const bgId    = document.querySelector('.background-options input:checked')?.id || 'sfondo-nero-bronzo';
+
+    const colorUrl = window.textures?.color?.[colorId] || null;
+    const bgUrl    = window.textures?.background?.[bgId] || null;
+
+    // Applica usando Scene Graph API: createTexture + setTexture (riflette in Quick Look se USDZ è auto-generata)
+    async function setBaseColor(matName, url) {
+      if (!url || !mv.model) return;
+      const mat = mv.model.materials.find(m => m.name === matName);
+      if (!mat) return;
+      const texInfo = mat.pbrMetallicRoughness.baseColorTexture;
+      const tex = await mv.createTexture(url);
+      texInfo?.setTexture(tex);
+    }
+
+    if (Array.isArray(window.scoccaMaterials)) {
+      for (const name of window.scoccaMaterials) {
+        await setBaseColor(name, colorUrl);
+      }
+    }
+    if (window.schermoMaterial) {
+      await setBaseColor(window.schermoMaterial, bgUrl);
+    }
+
+    // Visibilità cuffie in MV (se esiste il toggle)
+    const hpOn = !!document.getElementById('toggle-airpods')?.checked;
+    try {
+      const sceneSym = Object.getOwnPropertySymbols(mv).find(s => s.description === 'scene');
+      const threeScene = mv[sceneSym];
+      const root = threeScene?.children?.[0];
+      ['Airpods','airpods','Cuffie','cuffie'].forEach(n => {
+        const obj = root?.getObjectByName(n);
+        if (obj) obj.visible = hpOn;
+      });
+      threeScene?.queueRender?.();
+    } catch {}
+    
+    // assicura commit
+    await mv.updateComplete;
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  }
+
+  // Bake: esporta la scena attuale in GLB e ricaricala come src
+  async function bakeAndSwapSrc() {
+    // NB: exportScene è parte dell’API ufficiale di <model-viewer>
+    // https://modelviewer.dev/docs/  (metodo exportScene)
+    const blob = await mv.exportScene({binary: true}); // GLB con texture già “baked”
+    const url = URL.createObjectURL(blob);
+    const prev = mv.getAttribute('src') || '';
+    mv.setAttribute('src', url + '#cfg=' + Date.now()); // cache-bust
+    // attende il nuovo load prima di lanciare l’AR
+    if (!mv.model) await once(mv, 'load');
+    else await new Promise(r => setTimeout(r, 0));
+    return { url, prev };
+  }
+
+  // Gestione click AR (desktop => QR rimane invariato: usa il tuo handler di QR se serve)
+  arBtn.addEventListener('click', async () => {
+    const ua = navigator.userAgent;
+    const isMobile = /Android|iPhone|iPad/i.test(ua);
+    if (!isMobile) {
+      // lascia invariato: desktop QR (se hai già un modale QR, resta quello)
+      const modal = document.getElementById('ar-qr-modal');
+      const box = document.getElementById('qr-code');
+      if (modal && box && window.QRCode) {
+        const shareUrl = (function buildShareUrl(){
+          const url = new URL(location.href);
+          const colorId = document.querySelector('.color-options input:checked')?.id || 'bianco';
+          const bgId    = document.querySelector('.background-options input:checked')?.id || 'sfondo-nero-bronzo';
+          const hp      = !!document.getElementById('toggle-airpods')?.checked;
+          url.searchParams.set('ar','1');
+          url.searchParams.set('color', colorId);
+          url.searchParams.set('bg', bgId);
+          url.searchParams.set('airpods', hp ? '1' : '0');
+          return url.toString();
+        })();
+        box.innerHTML = '';
+        new QRCode(box, { text: shareUrl, width: 220, height: 220 });
+        modal.style.display = 'block';
+      }
+      return;
+    }
+
+    try {
+      // 1) assicura che il model-viewer sia realmente pronto la prima volta
+      if (!mv.model) {
+        await mv.updateComplete;
+        if (!mv.model) await once(mv, 'load');
+      }
+
+      // 2) applica la configurazione corrente nel MV
+      await applyCurrentConfigToMV();
+
+      // 3) B A K E  (GLB blob con texture già applicate) e reimposta src
+      const baked = await bakeAndSwapSrc();
+
+      // 4) (iOS/Quick Look + Android/Scene Viewer) → AR sempre dalla GLB “baked”
+      //    Nota: Quick Look riflette le texture quando la USDZ è auto-generata dallo stato corrente
+      //          (e noi stiamo proprio forzando quello stato) — vedi doc scena/scenegraph.
+      await mv.activateAR();
+
+      // 5) cleanup URL blob dopo il rientro dall’AR (piccolo timeout per sicurezza)
+      setTimeout(() => {
+        URL.revokeObjectURL(baked.url);
+        if (baked.prev) mv.setAttribute('src', baked.prev);
+      }, 1500);
+    } catch (err) {
+      console.error('[AR first-tap fix] Errore:', err);
+      alert('AR non disponibile su questo dispositivo/navigatore.');
+    }
+  }, { passive: true });
+
+  // HARDENING: se arrivi da QR (con ?ar=1), lancia AR con bake appena pronto
+  (function deepLinkAutoAR(){
+    const q = new URLSearchParams(location.search);
+    if (q.get('ar') !== '1') return;
+    const tryLaunch = async () => {
+      try {
+        await mv.updateComplete;
+        if (!mv.model) await once(mv, 'load');
+        await applyCurrentConfigToMV();
+        const baked = await bakeAndSwapSrc();
+        await mv.activateAR();
+        setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
+      } catch (e) {
+        // Se il browser blocca l’auto-launch, rimani in silenzio (l’utente può toccare il bottone)
+        console.warn('[AR deep link] auto-launch non riuscito:', e);
+      }
+    };
+    // avvia non appena possibile
+    if (mv.model) tryLaunch(); else mv.addEventListener('load', tryLaunch, { once:true });
+  })();
+})();
+
