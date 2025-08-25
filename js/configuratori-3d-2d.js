@@ -1,4 +1,4 @@
-// configuratori-3d-2d.js — build 2025-08-25b (Sam) — AR parity iOS + Android (WebXR)
+// configuratori-3d-2d.js — build 2025-08-25c (Sam) — AR parity iOS + Android (WebXR)
 // - Usa <model-viewer> con ar-modes="webxr quick-look" e ar-placement="floor"
 // - Evita Scene Viewer (non supporta src blob) e mantiene bake & swap per primo tap
 // - Esperienza: reticolo + tap-to-place + drag su piano (Android WebXR), Quick Look (iOS)
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
   function currentTheme() {
     const saved = localStorage.getItem(THEME_KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
+    if (saved === 'light' || 'dark') return saved;
     return mediaDark.matches ? 'dark' : 'light';
   }
   let statsChart = null;
@@ -605,11 +605,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // Applica configurazione + bake & swap
           try {
             await applyConfigToModelViewer();
-            // Verifica disponibilità AR (WebXR o QuickLook)
-            if (typeof mv.canActivateAR === 'boolean' && !mv.canActivateAR) {
-              alert('AR non disponibile su questo dispositivo/navigatore (servono ARCore/WebXR o iOS Quick Look).');
-              return;
-            }
+
             const baked = await (async function bakeAndSwapSrc() {
               const blob = await mv.exportScene({binary: true});
               const url = URL.createObjectURL(blob);
@@ -803,11 +799,6 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       if (!mv.model) { await mv.updateComplete; if (!mv.model) await once(mv, 'load'); }
       await applyCurrentConfigToMV();
-
-      if (typeof mv.canActivateAR === 'boolean' && !mv.canActivateAR) {
-        alert('AR non disponibile su questo dispositivo/navigatore (servono ARCore/WebXR o iOS Quick Look).');
-        return;
-      }
 
       const baked = await bakeAndSwapSrc();
       await mv.activateAR();
