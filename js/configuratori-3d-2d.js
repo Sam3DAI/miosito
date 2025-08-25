@@ -1,9 +1,7 @@
-// configuratori-3d-2d.js — build 2025-08-25e (Sam) — AR parity stabile (Android WebXR immediato, iOS Quick Look bake)
-// - Android: activateAR() immediato su gesto (nessun await prima). Niente "bake".
-// - iOS: applica texture + bake & swap prima di activateAR() (come prima, affidabile).
-// - Deep-link: overlay con evento "click" (non pointerdown) per garantire user activation.
-// - Unico flusso AR (niente duplicati/hard patch), preload del <model-viewer> in eager.
-// - MV in sync “live” con le scelte (così su Android non serve riconfigurare al tap).
+// configuratori-3d-2d.js — build 2025-08-25f (Sam) — AR parity stabile + fix ombra AirPods
+// - iOS: deep-link senza overlay (come prima), bake & swap prima di Quick Look.
+// - Android: overlay solo su Android (gesture), WebXR diretto; se AirPods OFF nasconde anche l’ombra relativa.
+// - Tutto il resto invariato.
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ---------------------------------
@@ -93,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
   function currentTheme() {
     const saved = localStorage.getItem(THEME_KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
+    if (saved === 'light' || 'dark') { if (saved) return saved; }
     return mediaDark.matches ? 'dark' : 'light';
   }
   let statsChart = null;
@@ -423,14 +421,14 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('change', () => {
           const url = textures.color[input.id];
           if (url && scoccaMaterials?.length) setAlbedo(scoccaMaterials, url);
-          syncMVLive(); // << sync immediato lato MV
+          syncMVLive();
         });
       });
       document.querySelectorAll('.background-options input').forEach(input => {
         input.addEventListener('change', () => {
           const url = textures.background[input.id];
           if (url && schermoMaterial) setAlbedo([schermoMaterial], url);
-          syncMVLive(); // << sync immediato lato MV
+          syncMVLive();
         });
       });
 
@@ -446,18 +444,17 @@ document.addEventListener('DOMContentLoaded', () => {
         mv.setAttribute('ar-placement','floor');          // piano
         mv.setAttribute('ar-scale','auto');               // scala naturale
         mv.setAttribute('reveal','auto');
-        mv.setAttribute('loading','eager');               // PRELOAD per evitare tap “a vuoto”
+        mv.setAttribute('loading','eager');               // preload
       }
 
-      // Preload del modello MV (senza “await” al tap)
+      // Preload del modello MV (flag)
       let mvLoaded = false;
       if (mv) {
         mv.addEventListener('load', () => { mvLoaded = true; }, { once:true });
-        // se è già pronto, il flag resterà false? Forziamo controllo asincrono:
         Promise.resolve().then(() => { if (mv.model) mvLoaded = true; });
       }
 
-      // AirPods visibilità in model-viewer
+      // --- VISIBILITÀ CUFFIE + OMBRA in MV (Android/WebXR e anche iOS viewer interno) ---
       function setAirpodsVisibleInMV(visible) {
         try {
           if (!mv) return;
@@ -465,15 +462,24 @@ document.addEventListener('DOMContentLoaded', () => {
           const threeScene = mv[sceneSym];
           const root = threeScene?.children?.[0];
           if (!root) return;
-          ['Airpods','airpods','Cuffie','cuffie'].forEach(n => {
-            const obj = root.getObjectByName(n);
-            if (obj) obj.visible = visible;
+
+          const rxCuffie = /(Airpods|airpods|Cuffie|cuffie)/i;
+          const rxShadow = /(shadow|ombra)/i;
+
+          root.traverse?.((obj) => {
+            if (!obj || !obj.name) return;
+            const name = obj.name;
+            // nodi cuffie: seguono "visible"
+            if (rxCuffie.test(name)) obj.visible = visible;
+            // ombre collegate alle cuffie (nome contiene shadow/ombra + cuffie/airpods)
+            if (rxShadow.test(name) && rxCuffie.test(name)) obj.visible = visible;
           });
+
           threeScene?.queueRender?.();
         } catch {}
       }
 
-      // Mappatura materiali scocca su MV (fallback regex)
+      // Regex fallback per mappare i materiali scocca su MV
       function findScoccaMaterialsInMV() {
         if (!mv?.model) return [];
         const rx = /(scocca|retro|pulsanti|box|bordi|dettagli)/i;
@@ -540,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       async function applyConfigToModelViewer(forAR=false) {
         if (!mv) return;
-        await mv.updateComplete; // ok qui: NON chiamata durante la gesture su Android
+        await mv.updateComplete; // NON durante la gesture su Android
         if (!mv.model) return;
 
         let mvScocca = window.scoccaMaterials || [];
@@ -566,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await mv.updateComplete;
       }
 
-      // Sync MV “live” quando l’utente cambia opzioni (così su Android non servono await al tap)
+      // Sync MV “live” quando l’utente cambia opzioni
       const syncMVLive = (() => {
         let raf = null;
         return () => {
@@ -629,12 +635,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
           try {
             if (IS_ANDROID) {
-              // ANDROID: NON eseguire await prima di activateAR (preserva user gesture)
-              if (!mvLoaded) {
-                // se proprio non è pronto, meglio mostrare un messaggio chiaro
-                console.warn('[AR] model-viewer non ancora caricato; provo comunque activateAR()');
-              }
-              await mv.activateAR(); // WebXR: reticolo + tap-to-place + drag sul piano
+              // ANDROID: niente await prima di activateAR
+              if (!mvLoaded) { console.warn('[AR] model-viewer non ancora caricato; provo comunque activateAR()'); }
+              await mv.activateAR(); // WebXR: reticolo + tap-to-place + drag
             } else {
               // iOS: applichiamo config con stamp + bake & swap PRIMA di aprire Quick Look
               await applyConfigToModelViewer(true);
@@ -679,17 +682,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!q.ar) return;
 
-        // Overlay “tap-to-launch” (click per garantire user activation)
-        function showTapOverlayAndRun(fn) {
-          let overlay = document.createElement('div');
-          overlay.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);backdrop-filter:saturate(140%) blur(2px);z-index:9999;cursor:pointer;';
-          overlay.innerHTML = '<div style="background:#fff;border-radius:16px;padding:14px 16px;font:600 16px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.18)">Tocca per aprire la Realtà Aumentata</div>';
-          overlay.addEventListener('click', async () => {
-            try { await fn(); } finally { overlay?.remove(); overlay=null; }
-          }, { once:true });
-          document.body.appendChild(overlay);
-        }
-
         const launchAR = async () => {
           try {
             if (IS_IOS && mv?.hasAttribute('ios-src')) mv.removeAttribute('ios-src');
@@ -700,15 +692,19 @@ document.addEventListener('DOMContentLoaded', () => {
             await applyConfigToModelViewer(IS_IOS /* forAR solo su iOS */);
 
             if (IS_ANDROID) {
-              // Android: serve gesto → overlay, e dentro chiamiamo activateAR() SUBITO (senza await preliminari)
-              showTapOverlayAndRun(async () => { await mv.activateAR(); });
+              // Android: serve gesto → overlay
+              let overlay = document.createElement('div');
+              overlay.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);backdrop-filter:saturate(140%) blur(2px);z-index:9999;cursor:pointer;';
+              overlay.innerHTML = '<div style="background:#fff;border-radius:16px;padding:14px 16px;font:600 16px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.18)">Tocca per aprire la Realtà Aumentata</div>';
+              overlay.addEventListener('click', async () => {
+                try { await mv.activateAR(); } finally { overlay?.remove(); overlay=null; }
+              }, { once:true });
+              document.body.appendChild(overlay);
             } else {
-              // iOS: bake prima, poi activateAR dentro la stessa gesture del click sull’overlay
-              showTapOverlayAndRun(async () => {
-                const baked = await bakeAndSwapSrcIOS();
-                await mv.activateAR();
-                setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
-              });
+              // iOS: NIENTE overlay — come prima
+              const baked = await bakeAndSwapSrcIOS();
+              await mv.activateAR();
+              setTimeout(() => { URL.revokeObjectURL(baked.url); if (baked.prev) mv.setAttribute('src', baked.prev); }, 1500);
             }
           } catch (e) {
             console.warn('[AR deep link] launch non riuscito:', e);
