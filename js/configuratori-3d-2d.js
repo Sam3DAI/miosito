@@ -242,10 +242,41 @@ document.addEventListener('DOMContentLoaded', () => {
     obs.observe(target);
   })();
   /* ---------------------------------
-   * Babylon.js 3D + AR bridge (model-viewer)
+   * Babylon.js 3D + AR bridge (model-viewer) - LAZY LOAD
    * --------------------------------- */
-  if (document.getElementById('renderCanvas')) {
+  // Funzione per caricare script async
+  function loadScript(url) {
+    return new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = url; s.async = true; s.defer = true;
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+  // Init scena solo quando sezione visibile
+  let babylonLoaded = false;
+  const configSection = document.getElementById('configuratore');
+  if (configSection) {
+    const obs = new IntersectionObserver(async (entries) => {
+      if (entries[0].isIntersecting && !babylonLoaded) {
+        babylonLoaded = true;
+        try {
+          await Promise.all([
+            loadScript('https://cdn.babylonjs.com/babylon.js'),
+            loadScript('https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js')
+          ]);
+          initBabylonScene();
+        } catch (e) {
+          console.error('Errore load Babylon:', e);
+        }
+      }
+    }, { threshold: 0.1 });
+    obs.observe(configSection);
+  }
+  // Funzione init Babylon (il codice originale, ma con preload textures lazy)
+  function initBabylonScene() {
     const canvas = document.getElementById('renderCanvas');
+    if (!canvas) return;
     canvas.addEventListener('contextmenu', e => e.preventDefault());
     const engine = new BABYLON.Engine(canvas, true, {
       antialias: true,
