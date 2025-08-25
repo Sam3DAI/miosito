@@ -66,12 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileMenu.classList.toggle('open', open);
     hamburger.setAttribute('aria-expanded', String(open));
     if (open) { mobileMenu.removeAttribute('hidden'); document.documentElement.style.overflow = 'hidden'; }
-    else { 
-      document.documentElement.style.overflow = ''; 
-      mobileMenu.addEventListener('animationend', () => {
-        if (!mobileMenu.classList.contains('open')) mobileMenu.setAttribute('hidden', '');
-      }, { once: true });
-    }
+    else { document.documentElement.style.overflow = ''; setTimeout(() => mobileMenu.setAttribute('hidden', ''), 300); }
   };
   const toggleMenu = () => setMobileState(!hamburger.classList.contains('active'));
   if (hamburger) {
@@ -318,14 +313,14 @@ document.addEventListener('DOMContentLoaded', () => {
     camera.panningInertia = 0.85;
     camera.minZ = 0.01;
     const pi = camera.inputs.attached.pointers;
-    if (pi) { pi.buttons = [0, 1, 2]; pi.buttons = [0, 1, 2]; pi.useCtrlForPanning = false; pi.panningMouseButton = 2; }
+    if (pi) { pi.buttons = [0, 1, 2]; pi.useCtrlForPanning = false; pi.panningMouseButton = 2; }
     camera.panningSensibility = 2000;
     camera.attachControl(canvas, true, false, true);
     // Autorotate dolce
     let pivot = null, autoRotateTimer = null, isRotating = true;
     scene.onBeforeRenderObservable.add(() => { if (isRotating && pivot) pivot.rotate(BABYLON.Axis.Y, 0.003, BABYLON.Space.LOCAL); });
     canvas.addEventListener('pointerdown', () => { isRotating = false; clearTimeout(autoRotateTimer); autoRotateTimer = setTimeout(() => (isRotating = true), 3000); });
-    // Env + Post
+    // Env + Post (env lazy)
     scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData('https://assets.babylonjs.com/environments/studio.env', scene);
     scene.environmentIntensity = 0.6;
     const pipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
@@ -353,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cam.upperRadiusLimit = radius * 3;
     }
     const setPivot = (p) => { pivot = p; };
-    // Carica GLB
+    // Carica GLB lazy
     BABYLON.SceneLoader.ImportMesh('', './assets/', 'iphone_16_pro_configuratore_3d.glb', scene, (meshes) => {
       // Nodi
       const iphoneNode =
@@ -379,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const schermoMaterial = allMaterials.find(m => /schermo|screen/i.test(m.name))?.name;
       window.scoccaMaterials = scoccaMaterials;
       window.schermoMaterial = schermoMaterial;
-      // Textures (Cloudinary)
+      // Textures (Cloudinary) - preload lazy su change/hover
       const textures = {
         color: {
           bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
