@@ -137,6 +137,10 @@
     document.head.appendChild(s);
   };
 </script>
+<!-- Google Ads destination + Enhanced Conversions -->
+<script>
+  gtag('config', 'AW-17512988470', { 'allow_enhanced_conversions': true });
+</script>
 </head>
 <body>
   <a href="#contatti" class="skip-link">Salta al contenuto principale</a>
@@ -199,6 +203,7 @@
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_subject" value="Nuova Richiesta Preventivo da Sito">
             <input type="hidden" name="_autoresponse" value="Grazie per la tua richiesta! Ti invieremo presto un preventivo personalizzato.">
+            <input type="hidden" id="gclid_field" name="gclid">
             <input type="text" name="_honey" style="display:none;">
             <label for="name"><i class="fas fa-user icon-form" aria-hidden="true"></i> Nome *</label>
             <input type="text" id="name" name="name" required aria-required="true" aria-invalid="false" aria-describedby="name-error" autocomplete="name" inputmode="text">

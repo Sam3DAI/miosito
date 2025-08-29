@@ -8,6 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const sunIcon = document.querySelector('.theme-icon.sun');
   const moonIcon = document.querySelector('.theme-icon.moon');
   const contactForm = document.getElementById('contact-form');
+  if (!contactForm) return; // esci subito se la pagina non ha il form
+
+  // === GCLID: cattura da URL e persisti, poi riempi hidden ===
+  const urlParams = new URLSearchParams(location.search);
+  const urlGclid = urlParams.get('gclid');
+  if (urlGclid) localStorage.setItem('gclid', urlGclid);
+  const gclidField = document.getElementById('gclid_field');
+  if (gclidField) {
+    gclidField.value = localStorage.getItem('gclid') || urlGclid || '';
+  }
+
   const testimonialsCarousel = document.querySelector('.testimonials-carousel');
   const leftArrow = document.querySelector('.testimonials-section .carousel-arrow.left');
   const rightArrow = document.querySelector('.testimonials-section .carousel-arrow.right');
@@ -23,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   };
 
-  // Mobile menu (con aria, scroll lock, focus trap base)
+  // Mobile menu
   const setMobileState = (open) => {
     hamburger.classList.toggle('active', open);
     mobileMenu.classList.toggle('open', open);
@@ -31,19 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (open) {
       mobileMenu.removeAttribute('hidden');
       document.documentElement.style.overflow = 'hidden';
-      hamburger.focus(); // Focus trap semplice
+      hamburger.focus();
     } else {
       document.documentElement.style.overflow = '';
       setTimeout(() => mobileMenu.setAttribute('hidden', ''), 300);
     }
   };
   const toggleMenu = () => setMobileState(!hamburger.classList.contains('active'));
-
   hamburger.addEventListener('click', toggleMenu);
   hamburger.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') toggleMenu(); });
   menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(false)));
 
-  // Tema: rispetta OS, fallback localStorage
+  // Tema
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   const applyTheme = (mode) => {
     const isDark = mode === 'dark';
@@ -52,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sunIcon.style.display = isDark ? 'none' : 'block';
     moonIcon.style.display = isDark ? 'block' : 'none';
   };
-
   let savedTheme = localStorage.getItem('theme');
   applyTheme(savedTheme ?? (prefersDark.matches ? 'dark' : 'light'));
   prefersDark.addEventListener('change', (e) => {
@@ -69,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     header.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 
-  // Carousel arrows + loop soft
+  // Carousel arrows
   leftArrow.addEventListener('click', () => {
     testimonialsCarousel.scrollBy({ left: -320, behavior: 'smooth' });
     if (testimonialsCarousel.scrollLeft <= 0) {
@@ -83,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Form validation + submit (con real-time onblur)
+  // Validazione form
   const validateField = (field, errorSpan, validator) => {
     const value = field.value.trim();
     const error = validator(value);
@@ -91,74 +100,85 @@ document.addEventListener('DOMContentLoaded', () => {
     field.classList.toggle('error', !!error);
     field.setAttribute('aria-invalid', !!error);
   };
-
   const nameInput = document.getElementById('name');
   nameInput.addEventListener('blur', () => validateField(nameInput, document.getElementById('name-error'), (v) => !v ? 'Il nome è obbligatorio.' : ''));
-
   const emailInput = document.getElementById('email');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   emailInput.addEventListener('blur', () => validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
-
   const phoneInput = document.getElementById('phone');
   const phoneRegex = /^[0-9+()\s-]{6,}$/;
   phoneInput.addEventListener('blur', () => validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
-
   const messageInput = document.getElementById('message');
   messageInput.addEventListener('blur', () => validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
 
+  // Submit form
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     e.stopPropagation();
     let valid = true;
-    contactForm.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-    contactForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
 
-    // Validazione completa (ridondante con real-time per sicurezza)
+    // Validazioni
     validateField(nameInput, document.getElementById('name-error'), (v) => !v ? 'Il nome è obbligatorio.' : '');
     if (nameInput.classList.contains('error')) valid = false;
-
     validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : '');
     if (emailInput.classList.contains('error')) valid = false;
-
     validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : '');
     if (phoneInput.classList.contains('error')) valid = false;
-
     const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
     if (servicesChecked === 0) {
       document.getElementById('services-error').textContent = 'Seleziona almeno un servizio.';
       valid = false;
     }
-
     validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : '');
     if (messageInput.classList.contains('error')) valid = false;
-
     const privacy = document.getElementById('privacy');
     if (!privacy.checked) {
       document.getElementById('privacy-error').textContent = 'Accetta la Privacy Policy.';
       privacy.classList.add('error');
       valid = false;
     }
-
     if (!valid) return;
 
     const formData = new FormData(e.target);
+    const submitBtn = contactForm.querySelector('[type="submit"]');
+    submitBtn?.setAttribute('disabled','');
+
     try {
       const response = await fetch(e.target.action, { method: 'POST', body: formData });
       if (response.ok) {
+        // Conversione Google Ads SOLO al successo
+        try {
+          const emailEC = (document.getElementById('email')?.value || '').trim().toLowerCase();
+          const rawPhone = (document.getElementById('phone')?.value || '').replace(/[^\d+]/g, '');
+          const phoneEC = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
+          if (typeof gtag === 'function') {
+            gtag('set', 'user_data', {
+              email: emailEC || undefined,
+              phone_number: phoneEC || undefined
+            });
+            gtag('event', 'conversion', {
+              'send_to': 'AW-17512988470/gbSHCKC3o5AbELb-655B',
+              'value': 0.0,
+              'currency': 'EUR'
+            });
+          }
+        } catch(_) {}
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
         closeModalBtn.focus();
         e.target.reset();
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // Post-success UX
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         alert('Errore durante l\'invio. Riprova.');
       }
     } catch (error) {
       alert('Errore di rete. Controlla la connessione.');
+    } finally {
+      submitBtn?.removeAttribute('disabled');
     }
   });
 
-  // Modal close (con focus trap)
+  // Modal close
   closeModalBtn.addEventListener('click', () => {
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
@@ -194,8 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
     a.addEventListener('mouseenter', () => addPrefetch(a.href), { passive: true });
   });
 
-  // Debounce resize per theme stability
-  window.addEventListener('resize', debounce(() => {
-    // No reload, solo re-apply if needed
-  }, 300));
+  // Debounce resize
+  window.addEventListener('resize', debounce(() => {}, 300));
 });
