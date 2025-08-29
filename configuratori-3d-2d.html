@@ -38,44 +38,20 @@
   <link rel="stylesheet" href="css/configuratori-3d-2d.css">
   <link rel="stylesheet" href="css/cookie-banner.css">
   <meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
+  default-src 'self' https:;
+  img-src 'self' https: data: blob: https://www.google-analytics.com https://*.sketchfab.com https://assets.babylonjs.com https://api.qrserver.com https://res.cloudinary.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
+  media-src 'self' https: blob:;
+  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/ https://*.sketchfab.com https://cdn.babylonjs.com https://cdnjs.cloudflare.com;
+  style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+  font-src 'self' https: data:;
+  frame-src https://sketchfab.com https://*.sketchfab.com https://www.googletagmanager.com;
+  connect-src 'self' https: data: blob: https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-ai3d.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.sketchfab.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+  worker-src 'self' blob:;
   base-uri 'self';
   form-action 'self' https://formsubmit.co;
-  script-src 'self' 'unsafe-inline' 'unsafe-eval'
-    https://www.googletagmanager.com
-    https://www.google-analytics.com
-    https://region1.google-analytics.com
-    https://www.gstatic.com
-    https://pagead2.googlesyndication.com;
-  connect-src 'self'
-    https://res.cloudinary.com
-    https://formsubmit.co
-    https://chatbot.solvex-chatbot.xyz
-    https://www.googletagmanager.com
-    https://www.google-analytics.com
-    https://region1.google-analytics.com
-    https://stats.g.doubleclick.net
-    https://*.google-analytics.com
-    https://pagead2.googlesyndication.com
-    https://td.doubleclick.net;
-  img-src 'self' data:
-    https://res.cloudinary.com
-    https://www.google-analytics.com
-    https://stats.g.doubleclick.net
-    https://*.gstatic.com
-    https://*.googleusercontent.com;
-  frame-src
-    https://sketchfab.com
-    https://www.googletagmanager.com
-    https://www.google.com
-    https://bid.g.doubleclick.net;
-  style-src 'self' 'unsafe-inline';
-  font-src 'self' data: https://fonts.gstatic.com;
-  worker-src 'self' blob:;
-  object-src 'none';
-  frame-ancestors 'self';
-  upgrade-insecure-requests;
+  object-src 'none'
 ">
+
 <meta http-equiv="Permissions-Policy" content="
   accelerometer=(self 'https://sketchfab.com'),
   gyroscope=(self 'https://sketchfab.com'),
