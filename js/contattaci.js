@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const sunIcon = document.querySelector('.theme-icon.sun');
   const moonIcon = document.querySelector('.theme-icon.moon');
   const contactForm = document.getElementById('contact-form');
-  if (!contactForm) return; // esci subito se la pagina non ha il form
+  if (!contactForm) return;
 
-  // === GCLID: cattura da URL e persisti, poi riempi hidden ===
+  // === GCLID: cattura e persisti ===
   const urlParams = new URLSearchParams(location.search);
   const urlGclid = urlParams.get('gclid');
   if (urlGclid) localStorage.setItem('gclid', urlGclid);
@@ -19,13 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
     gclidField.value = localStorage.getItem('gclid') || urlGclid || '';
   }
 
-  const testimonialsCarousel = document.querySelector('.testimonials-carousel');
-  const leftArrow = document.querySelector('.testimonials-section .carousel-arrow.left');
-  const rightArrow = document.querySelector('.testimonials-section .carousel-arrow.right');
+  // === Modal Grazie ===
   const modal = document.getElementById('thank-you-modal');
   const closeModalBtn = document.getElementById('close-modal');
+  let lastFocus = null;
+  const setModalHidden = (hidden) => {
+    modal.toggleAttribute('inert', hidden);
+    modal.setAttribute('aria-hidden', hidden ? 'true' : 'false');
+  };
+  const closeThankYou = () => {
+    modal.classList.remove('show');
+    setModalHidden(true);
+    if (lastFocus && document.contains(lastFocus)) {
+      lastFocus.focus();
+    } else {
+      document.querySelector('.theme-toggle')?.focus();
+    }
+  };
 
-  // Utils
+  // === Utils ===
   const debounce = (func, delay) => {
     let timeout;
     return (...args) => {
@@ -34,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   };
 
-  // Mobile menu
+  // === Mobile menu ===
   const setMobileState = (open) => {
     hamburger.classList.toggle('active', open);
     mobileMenu.classList.toggle('open', open);
@@ -53,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   hamburger.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') toggleMenu(); });
   menuLinks.forEach(link => link.addEventListener('click', () => setMobileState(false)));
 
-  // Tema
+  // === Tema ===
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   const applyTheme = (mode) => {
     const isDark = mode === 'dark';
@@ -73,26 +85,31 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(newTheme);
   });
 
-  // Header scroll shadow
+  // === Header scroll shadow ===
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 
-  // Carousel arrows
-  leftArrow.addEventListener('click', () => {
-    testimonialsCarousel.scrollBy({ left: -320, behavior: 'smooth' });
-    if (testimonialsCarousel.scrollLeft <= 0) {
-      testimonialsCarousel.scrollTo({ left: testimonialsCarousel.scrollWidth - testimonialsCarousel.clientWidth, behavior: 'smooth' });
-    }
-  });
-  rightArrow.addEventListener('click', () => {
-    testimonialsCarousel.scrollBy({ left: 320, behavior: 'smooth' });
-    if (testimonialsCarousel.scrollLeft + testimonialsCarousel.clientWidth >= testimonialsCarousel.scrollWidth - 1) {
-      testimonialsCarousel.scrollTo({ left: 0, behavior: 'smooth' });
-    }
-  });
+  // === Carousel arrows ===
+  const testimonialsCarousel = document.querySelector('.testimonials-carousel');
+  const leftArrow = document.querySelector('.testimonials-section .carousel-arrow.left');
+  const rightArrow = document.querySelector('.testimonials-section .carousel-arrow.right');
+  if (testimonialsCarousel && leftArrow && rightArrow) {
+    leftArrow.addEventListener('click', () => {
+      testimonialsCarousel.scrollBy({ left: -320, behavior: 'smooth' });
+      if (testimonialsCarousel.scrollLeft <= 0) {
+        testimonialsCarousel.scrollTo({ left: testimonialsCarousel.scrollWidth - testimonialsCarousel.clientWidth, behavior: 'smooth' });
+      }
+    });
+    rightArrow.addEventListener('click', () => {
+      testimonialsCarousel.scrollBy({ left: 320, behavior: 'smooth' });
+      if (testimonialsCarousel.scrollLeft + testimonialsCarousel.clientWidth >= testimonialsCarousel.scrollWidth - 1) {
+        testimonialsCarousel.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+    });
+  }
 
-  // Validazione form
+  // === Validazione form ===
   const validateField = (field, errorSpan, validator) => {
     const value = field.value.trim();
     const error = validator(value);
@@ -106,12 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   emailInput.addEventListener('blur', () => validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
   const phoneInput = document.getElementById('phone');
-  const phoneRegex = /^[0-9+()\s-]{6,}$/;
+  const phoneRegex = /^[0-9()+\- ]{6,}$/;
   phoneInput.addEventListener('blur', () => validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
   const messageInput = document.getElementById('message');
   messageInput.addEventListener('blur', () => validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
 
-  // Submit form
+  // === Submit form ===
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -148,8 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (response.ok) {
         // Conversione Google Ads SOLO al successo
         try {
-          const emailEC = (document.getElementById('email')?.value || '').trim().toLowerCase();
-          const rawPhone = (document.getElementById('phone')?.value || '').replace(/[^\d+]/g, '');
+          const emailEC = (emailInput?.value || '').trim().toLowerCase();
+          const rawPhone = (phoneInput?.value || '').replace(/[^\d+]/g, '');
           const phoneEC = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
           if (typeof gtag === 'function') {
             gtag('set', 'user_data', {
@@ -163,8 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           }
         } catch(_) {}
+        lastFocus = document.activeElement;
         modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
+        setModalHidden(false);
         closeModalBtn.focus();
         e.target.reset();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -178,32 +196,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Modal close
-  closeModalBtn.addEventListener('click', () => {
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden', 'true');
-  });
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('show');
-      modal.setAttribute('aria-hidden', 'true');
-    }
-  });
+  // === Modal close listeners ===
+  closeModalBtn.addEventListener('click', closeThankYou);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeThankYou(); });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('show')) {
-      modal.classList.remove('show');
-      modal.setAttribute('aria-hidden', 'true');
-    }
+    if (e.key === 'Escape' && modal.classList.contains('show')) closeThankYou();
   });
 
-  // Evidenzia voce menu corrente
+  // === Evidenzia voce menu corrente ===
   const currentPath = location.pathname.replace(/\/+$/, '');
   document.querySelectorAll('.nav-menu a').forEach(a => {
     const href = a.getAttribute('href').replace(/\/+$/, '');
     if (href === currentPath) a.setAttribute('aria-current', 'page');
   });
 
-  // Prefetch link interni
+  // === Prefetch link interni ===
   const addPrefetch = (url) => {
     if (document.head.querySelector(`link[rel="prefetch"][href="${url}"]`)) return;
     const l = document.createElement('link');
@@ -214,6 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
     a.addEventListener('mouseenter', () => addPrefetch(a.href), { passive: true });
   });
 
-  // Debounce resize
+  // === Debounce resize ===
   window.addEventListener('resize', debounce(() => {}, 300));
 });
