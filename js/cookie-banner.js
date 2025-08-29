@@ -6,23 +6,24 @@
   // --- Helper GA/Consent ---
   function gtag(){ (window.dataLayer = window.dataLayer || []).push(arguments); }
   function grantAnalytics() {
-    try {
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'granted'
-      });
-      window.__gaConsentGranted = true;
-      localStorage.setItem('cookieconsent_status', 'allow');
-      if (typeof window.__loadGA === 'function') {
-        window.__loadGA();
-      }
-      if (typeof updateModelBackground === 'function') updateModelBackground();
-    } catch (e) {
-      console.warn('[Cookie] grantAnalytics error', e);
+  try {
+    // CONSENSO COMPLETO (Analytics + Ads) per tracking conversioni + Enhanced Conversions
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+      analytics_storage: 'granted'
+    });
+    window.__gaConsentGranted = true;
+    localStorage.setItem('cookieconsent_status', 'allow');
+    if (typeof window.__loadGA === 'function') {
+      window.__loadGA();
     }
+    if (typeof updateModelBackground === 'function') updateModelBackground();
+  } catch (e) {
+    console.warn('[Cookie] grantAnalytics error', e);
   }
+}
   function denyAnalytics() {
     try {
       gtag('consent', 'update', {
