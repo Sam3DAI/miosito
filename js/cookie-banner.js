@@ -7,11 +7,14 @@
   function gtag(){ (window.dataLayer = window.dataLayer || []).push(arguments); }
   function grantAnalytics() {
   try {
-    // CONSENSO COMPLETO (Analytics + Ads) per tracking conversioni + Enhanced Conversions
     gtag('consent', 'update', {
+      // Misurazione Ads + Enhanced Conversions
       ad_storage: 'granted',
       ad_user_data: 'granted',
-      ad_personalization: 'granted',
+      // Se NON fai remarketing personalizzato, puoi lasciare 'denied' qui sotto:
+      ad_personalization: 'denied',
+
+      // Analytics
       analytics_storage: 'granted'
     });
     window.__gaConsentGranted = true;
@@ -24,6 +27,7 @@
     console.warn('[Cookie] grantAnalytics error', e);
   }
 }
+
   function denyAnalytics() {
     try {
       gtag('consent', 'update', {
