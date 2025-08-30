@@ -28,14 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.setAttribute('aria-hidden', hidden ? 'true' : 'false');
   };
   const closeThankYou = () => {
-    modal.classList.remove('show');
-    setModalHidden(true);
-    if (lastFocus && document.contains(lastFocus)) {
-      lastFocus.focus();
-    } else {
-      document.querySelector('.theme-toggle')?.focus();
-    }
-  };
+  modal.classList.remove('show');
+
+  // 🔹 Fix: se un elemento interno al modal ha il focus, lo rimuovo
+  if (document.activeElement && modal.contains(document.activeElement)) {
+    document.activeElement.blur();
+  }
+
+  setModalHidden(true);
+
+  // 🔹 Ripristina focus sull’ultimo elemento attivo o fallback
+  if (lastFocus && document.contains(lastFocus)) {
+    lastFocus.focus();
+  } else {
+    document.querySelector('.theme-toggle')?.focus();
+  }
+};
 
   // === Utils ===
   const debounce = (func, delay) => {
