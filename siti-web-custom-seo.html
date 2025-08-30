@@ -11,6 +11,8 @@
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="it_IT">
   <meta property="og:title" content="Siti Web Custom SEO-Ottimizzati | SolveX AI3D">
@@ -21,21 +23,61 @@
   <meta name="twitter:title" content="Siti Web Custom SEO-Ottimizzati | SolveX AI3D">
   <meta name="twitter:description" content="Onepage per UX rapida (+39% conv), Multipagina per crescita (+20% rankings), Landing per lead (+55% conv). Codice custom per libertà e performance 2025.">
   <meta name="twitter:image" content="https://res.cloudinary.com/dqhbriryo/image/upload/v1730307359/creazione_siti_vetrina_akrb8c.webp?quality=auto&format=auto">
+
   <link rel="canonical" href="https://solvex-ai3d.com/siti-web-custom-seo">
+
+  <!-- Icons -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Preconnect / DNS Prefetch -->
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+  <link rel="preconnect" href="https://www.googleadservices.com" crossorigin>
+  <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+  <link rel="dns-prefetch" href="//www.googletagmanager.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link rel="dns-prefetch" href="//www.googleadservices.com">
+  <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
+
+  <!-- CSS -->
   <link rel="preload" href="css/siti-web-custom-seo.css" as="style">
   <link rel="preload" as="image" href="https://res.cloudinary.com/dqhbriryo/image/upload/v1751977765/siti_web_onepage_nhuxtm.webp?quality=auto&format=auto" fetchpriority="high">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="css/siti-web-custom-seo.css">
   <link rel="stylesheet" href="css/cookie-banner.css">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src * data:; frame-src https://sketchfab.com; connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com; base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
+
+  <!-- CSP -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src * data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/;
+    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+    font-src * data:;
+    frame-src https://www.googletagmanager.com;
+    connect-src 'self'
+      https://res.cloudinary.com
+      https://formsubmit.co
+      https://chatbot.solvex-chatbot.xyz
+      https://www.googletagmanager.com
+      https://www.google-analytics.com
+      https://region1.google-analytics.com
+      https://*.google-analytics.com
+      https://pagead2.googlesyndication.com
+      https://googleads.g.doubleclick.net
+      https://www.google.com https://google.com
+      https://www.googleadservices.com https://googleadservices.com;
+    base-uri 'self';
+    form-action 'self' https://formsubmit.co;
+    object-src 'none'
+  ">
+
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -115,41 +157,57 @@
     ]
   }
   </script>
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
-</script>
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
 
-  // di default tutto negato + attendo eventuale update (evita page_view prematuro)
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied',
-    wait_for_update: 1000
-  });
+  <!-- GA4 + Consent Mode v2 (caricati solo dopo consenso) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
 
-  // loader invocato dal banner quando l’utente accetta
-  window.__loadGA = function(){
-    if (window.__gaLoaded) return; window.__gaLoaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-    s.onload = function(){
-      const isDev = location.hostname !== 'solvex-ai3d.com';
-      gtag('js', new Date());
-      gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
+    // default: tutto negato finché l’utente non acconsente
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 1000
+    });
+
+    // chiamata dal banner quando l’utente accetta
+    window.__loadGA = function(){
+      if (window.__gaLoaded) return; window.__gaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
+      s.onload = function(){
+        const isDev = location.hostname !== 'solvex-ai3d.com';
+        gtag('js', new Date());
+        // GA4
+        gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
+        // Google Ads (stessa libreria, niente secondo <script>)
+        gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
+      };
+      document.head.appendChild(s);
     };
-    document.head.appendChild(s);
-  };
-</script>
+
+    // Persistenza gclid/gbraid/wbraid + auto-fill su input hidden (se presenti)
+    (function(){
+      const params = new URLSearchParams(location.search);
+      ['gclid','gbraid','wbraid'].forEach(k=>{
+        const v = params.get(k);
+        if (v) localStorage.setItem(k, v);
+      });
+      document.addEventListener('DOMContentLoaded', ()=>{
+        const g = localStorage.getItem('gclid');
+        if (g) {
+          document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value = g);
+        }
+      });
+    })();
+  </script>
 </head>
 <body>
   <a href="#intro-benefits" class="skip-link">Salta al contenuto principale</a>
+
   <header>
     <div class="header-container">
       <a href="/" class="logo-link">
@@ -175,9 +233,11 @@
       </div>
     </div>
   </header>
+
   <section class="hero-section">
     <h1>Siti Custom.<br>Scegli la <span class="gradient-text">Personalizzazione</span></h1>
   </section>
+
   <div id="mobile-menu" class="mobile-menu" hidden>
     <ul role="navigation" aria-label="Menu mobile">
       <li><a href="/configuratori-3d-2d">Configuratori 3D/2D</a></li>
@@ -198,68 +258,70 @@
       </li>
     </ul>
   </div>
-  <section id="intro-benefits" class="intro-benefits-section">
+
+  <section id="intro-benefits" class="intro-benefits-section" style="content-visibility:auto; contain-intrinsic-size:1200px 700px;">
     <div class="introduction">
       <h2>Il tuo sito, la tua identità.</h2>
       <p>Differenziati con siti Onepage, Multipagina o Landing Page: Custom dev amplifica brand identity e UX, boostando conversioni del 20-80% (Unbounce/VWO 2025).<br><br>Sviluppo in codice puro per libertà creativa e performance top (+20% rankings vs template, GotchaMobi).</p>
     </div>
     <div class="carousel-container" role="region" aria-label="Carousel benefici siti custom">
-      <button class="carousel-arrow left" aria-label="Benefit precedente"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-arrow left" aria-label="Benefit precedente"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
       <div class="carousel-wrapper">
-        <div class="benefit-card" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903104/Design_Unico_uhjby0.webp?quality=auto&format=auto');">
+        <div class="benefit-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903104/Design_Unico_uhjby0.webp?quality=auto&format=auto');">
           <div class="card-content">
             <h3>Design Unico</h3>
             <p>Soluzioni su misura per il tuo brand, differenziandoti dai template.</p>
           </div>
         </div>
-        <div class="benefit-card" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903282/Ottimizzazione_SEO_vkz93a.webp?quality=auto&format=auto');">
+        <div class="benefit-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903282/Ottimizzazione_SEO_vkz93a.webp?quality=auto&format=auto');">
           <div class="card-content">
             <h3>Ottimizzazione SEO</h3>
             <p>Migliora visibilità, +20% rankings vs template (Hostinger 2025).</p>
           </div>
         </div>
-        <div class="benefit-card" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903624/Responsive_Design_zaekpc.webp?quality=auto&format=auto');">
+        <div class="benefit-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903624/Responsive_Design_zaekpc.webp?quality=auto&format=auto');">
           <div class="card-content">
             <h3>Responsive Design</h3>
             <p>Perfetto su tutti dispositivi, riducendo bounce del 32% (Cloudflare).</p>
           </div>
         </div>
-        <div class="benefit-card" style="background-image: url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903878/Velocit%C3%A0_e_Prestazioni_pij2bs.webp?quality=auto&format=auto');">
+        <div class="benefit-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751903878/Velocit%C3%A0_e_Prestazioni_pij2bs.webp?quality=auto&format=auto');">
           <div class="card-content">
             <h3>Velocità e Prestazioni</h3>
             <p>Caricamenti rapidi essenziali per retention, +4.42% conv/sec (Cloudflare).</p>
           </div>
         </div>
       </div>
-      <button class="carousel-arrow right" aria-label="Benefit successivo"><i class="fas fa-chevron-right"></i></button>
+      <button class="carousel-arrow right" aria-label="Benefit successivo"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
     </div>
   </section>
-  <section id="onepage" class="service-section">
+
+  <section id="onepage" class="service-section" style="content-visibility:auto; contain-intrinsic-size:1200px 900px;">
     <div class="service-container">
       <h2>Siti Web <span class="gradient-text">Onepage</span></h2>
       <p>Soluzione elegante per presentazioni concise: Design custom in codice per UX unica e impressione duratura.<br><br>Garantisce libertà creativa, differenziandoti dai template (ROI +4:1, +39% conv, Unbounce).</p>
       <div class="onepage-content">
         <div class="onepage-image">
-          <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751977765/siti_web_onepage_nhuxtm.webp?quality=auto&format=auto" alt="Esempio Sito Web Onepage personalizzato per brand identity e UX fluida 2025" loading="lazy">
+          <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751977765/siti_web_onepage_nhuxtm.webp?quality=auto&format=auto" alt="Esempio Sito Web Onepage personalizzato per brand identity e UX fluida 2025" loading="lazy" width="960" height="600">
         </div>
         <div class="onepage-features">
           <div class="feature-card">
-            <i class="fas fa-list-ul"></i>
+            <i class="fas fa-list-ul" aria-hidden="true"></i>
             <h3>Menù Custom</h3>
             <p>Navigazione veloce nella pagina per UX intuitiva.</p>
           </div>
           <div class="feature-card">
-            <i class="fas fa-briefcase"></i>
+            <i class="fas fa-briefcase" aria-hidden="true"></i>
             <h3>Descrizione Ottimizzata</h3>
             <p>Presentazione chiara del business con SEO integrata.</p>
           </div>
           <div class="feature-card">
-            <i class="fas fa-envelope"></i>
+            <i class="fas fa-envelope" aria-hidden="true"></i>
             <h3>Form di Contatto</h3>
             <p>Integrazione per lead collection e conversioni.</p>
           </div>
           <div class="feature-card">
-            <i class="fas fa-mobile-alt"></i>
+            <i class="fas fa-mobile-alt" aria-hidden="true"></i>
             <h3>Responsività</h3>
             <p>Adattato a tablet e smartphone per accessibilità mobile.</p>
           </div>
@@ -273,12 +335,13 @@
       </div>
     </div>
   </section>
-  <section id="multipagina" class="service-section">
+
+  <section id="multipagina" class="service-section" style="content-visibility:auto; contain-intrinsic-size:1200px 900px;">
     <div class="service-container">
       <h2>Siti Web <span class="gradient-text">Multipagina</span></h2>
       <p>Siti completi per presenza articolata: Pagine su misura, funzionalità avanzate, performance scalabili.<br><br>Esempio: Questo sito, naviga per vedere customizzazione e velocità (+20% rankings vs template, GotchaMobi 2025).</p>
       <div class="multipagina-image">
-        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751985682/Siti_web_multipagina_npclhd.webp?quality=auto&format=auto" alt="Esempio Sito Web Multipagina scalabile e performante per business complessi 2025" loading="lazy">
+        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751985682/Siti_web_multipagina_npclhd.webp?quality=auto&format=auto" alt="Esempio Sito Web Multipagina scalabile e performante per business complessi 2025" loading="lazy" width="960" height="600">
       </div>
       <div class="multipagina-cta">
         <p>Hai visto un sito che ti ha ispirato e vorresti che il tuo gli somigliasse? Richiedici una quotazione gratuita.</p>
@@ -288,19 +351,20 @@
       </div>
     </div>
   </section>
-  <section id="landing-page" class="service-section">
+
+  <section id="landing-page" class="service-section" style="content-visibility:auto; contain-intrinsic-size:1200px 850px;">
     <div class="service-container">
       <h2><span class="gradient-text">Landing Page</span> per Campagne</h2>
       <p>Massimizza conversioni con pagine su misura: CTA chiari, design accattivante, ottimizzate per target (+55% conv, VWO 2025).</p>
       <div class="landing-page-content">
         <div class="landing-page-features">
           <div class="feature-card">
-            <i class="fas fa-bullseye"></i>
+            <i class="fas fa-bullseye" aria-hidden="true"></i>
             <h3>Design Orientato alla Conversione</h3>
             <p>Elementi per guidare all'azione, boostando lead.</p>
           </div>
           <div class="feature-card">
-            <i class="fas fa-link"></i>
+            <i class="fas fa-link" aria-hidden="true"></i>
             <h3>Integrazione Marketing</h3>
             <p>Con email, analytics per tracking avanzato.</p>
           </div>
@@ -318,12 +382,14 @@
       </div>
     </div>
   </section>
-  <div id="fullscreen-modal" class="fullscreen-modal">
+
+  <div id="fullscreen-modal" class="fullscreen-modal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-content">
       <iframe src="placeholder-landing-page.html" title="Landing Page a Schermo Intero" frameborder="0" loading="lazy"></iframe>
       <button class="close-btn" aria-label="Chiudi modal fullscreen">Chiudi</button>
     </div>
   </div>
+
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
@@ -365,12 +431,17 @@
       <p>© 2025 SolveX AI3D - Tutti i diritti riservati. | <a href="/privacy-policy">Privacy Policy</a> | <a href="/termini-condizioni">Termini e Condizioni</a></p>
     </div>
   </footer>
+
+  <!-- JS -->
   <script src="js/siti-web-custom-seo.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
+
+  <!-- Chatbot -->
   <div id="root"></div>
   <script src="chatbot/js/main.996591d1.js" defer></script>
+
   <noscript>Per un'esperienza completa abilita JavaScript.</noscript>
-<script src="js/ga-autotrack.js" defer></script>
+  <script src="js/ga-autotrack.js" defer></script>
 </body>
 </html>

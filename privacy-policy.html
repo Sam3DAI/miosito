@@ -11,6 +11,8 @@
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="it_IT">
   <meta property="og:title" content="Privacy Policy | SolveX AI3D">
@@ -21,20 +23,60 @@
   <meta name="twitter:title" content="Privacy Policy | SolveX AI3D">
   <meta name="twitter:description" content="Informativa sulla privacy conforme al GDPR.">
   <meta name="twitter:image" content="https://res.cloudinary.com/dqhbriryo/image/upload/v1751448222/logo_hhdtg4.webp?quality=auto&format=auto">
+
   <link rel="canonical" href="https://solvex-ai3d.com/privacy-policy">
+
+  <!-- Icons -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Preconnect / DNS Prefetch -->
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+  <link rel="preconnect" href="https://www.googleadservices.com" crossorigin>
+  <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+  <link rel="dns-prefetch" href="//www.googletagmanager.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link rel="dns-prefetch" href="//www.googleadservices.com">
+  <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
+
+  <!-- CSS -->
   <link rel="preload" href="css/privacy-policy.css" as="style">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="css/privacy-policy.css">
   <link rel="stylesheet" href="css/cookie-banner.css">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data: https://www.google-analytics.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src * data:; frame-src https://sketchfab.com; connect-src 'self' https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com; base-uri 'self'; form-action 'self' https://formsubmit.co; object-src 'none'">
+  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
+
+  <!-- CSP -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src * data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/;
+    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+    font-src * data:;
+    frame-src https://www.googletagmanager.com;
+    connect-src 'self'
+      https://res.cloudinary.com
+      https://formsubmit.co
+      https://chatbot.solvex-chatbot.xyz
+      https://www.googletagmanager.com
+      https://www.google-analytics.com
+      https://region1.google-analytics.com
+      https://*.google-analytics.com
+      https://pagead2.googlesyndication.com
+      https://googleads.g.doubleclick.net
+      https://www.google.com https://google.com
+      https://www.googleadservices.com https://googleadservices.com;
+    base-uri 'self';
+    form-action 'self' https://formsubmit.co;
+    object-src 'none'
+  ">
+
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -74,41 +116,57 @@
     ]
   }
   </script>
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
-</script>
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
 
-  // di default tutto negato + attendo eventuale update (evita page_view prematuro)
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied',
-    wait_for_update: 1000
-  });
+  <!-- GA4 + Consent Mode v2 (caricati solo dopo consenso) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
 
-  // loader invocato dal banner quando l’utente accetta
-  window.__loadGA = function(){
-    if (window.__gaLoaded) return; window.__gaLoaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-    s.onload = function(){
-      const isDev = location.hostname !== 'solvex-ai3d.com';
-      gtag('js', new Date());
-      gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
+    // default: tutto negato finché l’utente non acconsente
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 1000
+    });
+
+    // chiamata dal banner quando l’utente accetta
+    window.__loadGA = function(){
+      if (window.__gaLoaded) return; window.__gaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
+      s.onload = function(){
+        const isDev = location.hostname !== 'solvex-ai3d.com';
+        gtag('js', new Date());
+        // GA4
+        gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
+        // Google Ads (stessa libreria, niente secondo <script>)
+        gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
+      };
+      document.head.appendChild(s);
     };
-    document.head.appendChild(s);
-  };
-</script>
+
+    // Persistenza gclid/gbraid/wbraid + auto-fill su input hidden (se presenti)
+    (function(){
+      const params = new URLSearchParams(location.search);
+      ['gclid','gbraid','wbraid'].forEach(k=>{
+        const v = params.get(k);
+        if (v) localStorage.setItem(k, v);
+      });
+      document.addEventListener('DOMContentLoaded', ()=>{
+        const g = localStorage.getItem('gclid');
+        if (g) {
+          document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value = g);
+        }
+      });
+    })();
+  </script>
 </head>
 <body>
   <a href="#privacy-content" class="skip-link">Salta al contenuto principale</a>
+
   <header>
     <div class="header-container">
       <a href="/" class="logo-link">
@@ -134,6 +192,7 @@
       </div>
     </div>
   </header>
+
   <div id="mobile-menu" class="mobile-menu" hidden>
     <ul role="navigation" aria-label="Menu mobile">
       <li><a href="/configuratori-3d-2d">Configuratori 3D/2D</a></li>
@@ -154,13 +213,16 @@
       </li>
     </ul>
   </div>
-  <section id="privacy-content" class="privacy-section" role="main" style="content-visibility: auto; contain-intrinsic-size: 1200px 1000px;">
+
+  <section id="privacy-content" class="privacy-section" role="main" style="content-visibility:auto; contain-intrinsic-size:1200px 1000px;">
     <div class="privacy-container">
       <h1>Informativa sulla <span class="gradient-text">Privacy</span></h1>
       <p><strong>Ultimo aggiornamento:</strong> Agosto 2025</p>
       <p>Questa informativa descrive come SolveX AI3D tratta i dati personali in conformità al Regolamento (UE) 2016/679 (“GDPR”) e alla normativa italiana applicabile.</p>
+
       <h2>1. Titolare del Trattamento</h2>
       <p><strong>SolveX AI3D</strong> – Via della Cerva, 68A, 30033 Noale (VE), P. IVA 04930620275 – Email: <a href="mailto:info@solvex-ai3d.com">info@solvex-ai3d.com</a> – Tel: +39 3474380837.</p>
+
       <h2>2. Tipi di Dati Trattati</h2>
       <ul>
         <li><strong>Dati di navigazione</strong> (es. indirizzo IP troncato/anonimizzato, tipo di browser/dispositivo, pagine visitate) raccolti tramite strumenti di analisi <em>solo previo consenso</em>.</li>
@@ -168,6 +230,7 @@
         <li><strong>Interazioni con chatbot</strong>: le conversazioni sono elaborate per fornire assistenza; non conserviamo una cronologia permanente sul sito.</li>
         <li><strong>Cookie e tecnologie simili</strong>: cookie tecnici/essenziali (necessari), cookie di <em>analytics</em> e di <em>marketing</em> (<em>solo se acconsenti</em>).</li>
       </ul>
+
       <h2>3. Finalità e Basi Giuridiche</h2>
       <ul>
         <li><strong>Funzionamento del sito</strong> (cookie tecnici) – Base giuridica: esecuzione di misure precontrattuali/contrattuali e legittimo interesse a garantire sicurezza e fruibilità.</li>
@@ -176,6 +239,7 @@
         <li><strong>Gestione richieste</strong> (form contatti) – Base giuridica: esecuzione di misure precontrattuali/contrattuali e legittimo interesse a rispondere alle richieste.</li>
         <li><strong>Adempimenti legali</strong> – Base giuridica: obbligo di legge.</li>
       </ul>
+
       <h2>4. Modalità del Trattamento e Conservazione</h2>
       <ul>
         <li>Trattamento con misure tecniche e organizzative adeguate (HTTPS, controlli di accesso, log, backup).</li>
@@ -183,20 +247,24 @@
         <li><strong>Analytics</strong>: conservazione eventi/rapporti tipicamente fino a <strong>14 mesi</strong> (impostazioni GA4), solo se hai dato consenso.</li>
         <li><strong>Chatbot</strong>: nessuna conservazione permanente lato sito; eventuali log temporanei lato fornitore per finalità tecniche.</li>
       </ul>
+
       <h2>5. Comunicazione e Destinatari</h2>
       <p>I dati possono essere trattati da fornitori che agiscono come responsabili esterni, tra cui:</p>
       <ul>
-        <li><strong>Google LLC</strong> (Google Analytics/Google Ads),</li>
-        <li><strong>Formsubmit.co</strong> (gestione invio form),</li>
-        <li><strong>Cloudinary</strong> (CDN immagini),</li>
-        <li>fornitore del <strong>chatbot</strong> (<code>chatbot.solvex-chatbot.xyz</code>),</li>
-        <li>società di hosting/infrastruttura e manutenzione IT.</li>
+        <li><strong>Google LLC</strong> (Google Analytics/Google Ads)</li>
+        <li><strong>Formsubmit.co</strong> (gestione invio form)</li>
+        <li><strong>Cloudinary</strong> (CDN immagini)</li>
+        <li>fornitore del <strong>chatbot</strong> (<code>chatbot.solvex-chatbot.xyz</code>)</li>
+        <li>società di hosting/infrastruttura e manutenzione IT</li>
       </ul>
       <p>Non cediamo i dati a terze parti per fini propri senza il tuo consenso.</p>
+
       <h2>6. Trasferimenti Extra-UE</h2>
       <p>Alcuni fornitori (es. Google) possono trattare dati in Paesi extra-UE. In tali casi adottiamo le garanzie previste dal GDPR (es. <em>Standard Contractual Clauses</em>), ove necessarie.</p>
+
       <h2>7. Diritti dell’Interessato</h2>
       <p>Hai diritto di accesso, rettifica, cancellazione, limitazione, opposizione, portabilità e di revocare in qualsiasi momento i consensi prestati, senza pregiudicare la liceità del trattamento basata sul consenso prima della revoca. Puoi esercitare i diritti scrivendo a <a href="mailto:info@solvex-ai3d.com">info@solvex-ai3d.com</a>. Hai inoltre diritto a proporre reclamo al Garante per la Protezione dei Dati Personali (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">www.garanteprivacy.it</a>).</p>
+
       <h2>8. Cookie e Preferenze</h2>
       <p>Utilizziamo un banner per gestire i consensi. Le categorie sono:</p>
       <ul>
@@ -206,12 +274,15 @@
       </ul>
       <p>Puoi <strong>modificare le preferenze</strong> in qualsiasi momento tramite il banner cookie o il pulsante qui sotto.</p>
       <p><button type="button" id="manage-cookies" class="cta-button-large">Gestisci preferenze cookie</button></p>
+
       <h2>9. Sicurezza</h2>
       <p>Adottiamo misure tecniche e organizzative adeguate per proteggere i dati da accessi non autorizzati, perdita o divulgazione.</p>
+
       <h2>10. Modifiche alla Presente Informativa</h2>
       <p>Potremo aggiornare la presente informativa. La versione corrente e la data di ultimo aggiornamento sono pubblicate in questa pagina.</p>
     </div>
   </section>
+
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
@@ -253,12 +324,17 @@
       <p>© 2025 SolveX AI3D - Tutti i diritti riservati. | <a href="/privacy-policy" aria-current="page">Privacy Policy</a> | <a href="/termini-condizioni">Termini e Condizioni</a></p>
     </div>
   </footer>
+
+  <!-- JS -->
   <script src="js/privacy-policy.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
+
+  <!-- Chatbot -->
   <div id="root"></div>
   <script src="chatbot/js/main.996591d1.js" defer></script>
+
   <noscript>Per un'esperienza completa abilita JavaScript.</noscript>
-<script src="js/ga-autotrack.js" defer></script>
+  <script src="js/ga-autotrack.js" defer></script>
 </body>
 </html>

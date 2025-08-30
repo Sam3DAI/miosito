@@ -11,6 +11,8 @@
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="it_IT">
   <meta property="og:title" content="Contatti e Preventivi Personalizzati | SolveX AI3D">
@@ -21,20 +23,30 @@
   <meta name="twitter:title" content="Contatti e Preventivi Personalizzati | SolveX AI3D">
   <meta name="twitter:description" content="Form per progetti AI e digitali: configuratori, automazioni, siti custom, chatbot.">
   <meta name="twitter:image" content="https://res.cloudinary.com/dqhbriryo/image/upload/v1730732892/Servizi_web_sspqsf.webp?quality=auto&format=auto">
+
   <link rel="canonical" href="https://solvex-ai3d.com/contattaci">
+
+  <!-- Icons -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- Preconnect -->
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
   <link rel="preconnect" href="https://formsubmit.co" crossorigin>
+
+  <!-- CSS -->
   <link rel="preload" href="css/contattaci.css" as="style">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="css/contattaci.css">
   <link rel="stylesheet" href="css/cookie-banner.css">
+  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
+
+  <!-- CSP allineata a GA4/Ads + FormSubmit -->
   <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
   img-src * data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
@@ -57,8 +69,9 @@
   base-uri 'self';
   form-action 'self' https://formsubmit.co;
   object-src 'none'
-">
+  ">
 
+  <!-- JSON-LD (fixato) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -111,61 +124,64 @@
         "@type": "BreadcrumbList",
         "@id": "https://solvex-ai3d.com/contattaci/#breadcrumb",
         "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://solvex-ai3d.com"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Contattaci",
-            "item": "https://solvex-ai3d.com/contattaci"
-          }
+          {"@type": "ListItem","position": 1,"name": "Home","item": "https://solvex-ai3d.com"},
+          {"@type": "ListItem","position": 2,"name": "Contattaci","item": "https://solvex-ai3d.com/contattaci"}
         ]
       }
     ]
   }
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
-</script>
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
-  <!-- GA4 + Consent Mode v2 (lazy load dopo consenso) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
+  </script>
 
-  // di default tutto negato + attendo eventuale update (evita page_view prematuro)
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied',
-    wait_for_update: 1000
-  });
+  <!-- GA4 + Google Ads con Consent Mode v2 (caricati dopo consenso) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
 
-  // loader invocato dal banner quando l’utente accetta
-  window.__loadGA = function(){
-    if (window.__gaLoaded) return; window.__gaLoaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-    s.onload = function(){
-      const isDev = location.hostname !== 'solvex-ai3d.com';
-      gtag('js', new Date());
-      gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
+    // default: tutto negato finché l’utente non aggiorna il consenso
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 1000
+    });
+
+    // invocato dal banner cookie quando l’utente accetta
+    window.__loadGA = function(){
+      if (window.__gaLoaded) return; window.__gaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
+      s.onload = function(){
+        const isDev = location.hostname !== 'solvex-ai3d.com';
+        gtag('js', new Date());
+        // GA4
+        gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
+        // Google Ads (stessa libreria; Enhanced Conversions abilitate)
+        gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
+      };
+      document.head.appendChild(s);
     };
-    document.head.appendChild(s);
-  };
-</script>
-<!-- Google Ads destination + Enhanced Conversions -->
-<script>
-  gtag('config', 'AW-17512988470', { 'allow_enhanced_conversions': true });
-</script>
+
+    // Persistenza gclid/gbraid/wbraid e auto-fill sugli hidden
+    (function(){
+      const params = new URLSearchParams(location.search);
+      ['gclid','gbraid','wbraid'].forEach(k=>{
+        const v = params.get(k);
+        if (v) localStorage.setItem(k, v);
+      });
+      document.addEventListener('DOMContentLoaded', ()=>{
+        const g = localStorage.getItem('gclid');
+        if (g) {
+          document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value = g);
+        }
+      });
+    })();
+  </script>
 </head>
 <body>
   <a href="#contatti" class="skip-link">Salta al contenuto principale</a>
+
   <header>
     <div class="header-container">
       <a href="/" class="logo-link">
@@ -191,6 +207,7 @@
       </div>
     </div>
   </header>
+
   <div id="mobile-menu" class="mobile-menu" hidden>
     <ul role="navigation" aria-label="Menu mobile">
       <li><a href="/configuratori-3d-2d">Configuratori 3D/2D</a></li>
@@ -211,31 +228,45 @@
       </li>
     </ul>
   </div>
+
   <section class="hero-section">
     <h1>Contattaci.<br>Parliamo del tuo <span class="gradient-text">Progetto</span></h1>
     <h2>Inizia Subito.</h2>
     <p>Il nostro team è pronto a trasformare le tue idee in soluzioni digitali. Raccontaci di cosa hai bisogno per ricevere un preventivo personalizzato gratuito.</p>
   </section>
+
   <section id="contatti" class="contact-section" content-visibility="auto" contain-intrinsic-size="1200px 800px">
     <div class="contact-container">
       <div class="card-gradient contact-form-card">
         <div class="contact-form">
           <h2>Richiedi un Preventivo Personalizzato</h2>
+
           <form id="contact-form" action="https://formsubmit.co/info@solvex-ai3d.com" method="POST" novalidate>
+            <!-- FormSubmit options -->
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_subject" value="Nuova Richiesta Preventivo da Sito">
             <input type="hidden" name="_autoresponse" value="Grazie per la tua richiesta! Ti invieremo presto un preventivo personalizzato.">
+            <!-- redirect sulla stessa pagina, niente thank-you separata -->
+            <input type="hidden" name="_next" value="https://solvex-ai3d.com/contattaci?success=1">
+
+            <!-- Ads/Attribution -->
             <input type="hidden" id="gclid_field" name="gclid">
+
+            <!-- Honeypot -->
             <input type="text" name="_honey" style="display:none;">
+
             <label for="name"><i class="fas fa-user icon-form" aria-hidden="true"></i> Nome *</label>
             <input type="text" id="name" name="name" required aria-required="true" aria-invalid="false" aria-describedby="name-error" autocomplete="name" inputmode="text">
             <span id="name-error" class="error-message" role="alert" aria-live="assertive"></span>
+
             <label for="email"><i class="fas fa-envelope icon-form" aria-hidden="true"></i> Email *</label>
             <input type="email" id="email" name="email" required aria-required="true" aria-invalid="false" aria-describedby="email-error" autocomplete="email" inputmode="email">
             <span id="email-error" class="error-message" role="alert" aria-live="assertive"></span>
+
             <label for="phone"><i class="fas fa-phone icon-form" aria-hidden="true"></i> Telefono (opzionale)</label>
             <input type="tel" id="phone" name="phone" aria-invalid="false" aria-describedby="phone-error" autocomplete="tel" inputmode="tel" minlength="6">
             <span id="phone-error" class="error-message" role="alert" aria-live="assertive"></span>
+
             <label><i class="fas fa-cogs icon-form" aria-hidden="true"></i> Servizi di Interesse *</label>
             <div class="services-accordion" role="tablist" aria-multiselectable="true" aria-describedby="services-error">
               <details class="accordion-item" role="region">
@@ -304,18 +335,22 @@
               </details>
             </div>
             <span id="services-error" class="error-message" role="alert" aria-live="assertive"></span>
+
             <label for="message"><i class="fas fa-comment-dots icon-form" aria-hidden="true"></i> Messaggio *</label>
             <textarea id="message" name="message" rows="5" required aria-required="true" aria-invalid="false" aria-describedby="message-error" autocomplete="off"></textarea>
             <span id="message-error" class="error-message" role="alert" aria-live="assertive"></span>
+
             <div class="privacy-checkbox">
               <input type="checkbox" id="privacy" name="privacy" required aria-required="true" aria-describedby="privacy-error">
               <label for="privacy">Accetto la <a href="/privacy-policy" rel="nofollow">Privacy Policy</a> *</label>
             </div>
             <span id="privacy-error" class="error-message" role="alert" aria-live="assertive"></span>
+
             <button type="submit" class="cta-button-large">Invia Richiesta</button>
           </form>
         </div>
       </div>
+
       <div class="card-gradient contact-info-card">
         <div class="contact-info">
           <h2>Contattaci Direttamente</h2>
@@ -330,6 +365,7 @@
       </div>
     </div>
   </section>
+
   <section class="testimonials-section" content-visibility="auto" contain-intrinsic-size="1200px 400px">
     <h2>Cosa Dicono i Nostri Clienti</h2>
     <div class="carousel-container">
@@ -355,6 +391,7 @@
       <button class="carousel-arrow right" aria-label="Testimonianza successiva"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
     </div>
   </section>
+
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
@@ -396,6 +433,8 @@
       <p>© 2025 SolveX AI3D - Tutti i diritti riservati. | <a href="/privacy-policy">Privacy Policy</a> | <a href="/termini-condizioni">Termini e Condizioni</a></p>
     </div>
   </footer>
+
+  <!-- Thank-you modal (usata se ?success=1) -->
   <div id="thank-you-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
     <div class="modal-content card-gradient">
       <i class="fas fa-check-circle gradient-icon modal-icon" aria-hidden="true"></i>
@@ -404,12 +443,17 @@
       <button id="close-modal" class="cta-button-large" aria-label="Chiudi modal di ringraziamento">Chiudi</button>
     </div>
   </div>
+
+  <!-- JS -->
   <script src="js/contattaci.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
+
+  <!-- Chatbot -->
   <div id="root"></div>
   <script src="chatbot/js/main.996591d1.js" defer></script>
+
   <noscript>Per un'esperienza completa abilita JavaScript.</noscript>
-<script src="js/ga-autotrack.js" defer></script>
+  <script src="js/ga-autotrack.js" defer></script>
 </body>
 </html>
