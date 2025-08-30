@@ -131,7 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   emailInput.addEventListener('blur', () => validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
   const phoneInput = document.getElementById('phone');
-  const phoneRegex = /^[0-9()+\- ]{6,}$/;
+  // prima: const phoneRegex = /^[0-9+()\s-]{6,}$/;  (può dare noie con /v)
+const phoneRegex = /^[-0-9()+ ]{6,}$/;
   phoneInput.addEventListener('blur', () => validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
   const messageInput = document.getElementById('message');
   messageInput.addEventListener('blur', () => validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
