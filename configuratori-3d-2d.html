@@ -30,6 +30,8 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+  <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+  <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
   <link rel="dns-prefetch" href="//www.googletagmanager.com">
   <link rel="dns-prefetch" href="//www.google-analytics.com">
   <link rel="preload" href="css/configuratori-3d-2d.css" as="style">
@@ -39,7 +41,7 @@
   <link rel="stylesheet" href="css/cookie-banner.css">
   <meta http-equiv="Content-Security-Policy" content="
   default-src 'self' https:;
-  img-src 'self' https: data: blob: https://www.google-analytics.com https://*.sketchfab.com https://assets.babylonjs.com https://api.qrserver.com https://res.cloudinary.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
+  img-src 'self' https: data: blob: https://www.google-analytics.com https://*.sketchfab.com https://assets.babylonjs.com https://api.qrserver.com https://res.cloudinary.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
   media-src 'self' https: blob:;
   script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/ https://*.sketchfab.com https://cdn.babylonjs.com https://cdnjs.cloudflare.com;
   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
@@ -124,18 +126,30 @@
       'analytics_storage': 'denied'
     });
     window.__loadGA = function() {
-      if (window.__gaLoaded) return;
-      window.__gaLoaded = true;
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      document.head.appendChild(script);
-      script.onload = function() {
-        gtag('js', new Date());
-        gtag('config', 'G-VW0JHKW0ZW');
-      };
-    };
+  if (window.__gaLoaded) return;
+  window.__gaLoaded = true;
+  // Loader GA4
+  var ga4 = document.createElement('script');
+  ga4.async = true;
+  ga4.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
+  document.head.appendChild(ga4);
+  // Loader Ads
+  var ads = document.createElement('script');
+  ads.async = true;
+  ads.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17512988470';
+  document.head.appendChild(ads);
+  // Init configs dopo caricamento GA4 (e Ads userà lo stesso dataLayer)
+  ga4.onload = function() {
+    gtag('js', new Date());
+    gtag('config', 'G-VW0JHKW0ZW');
+    gtag('config', 'AW-17512988470', { 'allow_enhanced_conversions': true });
+  };
+};
   </script>
+  <!-- Google Ads destination + Enhanced Conversions -->
+<script>
+  gtag('config', 'AW-17512988470', { 'allow_enhanced_conversions': true });
+</script>
   <!-- QRCode.js for dynamic QR -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- Babylon.js per rendering 3D superiore -->
