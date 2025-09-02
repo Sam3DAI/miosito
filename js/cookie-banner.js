@@ -12,7 +12,7 @@
       ad_storage: 'granted',
       ad_user_data: 'granted',
       // Se NON fai remarketing personalizzato, puoi lasciare 'denied' qui sotto:
-      ad_personalization: 'denied',
+      ad_personalization: 'granted',
 
       // Analytics
       analytics_storage: 'granted'

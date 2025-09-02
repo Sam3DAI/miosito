@@ -172,22 +172,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch(e.target.action, { method: 'POST', body: formData });
       if (response.ok) {
         // Conversione Google Ads SOLO al successo
-        try {
-          const emailEC = (emailInput?.value || '').trim().toLowerCase();
-          const rawPhone = (phoneInput?.value || '').replace(/[^\d+]/g, '');
-          const phoneEC = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
-          if (typeof gtag === 'function') {
-            gtag('set', 'user_data', {
-              email: emailEC || undefined,
-              phone_number: phoneEC || undefined
-            });
-            gtag('event', 'conversion', {
-              'send_to': 'AW-17512988470/gbSHCKC3o5AbELb-655B',
-              'value': 0.0,
-              'currency': 'EUR'
-            });
-          }
-        } catch(_) {}
+        // Conversione Google Ads SOLO al successo
+    try {
+      const nameEC  = (nameInput?.value || '').trim().toLowerCase();
+      const emailEC = (emailInput?.value || '').trim().toLowerCase();
+      const rawPhone = (phoneInput?.value || '').replace(/[^\d+]/g, '');
+      const phoneEC  = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
+
+      if (typeof gtag === 'function') {
+        gtag('set', 'user_data', {
+          email: emailEC || undefined,
+          phone_number: phoneEC || undefined,
+          first_name: nameEC || undefined   // 🔹 aggiunto nome
+        });
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17512988470/gbSHCKC3o5AbELb-655B', // usa la tua Label reale
+          'value': 0.0,
+          'currency': 'EUR'
+        });
+      }
+    } catch(_) {}
+
         lastFocus = document.activeElement;
         modal.classList.add('show');
         setModalHidden(false);
