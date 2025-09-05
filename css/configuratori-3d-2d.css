@@ -580,12 +580,12 @@ body.dark-mode .logos-section .logo-item img.logo--noinvert {
   border: 0px solid currentColor;
 }
 
-/* Forza la FAB del chatbot sul viewport in basso a destra */
-#root [class*="fab"],
-#root [data-testid="chatbot-fab"],
-#root [data-svx-fab] {
+/* FAB chatbot: sempre fissa in basso a dx, anche se cambia il wrapper del widget */
+:where([data-testid="chatbot-fab"],[data-svx-fab],[class*="fab"]) {
   position: fixed !important;
   right: 18px !important;
-  bottom: 18px !important;
+  /* supporta le safe-area degli iPhone */
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px) !important;
   z-index: 2147483647 !important;
+  inset-inline-end: auto !important; /* evita override RTL di librerie terze */
 }
