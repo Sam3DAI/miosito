@@ -259,6 +259,7 @@ body.dark-mode .carousel-arrow { color: #f5f5f7; }
   background: #6a9bfe;  /* un semplice hover ok */
 }
 
+
 /* --- Sezioni nuove --- */
 .sectors-section, .examples-section, .logos-section {
   padding: 40px 0 10px;
@@ -563,4 +564,28 @@ body.dark-mode .logos-section .logo-item img {
 /* Opt-out per loghi che sono già chiari o colorati e non vanno invertiti */
 body.dark-mode .logos-section .logo-item img.logo--noinvert {
   filter: none;
+}
+
+/* STOP ANIMAZIONI/TRANSIZIONI Dots */
+.carousel-dots { animation: none !important; }
+.carousel-dots .dot {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+.carousel-dots .dot[aria-current="true"] {
+  /* evidenziazione “ferma” (solo colore/border, niente transform) */
+  border: 0px solid currentColor;
+}
+
+/* Forza la FAB del chatbot sul viewport in basso a destra */
+#root [class*="fab"],
+#root [data-testid="chatbot-fab"],
+#root [data-svx-fab] {
+  position: fixed !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  z-index: 2147483647 !important;
 }

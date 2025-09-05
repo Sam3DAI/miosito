@@ -164,38 +164,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const dotList = () => Array.from(dots.querySelectorAll('.dot'));
-    const setActive = (() => {
-  let last = -1;
-  return (i) => {
-    if (i === last) return; // evita toggle ripetuti
-    last = i;
-    dotList().forEach((d, j) => {
+    const setActive = (i) => dotList().forEach((d, j) => {
       if (i === j) d.setAttribute('aria-current', 'true');
       else d.removeAttribute('aria-current');
     });
-  };
-})();
 
-    // Calcolo della card più centrata durante lo scroll
-    const updateActiveFromScroll = () => {
-      const center = wrapper.scrollLeft + wrapper.clientWidth / 2;
-      let bestIdx = 0, bestDist = Infinity;
-      cards.forEach((card, i) => {
-        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        const dist = Math.abs(cardCenter - center);
-        if (dist < bestDist) { bestDist = dist; bestIdx = i; }
-      });
-      setActive(bestIdx);
-    };
-
-    let rafId = null;
-wrapper.addEventListener('scroll', () => {
-  if (rafId) return;
-  rafId = requestAnimationFrame(() => { 
-    updateActiveFromScroll(); 
-    rafId = null; 
+    // Calcolo della card più centrata durante lo scroll (con isteresi)
+const updateActiveFromScroll = () => {
+  const center = wrapper.scrollLeft + wrapper.clientWidth / 2;
+  let bestIdx = 0, bestDist = Infinity;
+  cards.forEach((card, i) => {
+    const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+    const dist = Math.abs(cardCenter - center);
+    if (dist < bestDist) { bestDist = dist; bestIdx = i; }
   });
-}, { passive: true });
+  setActive(bestIdx);
+};
+
+    wrapper.addEventListener('scroll', updateActiveFromScroll, { passive: true });
     window.addEventListener('resize', () => {
       // ricentra la card attiva al resize (mobile → desktop, ecc.)
       const current = dots.querySelector('[aria-current="true"]');
@@ -808,4 +794,22 @@ wrapper.addEventListener('scroll', () => {
     }
   });
 })();
+  
+  // CTA -> apri il widget chatbot
+(function wireChatbotCTA(){
+  const btn = document.getElementById('open-chatbot');
+  if (!btn) return;
+
+  const openChat = () => {
+    // 1) API ufficiale se esposta
+    if (window.SolvexChatbot?.open) { window.SolvexChatbot.open(); return; }
+    // 2) fallback: clicca la FAB del widget
+    const fab = document.querySelector('#root [data-testid="chatbot-fab"], #root [data-svx-fab], #root button, #root [role="button"]');
+    if (fab) fab.click();
+  };
+
+  btn.addEventListener('click', openChat);
+})();
+
+
 });
