@@ -580,16 +580,3 @@ body.dark-mode .logos-section .logo-item img.logo--noinvert {
   border: 0px solid currentColor;
 }
 
-/* === Hardening Chatbot (solo pagina Configuratori) === */
-/* Evita che eventuali containing-block/transform influenzino i "fixed" del widget */
-#root { isolation: isolate; }
-
-/* Forza l’ancoraggio al viewport per icona e popup del chatbot */
-#root .chatbot-icon,
-#root .chat-popup {
-  position: fixed !important;
-  right: 20px !important;
-  z-index: 5000 !important; /* sopra header/menu */
-}
-#root .chatbot-icon { bottom: 20px !important; }
-#root .chat-popup  { bottom: 90px !important; } /* come da stile del widget */
