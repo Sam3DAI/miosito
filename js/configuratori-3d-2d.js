@@ -57,16 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   // Tema
-  const THEME_KEY = 'theme';
-(function migrateThemeKey(){
-  try {
-    const old = localStorage.getItem('svx-theme');
-    if (old && !localStorage.getItem(THEME_KEY)) {
-      localStorage.setItem(THEME_KEY, old);
-      localStorage.removeItem('svx-theme');
-    }
-  } catch(_) {}
-})();
+  const THEME_KEY = 'svx-theme';
   const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
   function currentTheme() {
     const saved = localStorage.getItem(THEME_KEY);
