@@ -228,32 +228,36 @@ body.dark-mode .carousel-arrow { color: #f5f5f7; }
   .carousel-arrow.right { right: 5px; }
 }
 
-/* Dots centrati e perfettamente circolari */
+/* Dots centrati, senza animazioni */
 .carousel-dots {
   display: flex;
-  justify-content: center;   /* centrati nella pagina */
+  justify-content: center;
   align-items: center;
   gap: 10px;
   margin-top: 10px;
-  padding: 0;                /* rimuove padding-left personalizzati */
+  padding: 0;
   width: 100%;
 }
 .carousel-dots .dot {
   display: inline-block;
-  width: 10px;               /* stessa base e altezza */
+  width: 10px;
   height: 10px;
-  border-radius: 50%;        /* cerchio perfetto */
+  border-radius: 50%;
   background: #d3d3d3;
   border: none;
-  padding: 0;                /* evita ovalizzazione */
-  line-height: 0;            /* protegge la forma */
+  padding: 0;
+  line-height: 0;
   cursor: pointer;
+  /* niente animazioni nei cambi stato */
+  transition: none;
 }
 .carousel-dots .dot[aria-current="true"] {
-  background: #45b6fe;
-  transform: scale(1.15);
+  background: #45b6fe;  /* evidenziato */
+  /* niente scale -> niente “flash” */
 }
-.carousel-dots .dot:hover { background: #6a9bfe; }
+.carousel-dots .dot:hover {
+  background: #6a9bfe;  /* un semplice hover ok */
+}
 
 /* --- Sezioni nuove --- */
 .sectors-section, .examples-section, .logos-section {

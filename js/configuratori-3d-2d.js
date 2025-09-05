@@ -164,10 +164,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const dotList = () => Array.from(dots.querySelectorAll('.dot'));
-    const setActive = (i) => dotList().forEach((d, j) => {
+    const setActive = (() => {
+  let last = -1;
+  return (i) => {
+    if (i === last) return; // evita toggle ripetuti
+    last = i;
+    dotList().forEach((d, j) => {
       if (i === j) d.setAttribute('aria-current', 'true');
       else d.removeAttribute('aria-current');
     });
+  };
+})();
 
     // Calcolo della card più centrata durante lo scroll
     const updateActiveFromScroll = () => {
@@ -181,7 +188,14 @@ document.addEventListener('DOMContentLoaded', () => {
       setActive(bestIdx);
     };
 
-    wrapper.addEventListener('scroll', updateActiveFromScroll, { passive: true });
+    let rafId = null;
+wrapper.addEventListener('scroll', () => {
+  if (rafId) return;
+  rafId = requestAnimationFrame(() => { 
+    updateActiveFromScroll(); 
+    rafId = null; 
+  });
+}, { passive: true });
     window.addEventListener('resize', () => {
       // ricentra la card attiva al resize (mobile → desktop, ecc.)
       const current = dots.querySelector('[aria-current="true"]');
