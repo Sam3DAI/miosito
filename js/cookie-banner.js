@@ -28,21 +28,25 @@
   }
 }
 
-  function denyAnalytics() {
-    try {
-      gtag('consent', 'update', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'denied'
-      });
-      window.__gaConsentGranted = false;
+  // DOPO
+function denyAnalytics(persist = true) {
+  try {
+    gtag('consent', 'update', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied'
+    });
+    window.__gaConsentGranted = false;
+    if (persist) {
       localStorage.setItem('cookieconsent_status', 'deny');
-      if (typeof updateModelBackground === 'function') updateModelBackground();
-    } catch (e) {
-      console.warn('[Cookie] denyAnalytics error', e);
     }
+    if (typeof updateModelBackground === 'function') updateModelBackground();
+  } catch (e) {
+    console.warn('[Cookie] denyAnalytics error', e);
   }
+}
+
   // --- Utility DOM ---
   function el(tag, attrs = {}, html = '') {
     const n = document.createElement(tag);
@@ -112,10 +116,10 @@
       denyAnalytics();
       wrap.style.display = 'none';
     } else {
-      window.__gaConsentGranted = false;
-      denyAnalytics();
-      wrap.style.display = '';
-    }
+  window.__gaConsentGranted = false;
+  denyAnalytics(false);        // <-- default tecnico, ma NON persistente
+  wrap.style.display = '';
+}
     const analyticsChk = panel.querySelector('#cc-analytics');
     analyticsChk.checked = !!window.__gaConsentGranted;
     function openPrefs() { panel.hidden = false; }
