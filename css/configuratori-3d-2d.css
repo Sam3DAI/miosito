@@ -248,7 +248,6 @@ body.dark-mode .carousel-arrow { color: #f5f5f7; }
   padding: 0;                /* evita ovalizzazione */
   line-height: 0;            /* protegge la forma */
   cursor: pointer;
-  transition: transform .2s ease, background-color .2s ease;
 }
 .carousel-dots .dot[aria-current="true"] {
   background: #45b6fe;
