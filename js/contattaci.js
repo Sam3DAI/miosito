@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const rawPhone = (phoneInput?.value || '').replace(/[^\d+]/g, '');
       const phoneEC  = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
 
-      if (typeof gtag === 'function') {
+      if (window.__gaConsentGranted && typeof gtag === 'function') {
         gtag('set', 'user_data', {
           email: emailEC || undefined,
           phone_number: phoneEC || undefined,

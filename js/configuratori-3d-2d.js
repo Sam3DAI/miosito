@@ -121,6 +121,141 @@ document.addEventListener('DOMContentLoaded', () => {
 
     wrapper.addEventListener('scroll', debounce(() => {}, 180), { passive: true });
   });
+  
+  /* ---------------------------------
+ * Carousel Dots: 1 dot per card + attivo = card più centrata
+ * --------------------------------- */
+(function initExactDots(){
+  const containers = document.querySelectorAll('.carousel-container');
+  if (!containers.length) return;
+
+  containers.forEach(container => {
+    const wrapper = container.querySelector('.carousel-wrapper');
+    if (!wrapper) return;
+
+    // Trova/crea contenitore dots subito dopo il wrapper
+    let dots = container.querySelector('.carousel-dots');
+    if (!dots) {
+      dots = document.createElement('div');
+      dots.className = 'carousel-dots';
+      wrapper.after(dots);
+    } else {
+      dots.innerHTML = '';
+    }
+
+    const cards = Array.from(wrapper.children);
+    if (!cards.length) return;
+
+    // 1 dot per ogni card
+    cards.forEach((card, index) => {
+      const b = document.createElement('button');
+      b.className = 'dot';
+      b.type = 'button';
+      b.setAttribute('aria-label', `Vai alla card ${index+1}`);
+      if (index === 0) b.setAttribute('aria-current', 'true');
+      b.addEventListener('click', () => {
+        // scorri in modo che il centro della card si allinei al centro del wrapper
+        const targetCenter = card.offsetLeft + (card.offsetWidth / 2);
+        const left = targetCenter - (wrapper.clientWidth / 2);
+        wrapper.scrollTo({ left, behavior: 'smooth' });
+        setActive(index);
+      });
+      dots.appendChild(b);
+    });
+
+    const dotList = () => Array.from(dots.querySelectorAll('.dot'));
+    const setActive = (i) => dotList().forEach((d, j) => {
+      if (i === j) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
+
+    // Calcolo della card più centrata durante lo scroll
+    const updateActiveFromScroll = () => {
+      const center = wrapper.scrollLeft + wrapper.clientWidth / 2;
+      let bestIdx = 0, bestDist = Infinity;
+      cards.forEach((card, i) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const dist = Math.abs(cardCenter - center);
+        if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+      });
+      setActive(bestIdx);
+    };
+
+    wrapper.addEventListener('scroll', updateActiveFromScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      // ricentra la card attiva al resize (mobile → desktop, ecc.)
+      const current = dots.querySelector('[aria-current="true"]');
+      const idx = current ? dotList().indexOf(current) : 0;
+      const card = cards[idx] || cards[0];
+      const targetCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const left = targetCenter - (wrapper.clientWidth / 2);
+      wrapper.scrollTo({ left });
+      updateActiveFromScroll();
+    }, { passive: true });
+  });
+})();
+  
+  /* ---------------------------------
+ * Logos marquee infinito (no scatti)
+ * --------------------------------- */
+(function infiniteLogos(){
+  const carousels = document.querySelectorAll('.logos-carousel');
+  if (!carousels.length) return;
+
+  carousels.forEach(carousel => {
+    const track = carousel.querySelector('.logos-track');
+    if (!track) return;
+
+    // Duplica il contenuto finché la larghezza è >= 2x il contenitore (loop perfetto)
+    const containerWidth = carousel.clientWidth || window.innerWidth;
+    let contentWidth = track.scrollWidth;
+    while (contentWidth < containerWidth * 2) {
+      track.innerHTML += track.innerHTML;
+      contentWidth = track.scrollWidth;
+    }
+
+    // Imposta animazione via JS con durata proporzionale alla larghezza (velocità costante)
+    const pxPerSec = 50; // velocità (px/s) — regola a gusto
+    const duration = contentWidth / pxPerSec;
+
+    track.style.animation = `logos-marquee ${duration}s linear infinite`;
+
+    // Crea keyframes a runtime per coprire la larghezza effettiva
+    const styleId = 'logos-marquee-style';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        @keyframes logos-marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Recompute on resize
+    let resizeTO;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTO);
+      resizeTO = setTimeout(() => {
+        // reset
+        track.style.animation = 'none';
+        // (ri-costruzione semplice: ripartiamo dallo stato originario)
+        const original = Array.from(track.querySelectorAll('.logo-item')).slice(0, 6); // i primi 6 sono gli originali
+        track.innerHTML = '';
+        original.forEach(n => track.appendChild(n.cloneNode(true)));
+
+        const cw = carousel.clientWidth || window.innerWidth;
+        let w = track.scrollWidth;
+        while (w < cw * 2) { track.innerHTML += track.innerHTML; w = track.scrollWidth; }
+        const dur = (track.scrollWidth) / pxPerSec;
+        track.style.animation = `logos-marquee ${dur}s linear infinite`;
+      }, 200);
+    }, { passive: true });
+  });
+})();
+
 
   /* ---------------------------------
    * Lazy bg card
@@ -158,26 +293,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const href = a.getAttribute('href');
       a.addEventListener('mouseenter', () => addPrefetch(href));
       a.addEventListener('touchstart', () => addPrefetch(href), { passive: true });
-    });
-  })();
-
-  /* ---------------------------------
-   * Configuratore 2D (swap immagini)
-   * --------------------------------- */
-  (function initConfigurator2D() {
-    const img = document.getElementById('product-image-2d');
-    if (!img) return;
-    document.querySelectorAll('.color-options-2d input[type="radio"]').forEach(r => {
-      r.addEventListener('change', () => {
-        const sw = r.nextElementSibling;
-        const next = sw?.getAttribute('data-image');
-        if (next) {
-          img.style.opacity = '0';
-          const tmp = new Image();
-          tmp.onload = () => { img.src = next; img.alt = `Prodotto Configurabile 2D - ${r.value}`; img.style.opacity = '1'; };
-          tmp.src = next;
-        }
-      });
     });
   })();
 
@@ -607,4 +722,76 @@ document.addEventListener('DOMContentLoaded', () => {
     close?.addEventListener('click', () => { modal.style.display = 'none'; });
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
   })();
+  
+  // === MINI-FORM: validazione + conversione Ads ===
+(function miniFormInit(){
+  const form = document.getElementById('mini-form');
+  if (!form) return;
+
+  // Persistenza GCLID (già presente in pagina)
+  try {
+    const params = new URLSearchParams(location.search);
+    const urlGclid = params.get('gclid');
+    if (urlGclid) localStorage.setItem('gclid', urlGclid);
+    const gclidField = document.getElementById('mini_gclid_field');
+    if (gclidField) gclidField.value = localStorage.getItem('gclid') || urlGclid || '';
+  } catch(_) {}
+
+  const nameI = document.getElementById('mf_name');
+  const emailI = document.getElementById('mf_email');
+  const msgI = document.getElementById('mf_msg');
+  const privacyI = document.getElementById('mf_privacy');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const setErr = (el, span, msg) => { el.classList.toggle('error', !!msg); el.setAttribute('aria-invalid', !!msg); span.textContent = msg || ''; };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Validazione minima
+    let valid = true;
+    setErr(nameI,  document.getElementById('mf_name_err'),  nameI.value.trim()  ? '' : 'Il nome è obbligatorio.');  valid &&= !nameI.classList.contains('error');
+    setErr(emailI, document.getElementById('mf_email_err'), emailRegex.test(emailI.value.trim()) ? '' : 'Inserisci una email valida.'); valid &&= !emailI.classList.contains('error');
+    setErr(msgI,   document.getElementById('mf_msg_err'),   msgI.value.trim()   ? '' : 'Il messaggio è obbligatorio.'); valid &&= !msgI.classList.contains('error');
+    if (!privacyI.checked) { document.getElementById('mf_privacy_err').textContent = 'Accetta la Privacy Policy.'; valid = false; }
+    if (!valid) return;
+
+    const submitBtn = form.querySelector('[type="submit"]');
+    submitBtn?.setAttribute('disabled','');
+
+    try {
+      const fd = new FormData(form);
+      const res = await fetch(form.action, { method: 'POST', body: fd });
+
+      if (res.ok) {
+        // 🔹 Google Ads — Mini-Form Demo (usa la LABEL reale)
+        const AW_ID = 'AW-17512988470';
+        const AW_LABEL_MINI = 'CQTjCID06pQbELb-655B';
+
+        // Enhanced Conversions (email)
+        const emailEC = (emailI.value || '').trim().toLowerCase();
+
+        if (window.__gaConsentGranted && typeof gtag === 'function') {
+          gtag('set', 'user_data', { email: emailEC || undefined });
+          gtag('event', 'conversion', {
+            send_to: `${AW_ID}/${AW_LABEL_MINI}`,
+            value: 0.0,
+            currency: 'EUR'
+          });
+        }
+
+        form.reset();
+        // eventuale ancoraggio o messaggio di conferma
+        window.location.hash = '#demo-form';
+        alert('Richiesta inviata! Ti contatteremo a breve per la demo.');
+      } else {
+        alert('Errore durante l’invio. Riprova.');
+      }
+    } catch (err) {
+      alert('Errore di rete. Controlla la connessione.');
+    } finally {
+      submitBtn?.removeAttribute('disabled');
+    }
+  });
+})();
 });

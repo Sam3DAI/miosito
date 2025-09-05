@@ -228,6 +228,59 @@ body.dark-mode .carousel-arrow { color: #f5f5f7; }
   .carousel-arrow.right { right: 5px; }
 }
 
+/* Dots centrati e perfettamente circolari */
+.carousel-dots {
+  display: flex;
+  justify-content: center;   /* centrati nella pagina */
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 0;                /* rimuove padding-left personalizzati */
+  width: 100%;
+}
+.carousel-dots .dot {
+  display: inline-block;
+  width: 10px;               /* stessa base e altezza */
+  height: 10px;
+  border-radius: 50%;        /* cerchio perfetto */
+  background: #d3d3d3;
+  border: none;
+  padding: 0;                /* evita ovalizzazione */
+  line-height: 0;            /* protegge la forma */
+  cursor: pointer;
+  transition: transform .2s ease, background-color .2s ease;
+}
+.carousel-dots .dot[aria-current="true"] {
+  background: #45b6fe;
+  transform: scale(1.15);
+}
+.carousel-dots .dot:hover { background: #6a9bfe; }
+
+/* --- Sezioni nuove --- */
+.sectors-section, .examples-section, .logos-section {
+  padding: 40px 0 10px;
+  background: var(--background-color);
+}
+
+/* Logos slider — infinite marquee fluida */
+.logos-carousel { overflow: hidden; margin-top: 10px; margin-bottom: 20px; }
+.logos-track {
+  display: inline-flex;
+  gap: 40px;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+}
+.logo-item img {
+  margin-top: 30px;
+  height: 50px; width: auto; transition: filter .2s ease, opacity .2s ease, transform .2s ease;
+}
+
+@media (max-width: 769px) {
+  .logo-item img { height: 42px; }
+}
+
+
 /* 3D Configurator Section */
 .configurator-section { padding: 30px 80px; background-color: var(--background-color); }
 @media (min-width: 770px) { .configurator-container { flex-direction: row-reverse; } }
@@ -283,43 +336,6 @@ input:checked + .toggle-label:before { transform: translateX(26px); }
   .color__swatch, .texture__preview img { width: 30px; height: 30px; }
 }
 
-/* Configurator 2D */
-.configurator-2d-section { padding: 60px 80px; background-color: var(--background-color); }
-.configurator-2d-container { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; }
-.product-image-container { width: 60%; background: transparent; border-radius: 10px; overflow: hidden; height: calc(100% - 5px); }
-#product-image-2d { width: 100%; height: auto; transition: opacity 0.3s ease; }
-.configurator-2d-options { width: 40%; display: flex; flex-direction: column; gap: 20px; }
-.configurator-2d-options h2 { font-size: 36px; margin-bottom: 10px; color: var(--text-color); }
-.configurator-2d-options p { font-size: 18px; margin-bottom: 20px; color: #6e6e73; }
-body.dark-mode .configurator-2d-options p { color: #a1a1a6; }
-
-.configurator-option-group h3 { font-size: 24px; margin-bottom: 15px; color: var(--text-color); }
-.color-options-2d { display: flex; gap: 20px; }
-.color-options-2d label { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-.color-swatch-2d { width: 50px; height: 50px; border-radius: 50%; border: 2px solid transparent; transition: border-color 0.3s ease, transform 0.3s ease; display: block; }
-.color-swatch-2d:hover { transform: scale(1.1); }
-input[type="radio"] { display: none; }
-input[type="radio"]:checked + .color-swatch-2d { border-color: #45b6fe; }
-
-/* Colori matching 3D */
-#bianco-2d + .color-swatch-2d { background-color: #f5f5f7; }
-#grigio-2d + .color-swatch-2d { background-color: #a1a1a6; }
-#sabbia-2d + .color-swatch-2d { background-color: #d2b48c; }
-#nero-2d + .color-swatch-2d { background-color: #1d1d1f; }
-
-/* Responsive 2D */
-@media (max-width: 769px) {
-  .configurator-2d-section { padding: 30px 20px; }
-  .configurator-2d-container { flex-direction: column; }
-  .product-image-container, .configurator-2d-options { width: 100%; }
-  .product-image-container { order: 2; }
-  .configurator-2d-options { order: 1; }
-  .configurator-2d-options h2 { font-size: 24px; }
-  .configurator-2d-options p { font-size: 16px; }
-  .configurator-option-group h3 { font-size: 18px; }
-  .color-swatch-2d { width: 40px; height: 40px; }
-  .color-options-2d { gap: 15px; }
-}
 
 /* Why Choose */
 .why-choose-section { padding: 60px 20px; background-color: #fafafa; text-align: left; }
@@ -381,9 +397,58 @@ body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
 }
 
 /* CTA Styles */
+
+/* CTA grande (coerente con Contattaci) */
+.cta-button-large {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 22px;
+  border-radius: 25px;
+  border: 1px solid #45b6fe;
+  background: transparent;
+  color: #45b6fe;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: .2px;
+  box-shadow: 0 10px 25px rgba(69,182,254,.18);
+  transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+  will-change: transform;
+}
+.cta-button-large:hover {
+  color: white;
+  background: linear-gradient(90deg, #45b6fe, #d95bc5);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(69,182,254,.25);
+}
+.cta-inline { margin-top: 16px; }
+
 .cta-container { text-align: center; margin: 40px 0; }
 .cta-button { background-color: #45b6fe; color: white; padding: 15px 30px; border-radius: 30px; text-decoration: none; transition: background-color 0.3s; }
 .cta-button:hover { background-color: #3a9de0; }
+
+.cta-button-large-form {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 22px;
+  border-radius: 25px;
+  border: 1px solid #45b6fe;
+  background: transparent;
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: .2px;
+  box-shadow: 0 10px 25px rgba(69,182,254,.18);
+  transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+  will-change: transform;
+}
+.cta-button-large-form:hover {
+  color: white;
+  background: linear-gradient(90deg, #45b6fe, #d95bc5);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(69,182,254,.25);
+}
 
 /* Accessibilità: Focus */
 :focus-visible { outline: 2px solid #45b6fe; outline-offset: 2px; }
@@ -437,4 +502,62 @@ body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
 }
 body.dark-mode #ar-qr-modal button {
   background-color: #3a9de0;
+}
+
+/* Mini-form: stesso look della card contatti */
+.mini-form-section {
+  padding: 30px 20px 10px;
+  display: flex; justify-content: center;
+}
+.mini-form-container {
+  width: min(980px, 100%);
+  border-radius: 20px;
+  /* gradient identico a contattaci .contact-form-card */
+  background: linear-gradient(135deg, #fafafa, #e0e0e0);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  padding: 28px;
+}
+body.dark-mode .mini-form-container {
+  background: linear-gradient(135deg, #fafafa, #2a2a2a);
+  color: black;
+}
+.mini-form-sub { margin: 0 0 18px 0; color: #6e6e73; }
+body.dark-mode .mini-form-sub { color: black; }
+
+.mf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.mf-field { display: flex; flex-direction: column; }
+.mf-field input, .mf-field textarea {
+  margin-top: 6px; margin-bottom: 12px;
+  padding: 10px; border: 1px solid #d2d2d7; border-radius: 5px; font-size: 16px;
+}
+body.dark-mode .mf-field input, body.dark-mode .mf-field textarea {
+  background-color: #1c1c1e; border-color: #3a3a3c; color: #f5f5f7;
+}
+.mf-field input:focus, .mf-field textarea:focus { border-color: #45b6fe; outline: none; }
+.error-message { color: #ff3b30; font-size: 14px; }
+.mf-field input.error, .mf-field textarea.error { border-color: #ff3b30 !important; }
+
+@media (max-width: 769px) {
+  .mf-grid { grid-template-columns: 1fr; }
+}
+
+/* in alternativa al margine sul bottone */
+#mf_privacy_err { display: block; margin-top: 6px; }
+#mini-form .privacy-checkbox { margin-bottom: 12px; }
+
+
+/* Inverte i loghi in dark mode così i neri diventano bianchi.
+   Opt-out: aggiungi la classe .logo--noinvert all’<img> che NON vuoi invertire. */
+body.dark-mode .logos-section .logo-item img {
+  filter: invert(1) hue-rotate(180deg) brightness(1.05) contrast(0.95);
+  transition: filter .2s ease, opacity .2s ease, transform .2s ease;
+}
+
+/* Opt-out per loghi che sono già chiari o colorati e non vanno invertiti */
+body.dark-mode .logos-section .logo-item img.logo--noinvert {
+  filter: none;
 }
