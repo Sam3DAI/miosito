@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   // Tema
-  const THEME_KEY = 'svx-theme';
+  const THEME_KEY = 'theme';
   const mediaDark = window.matchMedia('(prefers-color-scheme: dark)');
   function currentTheme() {
     const saved = localStorage.getItem(THEME_KEY);
