@@ -579,13 +579,3 @@ body.dark-mode .logos-section .logo-item img.logo--noinvert {
   /* evidenziazione “ferma” (solo colore/border, niente transform) */
   border: 0px solid currentColor;
 }
-
-/* FAB chatbot: sempre fissa in basso a dx, anche se cambia il wrapper del widget */
-:where([data-testid="chatbot-fab"],[data-svx-fab],[class*="fab"]) {
-  position: fixed !important;
-  right: 18px !important;
-  /* supporta le safe-area degli iPhone */
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 18px) !important;
-  z-index: 2147483647 !important;
-  inset-inline-end: auto !important; /* evita override RTL di librerie terze */
-}

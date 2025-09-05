@@ -4,13 +4,7 @@
 // - Carousel con frecce + loop infinito (come Automazioni AI). Restante UX invariata.
 
 document.addEventListener('DOMContentLoaded', () => {
-  // === Persistenza GCLID in ingresso (per cross-page fino al form) ===
-(() => {
-  const p = new URLSearchParams(location.search);
-  const g = p.get('gclid');
-  if (g) localStorage.setItem('gclid', g);
-})();
-
+  
   /* ---------------------------------
    * Base / header / tema
    * --------------------------------- */
@@ -235,27 +229,37 @@ const updateActiveFromScroll = () => {
     }
 
     // Recompute on resize
-    let resizeTO;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTO);
-      resizeTO = setTimeout(() => {
-        // reset
-        track.style.animation = 'none';
-        // (ri-costruzione semplice: ripartiamo dallo stato originario)
-        const original = Array.from(track.querySelectorAll('.logo-item')).slice(0, 6); // i primi 6 sono gli originali
-        track.innerHTML = '';
-        original.forEach(n => track.appendChild(n.cloneNode(true)));
+let resizeTO;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTO);
+  resizeTO = setTimeout(() => {
+    // reset
+    track.style.animation = 'none';
 
-        const cw = carousel.clientWidth || window.innerWidth;
-        let w = track.scrollWidth;
-        while (w < cw * 2) { track.innerHTML += track.innerHTML; w = track.scrollWidth; }
-        const dur = (track.scrollWidth) / pxPerSec;
-        track.style.animation = `logos-marquee ${dur}s linear infinite`;
-      }, 200);
-    }, { passive: true });
-  });
-})();
+    // Ricostruisci partendo DAL NUMERO ORIGINALE DI LOGHI
+    const originals = Array.from(track.querySelectorAll('.logo-item'));
+    const originalCountAttr = track.getAttribute('data-original-count');
+    const originalCount = originalCountAttr ? parseInt(originalCountAttr,10) : originals.length;
+    const base = originals.slice(0, originalCount); // non troncare arbitrariamente
 
+    track.innerHTML = '';
+    base.forEach(n => track.appendChild(n.cloneNode(true)));
+
+    // Duplica fino a coprire 2x il contenitore
+    const cw = carousel.clientWidth || window.innerWidth;
+    let w = track.scrollWidth;
+    while (w < cw * 2) { track.innerHTML += track.innerHTML; w = track.scrollWidth; }
+
+    const dur = track.scrollWidth / 50; // px/sec invariato
+    track.style.animation = `logos-marquee ${dur}s linear infinite`;
+  }, 200);
+}, { passive: true });
+
+// All'avvio, memorizza il numero "originale"
+if (!track.getAttribute('data-original-count')) {
+  const count = track.querySelectorAll('.logo-item').length;
+  track.setAttribute('data-original-count', String(count));
+}
 
   /* ---------------------------------
    * Lazy bg card
