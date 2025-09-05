@@ -177,8 +177,8 @@ body.dark-mode .social-icon { color: #f5f5f7; }
 .configurator-2d-section,
 .why-choose-section,
 .chatbot-invite-section {
-  content-visibility: auto;
-  contain-intrinsic-size: 800px; /* placeholder per evitare layout shift */
+  content-visibility: visible;
+  contain-intrinsic-size: auto;
 }
 
 .intro-benefits-section { background-color: var(--background-color); }
