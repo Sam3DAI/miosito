@@ -58,7 +58,16 @@
   default-src 'self' https:;
   img-src 'self' https: data: blob: https://www.google-analytics.com https://*.sketchfab.com https://assets.babylonjs.com https://api.qrserver.com https://res.cloudinary.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
   media-src 'self' https: blob:;
-  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.sketchfab.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/ https://*.sketchfab.com https://cdn.babylonjs.com https://cdnjs.cloudflare.com;
+  script-src 'self' 'unsafe-inline'
+    https://www.googletagmanager.com
+    https://www.googleadservices.com
+    https://googleads.g.doubleclick.net
+    https://pagead2.googlesyndication.com
+    https://static.sketchfab.com
+    https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/
+    https://*.sketchfab.com
+    https://cdn.babylonjs.com
+    https://cdnjs.cloudflare.com;
   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
   font-src 'self' https: data:;
   frame-src https://sketchfab.com https://*.sketchfab.com https://www.googletagmanager.com;
@@ -67,7 +76,7 @@
   base-uri 'self';
   form-action 'self' https://formsubmit.co;
   object-src 'none'
-  ">
+">
 
   <meta http-equiv="Permissions-Policy" content="
   accelerometer=(self 'https://sketchfab.com'),
