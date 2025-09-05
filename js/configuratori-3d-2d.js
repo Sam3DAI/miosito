@@ -4,13 +4,7 @@
 // - Carousel con frecce + loop infinito (come Automazioni AI). Restante UX invariata.
 
 document.addEventListener('DOMContentLoaded', () => {
-  // === Persistenza GCLID in ingresso (per cross-page fino al form) ===
-(() => {
-  const p = new URLSearchParams(location.search);
-  const g = p.get('gclid');
-  if (g) localStorage.setItem('gclid', g);
-})();
-
+  
   /* ---------------------------------
    * Base / header / tema
    * --------------------------------- */
