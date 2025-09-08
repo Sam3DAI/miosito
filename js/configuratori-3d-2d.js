@@ -717,77 +717,91 @@ const updateActiveFromScroll = () => {
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
   })();
   
-  // === MINI-FORM: validazione + conversione Ads ===
+  // === MINI-FORM: invio nativo + conversione post-redirect ===
 (function miniFormInit(){
   const form = document.getElementById('mini-form');
   if (!form) return;
 
-  // Persistenza GCLID (già presente in pagina)
-  try {
-    const params = new URLSearchParams(location.search);
-    const urlGclid = params.get('gclid');
-    if (urlGclid) localStorage.setItem('gclid', urlGclid);
-    const gclidField = document.getElementById('mini_gclid_field');
-    if (gclidField) gclidField.value = localStorage.getItem('gclid') || urlGclid || '';
-  } catch(_) {}
-
-  const nameI = document.getElementById('mf_name');
+  // campi
+  const nameI  = document.getElementById('mf_name');
   const emailI = document.getElementById('mf_email');
-  const msgI = document.getElementById('mf_msg');
+  const msgI   = document.getElementById('mf_msg');
   const privacyI = document.getElementById('mf_privacy');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  // VALIDAZIONE veloce (stessa UX)
   const setErr = (el, span, msg) => { el.classList.toggle('error', !!msg); el.setAttribute('aria-invalid', !!msg); span.textContent = msg || ''; };
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    // Validazione minima
+  form.addEventListener('submit', (e) => {
+    // valida
     let valid = true;
-    setErr(nameI,  document.getElementById('mf_name_err'),  nameI.value.trim()  ? '' : 'Il nome è obbligatorio.');  valid &&= !nameI.classList.contains('error');
+    setErr(nameI,  document.getElementById('mf_name_err'),  nameI.value.trim() ? '' : 'Il nome è obbligatorio.');  valid &&= !nameI.classList.contains('error');
     setErr(emailI, document.getElementById('mf_email_err'), emailRegex.test(emailI.value.trim()) ? '' : 'Inserisci una email valida.'); valid &&= !emailI.classList.contains('error');
-    setErr(msgI,   document.getElementById('mf_msg_err'),   msgI.value.trim()   ? '' : 'Il messaggio è obbligatorio.'); valid &&= !msgI.classList.contains('error');
+    setErr(msgI,   document.getElementById('mf_msg_err'),   msgI.value.trim() ? '' : 'Il messaggio è obbligatorio.'); valid &&= !msgI.classList.contains('error');
     if (!privacyI.checked) { document.getElementById('mf_privacy_err').textContent = 'Accetta la Privacy Policy.'; valid = false; }
-    if (!valid) return;
+    if (!valid) { e.preventDefault(); return; }
 
-    const submitBtn = form.querySelector('[type="submit"]');
-    submitBtn?.setAttribute('disabled','');
+    // 🔹 Salva in sessione i dati necessari alle Enhanced Conversions
+    const ec = {
+      email: (emailI.value||'').trim().toLowerCase(),
+      first_name: (nameI.value||'').trim()
+    };
+    sessionStorage.setItem('__mf_ec', JSON.stringify(ec));
 
-    try {
-      const fd = new FormData(form);
-      const res = await fetch(form.action, { method: 'POST', body: fd });
-
-      if (res.ok) {
-        // 🔹 Google Ads — Mini-Form Demo (usa la LABEL reale)
-        const AW_ID = 'AW-17512988470';
-        const AW_LABEL_MINI = 'CQTjCID06pQbELb-655B';
-
-        // Enhanced Conversions (email)
-        const emailEC = (emailI.value || '').trim().toLowerCase();
-
-        if (window.__gaConsentGranted && typeof gtag === 'function') {
-          gtag('set', 'user_data', { email: emailEC || undefined });
-          gtag('event', 'conversion', {
-            send_to: `${AW_ID}/${AW_LABEL_MINI}`,
-            value: 0.0,
-            currency: 'EUR'
-          });
-        }
-
-        form.reset();
-        // eventuale ancoraggio o messaggio di conferma
-        window.location.hash = '#demo-form';
-        alert('Richiesta inviata! Ti contatteremo a breve per la demo.');
-      } else {
-        alert('Errore durante l’invio. Riprova.');
-      }
-    } catch (err) {
-      alert('Errore di rete. Controlla la connessione.');
-    } finally {
-      submitBtn?.removeAttribute('disabled');
-    }
-  });
+    // 🔹 IMPORTANTE: NIENTE fetch() -> lasciamo il submit nativo a FormSubmit (+ redirect su ?demo=1 già impostato nell’HTML)
+    // Se vuoi feedback immediato, disabilita il bottone:
+    form.querySelector('[type="submit"]')?.setAttribute('disabled','');
+  }, { capture: true });
 })();
+
+// Dopo il redirect: apri modal e spara conversione
+(function handleMiniFormThankYou(){
+  const sp = new URLSearchParams(location.search);
+  if (sp.get('demo') !== '1') return;
+
+  // recupera EC e pulisci
+  let ec = {};
+  try { ec = JSON.parse(sessionStorage.getItem('__mf_ec') || '{}'); } catch(_) {}
+  sessionStorage.removeItem('__mf_ec');
+
+  // Modal "Grazie" (riusa lo stesso stile della pagina contatti)
+  let modal = document.getElementById('thank-you-modal-mini');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'thank-you-modal-mini';
+    modal.className = 'modal-overlay show';
+    modal.innerHTML = `
+      <div class="modal-content card-gradient">
+        <i class="fas fa-check-circle gradient-icon modal-icon" aria-hidden="true"></i>
+        <h2 class="gradient-text">Grazie!</h2>
+        <p>La tua richiesta di <strong>Demo</strong> è stata inviata correttamente. Ti contatteremo a breve.</p>
+        <button class="cta-button-large" id="close-mini-modal" type="button" aria-label="Chiudi">Chiudi</button>
+      </div>`;
+    document.body.appendChild(modal);
+    document.getElementById('close-mini-modal')?.addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('show'); });
+  } else {
+    modal.classList.add('show');
+  }
+
+  // 🔹 Conversione Google Ads (Mini-Form Demo)
+  const AW_ID = 'AW-17512988470';
+  const AW_LABEL_MINI = 'CQTjCID06pQbELb-655B'; // (già tua)
+  try {
+    if (window.__gaConsentGranted && typeof gtag === 'function') {
+      gtag('set', 'user_data', {
+        email: ec.email || undefined,
+        first_name: ec.first_name || undefined
+      });
+      gtag('event', 'conversion', {
+        send_to: `${AW_ID}/${AW_LABEL_MINI}`,
+        value: 0.0,
+        currency: 'EUR'
+      });
+    }
+  } catch(_) {}
+})();
+
   
   // CTA -> apri il widget chatbot
 (function wireChatbotCTA(){
