@@ -155,52 +155,68 @@
   }
   </script>
 
-  <!-- GA4 + Google Ads con Consent Mode v2 (caricati dopo consenso) -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
+  // === Consent Mode v2: default negato ===
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent','default',{
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    wait_for_update:800
+  });
 
-    // default: tutto negato finché l’utente non aggiorna il consenso
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied',
-      wait_for_update: 1000
-    });
-
-    // invocato dal banner cookie quando l’utente accetta
-    window.__loadGA = function(){
-      if (window.__gaLoaded) return; window.__gaLoaded = true;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      s.onload = function(){
-        const isDev = location.hostname !== 'solvex-ai3d.com';
-        gtag('js', new Date());
-        // GA4
-        gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
-        // Google Ads (stessa libreria; Enhanced Conversions abilitate)
-        gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
-      };
+  (function(){
+    let gtagLoaded=false;
+    function loadGtagOnce(){
+      if (gtagLoaded) return; gtagLoaded=true;
+      const s=document.createElement('script');
+      s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
       document.head.appendChild(s);
-    };
+      gtag('js', new Date());
+    }
 
-    // Persistenza gclid/gbraid/wbraid e auto-fill sugli hidden (se presenti)
-    (function(){
-      const params = new URLSearchParams(location.search);
-      ['gclid','gbraid','wbraid'].forEach(k=>{
-        const v = params.get(k);
-        if (v) localStorage.setItem(k, v);
-      });
-      document.addEventListener('DOMContentLoaded', ()=>{
-        const g = localStorage.getItem('gclid');
-        if (g) {
-          document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value = g);
-        }
-      });
-    })();
-  </script>
+    // === Loader separati per categorie (chiamati dal banner) ===
+    window.__loadGA4 = function(){ // Statistiche
+      loadGtagOnce();
+      const isDev = location.hostname !== 'solvex-ai3d.com';
+      gtag('config','G-VW0JHKW0ZW',{ debug_mode: isDev ? true : undefined });
+    };
+    window.__loadAds = function(){ // Marketing (solo misurazione conversioni)
+      loadGtagOnce();
+      gtag('config','AW-17512988470',{ allow_enhanced_conversions:true });
+    };
+  })();
+</script>
+
+<!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
+<script>
+// Non persistiamo nulla finché l’utente non accetta "Marketing"
+(function(){
+  const sp=new URLSearchParams(location.search);
+  const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
+
+  function fillHidden(){
+    const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
+    if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value=g);
+  }
+  window.__persistAdParams=function(){
+    if (!window.__adsConsentGranted) return;
+    try{
+      if (fromUrl.gclid)  sessionStorage.setItem('gclid', fromUrl.gclid);
+      if (fromUrl.gbraid) sessionStorage.setItem('gbraid',fromUrl.gbraid);
+      if (fromUrl.wbraid) sessionStorage.setItem('wbraid',fromUrl.wbraid);
+    }catch(_){}
+    fillHidden();
+  };
+  window.__clearAdParams=function(){
+    try{ ['gclid','gbraid','wbraid'].forEach(k=>{ sessionStorage.removeItem(k); localStorage.removeItem(k); }); }catch(_){}
+  };
+  document.addEventListener('DOMContentLoaded', fillHidden);
+})();
+</script>
+
 </head>
 <body>
   <a href="#services" class="skip-link">Salta al contenuto principale</a>
@@ -451,7 +467,6 @@
 
   <!-- JS -->
   <script src="js/index.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
 
   <!-- Chatbot -->

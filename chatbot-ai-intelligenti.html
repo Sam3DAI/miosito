@@ -59,107 +59,106 @@
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Service",
-        "@id": "https://solvex-ai3d.com/chatbot-ai-intelligenti/#service",
-        "serviceType": "Chatbot AI per Customer Service",
-        "provider": {
-          "@type": "LocalBusiness",
-          "@id": "https://solvex-ai3d.com/#organization",
-          "name": "SolveX AI3D",
-          "url": "https://solvex-ai3d.com",
-          "logo": {
-  "@type": "ImageObject",
-  "url": "https://solvex-ai3d.com/logo-112.png",
-  "width": 112,
-  "height": 112
-},
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Via della Cerva, 68A",
-            "addressLocality": "Noale",
-            "addressRegion": "VE",
-            "postalCode": "30033",
-            "addressCountry": "IT"
-          },
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+39-3474380837",
-            "contactType": "customer service",
-            "email": "info@solvex-ai3d.com",
-            "areaServed": "IT"
-          },
-          "priceRange": "$$"
-        },
-        "description": "Chatbot AI avanzati per automatizzare customer service: Starter base per FAQ, Smart conversazionale con LLM, Enterprise intelligente con integrazioni CRM e memoria.",
-        "url": "https://solvex-ai3d.com/chatbot-ai-intelligenti"
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"Service",
+      "@id":"https://solvex-ai3d.com/chatbot-ai-intelligenti/#service",
+      "serviceType":"Chatbot AI per Customer Service",
+      "provider":{
+        "@type":"LocalBusiness",
+        "@id":"https://solvex-ai3d.com/#organization",
+        "name":"SolveX AI3D",
+        "url":"https://solvex-ai3d.com",
+        "logo":{"@type":"ImageObject","url":"https://solvex-ai3d.com/logo-112.png","width":112,"height":112},
+        "address":{"@type":"PostalAddress","streetAddress":"Via della Cerva, 68A","addressLocality":"Noale","addressRegion":"VE","postalCode":"30033","addressCountry":"IT"},
+        "contactPoint":{"@type":"ContactPoint","telephone":"+39-3474380837","contactType":"customer service","email":"info@solvex-ai3d.com","areaServed":"IT"},
+        "priceRange":"$$"
       },
-      { "@type": "Offer", "name": "Starter Chatbot", "description": "FAQ automatiche, setup rapido." },
-      { "@type": "Offer", "name": "Smart Chatbot", "description": "Intenti, risposte dinamiche, multicanale." },
-      { "@type": "Offer", "name": "Enterprise Chatbot", "description": "Memoria, integrazioni CRM/ERP, memoria." },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://solvex-ai3d.com/chatbot-ai-intelligenti/#breadcrumb",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
-          { "@type": "ListItem", "position": 2, "name": "Chatbot AI", "item": "https://solvex-ai3d.com/chatbot-ai-intelligenti" }
-        ]
-      }
-    ]
-  }
-  </script>
+      "description":"Chatbot AI avanzati per automatizzare customer service: Starter base per FAQ, Smart conversazionale con LLM, Enterprise con integrazioni CRM e memoria.",
+      "url":"https://solvex-ai3d.com/chatbot-ai-intelligenti",
+      "offers":[
+        {"@type":"Offer","name":"Starter Chatbot","description":"FAQ automatiche, setup rapido."},
+        {"@type":"Offer","name":"Smart Chatbot","description":"Intenti, risposte dinamiche, multicanale."},
+        {"@type":"Offer","name":"Enterprise Chatbot","description":"Memoria, integrazioni CRM/ERP."}
+      ]
+    },
+    {
+      "@type":"BreadcrumbList",
+      "@id":"https://solvex-ai3d.com/chatbot-ai-intelligenti/#breadcrumb",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://solvex-ai3d.com"},
+        {"@type":"ListItem","position":2,"name":"Chatbot AI","item":"https://solvex-ai3d.com/chatbot-ai-intelligenti"}
+      ]
+    }
+  ]
+}
+</script>
 
-  <!-- GA4 + Google Ads via Consent Mode v2 (caricati dopo consenso) -->
+
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
+  // === Consent Mode v2: default negato ===
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent','default',{
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    wait_for_update:800
+  });
 
-    // Default: tutto negato finché l’utente non acconsente
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied',
-      wait_for_update: 1000
-    });
-
-    // Chiamata dal banner cookie quando l’utente accetta
-    window.__loadGA = function(){
-      if (window.__gaLoaded) return; window.__gaLoaded = true;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      s.onload = function(){
-        const isDev = location.hostname !== 'solvex-ai3d.com';
-        gtag('js', new Date());
-        // GA4
-        gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
-        // Google Ads (stessa libreria; abilita Enhanced Conversions)
-        gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
-      };
-      document.head.appendChild(s);
-    };
-  </script>
-
-  <!-- Persistenza GCLID/GBRAID/WBRAID + auto-fill input hidden -->
-  <script>
   (function(){
-    const params = new URLSearchParams(location.search);
-    ['gclid','gbraid','wbraid'].forEach(k=>{
-      const v = params.get(k);
-      if (v) localStorage.setItem(k, v);
-    });
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const g = localStorage.getItem('gclid');
-      if (g) {
-        document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value = g);
-      }
-    });
+    let gtagLoaded=false;
+    function loadGtagOnce(){
+      if (gtagLoaded) return; gtagLoaded=true;
+      const s=document.createElement('script');
+      s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
+      document.head.appendChild(s);
+      gtag('js', new Date());
+    }
+
+    // === Loader separati per categorie (chiamati dal banner) ===
+    window.__loadGA4 = function(){ // Statistiche
+      loadGtagOnce();
+      const isDev = location.hostname !== 'solvex-ai3d.com';
+      gtag('config','G-VW0JHKW0ZW',{ debug_mode: isDev ? true : undefined });
+    };
+    window.__loadAds = function(){ // Marketing (solo misurazione conversioni)
+      loadGtagOnce();
+      gtag('config','AW-17512988470',{ allow_enhanced_conversions:true });
+    };
   })();
-  </script>
+</script>
+
+<!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
+<script>
+// Non persistiamo nulla finché l’utente non accetta "Marketing"
+(function(){
+  const sp=new URLSearchParams(location.search);
+  const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
+
+  function fillHidden(){
+    const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
+    if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value=g);
+  }
+  window.__persistAdParams=function(){
+    if (!window.__adsConsentGranted) return;
+    try{
+      if (fromUrl.gclid)  sessionStorage.setItem('gclid', fromUrl.gclid);
+      if (fromUrl.gbraid) sessionStorage.setItem('gbraid',fromUrl.gbraid);
+      if (fromUrl.wbraid) sessionStorage.setItem('wbraid',fromUrl.wbraid);
+    }catch(_){}
+    fillHidden();
+  };
+  window.__clearAdParams=function(){
+    try{ ['gclid','gbraid','wbraid'].forEach(k=>{ sessionStorage.removeItem(k); localStorage.removeItem(k); }); }catch(_){}
+  };
+  document.addEventListener('DOMContentLoaded', fillHidden);
+})();
+</script>
+
 </head>
 
 <body>
@@ -401,7 +400,6 @@
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
   <script src="js/chatbot-ai-intelligenti.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
 
   <!-- Chatbot -->
