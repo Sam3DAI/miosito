@@ -12,12 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contact-form');
   if (!contactForm) return;
 
-  /* === GCLID: cattura e persisti === */
-  const urlParams = new URLSearchParams(location.search);
-  const urlGclid = urlParams.get('gclid');
-  if (urlGclid) localStorage.setItem('gclid', urlGclid);
-  const gclidField = document.getElementById('gclid_field');
-  if (gclidField) gclidField.value = localStorage.getItem('gclid') || urlGclid || '';
+  /* === GCLID: NO persistenza senza consenso === */
+const gclidField = document.getElementById('gclid_field');
+// Se __persistAdParams ha già salvato in sessione, lo usiamo; altrimenti lasciamo vuoto
+const gclidSession = sessionStorage.getItem('gclid');
+if (gclidSession && gclidField) gclidField.value = gclidSession;
 
   /* === Modal Grazie === */
   const modal = document.getElementById('thank-you-modal');
@@ -179,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced Conversions: prepariamo anche per eventuale redirect
     const ec = (() => {
-      const nameEC  = (nameInput?.value || '').trim().toLowerCase();
+      const firstNameEC = ((nameInput?.value || '').trim().split(' ')[0] || '').toLowerCase();
       const emailEC = (emailInput?.value || '').trim().toLowerCase();
       const rawPhone = (phoneInput?.value || '').replace(/[^\d+]/g, '');
       const phoneEC  = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
@@ -198,18 +197,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (looksOk) {
         try {
-          if (window.__gaConsentGranted && typeof gtag === 'function') {
-            gtag('set', 'user_data', {
-              email: ec.email || undefined,
-              phone_number: ec.phone_number || undefined,
-              first_name: ec.first_name || undefined
-            });
-            gtag('event', 'conversion', {
-              send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
-              value: 0.0,
-              currency: 'EUR'
-            });
-          }
+          // GA4: lead solo se consenso Statistiche
+if (window.__analyticsConsentGranted && typeof gtag === 'function') {
+  gtag('event', 'generate_lead', {
+    method: 'contact_form',
+    value: 0
+  });
+}
+
+// Google Ads: conversione + Enhanced Conversions solo se consenso Marketing
+if (window.__adsConsentGranted && typeof gtag === 'function') {
+  gtag('set', 'user_data', {
+    email: ec.email || undefined,
+    phone_number: ec.phone_number || undefined,
+    first_name: ec.first_name || undefined
+  });
+  gtag('event', 'conversion', {
+    send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
+    value: 0.0,
+    currency: 'EUR'
+  });
+}
+
         } catch(_) {}
 
         lastFocus = document.activeElement;
@@ -243,18 +252,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // conversione anche su percorso redirect (se disponibile in sessione)
     try {
       const ec = JSON.parse(sessionStorage.getItem('__contact_ec') || '{}');
-      if (window.__gaConsentGranted && typeof gtag === 'function') {
-        gtag('set', 'user_data', {
-          email: ec.email || undefined,
-          phone_number: ec.phone_number || undefined,
-          first_name: ec.first_name || undefined
-        });
-        gtag('event', 'conversion', {
-          send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
-          value: 0.0,
-          currency: 'EUR'
-        });
-      }
+
+// GA4: lead anche su percorso redirect, solo se Statistiche
+if (window.__analyticsConsentGranted && typeof gtag === 'function') {
+  gtag('event', 'generate_lead', {
+    method: 'contact_form_redirect',
+    value: 0
+  });
+}
+
+// Ads: conversione + EC solo se Marketing
+if (window.__adsConsentGranted && typeof gtag === 'function') {
+  gtag('set', 'user_data', {
+    email: ec.email || undefined,
+    phone_number: ec.phone_number || undefined,
+    first_name: ec.first_name || undefined
+  });
+  gtag('event', 'conversion', {
+    send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
+    value: 0.0,
+    currency: 'EUR'
+  });
+}
+
     } catch(_) {}
     try { sessionStorage.removeItem('__contact_ec'); } catch(_) {}
 

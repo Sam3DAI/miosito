@@ -717,89 +717,93 @@ const updateActiveFromScroll = () => {
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
   })();
   
-  // === MINI-FORM: invio nativo + conversione post-redirect ===
-(function miniFormInit(){
+  /* === MINI-FORM: validazione + EC + thank-you + conversione GA/Ads (UNIFICATO) === */
+(function miniFormUnified(){
   const form = document.getElementById('mini-form');
   if (!form) return;
 
-  // campi
+  // Campi + validazione semplice
   const nameI  = document.getElementById('mf_name');
   const emailI = document.getElementById('mf_email');
   const msgI   = document.getElementById('mf_msg');
   const privacyI = document.getElementById('mf_privacy');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const setErr = (el, span, msg) => {
+    if (!el || !span) return;
+    el.classList.toggle('error', !!msg);
+    el.setAttribute('aria-invalid', !!msg);
+    span.textContent = msg || '';
+  };
 
-  // VALIDAZIONE veloce (stessa UX)
-  const setErr = (el, span, msg) => { el.classList.toggle('error', !!msg); el.setAttribute('aria-invalid', !!msg); span.textContent = msg || ''; };
-
+  // Submit: valida e salva dati per Enhanced Conversions (solo in sessione)
   form.addEventListener('submit', (e) => {
-    // valida
     let valid = true;
-    setErr(nameI,  document.getElementById('mf_name_err'),  nameI.value.trim() ? '' : 'Il nome è obbligatorio.');  valid &&= !nameI.classList.contains('error');
-    setErr(emailI, document.getElementById('mf_email_err'), emailRegex.test(emailI.value.trim()) ? '' : 'Inserisci una email valida.'); valid &&= !emailI.classList.contains('error');
-    setErr(msgI,   document.getElementById('mf_msg_err'),   msgI.value.trim() ? '' : 'Il messaggio è obbligatorio.'); valid &&= !msgI.classList.contains('error');
+    setErr(nameI,  document.getElementById('mf_name_err'),  nameI.value.trim() ? '' : 'Il nome è obbligatorio.');
+    valid &&= !nameI.classList.contains('error');
+    setErr(emailI, document.getElementById('mf_email_err'), emailRegex.test(emailI.value.trim()) ? '' : 'Inserisci una email valida.');
+    valid &&= !emailI.classList.contains('error');
+    setErr(msgI,   document.getElementById('mf_msg_err'),   msgI.value.trim() ? '' : 'Il messaggio è obbligatorio.');
+    valid &&= !msgI.classList.contains('error');
     if (!privacyI.checked) { document.getElementById('mf_privacy_err').textContent = 'Accetta la Privacy Policy.'; valid = false; }
     if (!valid) { e.preventDefault(); return; }
 
-    // 🔹 Salva in sessione i dati necessari alle Enhanced Conversions
     const ec = {
       email: (emailI.value||'').trim().toLowerCase(),
-      first_name: (nameI.value||'').trim()
+      first_name: ((nameI.value||'').trim().split(' ')[0] || '').toLowerCase()
     };
-    sessionStorage.setItem('__mf_ec', JSON.stringify(ec));
-
-    // 🔹 IMPORTANTE: NIENTE fetch() -> lasciamo il submit nativo a FormSubmit (+ redirect su ?demo=1 già impostato nell’HTML)
-    // Se vuoi feedback immediato, disabilita il bottone:
+    try { sessionStorage.setItem('__mini_ec', JSON.stringify(ec)); } catch(_) {}
+    // Lasciamo il submit nativo a FormSubmit (+ redirect su ?demo=1)
     form.querySelector('[type="submit"]')?.setAttribute('disabled','');
   }, { capture: true });
-})();
 
-// Dopo il redirect: apri modal e spara conversione
-(function handleMiniFormThankYou(){
+  // Post-redirect (?demo=1): modal + GA4 (se Statistiche) + Ads (se Marketing)
   const sp = new URLSearchParams(location.search);
-  if (sp.get('demo') !== '1') return;
+  if (sp.get('demo') === '1') {
+    // Modal "Grazie"
+    let modal = document.getElementById('thank-you-modal-mini');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'thank-you-modal-mini';
+      modal.className = 'modal-overlay show';
+      modal.innerHTML = `
+        <div class="modal-content card-gradient">
+          <i class="fas fa-check-circle gradient-icon modal-icon" aria-hidden="true"></i>
+          <h2 class="gradient-text">Grazie!</h2>
+          <p>La tua richiesta di <strong>Demo</strong> è stata inviata correttamente. Ti contatteremo a breve.</p>
+          <button class="cta-button-large" id="close-mini-modal" type="button" aria-label="Chiudi">Chiudi</button>
+        </div>`;
+      document.body.appendChild(modal);
+      document.getElementById('close-mini-modal')?.addEventListener('click', () => modal.classList.remove('show'));
+      modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('show'); });
+    } else {
+      modal.classList.add('show');
+    }
 
-  // recupera EC e pulisci
-  let ec = {};
-  try { ec = JSON.parse(sessionStorage.getItem('__mf_ec') || '{}'); } catch(_) {}
-  sessionStorage.removeItem('__mf_ec');
+    // GA4: evento lead SOLO se Statistiche accettate
+    if (window.__analyticsConsentGranted && typeof gtag === 'function') {
+      gtag('event', 'generate_lead', { method: 'mini_form_redirect', value: 0 });
+    }
 
-  // Modal "Grazie" (riusa lo stesso stile della pagina contatti)
-  let modal = document.getElementById('thank-you-modal-mini');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'thank-you-modal-mini';
-    modal.className = 'modal-overlay show';
-    modal.innerHTML = `
-      <div class="modal-content card-gradient">
-        <i class="fas fa-check-circle gradient-icon modal-icon" aria-hidden="true"></i>
-        <h2 class="gradient-text">Grazie!</h2>
-        <p>La tua richiesta di <strong>Demo</strong> è stata inviata correttamente. Ti contatteremo a breve.</p>
-        <button class="cta-button-large" id="close-mini-modal" type="button" aria-label="Chiudi">Chiudi</button>
-      </div>`;
-    document.body.appendChild(modal);
-    document.getElementById('close-mini-modal')?.addEventListener('click', () => modal.classList.remove('show'));
-    modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('show'); });
-  } else {
-    modal.classList.add('show');
-  }
-
-  // 🔹 Conversione Google Ads (Mini-Form Demo)
-  const AW_ID = 'AW-17512988470';
-  const AW_LABEL_MINI = 'CQTjCID06pQbELb-655B'; // (già tua)
-  try {
-    if (window.__gaConsentGranted && typeof gtag === 'function') {
+    // Ads: conversione SOLO se Marketing accettato (con EC)
+    if (window.__adsConsentGranted && typeof gtag === 'function') {
+      let ec = {};
+      try { ec = JSON.parse(sessionStorage.getItem('__mini_ec') || '{}'); } catch(_) {}
       gtag('set', 'user_data', {
         email: ec.email || undefined,
         first_name: ec.first_name || undefined
       });
+      // Usa il TUO label per il mini-form (qui quello che hai indicato tu)
       gtag('event', 'conversion', {
-        send_to: `${AW_ID}/${AW_LABEL_MINI}`,
+        send_to: 'AW-17512988470/CQTjCID06pQbELb-655B',
         value: 0.0,
         currency: 'EUR'
       });
     }
-  } catch(_) {}
+
+    // Pulizia sessione e querystring
+    try { sessionStorage.removeItem('__mini_ec'); } catch(_) {}
+    try { history.replaceState({}, '', location.pathname); } catch(_) {}
+  }
 })();
 
   

@@ -142,52 +142,84 @@
   }
   </script>
 
-  <!-- GA4 + Google Ads con Consent Mode v2 (caricati dopo consenso) -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
 
-    // default: tutto negato finché l’utente non aggiorna il consenso
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied',
-      wait_for_update: 1000
-    });
+  // Consent Mode v2: default tutto negato
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 800
+  });
 
-    // invocato dal banner cookie quando l’utente accetta
-    window.__loadGA = function(){
-      if (window.__gaLoaded) return; window.__gaLoaded = true;
-      var s = document.createElement('script');
+  (function(){
+    let gtagLoaded = false;
+    function loadGtagOnce(){
+      if (gtagLoaded) return; gtagLoaded = true;
+      const s = document.createElement('script');
       s.async = true;
       s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      s.onload = function(){
-        const isDev = location.hostname !== 'solvex-ai3d.com';
-        gtag('js', new Date());
-        // GA4
-        gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
-        // Google Ads (stessa libreria; Enhanced Conversions abilitate)
-        gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
-      };
       document.head.appendChild(s);
+      gtag('js', new Date());
+    }
+
+    // GA4: solo con Statistiche
+    window.__loadGA4 = function(){
+      loadGtagOnce();
+      const isDev = location.hostname !== 'solvex-ai3d.com';
+      gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
     };
 
-    // Persistenza gclid/gbraid/wbraid e auto-fill sugli hidden
-    (function(){
-      const params = new URLSearchParams(location.search);
-      ['gclid','gbraid','wbraid'].forEach(k=>{
-        const v = params.get(k);
-        if (v) localStorage.setItem(k, v);
-      });
-      document.addEventListener('DOMContentLoaded', ()=>{
-        const g = localStorage.getItem('gclid');
-        if (g) {
-          document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value = g);
-        }
-      });
-    })();
-  </script>
+    // Ads: solo con Marketing (Enhanced Conversions abilitate)
+    window.__loadAds = function(){
+      loadGtagOnce();
+      gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
+    };
+  })();
+</script>
+
+<script>
+// Gestione GCLID/GBRAID/WBRAID conforme al consenso
+(function(){
+  // Non scriviamo nulla nello storage finché l’utente non accetta "Marketing"
+  const sp = new URLSearchParams(location.search);
+  const fromUrl = {
+    gclid:  sp.get('gclid')  || '',
+    gbraid: sp.get('gbraid') || '',
+    wbraid: sp.get('wbraid') || ''
+  };
+
+  // Compila i campi hidden senza storage (utile anche se l’utente non ha ancora accettato)
+  function fillHidden() {
+    const g = (sessionStorage.getItem('gclid') || fromUrl.gclid || '');
+    if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el => el.value = g);
+  }
+
+  // Dopo consenso Marketing, persistiamo in sessionStorage
+  window.__persistAdParams = function(){
+    if (!window.__adsConsentGranted) return;
+    try {
+      if (fromUrl.gclid)  sessionStorage.setItem('gclid',  fromUrl.gclid);
+      if (fromUrl.gbraid) sessionStorage.setItem('gbraid', fromUrl.gbraid);
+      if (fromUrl.wbraid) sessionStorage.setItem('wbraid', fromUrl.wbraid);
+    } catch(_) {}
+    fillHidden();
+  };
+
+  // In caso di rifiuto, puliamo
+  window.__clearAdParams = function(){
+    try {
+      ['gclid','gbraid','wbraid'].forEach(k => { sessionStorage.removeItem(k); localStorage.removeItem(k); });
+    } catch(_) {}
+  };
+
+  document.addEventListener('DOMContentLoaded', fillHidden);
+})();
+</script>
+
 </head>
 <body>
   <a href="#contatti" class="skip-link">Salta al contenuto principale</a>
@@ -251,7 +283,12 @@
         <div class="contact-form">
           <h2>Richiedi un Preventivo Personalizzato</h2>
 
-          <form id="contact-form" action="https://formsubmit.co/info@solvex-ai3d.com" method="POST" novalidate>
+          <form id="contact-form"
+      action="https://formsubmit.co/info@solvex-ai3d.com"
+      method="POST"
+      novalidate
+      data-ga-form="contact"
+      data-ga-params='{"source":"contattaci_page","form":"contact"}'>
             <!-- FormSubmit options -->
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_subject" value="Nuova Richiesta Preventivo da Sito">
@@ -464,7 +501,6 @@
 
   <!-- JS -->
   <script src="js/contattaci.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
 
   <!-- Chatbot -->
