@@ -1,4 +1,4 @@
-// contattaci.js — build safe (rev. Sam 2025-09-12)
+// contattaci.js — build safe (rev. Sam 2025-09-12) — single-submit for cross-origin actions
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger   = document.querySelector('.hamburger');
   const mobileMenu  = document.getElementById('mobile-menu');
@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (gclidSession && gclidField) gclidField.value = gclidSession;
 
   /* === Modal Grazie === */
-  const modal        = document.getElementById('thank-you-modal');
-  const closeModalBtn= document.getElementById('close-modal');
-  let lastFocus      = null;
+  const modal         = document.getElementById('thank-you-modal');
+  const closeModalBtn = document.getElementById('close-modal');
+  let lastFocus       = null;
 
   const setModalHidden = (hidden) => {
     if (!modal) return;
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const phoneRegex = /^[-0-9()+ ]{6,}$/;
 
   const validateField = (field, errorSpan, validator) => {
-    if (!field || !errorSpan) return; // null-safe
+    if (!field || !errorSpan) return;
     const value = (field.value || '').trim();
     const error = validator(value);
     errorSpan.textContent = error || '';
@@ -135,124 +135,90 @@ document.addEventListener('DOMContentLoaded', () => {
     field.setAttribute('aria-invalid', error ? 'true' : 'false');
   };
 
-  nameInput?.addEventListener('blur', () => validateField(nameInput,  document.getElementById('name-error'),  (v) => !v ? 'Il nome è obbligatorio.' : ''));
-  emailInput?.addEventListener('blur', () => validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
-  phoneInput?.addEventListener('blur', () => validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
-  messageInput?.addEventListener('blur', () => validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
+  nameInput?.addEventListener('blur',   () => validateField(nameInput,   document.getElementById('name-error'),    (v) => !v ? 'Il nome è obbligatorio.' : ''));
+  emailInput?.addEventListener('blur',  () => validateField(emailInput,  document.getElementById('email-error'),   (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
+  phoneInput?.addEventListener('blur',  () => validateField(phoneInput,  document.getElementById('phone-error'),   (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
+  messageInput?.addEventListener('blur',() => validateField(messageInput,document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
 
-  /* === Submit form === */
-  contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  /* === Submit form (single-submit, no duplicates) === */
+  // anti doppio-bind se lo script venisse incluso due volte
+  if (contactForm.dataset.boundSubmit === '1') {
+    // già legato in precedenza
+  } else {
+    contactForm.dataset.boundSubmit = '1';
 
-    let valid = true;
+    let isSubmitting = false;
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    // Campi base
-    validateField(nameInput,  document.getElementById('name-error'),  (v) => !v ? 'Il nome è obbligatorio.' : '');
-    if (nameInput?.classList.contains('error')) valid = false;
+      if (isSubmitting) return;
+      isSubmitting = true;
 
-    validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : '');
-    if (emailInput?.classList.contains('error')) valid = false;
+      let valid = true;
 
-    validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : '');
-    if (phoneInput?.classList.contains('error')) valid = false;
+      // Campi base
+      validateField(nameInput,  document.getElementById('name-error'),  (v) => !v ? 'Il nome è obbligatorio.' : '');
+      if (nameInput?.classList.contains('error')) valid = false;
 
-    validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : '');
-    if (messageInput?.classList.contains('error')) valid = false;
+      validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : '');
+      if (emailInput?.classList.contains('error')) valid = false;
 
-    // Servizi (almeno uno)
-    const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
-    if (servicesErrEl) {
-      servicesErrEl.textContent = servicesChecked === 0 ? 'Seleziona almeno un servizio.' : '';
-      servicesErrEl.style.display = servicesChecked === 0 ? 'block' : 'none';
-    }
-    if (servicesChecked === 0) valid = false;
+      validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : '');
+      if (phoneInput?.classList.contains('error')) valid = false;
 
-    // Privacy (obbligatoria)
-    if (privacy) {
-      if (!privacy.checked) {
-        privacy.classList.add('error');
-        privacy.setAttribute('aria-invalid', 'true');
-        if (privacyErrEl) {
-          privacyErrEl.textContent = 'Accetta la Privacy Policy.';
-          privacyErrEl.style.display = 'block';
-        }
-        valid = false;
-      } else {
-        privacy.classList.remove('error');
-        privacy.setAttribute('aria-invalid', 'false');
-        if (privacyErrEl) {
-          privacyErrEl.textContent = '';
-          privacyErrEl.style.display = 'none';
+      validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : '');
+      if (messageInput?.classList.contains('error')) valid = false;
+
+      // Servizi (almeno uno)
+      const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
+      if (servicesErrEl) {
+        servicesErrEl.textContent = servicesChecked === 0 ? 'Seleziona almeno un servizio.' : '';
+        servicesErrEl.style.display = servicesChecked === 0 ? 'block' : 'none';
+      }
+      if (servicesChecked === 0) valid = false;
+
+      // Privacy (obbligatoria)
+      if (privacy) {
+        if (!privacy.checked) {
+          privacy.classList.add('error');
+          privacy.setAttribute('aria-invalid', 'true');
+          if (privacyErrEl) {
+            privacyErrEl.textContent = 'Accetta la Privacy Policy.';
+            privacyErrEl.style.display = 'block';
+          }
+          valid = false;
+        } else {
+          privacy.classList.remove('error');
+          privacy.setAttribute('aria-invalid', 'false');
+          if (privacyErrEl) {
+            privacyErrEl.textContent = '';
+            privacyErrEl.style.display = 'none';
+          }
         }
       }
-    }
 
-    if (!valid) return;
+      if (!valid) { isSubmitting = false; return; }
 
-    const formData  = new FormData(e.target);
-    const submitBtn = contactForm.querySelector('[type="submit"]');
-    submitBtn?.setAttribute('disabled','');
+      // Enhanced Conversions: salva dati minimi per uso su pagina di redirect (?success=1)
+      const ec = (() => {
+        const firstNameEC = ((nameInput?.value || '').trim().split(' ')[0] || '').toLowerCase();
+        const emailEC     = (emailInput?.value || '').trim().toLowerCase();
+        const rawPhone    = (phoneInput?.value || '').replace(/[^\d+]/g, '');
+        const phoneEC     = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
+        return { email: emailEC, phone_number: phoneEC, first_name: firstNameEC };
+      })();
+      try { sessionStorage.setItem('__contact_ec', JSON.stringify(ec)); } catch(_) {}
 
-    // Enhanced Conversions (da salvare per eventuale redirect)
-    const ec = (() => {
-      const firstNameEC = ((nameInput?.value || '').trim().split(' ')[0] || '').toLowerCase();
-      const emailEC     = (emailInput?.value || '').trim().toLowerCase();
-      const rawPhone    = (phoneInput?.value || '').replace(/[^\d+]/g, '');
-      const phoneEC     = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
-      return { email: emailEC, phone_number: phoneEC, first_name: firstNameEC };
-    })();
+      // Disabilita bottone per sicurezza
+      const submitBtn = contactForm.querySelector('[type="submit"]');
+      submitBtn?.setAttribute('disabled','');
 
-    try { sessionStorage.setItem('__contact_ec', JSON.stringify(ec)); } catch(_) {}
-
-    try {
-      const response = await fetch(e.target.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-
-      const looksOk = response.ok || response.type === 'opaqueredirect' || response.status === 0;
-
-      if (looksOk) {
-        try {
-          // GA4: lead solo se consenso Statistiche
-          if (window.__analyticsConsentGranted && typeof gtag === 'function') {
-            gtag('event', 'generate_lead', {
-              method: 'contact_form',
-              value: 0
-            });
-          }
-          // Google Ads: conversione + Enhanced Conversions solo se consenso Marketing
-          if (window.__adsConsentGranted && typeof gtag === 'function') {
-            gtag('set', 'user_data', {
-              email: ec.email || undefined,
-              phone_number: ec.phone_number || undefined,
-              first_name: ec.first_name || undefined
-            });
-            gtag('event', 'conversion', {
-              send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
-              value: 0.0,
-              currency: 'EUR'
-            });
-          }
-        } catch(_) {}
-
-        lastFocus = document.activeElement;
-        modal?.classList.add('show');
-        setModalHidden(false);
-        closeModalBtn?.focus();
-        e.target.reset(); // se la checkbox privacy ha "checked" nell'HTML, resterà preselezionata dopo il reset
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        e.target.submit(); // fallback nativo
-      }
-    } catch (_) {
-      e.target.submit(); // fallback nativo in caso di rete/CORS
-    } finally {
-      submitBtn?.removeAttribute('disabled');
-    }
-  });
+      // IMPORTANTISSIMO: azione è cross-origin (FormSubmit) -> invio nativo UNA VOLTA SOLA
+      // Evitiamo fetch/AJAX per non generare doppio invio in caso di CORS/redirect.
+      contactForm.submit();
+    });
+  }
 
   /* === Modal close listeners === */
   closeModalBtn?.addEventListener('click', closeThankYou);
@@ -261,12 +227,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && modal?.classList.contains('show')) closeThankYou();
   });
 
-  /* === Modal da redirect (?success=1) === */
+  /* === Modal da redirect (?success=1) + conversioni === */
   (function thankYouFromRedirect(){
     const sp = new URLSearchParams(location.search);
     if (sp.get('success') !== '1') return;
 
-    // conversione anche su percorso redirect (se disponibile in sessione)
     try {
       const ec = JSON.parse(sessionStorage.getItem('__contact_ec') || '{}');
 
@@ -277,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
           value: 0
         });
       }
-      // Ads (consenso Marketing)
+      // Google Ads (consenso Marketing) + Enhanced Conversions
       if (window.__adsConsentGranted && typeof gtag === 'function') {
         gtag('set', 'user_data', {
           email: ec.email || undefined,
