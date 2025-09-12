@@ -191,6 +191,22 @@ body.dark-mode .checkbox-label input:checked + .checkbox-custom { background-col
 }
 .gradient-icon:hover { opacity: 0.8; }
 
+/* Allineamento coerente dei label con icona */
+.icon-form { width: 20px; display: inline-flex; justify-content: center; }
+
+/* Riga privacy allineata al testo dei label con icona (20px icona + 10px gap) */
+.privacy-checkbox { display: flex; align-items: center; padding-left: 30px; }
+.privacy-checkbox input { margin-right: 10px; }
+
+/* Evidenza errore privacy */
+.privacy-checkbox input.error + label {
+  outline: 2px solid #ff3b30; outline-offset: 3px; border-radius: 6px;
+}
+
+/* Assicurare visibilità messaggi "Servizi" e "Privacy" quando impostati da JS */
+#services-error, #privacy-error { display: none; margin-top: -10px; margin-bottom: 10px; }
+
+
 /* Testimonials Carousel (adapted from portfolio) */
 .testimonials-section {
   background-color: #fafafa; padding: 30px 0; text-align: left; width: 100%; margin: 0;

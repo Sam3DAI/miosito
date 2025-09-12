@@ -1,27 +1,26 @@
-// contattaci.js — build safe
+// contattaci.js — build safe (rev. Sam 2025-09-12)
 document.addEventListener('DOMContentLoaded', () => {
-  const hamburger  = document.querySelector('.hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuLinks  = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+  const hamburger   = document.querySelector('.hamburger');
+  const mobileMenu  = document.getElementById('mobile-menu');
+  const menuLinks   = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
   const themeToggle = document.querySelector('.theme-toggle');
-  const body   = document.body;
-  const header = document.querySelector('header');
-  const sunIcon  = document.querySelector('.theme-icon.sun');
-  const moonIcon = document.querySelector('.theme-icon.moon');
+  const body        = document.body;
+  const header      = document.querySelector('header');
+  const sunIcon     = document.querySelector('.theme-icon.sun');
+  const moonIcon    = document.querySelector('.theme-icon.moon');
 
   const contactForm = document.getElementById('contact-form');
   if (!contactForm) return;
 
   /* === GCLID: NO persistenza senza consenso === */
-const gclidField = document.getElementById('gclid_field');
-// Se __persistAdParams ha già salvato in sessione, lo usiamo; altrimenti lasciamo vuoto
-const gclidSession = sessionStorage.getItem('gclid');
-if (gclidSession && gclidField) gclidField.value = gclidSession;
+  const gclidField   = document.getElementById('gclid_field');
+  const gclidSession = sessionStorage.getItem('gclid');
+  if (gclidSession && gclidField) gclidField.value = gclidSession;
 
   /* === Modal Grazie === */
-  const modal = document.getElementById('thank-you-modal');
-  const closeModalBtn = document.getElementById('close-modal');
-  let lastFocus = null;
+  const modal        = document.getElementById('thank-you-modal');
+  const closeModalBtn= document.getElementById('close-modal');
+  let lastFocus      = null;
 
   const setModalHidden = (hidden) => {
     if (!modal) return;
@@ -115,24 +114,28 @@ if (gclidSession && gclidField) gclidField.value = gclidSession;
   }
 
   /* === Validazione form === */
-  const validateField = (field, errorSpan, validator) => {
-    const value = (field.value || '').trim();
-    const error = validator(value);
-    errorSpan.textContent = error || '';
-    field.classList.toggle('error', !!error);
-    field.setAttribute('aria-invalid', !!error);
-  };
+  const nameInput     = document.getElementById('name');
+  const emailInput    = document.getElementById('email');
+  const phoneInput    = document.getElementById('phone');
+  const messageInput  = document.getElementById('message');
+  const privacy       = document.getElementById('privacy');
 
-  const nameInput  = document.getElementById('name');
-  const emailInput = document.getElementById('email');
-  const phoneInput = document.getElementById('phone');
-  const messageInput = document.getElementById('message');
-  const privacy = document.getElementById('privacy');
+  const servicesErrEl = document.getElementById('services-error');
+  const privacyErrEl  = document.getElementById('privacy-error');
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[-0-9()+ ]{6,}$/;
 
-  nameInput?.addEventListener('blur', () => validateField(nameInput, document.getElementById('name-error'), (v) => !v ? 'Il nome è obbligatorio.' : ''));
+  const validateField = (field, errorSpan, validator) => {
+    if (!field || !errorSpan) return; // null-safe
+    const value = (field.value || '').trim();
+    const error = validator(value);
+    errorSpan.textContent = error || '';
+    field.classList.toggle('error', !!error);
+    field.setAttribute('aria-invalid', error ? 'true' : 'false');
+  };
+
+  nameInput?.addEventListener('blur', () => validateField(nameInput,  document.getElementById('name-error'),  (v) => !v ? 'Il nome è obbligatorio.' : ''));
   emailInput?.addEventListener('blur', () => validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
   phoneInput?.addEventListener('blur', () => validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
   messageInput?.addEventListener('blur', () => validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
@@ -144,46 +147,62 @@ if (gclidSession && gclidField) gclidField.value = gclidSession;
 
     let valid = true;
 
+    // Campi base
     validateField(nameInput,  document.getElementById('name-error'),  (v) => !v ? 'Il nome è obbligatorio.' : '');
-    if (nameInput.classList.contains('error')) valid = false;
+    if (nameInput?.classList.contains('error')) valid = false;
 
     validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : '');
-    if (emailInput.classList.contains('error')) valid = false;
+    if (emailInput?.classList.contains('error')) valid = false;
 
     validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : '');
-    if (phoneInput.classList.contains('error')) valid = false;
-
-    const servicesErrEl = document.getElementById('services-error');
-    const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
-    servicesErrEl.textContent = servicesChecked === 0 ? 'Seleziona almeno un servizio.' : '';
-    if (servicesChecked === 0) valid = false;
+    if (phoneInput?.classList.contains('error')) valid = false;
 
     validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : '');
-    if (messageInput.classList.contains('error')) valid = false;
+    if (messageInput?.classList.contains('error')) valid = false;
 
-    if (!privacy.checked) {
-      document.getElementById('privacy-error').textContent = 'Accetta la Privacy Policy.';
-      privacy.classList.add('error');
-      valid = false;
-    } else {
-      document.getElementById('privacy-error').textContent = '';
-      privacy.classList.remove('error');
+    // Servizi (almeno uno)
+    const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
+    if (servicesErrEl) {
+      servicesErrEl.textContent = servicesChecked === 0 ? 'Seleziona almeno un servizio.' : '';
+      servicesErrEl.style.display = servicesChecked === 0 ? 'block' : 'none';
+    }
+    if (servicesChecked === 0) valid = false;
+
+    // Privacy (obbligatoria)
+    if (privacy) {
+      if (!privacy.checked) {
+        privacy.classList.add('error');
+        privacy.setAttribute('aria-invalid', 'true');
+        if (privacyErrEl) {
+          privacyErrEl.textContent = 'Accetta la Privacy Policy.';
+          privacyErrEl.style.display = 'block';
+        }
+        valid = false;
+      } else {
+        privacy.classList.remove('error');
+        privacy.setAttribute('aria-invalid', 'false');
+        if (privacyErrEl) {
+          privacyErrEl.textContent = '';
+          privacyErrEl.style.display = 'none';
+        }
+      }
     }
 
     if (!valid) return;
 
-    const formData = new FormData(e.target);
+    const formData  = new FormData(e.target);
     const submitBtn = contactForm.querySelector('[type="submit"]');
     submitBtn?.setAttribute('disabled','');
 
-    // Enhanced Conversions: prepariamo anche per eventuale redirect
+    // Enhanced Conversions (da salvare per eventuale redirect)
     const ec = (() => {
       const firstNameEC = ((nameInput?.value || '').trim().split(' ')[0] || '').toLowerCase();
-      const emailEC = (emailInput?.value || '').trim().toLowerCase();
-      const rawPhone = (phoneInput?.value || '').replace(/[^\d+]/g, '');
-      const phoneEC  = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
-      return { email: emailEC, phone_number: phoneEC, first_name: nameEC };
+      const emailEC     = (emailInput?.value || '').trim().toLowerCase();
+      const rawPhone    = (phoneInput?.value || '').replace(/[^\d+]/g, '');
+      const phoneEC     = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
+      return { email: emailEC, phone_number: phoneEC, first_name: firstNameEC };
     })();
+
     try { sessionStorage.setItem('__contact_ec', JSON.stringify(ec)); } catch(_) {}
 
     try {
@@ -198,39 +217,37 @@ if (gclidSession && gclidField) gclidField.value = gclidSession;
       if (looksOk) {
         try {
           // GA4: lead solo se consenso Statistiche
-if (window.__analyticsConsentGranted && typeof gtag === 'function') {
-  gtag('event', 'generate_lead', {
-    method: 'contact_form',
-    value: 0
-  });
-}
-
-// Google Ads: conversione + Enhanced Conversions solo se consenso Marketing
-if (window.__adsConsentGranted && typeof gtag === 'function') {
-  gtag('set', 'user_data', {
-    email: ec.email || undefined,
-    phone_number: ec.phone_number || undefined,
-    first_name: ec.first_name || undefined
-  });
-  gtag('event', 'conversion', {
-    send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
-    value: 0.0,
-    currency: 'EUR'
-  });
-}
-
+          if (window.__analyticsConsentGranted && typeof gtag === 'function') {
+            gtag('event', 'generate_lead', {
+              method: 'contact_form',
+              value: 0
+            });
+          }
+          // Google Ads: conversione + Enhanced Conversions solo se consenso Marketing
+          if (window.__adsConsentGranted && typeof gtag === 'function') {
+            gtag('set', 'user_data', {
+              email: ec.email || undefined,
+              phone_number: ec.phone_number || undefined,
+              first_name: ec.first_name || undefined
+            });
+            gtag('event', 'conversion', {
+              send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
+              value: 0.0,
+              currency: 'EUR'
+            });
+          }
         } catch(_) {}
 
         lastFocus = document.activeElement;
         modal?.classList.add('show');
         setModalHidden(false);
         closeModalBtn?.focus();
-        e.target.reset();
+        e.target.reset(); // se la checkbox privacy ha "checked" nell'HTML, resterà preselezionata dopo il reset
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         e.target.submit(); // fallback nativo
       }
-    } catch (err) {
+    } catch (_) {
       e.target.submit(); // fallback nativo in caso di rete/CORS
     } finally {
       submitBtn?.removeAttribute('disabled');
@@ -253,29 +270,28 @@ if (window.__adsConsentGranted && typeof gtag === 'function') {
     try {
       const ec = JSON.parse(sessionStorage.getItem('__contact_ec') || '{}');
 
-// GA4: lead anche su percorso redirect, solo se Statistiche
-if (window.__analyticsConsentGranted && typeof gtag === 'function') {
-  gtag('event', 'generate_lead', {
-    method: 'contact_form_redirect',
-    value: 0
-  });
-}
-
-// Ads: conversione + EC solo se Marketing
-if (window.__adsConsentGranted && typeof gtag === 'function') {
-  gtag('set', 'user_data', {
-    email: ec.email || undefined,
-    phone_number: ec.phone_number || undefined,
-    first_name: ec.first_name || undefined
-  });
-  gtag('event', 'conversion', {
-    send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
-    value: 0.0,
-    currency: 'EUR'
-  });
-}
-
+      // GA4 (consenso Statistiche)
+      if (window.__analyticsConsentGranted && typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          method: 'contact_form_redirect',
+          value: 0
+        });
+      }
+      // Ads (consenso Marketing)
+      if (window.__adsConsentGranted && typeof gtag === 'function') {
+        gtag('set', 'user_data', {
+          email: ec.email || undefined,
+          phone_number: ec.phone_number || undefined,
+          first_name: ec.first_name || undefined
+        });
+        gtag('event', 'conversion', {
+          send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
+          value: 0.0,
+          currency: 'EUR'
+        });
+      }
     } catch(_) {}
+
     try { sessionStorage.removeItem('__contact_ec'); } catch(_) {}
 
     lastFocus = document.activeElement;
@@ -283,7 +299,7 @@ if (window.__adsConsentGranted && typeof gtag === 'function') {
     setModalHidden(false);
     closeModalBtn?.focus();
 
-    // pulizia URL (togli ?success=1)
+    // pulizia URL (?success=1)
     try { history.replaceState({}, '', location.pathname); } catch(_) {}
   })();
 
