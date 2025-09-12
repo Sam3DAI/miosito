@@ -131,12 +131,13 @@ body.dark-mode .hero-section h2 { color: #f5f5f7; }
 .hero-section p { font-size: 18px; margin: 0 0 0 50px; color: #6e6e73; }
 body.dark-mode .hero-section p { color: #a1a1a6; }
 
-/* Contact Section Specific */
+/* Contact Section */
 .contact-section {
   background-color: #fafafa; padding: 60px 20px; display: flex; justify-content: center;
 }
 body.dark-mode .contact-section { background-color: #000000; }
 .contact-container { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; max-width: 1200px; width: 100%; }
+
 .card-gradient {
   border-radius: 20px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: box-shadow 0.3s ease;
 }
@@ -145,10 +146,16 @@ body.dark-mode .contact-form-card { background: linear-gradient(90deg, rgba(69,1
 .contact-info-card { background: linear-gradient(135deg, #fafafa, #e0e0e0); max-height: 300px; }
 body.dark-mode .contact-info-card { background: linear-gradient(135deg, #000000, #1c1c1e); }
 .card-gradient:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+
 .contact-form h2, .contact-info h2 { font-size: 30px; margin-bottom: 20px; }
+
 .contact-form form { display: flex; flex-direction: column; }
+
+/* Label generici con icona */
 .contact-form label { margin-bottom: 5px; font-weight: 500; display: flex; align-items: center; }
-.icon-form { margin-right: 10px; color: #45b6fe; }
+.icon-form { margin-right: 10px; color: #45b6fe; width: 20px; display: inline-flex; justify-content: center; }
+
+/* Inputs */
 .contact-form input, .contact-form textarea {
   margin-bottom: 20px; padding: 10px; border: 1px solid #d2d2d7; border-radius: 5px; font-size: 16px;
 }
@@ -156,10 +163,14 @@ body.dark-mode .contact-form input, body.dark-mode .contact-form textarea {
   background-color: #1c1c1e; border-color: #3a3a3c; color: #f5f5f7;
 }
 .contact-form input:focus, .contact-form textarea:focus { border-color: #45b6fe; outline: none; }
+
+/* Errori campo singolo */
 .error { border-color: #ff3b30 !important; }
 .error::placeholder { color: #ff3b30; }
 .error-message { color: #ff3b30; font-size: 14px; display: none; }
 .error + .error-message { display: block; }
+
+/* Accordion servizi */
 .services-accordion { margin-bottom: 20px; }
 .accordion-item { border-bottom: 1px solid #d2d2d7; margin-bottom: 10px; }
 .accordion-item summary {
@@ -169,6 +180,8 @@ body.dark-mode .contact-form input, body.dark-mode .contact-form textarea {
 .accordion-item summary:hover { color: #45b6fe; }
 .accordion-item[open] summary i { transform: rotate(180deg); }
 .subservices { padding: 10px 0; display: flex; flex-direction: column; }
+
+/* Checkbox personalizzate per servizi */
 .checkbox-label { display: flex; align-items: center; margin-bottom: 10px; cursor: pointer; }
 .checkbox-label input { display: none; }
 .checkbox-custom {
@@ -182,30 +195,41 @@ body.dark-mode .contact-form input, body.dark-mode .contact-form textarea {
 }
 body.dark-mode .checkbox-custom { border-color: #3a3a3c; }
 body.dark-mode .checkbox-label input:checked + .checkbox-custom { background-color: #5ec2fe; }
-.privacy-checkbox { display: flex; align-items: center; margin-bottom: 20px; }
-.privacy-checkbox label { font-size: 14px; }
+
+/* --- PRIVACY: allineamento e stato errore --- */
+.privacy-checkbox{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;     /* allinea a sinistra come gli altri label */
+  gap: 10px;                       /* spazio tra checkbox e testo */
+  padding-left: 30px;              /* 20px icona + 10px gap */
+  width: auto;                     /* evita che prenda tutta la riga */
+  align-self: flex-start;          /* si allinea al contenuto a sinistra */
+  margin-bottom: 20px;
+}
+.privacy-checkbox input{ margin: 0 10px 0 0; }
+.privacy-checkbox label{
+  display: inline-flex;            /* non a larghezza piena */
+  margin: 0;
+  font-size: 14px;
+}
+.privacy-checkbox.error,
+.privacy-checkbox input.error + label{
+  outline: 2px solid #ff3b30;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Messaggi Servizi/Privacy mostrati via JS */
+#services-error, #privacy-error { display: none; margin-top: -10px; margin-bottom: 10px; }
+
+/* Contact info */
 .contact-info p { font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; }
 .gradient-icon {
   font-size: 30px; color: #45b6fe; background: linear-gradient(90deg, #45b6fe, #d95bc5);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 15px;
 }
 .gradient-icon:hover { opacity: 0.8; }
-
-/* Allineamento coerente dei label con icona */
-.icon-form { width: 20px; display: inline-flex; justify-content: center; }
-
-/* Riga privacy allineata al testo dei label con icona (20px icona + 10px gap) */
-.privacy-checkbox { display: flex; align-items: center; padding-left: 30px; }
-.privacy-checkbox input { margin-right: 10px; }
-
-/* Evidenza errore privacy */
-.privacy-checkbox input.error + label {
-  outline: 2px solid #ff3b30; outline-offset: 3px; border-radius: 6px;
-}
-
-/* Assicurare visibilità messaggi "Servizi" e "Privacy" quando impostati da JS */
-#services-error, #privacy-error { display: none; margin-top: -10px; margin-bottom: 10px; }
-
 
 /* Testimonials Carousel (adapted from portfolio) */
 .testimonials-section {
@@ -240,7 +264,7 @@ body.dark-mode .carousel-arrow { color: #f5f5f7; }
 .carousel-arrow.left { left: 10px; }
 .carousel-arrow.right { right: 10px; }
 
-/* CTA Buttons (ripristinato stile originale per pulsante invio form) */
+/* CTA Buttons (pulsante invio form) */
 .cta-button, .cta-button-large {
   padding: 10px 20px; background-color: transparent; color: #45b6fe; text-decoration: none;
   border-radius: 40px; font-size: 17px; font-weight: 400; letter-spacing: -0.022em; cursor: pointer;
@@ -255,7 +279,7 @@ body.dark-mode .carousel-arrow { color: #f5f5f7; }
 }
 .cta-button-preventivo-button:hover { background-color: #45b6fe; color: white; border: 1px solid #45b6fe; }
 
-/* Footer (from home) */
+/* Footer */
 .footer { background-color: #f5f5f7; padding: 40px 20px; color: #1d1d1f; content-visibility: auto; contain-intrinsic-size: 1200px 600px; }
 body.dark-mode .footer { background-color: #373737; color: #f5f5f7; }
 .footer-container { display: flex; justify-content: space-around; flex-wrap: wrap; }
@@ -279,6 +303,7 @@ body.dark-mode::-webkit-scrollbar-track { background: #000000; }
 body::-webkit-scrollbar-thumb { background-color: #d3d3d3; border-radius: 10px; }
 body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
 
+/* Gradient text utility */
 .gradient-text {
   background: linear-gradient(90deg, #45b6fe, #d95bc5);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -287,13 +312,13 @@ body.dark-mode::-webkit-scrollbar-thumb { background-color: #3a3a3c; }
 /* Focus visibile */
 :focus-visible { outline: 2px solid #45b6fe; outline-offset: 2px; }
 
-/* Reduced motion: evita animazioni invadenti per utenti che lo richiedono */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .hamburger span, .portfolio-card, .benefit-item, .carousel-arrow { transition: none !important; }
   .portfolio-card:hover, .benefit-item:hover { transform: none !important; }
 }
 
-/* Modal Specific (ripristinato stile originale con gradient e icona) */
+/* Modal */
 .modal-overlay {
   display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
   z-index: 3000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;
