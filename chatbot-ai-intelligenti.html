@@ -81,106 +81,99 @@
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@graph":[
-    {
-      "@type":"Service",
-      "@id":"https://solvex-ai3d.com/chatbot-ai-intelligenti/#service",
-      "serviceType":"Chatbot AI per Customer Service",
-      "provider":{
-        "@type":"LocalBusiness",
-        "@id":"https://solvex-ai3d.com/#organization",
-        "name":"SolveX AI3D",
-        "url":"https://solvex-ai3d.com",
-        "logo":{"@type":"ImageObject","url":"https://solvex-ai3d.com/logo-112.png","width":112,"height":112},
-        "address":{"@type":"PostalAddress","streetAddress":"Via della Cerva, 68A","addressLocality":"Noale","addressRegion":"VE","postalCode":"30033","addressCountry":"IT"},
-        "contactPoint":{"@type":"ContactPoint","telephone":"+39-3474380837","contactType":"customer service","email":"info@solvex-ai3d.com","areaServed":"IT"},
-        "priceRange":"$$"
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Service",
+        "@id":"https://solvex-ai3d.com/chatbot-ai-intelligenti/#service",
+        "serviceType":"Chatbot AI per Customer Service",
+        "provider":{
+          "@type":"LocalBusiness",
+          "@id":"https://solvex-ai3d.com/#organization",
+          "name":"SolveX AI3D",
+          "url":"https://solvex-ai3d.com",
+          "logo":{"@type":"ImageObject","url":"https://solvex-ai3d.com/logo-112.png","width":112,"height":112},
+          "address":{"@type":"PostalAddress","streetAddress":"Via della Cerva, 68A","addressLocality":"Noale","addressRegion":"VE","postalCode":"30033","addressCountry":"IT"},
+          "contactPoint":{"@type":"ContactPoint","telephone":"+39-3474380837","contactType":"customer service","email":"info@solvex-ai3d.com","areaServed":"IT"},
+          "priceRange":"$$"
+        },
+        "description":"Chatbot AI avanzati per automatizzare customer service: Starter base per FAQ, Smart conversazionale con LLM, Enterprise con integrazioni CRM e memoria.",
+        "url":"https://solvex-ai3d.com/chatbot-ai-intelligenti",
+        "offers":[
+          {"@type":"Offer","name":"Starter Chatbot","description":"FAQ automatiche, setup rapido."},
+          {"@type":"Offer","name":"Smart Chatbot","description":"Intenti, risposte dinamiche, multicanale."},
+          {"@type":"Offer","name":"Enterprise Chatbot","description":"Memoria, integrazioni CRM/ERP."}
+        ]
       },
-      "description":"Chatbot AI avanzati per automatizzare customer service: Starter base per FAQ, Smart conversazionale con LLM, Enterprise con integrazioni CRM e memoria.",
-      "url":"https://solvex-ai3d.com/chatbot-ai-intelligenti",
-      "offers":[
-        {"@type":"Offer","name":"Starter Chatbot","description":"FAQ automatiche, setup rapido."},
-        {"@type":"Offer","name":"Smart Chatbot","description":"Intenti, risposte dinamiche, multicanale."},
-        {"@type":"Offer","name":"Enterprise Chatbot","description":"Memoria, integrazioni CRM/ERP."}
-      ]
-    },
-    {
-      "@type":"BreadcrumbList",
-      "@id":"https://solvex-ai3d.com/chatbot-ai-intelligenti/#breadcrumb",
-      "itemListElement":[
-        {"@type":"ListItem","position":1,"name":"Home","item":"https://solvex-ai3d.com"},
-        {"@type":"ListItem","position":2,"name":"Chatbot AI","item":"https://solvex-ai3d.com/chatbot-ai-intelligenti"}
-      ]
-    }
-  ]
-}
-</script>
-
-
-  <script>
-  // === Consent Mode v2: default negato ===
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('consent','default',{
-    ad_storage:'denied',
-    ad_user_data:'denied',
-    ad_personalization:'denied',
-    analytics_storage:'denied',
-    wait_for_update:800
-  });
-
-  (function(){
-    let gtagLoaded=false;
-    function loadGtagOnce(){
-      if (gtagLoaded) return; gtagLoaded=true;
-      const s=document.createElement('script');
-      s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      document.head.appendChild(s);
-      gtag('js', new Date());
-    }
-
-    // === Loader separati per categorie (chiamati dal banner) ===
-    window.__loadGA4 = function(){ // Statistiche
-      loadGtagOnce();
-      const isDev = location.hostname !== 'solvex-ai3d.com';
-      gtag('config','G-VW0JHKW0ZW',{ debug_mode: isDev ? true : undefined });
-    };
-    window.__loadAds = function(){ // Marketing (solo misurazione conversioni)
-      loadGtagOnce();
-      gtag('config','AW-17512988470',{ allow_enhanced_conversions:true });
-    };
-  })();
-</script>
-
-<!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
-<script>
-// Non persistiamo nulla finché l’utente non accetta "Marketing"
-(function(){
-  const sp=new URLSearchParams(location.search);
-  const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
-
-  function fillHidden(){
-    const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
-    if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value=g);
+      {
+        "@type":"BreadcrumbList",
+        "@id":"https://solvex-ai3d.com/chatbot-ai-intelligenti/#breadcrumb",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://solvex-ai3d.com"},
+          {"@type":"ListItem","position":2,"name":"Chatbot AI","item":"https://solvex-ai3d.com/chatbot-ai-intelligenti"}
+        ]
+      }
+    ]
   }
-  window.__persistAdParams=function(){
-    if (!window.__adsConsentGranted) return;
-    try{
-      if (fromUrl.gclid)  sessionStorage.setItem('gclid', fromUrl.gclid);
-      if (fromUrl.gbraid) sessionStorage.setItem('gbraid',fromUrl.gbraid);
-      if (fromUrl.wbraid) sessionStorage.setItem('wbraid',fromUrl.wbraid);
-    }catch(_){}
-    fillHidden();
-  };
-  window.__clearAdParams=function(){
-    try{ ['gclid','gbraid','wbraid'].forEach(k=>{ sessionStorage.removeItem(k); localStorage.removeItem(k); }); }catch(_){}
-  };
-  document.addEventListener('DOMContentLoaded', fillHidden);
-})();
-</script>
+  </script>
 
+  <!-- Consent Mode v2 (default negato) + loader separati -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('consent','default',{
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      analytics_storage:'denied',
+      wait_for_update:800
+    });
+    (function(){
+      let gtagLoaded=false;
+      function loadGtagOnce(){
+        if (gtagLoaded) return; gtagLoaded=true;
+        const s=document.createElement('script');
+        s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+      }
+      window.__loadGA4 = function(){ // Statistiche
+        loadGtagOnce();
+        const isDev = location.hostname !== 'solvex-ai3d.com';
+        gtag('config','G-VW0JHKW0ZW',{ debug_mode: isDev ? true : undefined });
+      };
+      window.__loadAds = function(){ // Marketing
+        loadGtagOnce();
+        gtag('config','AW-17512988470',{ allow_enhanced_conversions:true });
+      };
+    })();
+  </script>
+
+  <!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
+  <script>
+    (function(){
+      const sp=new URLSearchParams(location.search);
+      const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
+      function fillHidden(){
+        const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
+        if (g) document.querySelectorAll('#mini_gclid_field,[name="gclid"]').forEach(el=> el.value=g);
+      }
+      window.__persistAdParams=function(){
+        if (!window.__adsConsentGranted) return;
+        try{
+          if (fromUrl.gclid)  sessionStorage.setItem('gclid', fromUrl.gclid);
+          if (fromUrl.gbraid) sessionStorage.setItem('gbraid',fromUrl.gbraid);
+          if (fromUrl.wbraid) sessionStorage.setItem('wbraid',fromUrl.wbraid);
+        }catch(_){}
+        fillHidden();
+      };
+      window.__clearAdParams=function(){
+        try{ ['gclid','gbraid','wbraid'].forEach(k=>{ sessionStorage.removeItem(k); localStorage.removeItem(k); }); }catch(_){}
+      };
+      document.addEventListener('DOMContentLoaded', fillHidden);
+    })();
+  </script>
 </head>
 
 <body>
@@ -205,6 +198,7 @@
           <i class="fas fa-sun theme-icon sun" aria-hidden="true"></i>
           <i class="fas fa-moon theme-icon moon" aria-hidden="true" style="display:none;"></i>
         </button>
+        <!-- Hamburger visibile anche su desktop -->
         <div class="hamburger" role="button" aria-label="Apri menu mobile" aria-controls="mobile-menu" aria-expanded="false" tabindex="0">
           <span></span><span></span>
         </div>
@@ -212,10 +206,12 @@
     </div>
   </header>
 
+  <!-- HERO (solo titolo) -->
   <section class="hero-section">
     <h1>Chatbot AI.<br>Automatizza il <span class="gradient-text">Customer Service</span></h1>
   </section>
 
+  <!-- MENU MOBILE -->
   <div id="mobile-menu" class="mobile-menu" hidden>
     <ul role="navigation" aria-label="Menu mobile">
       <li><a href="/configuratori-3d-2d">Configuratori 3D/2D</a></li>
@@ -224,146 +220,186 @@
       <li><a href="/chatbot-ai-intelligenti">Chatbot AI</a></li>
       <li><a href="/contattaci">Contattaci</a></li>
       <li class="social-icons">
-        <a href="https://www.instagram.com/solvex_ai3d/" class="social-icon" aria-label="Profilo Instagram di SolveX AI3D">
-          <i class="fab fa-instagram" aria-hidden="true"></i>
-        </a>
-        <a href="https://x.com/SolveX_AI3D" class="social-icon" aria-label="Profilo X (Twitter) di SolveX AI3D">
-          <i class="fab fa-x-twitter" aria-hidden="true"></i>
-        </a>
-        <a href="https://www.linkedin.com/company/108791484" class="social-icon" aria-label="Profilo LinkedIn di SolveX AI3D">
-          <i class="fab fa-linkedin-in" aria-hidden="true"></i>
-        </a>
+        <a href="https://www.instagram.com/solvex_ai3d/" class="social-icon" aria-label="Profilo Instagram di SolveX AI3D"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+        <a href="https://x.com/SolveX_AI3D" class="social-icon" aria-label="Profilo X (Twitter) di SolveX AI3D"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/company/108791484" class="social-icon" aria-label="Profilo LinkedIn di SolveX AI3D"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
       </li>
     </ul>
   </div>
 
+  <!-- INTRO + CTA SPOSTATE QUI (allineate al paragrafo) -->
   <section id="intro-benefits" class="intro-benefits-section">
     <div class="introduction">
-      <h2>Automatizza e Ottimizza.</h2>
-      <p>Automatizza conversazioni e supporto clienti con chatbot AI su misura: Starter per FAQ base, Smart per intenti naturali, Enterprise per integrazioni avanzate.
-      <br><br>Assistente virtuale 24/7 su sito, WhatsApp e altro, riducendo tempi risposta fino all'80% (trend e ricerche 2025).</p>
-    </div>
+  <h2>Automatizza e Ottimizza.</h2>
 
-    <div class="carousel-container">
-      <h3 class="carousel-title"><span class="gradient-text">Starter.</span> Il Chatbot Base.</h3>
+  <div class="cta-inline intro-cta">
+    <a href="#contact-form" id="cta-hero-quote" class="cta-button-large" data-plan="Generico">📩 Richiedi Consulenza gratuita</a>
+    <button id="open-chatbot" type="button" class="cta-button-large cta-ghost">💬 Prova il Chatbot</button>
+  </div>
+
+  <p>
+    Automatizza conversazioni e supporto clienti con chatbot AI su misura: Starter per FAQ base, Smart per intenti naturali, Enterprise per integrazioni avanzate.
+    <br><br>Assistente virtuale 24/7 su sito, WhatsApp e altri canali, riducendo tempi di risposta fino all’80% (trend 2025).
+  </p>
+</div>
+
+
+    <!-- SEZIONE PACCHETTI (3 CARDS, NON CAROUSEL) -->
+    <section id="packages" class="packages-section" aria-labelledby="packages-title">
+      <div class="section-header">
+        <h3 id="packages-title" class="section-title">Scegli.<br> Il <span class="gradient-text">Pacchetto</span> Giusto per Te.</h3>
+      </div>
+      <div class="packages-grid">
+        <!-- Starter -->
+        <article class="package-card package-card--starter" aria-labelledby="pkg-starter-title">
+          <div class="package-card__body">
+            <h4 id="pkg-starter-title" class="package-card__title">Starter <br><br> da €490 setup <br>+<br> €49/mese<br><br></h4>
+            <ul class="package-card__bullets">
+              <li>FAQ/servizi base</li>
+              <li>Setup rapido su sito</li>
+              <li>Nessun costo AI ricorrente</li>
+            </ul>
+          </div>
+          <a href="#carousel-starter" class="cta-button-secondary" data-plan="Starter">Scopri di più</a>
+        </article>
+
+        <!-- Smart -->
+        <article class="package-card package-card--smart" aria-labelledby="pkg-smart-title">
+          <div class="package-card__body">
+            <h4 id="pkg-smart-title" class="package-card__title">Smart <br><br>da €1.490 setup <br>+<br> €149/mese<br><br></h4>
+            <ul class="package-card__bullets">
+              <li>Intenti & risposte dinamiche</li>
+              <li>Multicanale (incluso WhatsApp*)</li>
+              <li>Integrazione form/dati</li>
+            </ul>
+            <p class="package-note">* Costi WhatsApp a consumo fatturati direttamente da WhatsApp (nessun ricarico/markup).</p>
+          </div>
+          <a href="#carousel-smart" class="cta-button-secondary" data-plan="Smart">Scopri di più</a>
+        </article>
+
+        <!-- Enterprise -->
+        <article class="package-card package-card--enterprise" aria-labelledby="pkg-enterprise-title">
+          <div class="package-card__body">
+            <h4 id="pkg-enterprise-title" class="package-card__title">Enterprise <br><br>da €3.900 setup <br>+<br> €290/mese<br><br></h4>
+            <ul class="package-card__bullets">
+              <li>Flussi avanzati & KPI</li>
+              <li>Memoria & integrazioni CRM/ERP</li>
+              <li>Processi automatizzati</li>
+            </ul>
+          </div>
+          <a href="#carousel-enterprise" class="cta-button-secondary" data-plan="Enterprise">Scopri di più</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CAROUSEL STARTER -->
+    <div id="carousel-starter" class="carousel-container">
+      <div class="section-header">
+        <h3 class="section-title"><span class="gradient-text">Starter.</span> Il Chatbot Base.</h3>
+        <a href="#contact-form" class="cta-button-large" data-plan="Starter">📩 Richiedi preventivo</a>
+      </div>
       <button class="carousel-arrow left" aria-label="Benefit precedente"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
       <div class="carousel-wrapper" role="region" aria-label="Carousel Starter">
         <div class="benefit-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751377408/Ideale_per_siti_vetrina_e_piccoli_e-commerce_josduy.webp?quality=auto&format=auto');">
           <div class="card-content">
             <h4>Ideale per</h4>
-            <p>Siti custom, piccoli e-commerce, attività locali con esigenze base di supporto.</p>
+            <p>Siti vetrina, piccoli e-commerce, attività locali.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751377413/Risposte_automatiche_a_domande_frequenti_p7z4lb.webp?quality=auto&format=auto">
           <div class="card-content">
             <h4>Risposte Automatiche</h4>
-            <p>A domande frequenti (FAQ), con navigazione guidata e risposte predefinite.</p>
+            <p>FAQ con percorsi guidati e risposte predefinite.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751377410/Nessun_Costo_Di_mantenimento_per_l_AI_hte0ov.webp?quality=auto&format=auto">
           <div class="card-content">
-            <h4>Nessun Costo</h4>
-            <p>Di mantenimento per l'AI, ideale per budget limitati.</p>
+            <h4>Zero costi AI</h4>
+            <p>Gestione senza modelli a pagamento.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751377407/Integrazione_diretta_su_sito_web_g7ilb4.webp?quality=auto&format=auto">
           <div class="card-content">
             <h4>Integrazione Diretta</h4>
-            <p>Su sito web, con setup rapido e senza complessità.</p>
-          </div>
-        </div>
-        <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751377412/Personalizzabile_Nei_testi_e_nello_stile_s3rcny.webp?quality=auto&format=auto">
-          <div class="card-content">
-            <h4>Personalizzabile</h4>
-            <p>Nei testi e nello stile, per adattarsi al brand.</p>
+            <p>Snella, veloce, responsive.</p>
           </div>
         </div>
       </div>
       <button class="carousel-arrow right" aria-label="Benefit successivo"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
     </div>
 
-    <div class="carousel-container">
-      <h3 class="carousel-title"><span class="gradient-text">Smart.</span> L'Assistente Conversazionale.</h3>
+    <!-- CAROUSEL SMART -->
+    <div id="carousel-smart" class="carousel-container">
+      <div class="section-header">
+        <h3 class="section-title"><span class="gradient-text">Smart.</span> L'Assistente Conversazionale.</h3>
+        <a href="#contact-form" class="cta-button-large" data-plan="Smart">📩 Richiedi preventivo</a>
+      </div>
       <button class="carousel-arrow left" aria-label="Benefit precedente"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
       <div class="carousel-wrapper" role="region" aria-label="Carousel Smart">
         <div class="benefit-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751380942/Ideale_per_pmi_wmuuvr.webp?quality=auto&format=auto');">
           <div class="card-content">
             <h4>Ideale per</h4>
-            <p>PMI, e-commerce, aziende con domande ricorrenti e bisogno di interazioni dinamiche.</p>
+            <p>PMI, e-commerce, interazioni dinamiche.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751381074/Comprensione_Automatica_della_domanda_rrjegm.webp?quality=auto&format=auto">
           <div class="card-content">
             <h4>Comprensione Automatica</h4>
-            <p>Della domanda (intenti), con AI per risposte pertinenti.</p>
+            <p>Rileva intenti, risponde in modo pertinente.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751380945/Risposte_Dinamiche_dpszga.webp?quality=auto&format=auto">
           <div class="card-content">
             <h4>Risposte Dinamiche</h4>
-            <p>Personalizzate basate su contesto utente.</p>
+            <p>Personalizzate sul contesto utente.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751380940/Integrazione_Con_moduli_o_database_esterni_eclxau.webp?quality=auto&format=auto">
           <div class="card-content">
-            <h4>Integrazione</h4>
-            <p>Con moduli o database esterni per dati real-time.</p>
+            <h4>Integrazione Dati</h4>
+            <p>Moduli e database esterni (real-time).</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751380939/Disponibile_su_Sito_Telegram_WhatsApp_Facebook_bbqcmd.webp?quality=auto&format=auto">
           <div class="card-content">
-            <h4>Disponibile su</h4>
-            <p>Sito, Telegram, WhatsApp, Facebook per multicanale.</p>
-          </div>
-        </div>
-        <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751380947/Fallback_Intelligente_Per_errori_o_incomprensioni_axytm0.webp?quality=auto&format=auto">
-          <div class="card-content">
-            <h4>Fallback Intelligente</h4>
-            <p>Per errori o incomprensioni, con redirect umano.</p>
+            <h4>Multicanale</h4>
+            <p>Sito, Telegram, WhatsApp, Facebook.</p>
           </div>
         </div>
       </div>
       <button class="carousel-arrow right" aria-label="Benefit successivo"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
     </div>
 
-    <div class="carousel-container">
-      <h3 class="carousel-title"><span class="gradient-text">Enterprise.</span> L'Agente Virtuale Intelligente.</h3>
+    <!-- CAROUSEL ENTERPRISE -->
+    <div id="carousel-enterprise" class="carousel-container">
+      <div class="section-header">
+        <h3 class="section-title"><span class="gradient-text">Enterprise.</span> L'Agente Virtuale Intelligente.</h3>
+        <a href="#contact-form" class="cta-button-large" data-plan="Enterprise">📩 Richiedi preventivo</a>
+      </div>
       <button class="carousel-arrow left" aria-label="Benefit precedente"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
       <div class="carousel-wrapper" role="region" aria-label="Carousel Enterprise">
         <div class="benefit-card" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1751385106/Ideale_per_aziende_strutturate_xplgap.webp?quality=auto&format=auto');">
           <div class="card-content">
             <h4>Ideale per</h4>
-            <p>Aziende strutturate, servizi complessi, assistenza multicanale con esigenze avanzate.</p>
+            <p>Aziende strutturate, servizi complessi e assistenza multicanale.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751385105/Comprensione_Profonda_e_linguaggio_naturale_i1tgom.webp?quality=auto&format=auto">
           <div class="card-content">
             <h4>Comprensione Profonda</h4>
-            <p>E conversazioni naturali con LLM avanzati.</p>
+            <p>Conversazioni naturali con LLM avanzati.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751385867/Memoria_Personalizzata_Ricorda_Informazioni_Precedenti_fng7yk.webp?quality=auto&format=auto">
           <div class="card-content">
             <h4>Memoria Personalizzata</h4>
-            <p>Ricorda informazioni precedenti per continuità.</p>
-          </div>
-        </div>
-        <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751385118/Capacit%C3%A0_di_Interrogare_documenti_database_o_siti_esterni_fe9zf3.webp?quality=auto&format=auto">
-          <div class="card-content">
-            <h4>Capacità di Interrogare</h4>
-            <p>Documenti, database o siti esterni per risposte accurate.</p>
+            <p>Continuità tra sessioni e utenti.</p>
           </div>
         </div>
         <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751385121/Integrazione_con_CRM_email_e_software_aziendali_ebvcqv.webp?quality=auto&format=auto">
           <div class="card-content">
-            <h4>Integrazione con</h4>
-            <p>CRM, email o software aziendali per workflow seamless.</p>
-          </div>
-        </div>
-        <div class="benefit-card" data-bg="https://res.cloudinary.com/dqhbriryo/image/upload/v1751385107/Funzioni_Automatiche_prenotazioni_registrazioni_ticket_kp7vi6.webp?quality=auto&format=auto">
-          <div class="card-content">
-            <h4>Funzioni Automatiche</h4>
-            <p>Es. prenotazioni, registrazioni, ticket con automazione.</p>
+            <h4>Integrazioni</h4>
+            <p>CRM/ERP, email, strumenti interni.</p>
           </div>
         </div>
       </div>
@@ -371,12 +407,105 @@
     </div>
   </section>
 
+  <!-- MINI-FORM: subito sotto i loghi -->
+  <section id="contact-form" class="mini-form-section" aria-labelledby="contact-form-title">
+    <div class="mini-form-container card-gradient contact-form-card">
+      <h2 id="contact-form-title" style="margin:0 0 10px 0;">Richiedi una Consulenza gratuita / Preventivo</h2>
+      <p class="mini-form-sub">Ti rispondiamo entro poche ore. Nessun impegno.</p>
+
+      <form
+        id="mini-form"
+        action="https://formsubmit.co/info@solvex-ai3d.com"
+        method="POST"
+        data-ga-form="mini_quote"
+        data-ga-params='{"source":"chatbot_ai","form":"mini"}'
+        aria-describedby="mini-form-legend"
+      >
+        <!-- FormSubmit options -->
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="Richiesta Preventivo (Mini-Form) - Chatbot AI">
+        <input type="hidden" name="_autoresponse" value="Grazie! La tua richiesta preventivo per i Chatbot AI è stata ricevuta. Ti contatteremo a breve.">
+        <input type="hidden" name="_next" value="https://solvex-ai3d.com/chatbot-ai-intelligenti?lead=1">
+
+        <!-- Ads/Attribution -->
+        <input type="hidden" id="mini_gclid_field" name="gclid">
+
+        <!-- Servizio preselezionato -->
+        <input type="hidden" name="services[]" value="Chatbot AI">
+
+        <!-- Piano selezionato (valorizzato dai pulsanti data-plan) -->
+        <input type="hidden" id="mf_plan" name="selected_plan" value="">
+
+        <!-- Honeypot anti-bot -->
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none">
+
+        <!-- Hint ARIA (non visibile) -->
+        <p id="mini-form-legend" class="sr-only">Compila i campi obbligatori per richiedere un preventivo per i Chatbot AI.</p>
+
+        <div class="mf-grid">
+          <div class="mf-field">
+            <label for="mf_name"><i class="fas fa-user icon-form" aria-hidden="true"></i> Nome e Cognome *</label>
+            <input type="text" id="mf_name" name="name" required autocomplete="name" inputmode="text">
+          </div>
+          <div class="mf-field">
+            <label for="mf_email"><i class="fas fa-envelope icon-form" aria-hidden="true"></i> Email *</label>
+            <input type="email" id="mf_email" name="email" required autocomplete="email" inputmode="email">
+          </div>
+        </div>
+        
+        <!-- === FLAG PIANO SCELTO (radio) === -->
+<div class="mf-field mf-plan-flags" role="group" aria-labelledby="mf_plan_label">
+  <label id="mf_plan_label"><i class="fas fa-robot icon-form" aria-hidden="true"></i> Il chatbot che ti interessa</label>
+
+  <div class="flag-options" id="mf_flag_group">
+    <label class="flag-option" for="mf_flag_starter">
+      <input type="radio" id="mf_flag_starter" name="plan_flag" value="Starter">
+      <span class="flag-chip">Starter</span>
+    </label>
+
+    <label class="flag-option" for="mf_flag_smart">
+      <input type="radio" id="mf_flag_smart" name="plan_flag" value="Smart">
+      <span class="flag-chip">Smart</span>
+    </label>
+
+    <label class="flag-option" for="mf_flag_enterprise">
+      <input type="radio" id="mf_flag_enterprise" name="plan_flag" value="Enterprise">
+      <span class="flag-chip">Enterprise</span>
+    </label>
+  </div>
+
+  <!-- Hint ARIA nascosto -->
+  <p class="sr-only" id="mf_plan_hint">Seleziona il piano che desideri. Si compila automaticamente quando clicchi "Richiedi preventivo" nei carousel.</p>
+</div>
+<!-- === /FLAG PIANO SCELTO === -->
+
+        <div class="mf-field">
+          <label for="mf_msg"><i class="fas fa-comment-dots icon-form" aria-hidden="true"></i> Messaggio *</label>
+          <textarea id="mf_msg" name="message" rows="4" required placeholder="Es: sto valutando lo Smart su sito + WhatsApp per ecommerce moda."></textarea>
+        </div>
+
+        <div class="privacy-checkbox" style="margin-top:-5px;">
+          <input type="checkbox" id="mf_privacy" name="privacy" required checked>
+          <label for="mf_privacy">Accetto la <a href="/privacy-policy" rel="nofollow">Privacy Policy</a> *</label>
+        </div>
+
+        <button type="submit" class="cta-button-large-form" style="align-self:flex-start;">Invia richiesta</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE (per ultima, con doppia CTA affiancata) -->
   <section id="why-choose" class="why-choose-section">
     <h2>Perché Scegliere i Nostri <span class="gradient-text">Chatbot AI</span>?</h2>
     <p>Automatizzano interazioni, riducendo costi del 30-45% e aumentando soddisfazione clienti del 25-45%. Riduzione tempi risposta 70-80% e automazione processi fino al 70-80% (trend globali 2025).</p>
-    <div id="stats-chart" role="img" aria-label="Grafico benefici chatbot AI: Riduzione tempi risposta 70-80%, Aumento soddisfazione clienti 25-45%, Automatizzazione processi 70-80%, Riduzione costi operativi 30-45%."></div>
+    <div id="stats-chart" role="img" aria-label="Grafico benefici chatbot AI: Riduzione tempi risposta 70-80%, Aumento soddisfazione 25-45%, Automatizzazione 70-80%, Riduzione costi 30-45%."></div>
+    <div class="cta-inline why-cta">
+      <a href="/contattaci" class="cta-button-large">📩 Richiedi un Preventivo personalizzato</a>
+      <button id="open-chatbot-why" type="button" class="cta-button-large cta-ghost">💬 Prova il Chatbot</button>
+    </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
@@ -402,15 +531,9 @@
       <div class="footer-column">
         <h3>Seguici</h3>
         <div class="social-icons">
-          <a href="https://www.instagram.com/solvex_ai3d/" class="social-icon" aria-label="Profilo Instagram">
-            <i class="fab fa-instagram" aria-hidden="true"></i>
-          </a>
-          <a href="https://x.com/SolveX_AI3D" class="social-icon" aria-label="Profilo X (Twitter)">
-            <i class="fab fa-x-twitter" aria-hidden="true"></i>
-          </a>
-          <a href="https://www.linkedin.com/company/108791484" class="social-icon" aria-label="Profilo LinkedIn">
-            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
-          </a>
+          <a href="https://www.instagram.com/solvex_ai3d/" class="social-icon" aria-label="Profilo Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+          <a href="https://x.com/SolveX_AI3D" class="social-icon" aria-label="Profilo X (Twitter)"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
+          <a href="https://www.linkedin.com/company/108791484" class="social-icon" aria-label="Profilo LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
         </div>
       </div>
     </div>
@@ -424,7 +547,7 @@
   <script src="js/chatbot-ai-intelligenti.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
 
-  <!-- Chatbot -->
+  <!-- Chatbot widget -->
   <div id="root"></div>
   <script src="chatbot/js/main.996591d1.js" defer></script>
 
