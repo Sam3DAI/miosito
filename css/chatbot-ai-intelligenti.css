@@ -1,6 +1,7 @@
 /* ================================
    SolveX AI3D — Chatbot AI (2025)
    CSS completo aggiornato
+   Uniformato header/nav con index.css
    ================================ */
 
 /* Tipografia / Tema */
@@ -60,6 +61,8 @@ body.dark-mode{ scrollbar-color:#3a3a3c #000000; }
 
 /* Header / Nav */
 .logo{ height:25px; width:auto; }
+header,
+header * { box-sizing:content-box; }   /* uniformato */
 header{
   background-color:#fafafa;
   padding:10px 20px;
@@ -71,17 +74,18 @@ header.scrolled{ background-color:rgba(250,250,250,.8); backdrop-filter:blur(5px
 body.dark-mode header{ background-color:rgba(0,0,0,.9); }
 body.dark-mode header.scrolled{ background-color:rgba(0,0,0,.8); backdrop-filter:blur(5px); }
 
-.header-container{ display:flex; align-items:center; width:100%; padding:0 20px; }
-.logo-link{ display:inline-block; margin-left:15px; flex-shrink:0; }
+.header-container{ display:flex; align-items:center; width:100%; padding:0; } /* uniformato */
+.logo-link{ display:inline-block; margin-left:35px; flex-shrink:0; }          /* uniformato */
 .desktop-nav{ flex:1; display:flex; justify-content:center; }
 .nav-menu{ list-style:none; display:flex; justify-content:center; align-items:center; margin:0; padding:0; }
 .nav-menu li{ margin:0 20px; }
 .nav-menu li a{ text-decoration:none; color:var(--text-color); font-size:13px; font-weight:525; transition:color .3s ease; }
 body.dark-mode .nav-menu li a{ color:#f5f5f7; }
-.nav-menu li a:hover, body.dark-mode .nav-menu li a:hover{ color:var(--azur); }
+.nav-menu li a:hover,
+body.dark-mode .nav-menu li a:hover{ color:#45b6fe; } /* uniformato colore piatto */
 
 /* Header right — icona sole/luna come nell’allegato */
-.header-right{ display:flex; align-items:center; gap:12px; }
+.header-right{ display:flex; align-items:center; gap:12px; margin-right:20px; } /* uniformato */
 .theme-toggle{
   order:1;
   background:none; border:none; cursor:pointer; padding:0;
@@ -98,6 +102,13 @@ body.dark-mode .theme-icon{ color:#f5f5f7; }
 .theme-icon.moon{ display:none; }
 body.dark-mode .theme-icon.sun{ display:none; }
 body.dark-mode .theme-icon.moon{ display:block; }
+
+/* Hamburger */
+.hamburger{ order:2; display:block; cursor:pointer; margin-right:15px; z-index:calc(var(--z-mobile-menu)+1); }
+.hamburger span{ display:block; width:20px; height:3px; background-color:#000; margin:6px 0; transform-origin:center; transition:transform .3s ease; } /* uniformato colore */
+body.dark-mode .hamburger span{ background-color:#f5f5f7; }
+.hamburger.active span:nth-child(1){ transform:rotate(45deg) translateY(6px); }
+.hamburger.active span:nth-child(2){ transform:rotate(-45deg) translateY(-6px); }
 
 /* Hamburger */
 .hamburger{ order:2; display:block; cursor:pointer; margin-right:15px; z-index:calc(var(--z-mobile-menu)+1); }
