@@ -1,36 +1,9 @@
 # ——— Canonical host & HTTPS ———
-# Forza HTTP -> HTTPS (con e senza www)
-http://solvex-ai3d.com/*      https://solvex-ai3d.com/:splat   301!
-http://www.solvex-ai3d.com/*  https://solvex-ai3d.com/:splat   301!
+http://solvex-ai3d.com/*       https://solvex-ai3d.com/:splat   301!
+http://www.solvex-ai3d.com/*   https://solvex-ai3d.com/:splat   301!
+https://www.solvex-ai3d.com/*  https://solvex-ai3d.com/:splat   301!
 
-# Forza www -> non-www anche in HTTPS
-https://www.solvex-ai3d.com/* https://solvex-ai3d.com/:splat   301!
-
-# ——— Pretty URLs ———
-# Se qualcuno digita la versione .html, reindirizza alla versione “pulita”
-/:page.html  /:page  301!
-
-# (Opzionale) uniforma /percorso/ -> /percorso  SOLO per le pagine top-level reali
-# Evita di toccare /assets, /css, /js
-/automazioni-ai-business/   /automazioni-ai-business   301!
-/chatbot-ai-intelligenti/   /chatbot-ai-intelligenti   301!
-/configuratori-3d-2d/       /configuratori-3d-2d       301!
-/siti-web-custom-seo/       /siti-web-custom-seo       301!
-/contattaci/                /contattaci                301!
-/privacy-policy/            /privacy-policy            301!
-/termini-condizioni/        /termini-condizioni        301!
-
-# ——— Fix per URL inesistenti che Google ha trovato ———
-# /caf/ arriva spesso da link esterni/spam: manda ai contatti
-/caf/*          /contattaci   301!
-/caf            /contattaci   301!
-
-# /parking.php tipico URL fantasma: puoi marcare 410 (suggerito) o 301 alla home
-/parking.php    410
-
-# (facoltativo) intercetta query di ricerca o path “search” inesistenti
-/search/*       /              301
-
-# ——— 404 fallback ———
-# Netlify/Cloudflare serviranno 404.html automaticamente sui non trovati.
-# Nessun fallback tipo SPA per non nascondere i 404 reali.
+# ——— Fix URL fantasma ———
+/caf/*        /contattaci   301!
+/caf          /contattaci   301!
+/parking.php  410
