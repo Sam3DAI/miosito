@@ -1,0 +1,93 @@
+:root { color-scheme: light dark; }
+
+/* Reset base */
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  background-color: #fafafa;
+  color: #1d1d1f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.dark-mode {
+  background-color: #000;
+  color: #f5f5f7;
+}
+
+header {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: inherit;
+}
+.theme-icon.moon { display: none; }
+body.dark-mode .theme-icon.sun { display: none; }
+body.dark-mode .theme-icon.moon { display: inline; }
+
+main.error-404 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-404 h1 {
+  font-size: 90px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #45b6fe, #d95bc5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.error-404 p {
+  font-size: 20px;
+  color: #6e6e73;
+}
+body.dark-mode .error-404 p { color: #a1a1a6; }
+
+.btn-home {
+  margin-top: 25px;
+  padding: 12px 28px;
+  border-radius: 40px;
+  background-color: #45b6fe;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+.btn-home:hover { background-color: #5ec2fe; }
+
+footer {
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #6e6e73;
+}
+body.dark-mode footer { color: #a1a1a6; }
+
+/* Accessibilità */
+:focus-visible { outline: 2px solid #45b6fe; outline-offset: 2px; }
