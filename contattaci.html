@@ -45,6 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+  <link rel="preconnect" href="https://formsubmit.co" crossorigin>
 
   <!-- CSS -->
   <link rel="preload" href="css/contattaci.css" as="style">
@@ -53,7 +54,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="stylesheet" href="css/cookie-banner.css">
   <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
 
-    <!-- CSP allineata a GA4/Ads + Netlify Forms -->
+  <!-- CSP allineata a GA4/Ads + FormSubmit -->
   <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
   img-src * data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com;
@@ -63,6 +64,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   frame-src https://sketchfab.com https://www.googletagmanager.com;
   connect-src 'self'
     https://res.cloudinary.com
+    https://formsubmit.co
     https://chatbot.solvex-chatbot.xyz
     https://www.googletagmanager.com
     https://www.google-analytics.com
@@ -73,7 +75,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     https://www.google.com https://google.com
     https://www.googleadservices.com https://googleadservices.com;
   base-uri 'self';
-  form-action 'self';
+  form-action 'self' https://formsubmit.co;
   object-src 'none'
   ">
 
@@ -294,24 +296,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="contact-form">
           <h2>Richiedi un Preventivo Personalizzato</h2>
 
-          <form
-            id="contact-form"
-            name="contact-form"
-            method="POST"
-            action="/contattaci.html?success=1"
-            novalidate
-            data-netlify="true"
-            netlify-honeypot="_honey"
-            data-ga-form="contact"
-            data-ga-params='{"source":"contattaci_page","form":"contact"}'>
+          <form id="contact-form"
+      action="https://formsubmit.co/info@solvex-ai3d.com"
+      method="POST"
+      novalidate
+      data-ga-form="contact"
+      data-ga-params='{"source":"contattaci_page","form":"contact"}'>
+            <!-- FormSubmit options -->
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" value="Nuova Richiesta Preventivo da Sito">
+            <input type="hidden" name="_autoresponse" value="Grazie per la tua richiesta! Ti invieremo presto un preventivo personalizzato.">
+            <!-- redirect sulla stessa pagina, niente thank-you separata -->
+            <input type="hidden" name="_next" value="https://solvex-ai3d.com/contattaci?success=1">
 
-            <!-- Netlify Forms: identificatore form -->
-            <input type="hidden" name="form-name" value="contact-form">
-
-            <!-- Ads/Attribution: GCLID -->
+            <!-- Ads/Attribution -->
             <input type="hidden" id="gclid_field" name="gclid">
 
-            <!-- Honeypot (usato anche da Netlify) -->
+            <!-- Honeypot -->
             <input type="text" name="_honey" style="display:none;">
 
             <label for="name"><i class="fas fa-user icon-form" aria-hidden="true"></i> Nome *</label>
