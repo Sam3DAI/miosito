@@ -45,8 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-  <link rel="preconnect" href="https://formsubmit.co" crossorigin>
-
+  
   <!-- CSS -->
   <link rel="preload" href="css/contattaci.css" as="style">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -75,7 +74,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     https://www.google.com https://google.com
     https://www.googleadservices.com https://googleadservices.com;
   base-uri 'self';
-  form-action 'self' https://formsubmit.co;
+  form-action 'self';
   object-src 'none'
   ">
 
@@ -297,23 +296,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h2>Richiedi un Preventivo Personalizzato</h2>
 
           <form id="contact-form"
-      action="https://formsubmit.co/info@solvex-ai3d.com"
-      method="POST"
-      novalidate
-      data-ga-form="contact"
-      data-ga-params='{"source":"contattaci_page","form":"contact"}'>
-            <!-- FormSubmit options -->
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_subject" value="Nuova Richiesta Preventivo da Sito">
-            <input type="hidden" name="_autoresponse" value="Grazie per la tua richiesta! Ti invieremo presto un preventivo personalizzato.">
-            <!-- redirect sulla stessa pagina, niente thank-you separata -->
-            <input type="hidden" name="_next" value="https://solvex-ai3d.com/contattaci?success=1">
+      		name="contact"
+      		action="/contattaci?success=1"
+      		method="POST"
+      		novalidate
+      		data-netlify="true"
+      		data-ga-form="contact"
+      		data-ga-params='{"source":"contattaci_page","form":"contact"}'>
 
-            <!-- Ads/Attribution -->
+            <!-- Netlify Forms: identificatore form -->
+            <input type="hidden" name="form-name" value="contact">
+
+            <!-- Ads/Attribution (rimane come prima) -->
             <input type="hidden" id="gclid_field" name="gclid">
 
-            <!-- Honeypot -->
-            <input type="text" name="_honey" style="display:none;">
+            <!-- Honeypot semplice (Netlify lo vede come campo normale, lo usiamo solo come trappola bot) -->
+            <input type="text" name="website" style="display:none;">
 
             <label for="name"><i class="fas fa-user icon-form" aria-hidden="true"></i> Nome *</label>
             <input type="text" id="name" name="name" required aria-required="true" aria-invalid="false" aria-describedby="name-error" autocomplete="name" inputmode="text">
