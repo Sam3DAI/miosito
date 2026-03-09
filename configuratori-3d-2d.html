@@ -79,10 +79,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
   font-src 'self' https: data:;
   frame-src https://sketchfab.com https://*.sketchfab.com https://www.googletagmanager.com;
-  connect-src 'self' https: data: blob: https://res.cloudinary.com https://formsubmit.co https://chatbot.solvex-ai3d.xyz https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.sketchfab.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googleadservices.com;
+  connect-src 'self' https: data: blob: https://res.cloudinary.com https://chatbot.solvex-ai3d.xyz https://chatbot.solvex-chatbot.xyz https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.sketchfab.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googleadservices.com;
   worker-src 'self' blob:;
   base-uri 'self';
-  form-action 'self' https://formsubmit.co;
+  form-action 'self';
   object-src 'none'
 ">
 
@@ -560,18 +560,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <form
   id="mini-form"
-  action="https://formsubmit.co/info@solvex-ai3d.com"
+  name="mini-demo-configuratori"
+  action="/configuratori-3d-2d?demo=1"
   method="POST"
+  data-netlify="true"
+  netlify-honeypot="_honey"
   novalidate
   data-ga-form="mini_demo"
   data-ga-params='{"source":"configuratori_3d","form":"mini"}'
   aria-describedby="mini-form-legend"
 >
-  <!-- FormSubmit options -->
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_subject" value="Richiesta Demo (Mini-Form) - Configuratori 3D">
-  <input type="hidden" name="_autoresponse" value="Grazie per aver richiesto una demo! Ti contatteremo a breve.">
-  <input type="hidden" name="_next" value="https://solvex-ai3d.com/configuratori-3d-2d?demo=1">
+  <input type="hidden" name="form-name" value="mini-demo-configuratori">
+<input type="hidden" name="lead_source" value="configuratori_3d">
 
   <!-- Ads/Attribution -->
   <input type="hidden" id="mini_gclid_field" name="gclid">
