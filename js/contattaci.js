@@ -227,37 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && modal?.classList.contains('show')) closeThankYou();
   });
 
-  /* === Modal da redirect (?success=1) + conversioni === */
+  /* === Modal da redirect (?success=1) SOLO UI + pulizia.
+     Le conversioni vengono gestite da GTM, non più dal codice del sito. === */
   (function thankYouFromRedirect(){
     const sp = new URLSearchParams(location.search);
     if (sp.get('success') !== '1') return;
 
-    try {
-      const ec = JSON.parse(sessionStorage.getItem('__contact_ec') || '{}');
-
-      // GA4 (consenso Statistiche)
-      if (window.__analyticsConsentGranted && typeof gtag === 'function') {
-        gtag('event', 'generate_lead', {
-          method: 'contact_form_redirect',
-          value: 0
-        });
-      }
-      // Google Ads (consenso Marketing) + Enhanced Conversions
-      if (window.__adsConsentGranted && typeof gtag === 'function') {
-        gtag('set', 'user_data', {
-          email: ec.email || undefined,
-          phone_number: ec.phone_number || undefined,
-          first_name: ec.first_name || undefined
-        });
-        gtag('event', 'conversion', {
-          send_to: 'AW-17512988470/gbSHCKC3o5AbELb-655B',
-          value: 0.0,
-          currency: 'EUR'
-        });
-      }
-    } catch(_) {}
-
-    try { sessionStorage.removeItem('__contact_ec'); } catch(_) {}
+    try { sessionStorage.removeItem('__contact_ec'); } catch (_) {}
 
     lastFocus = document.activeElement;
     modal?.classList.add('show');

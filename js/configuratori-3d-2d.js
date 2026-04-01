@@ -756,10 +756,10 @@ const updateActiveFromScroll = () => {
     form.querySelector('[type="submit"]')?.setAttribute('disabled','');
   }, { capture: true });
 
-  // Post-redirect (?demo=1): modal + GA4 (se Statistiche) + Ads (se Marketing)
+  // Post-redirect (?demo=1): SOLO modal + pulizia.
+  // Le conversioni vengono gestite da GTM, non più dal codice del sito.
   const sp = new URLSearchParams(location.search);
   if (sp.get('demo') === '1') {
-    // Modal "Grazie"
     let modal = document.getElementById('thank-you-modal-mini');
     if (!modal) {
       modal = document.createElement('div');
@@ -774,35 +774,15 @@ const updateActiveFromScroll = () => {
         </div>`;
       document.body.appendChild(modal);
       document.getElementById('close-mini-modal')?.addEventListener('click', () => modal.classList.remove('show'));
-      modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('show'); });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('show');
+      });
     } else {
       modal.classList.add('show');
     }
 
-    // GA4: evento lead SOLO se Statistiche accettate
-    if (window.__analyticsConsentGranted && typeof gtag === 'function') {
-      gtag('event', 'generate_lead', { method: 'mini_form_redirect', value: 0 });
-    }
-
-    // Ads: conversione SOLO se Marketing accettato (con EC)
-    if (window.__adsConsentGranted && typeof gtag === 'function') {
-      let ec = {};
-      try { ec = JSON.parse(sessionStorage.getItem('__mini_ec') || '{}'); } catch(_) {}
-      gtag('set', 'user_data', {
-        email: ec.email || undefined,
-        first_name: ec.first_name || undefined
-      });
-      // Usa il TUO label per il mini-form (qui quello che hai indicato tu)
-      gtag('event', 'conversion', {
-        send_to: 'AW-17512988470/CQTjCID06pQbELb-655B',
-        value: 0.0,
-        currency: 'EUR'
-      });
-    }
-
-    // Pulizia sessione e querystring
-    try { sessionStorage.removeItem('__mini_ec'); } catch(_) {}
-    try { history.replaceState({}, '', location.pathname); } catch(_) {}
+    try { sessionStorage.removeItem('__mini_ec'); } catch (_) {}
+    try { history.replaceState({}, '', location.pathname); } catch (_) {}
   }
 })();
 
