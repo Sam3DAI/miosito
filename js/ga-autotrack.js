@@ -141,7 +141,7 @@
     const raw = form.getAttribute('data-ga-params');
     let extra = {};
     try { extra = raw ? JSON.parse(raw) : {}; } catch {}
-    sendGAEvent('form_submit', Object.assign({ form_name: formName }, extra));
+    sendGAEvent('svx_form_submit', Object.assign({ form_name: formName }, extra));
   }, { passive: true });
 
   // 5) Scroll depth 25/50/75/100
