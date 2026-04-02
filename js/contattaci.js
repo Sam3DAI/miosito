@@ -150,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSubmitting = false;
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      e.stopPropagation();
 
       if (isSubmitting) return;
       isSubmitting = true;
