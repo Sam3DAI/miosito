@@ -236,7 +236,7 @@ const updateActiveFromScroll = () => {
         // reset
         track.style.animation = 'none';
         // (ri-costruzione semplice: ripartiamo dallo stato originario)
-        const original = Array.from(track.querySelectorAll('.logo-item')).slice(0, 6); // i primi 6 sono gli originali
+        const original = Array.from(track.querySelectorAll('.logo-item')).slice(0, 8); // i primi 8 sono gli originali
         track.innerHTML = '';
         original.forEach(n => track.appendChild(n.cloneNode(true)));
 
@@ -302,18 +302,19 @@ const updateActiveFromScroll = () => {
       chart: { type: 'bar', height: 350, animations: { enabled: true }, toolbar: { show: false }},
       plotOptions: { bar: { horizontal: true, barHeight: '75%', distributed: true }},
       dataLabels: { enabled: false },
-      series: [{ data: [82, 94, 66, 40] }],
+      series: [{ data: [94, 91, 89, 86] }],
       xaxis: {
-        categories: ['Engagement Utenti', 'Tasso di Conversione', 'Soddisfazione Clienti', 'Riduzione Resi'],
-        labels: { formatter: (v) => v + '%', style: { colors: getAxisColor(), fontSize: '14px' } },
+        categories: ['Chiarezza di scelta', 'Esperienza utente', 'Supporto vendita', 'Riduzione errori'],
+        labels: { formatter: (v) => v + '/100', style: { colors: getAxisColor(), fontSize: '14px' } },
         axisBorder: { show: false }, axisTicks: { show: false }
       },
       yaxis: {
         labels: {
           formatter: (val) => {
-            if (val === 'Engagement Utenti') return ['Engagement','Utenti'];
-            if (val === 'Tasso di Conversione') return ['Tasso di','Conversione'];
-            if (val === 'Soddisfazione Clienti') return ['Soddisfazione','Clienti'];
+            if (val === 'Chiarezza di scelta') return ['Chiarezza','di scelta'];
+            if (val === 'Esperienza utente') return ['Esperienza','utente'];
+            if (val === 'Supporto vendita') return ['Supporto','vendita'];
+            if (val === 'Riduzione errori') return ['Riduzione','errori'];
             return val;
           },
           style: { colors: getAxisColor(), fontSize: '14px' }
@@ -725,6 +726,7 @@ const updateActiveFromScroll = () => {
   // Campi + validazione semplice
   const nameI  = document.getElementById('mf_name');
   const emailI = document.getElementById('mf_email');
+  const projectTypeI = document.getElementById('mf_project_type');
   const msgI   = document.getElementById('mf_msg');
   const privacyI = document.getElementById('mf_privacy');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -740,8 +742,13 @@ const updateActiveFromScroll = () => {
     let valid = true;
     setErr(nameI,  document.getElementById('mf_name_err'),  nameI.value.trim() ? '' : 'Il nome è obbligatorio.');
     valid &&= !nameI.classList.contains('error');
+
     setErr(emailI, document.getElementById('mf_email_err'), emailRegex.test(emailI.value.trim()) ? '' : 'Inserisci una email valida.');
     valid &&= !emailI.classList.contains('error');
+
+    setErr(projectTypeI, document.getElementById('mf_project_type_err'), projectTypeI.value.trim() ? '' : 'Seleziona una tipologia di configuratore.');
+    valid &&= !projectTypeI.classList.contains('error');
+
     setErr(msgI,   document.getElementById('mf_msg_err'),   msgI.value.trim() ? '' : 'Il messaggio è obbligatorio.');
     valid &&= !msgI.classList.contains('error');
     if (!privacyI.checked) { document.getElementById('mf_privacy_err').textContent = 'Accetta la Privacy Policy.'; valid = false; }
@@ -785,23 +792,4 @@ const updateActiveFromScroll = () => {
     try { history.replaceState({}, '', location.pathname); } catch (_) {}
   }
 })();
-
-  
-  // CTA -> apri il widget chatbot
-(function wireChatbotCTA(){
-  const btn = document.getElementById('open-chatbot');
-  if (!btn) return;
-
-  const openChat = () => {
-    // 1) API ufficiale se esposta
-    if (window.SolvexChatbot?.open) { window.SolvexChatbot.open(); return; }
-    // 2) fallback: clicca la FAB del widget
-    const fab = document.querySelector('#root [data-testid="chatbot-fab"], #root [data-svx-fab], #root button, #root [role="button"]');
-    if (fab) fab.click();
-  };
-
-  btn.addEventListener('click', openChat);
-})();
-
-
 });
