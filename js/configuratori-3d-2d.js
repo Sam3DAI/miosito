@@ -718,78 +718,55 @@ const updateActiveFromScroll = () => {
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
   })();
   
-  /* === MINI-FORM: validazione + EC + thank-you + conversione GA/Ads (UNIFICATO) === */
-(function miniFormUnified(){
-  const form = document.getElementById('mini-form');
-  if (!form) return;
+  /* === MINI-FORM: validation + verified Netlify success === */
+  (function miniFormVerifiedSuccess(){
+    const form = document.getElementById('mini-form');
+    if (!form) return;
 
-  // Campi + validazione semplice
-  const nameI  = document.getElementById('mf_name');
-  const emailI = document.getElementById('mf_email');
-  const projectTypeI = document.getElementById('mf_project_type');
-  const msgI   = document.getElementById('mf_msg');
-  const privacyI = document.getElementById('mf_privacy');
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const setErr = (el, span, msg) => {
-    if (!el || !span) return;
-    el.classList.toggle('error', !!msg);
-    el.setAttribute('aria-invalid', !!msg);
-    span.textContent = msg || '';
-  };
+    const nameI = document.getElementById('mf_name');
+    const emailI = document.getElementById('mf_email');
+    const projectTypeI = document.getElementById('mf_project_type');
+    const msgI = document.getElementById('mf_msg');
+    const privacyI = document.getElementById('mf_privacy');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Submit: valida e salva dati per Enhanced Conversions (solo in sessione)
-  form.addEventListener('submit', (e) => {
-    let valid = true;
-    setErr(nameI,  document.getElementById('mf_name_err'),  nameI.value.trim() ? '' : 'Il nome è obbligatorio.');
-    valid &&= !nameI.classList.contains('error');
-
-    setErr(emailI, document.getElementById('mf_email_err'), emailRegex.test(emailI.value.trim()) ? '' : 'Inserisci una email valida.');
-    valid &&= !emailI.classList.contains('error');
-
-    setErr(projectTypeI, document.getElementById('mf_project_type_err'), projectTypeI.value.trim() ? '' : 'Seleziona una tipologia di configuratore.');
-    valid &&= !projectTypeI.classList.contains('error');
-
-    setErr(msgI,   document.getElementById('mf_msg_err'),   msgI.value.trim() ? '' : 'Il messaggio è obbligatorio.');
-    valid &&= !msgI.classList.contains('error');
-    if (!privacyI.checked) { document.getElementById('mf_privacy_err').textContent = 'Accetta la Privacy Policy.'; valid = false; }
-    if (!valid) { e.preventDefault(); return; }
-
-    const ec = {
-      email: (emailI.value||'').trim().toLowerCase(),
-      first_name: ((nameI.value||'').trim().split(' ')[0] || '').toLowerCase()
+    const setErr = (element, span, message) => {
+      if (!element || !span) return;
+      element.classList.toggle('error', !!message);
+      element.setAttribute('aria-invalid', message ? 'true' : 'false');
+      span.textContent = message || '';
     };
-    try { sessionStorage.setItem('__mini_ec', JSON.stringify(ec)); } catch(_) {}
-    // Lasciamo il submit nativo a FormSubmit (+ redirect su ?demo=1)
-    form.querySelector('[type="submit"]')?.setAttribute('disabled','');
-  }, { capture: true });
 
-  // Post-redirect (?demo=1): SOLO modal + pulizia.
-  // Le conversioni vengono gestite da GTM, non più dal codice del sito.
-  const sp = new URLSearchParams(location.search);
-  if (sp.get('demo') === '1') {
-    let modal = document.getElementById('thank-you-modal-mini');
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = 'thank-you-modal-mini';
-      modal.className = 'modal-overlay show';
-      modal.innerHTML = `
-        <div class="modal-content card-gradient">
-          <i class="fas fa-check-circle gradient-icon modal-icon" aria-hidden="true"></i>
-          <h2 class="gradient-text">Grazie!</h2>
-          <p>La tua richiesta di <strong>Demo</strong> è stata inviata correttamente. Ti contatteremo a breve.</p>
-          <button class="cta-button-large" id="close-mini-modal" type="button" aria-label="Chiudi">Chiudi</button>
-        </div>`;
-      document.body.appendChild(modal);
-      document.getElementById('close-mini-modal')?.addEventListener('click', () => modal.classList.remove('show'));
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('show');
+    const validateMiniForm = () => {
+      setErr(nameI, document.getElementById('mf_name_err'), nameI?.value.trim() ? '' : 'Il nome è obbligatorio.');
+      setErr(emailI, document.getElementById('mf_email_err'), emailRegex.test(emailI?.value.trim() || '') ? '' : 'Inserisci una email valida.');
+      setErr(projectTypeI, document.getElementById('mf_project_type_err'), projectTypeI?.value.trim() ? '' : 'Seleziona una tipologia di configuratore.');
+      setErr(msgI, document.getElementById('mf_msg_err'), msgI?.value.trim() ? '' : 'Il messaggio è obbligatorio.');
+
+      const privacyError = privacyI?.checked ? '' : 'Accetta la Privacy Policy.';
+      setErr(privacyI, document.getElementById('mf_privacy_err'), privacyError);
+
+      return [nameI, emailI, projectTypeI, msgI, privacyI].every((field) => field && !field.classList.contains('error'));
+    };
+
+    const modal = document.getElementById('thank-you-modal-mini');
+    const modalTitle = document.getElementById('thank-you-title-mini');
+    const closeModalButton = document.getElementById('close-mini-modal');
+    const submitButton = form.querySelector('[type="submit"]');
+    const thankYouDialog = window.SolveXNetlifyLead && modal && modalTitle && closeModalButton
+      ? window.SolveXNetlifyLead.createDialog({ dialog: modal, title: modalTitle, closeButton: closeModalButton, fallbackFocus: submitButton })
+      : null;
+
+    const submitStatus = document.getElementById('mini-submit-status');
+    if (window.SolveXNetlifyLead) {
+      window.SolveXNetlifyLead.bind({
+        form,
+        formName: 'mini-demo-configuratori',
+        leadSource: 'configuratori_3d',
+        validate: validateMiniForm,
+        statusElement: submitStatus,
+        onSuccess: ({ submitButton: trigger }) => thankYouDialog?.open(trigger)
       });
-    } else {
-      modal.classList.add('show');
     }
-
-    try { sessionStorage.removeItem('__mini_ec'); } catch (_) {}
-    try { history.replaceState({}, '', location.pathname); } catch (_) {}
-  }
-})();
+  })();
 });

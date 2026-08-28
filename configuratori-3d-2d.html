@@ -1,6 +1,19 @@
 ﻿<!DOCTYPE html>
 <html lang="it">
 <head>
+  <!-- Consent Mode v2: technical default, executed before GTM. -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 800
+    });
+  </script>
+
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -159,45 +172,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   </script>
 
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-
-  // Consent Mode v2: default tutto negato
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'denied',
-    wait_for_update: 800
-  });
-
-  (function(){
-    let gtagLoaded = false;
-    function loadGtagOnce(){
-      if (gtagLoaded) return; gtagLoaded = true;
-      const s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VW0JHKW0ZW';
-      document.head.appendChild(s);
-      gtag('js', new Date());
-    }
-
-    // GA4: solo con Statistiche
-    window.__loadGA4 = function(){
-      loadGtagOnce();
-      const isDev = location.hostname !== 'solvex-ai3d.com';
-      gtag('config', 'G-VW0JHKW0ZW', { debug_mode: isDev ? true : undefined });
-    };
-
-    // Ads: solo con Marketing (Enhanced Conversions abilitate)
-    window.__loadAds = function(){
-      loadGtagOnce();
-      gtag('config', 'AW-17512988470', { allow_enhanced_conversions: true });
-    };
-  })();
-</script>
-
   <!-- QRCode.js per QR dinamico -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- Babylon.js per rendering 3D -->
@@ -206,51 +180,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <!-- model-viewer per AR -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3/dist/model-viewer.min.js"></script>
 
-  <script>
-// Gestione GCLID/GBRAID/WBRAID conforme al consenso
-(function(){
-  // Non scriviamo nulla nello storage finché l’utente non accetta "Marketing"
-  const sp = new URLSearchParams(location.search);
-  const fromUrl = {
-    gclid:  sp.get('gclid')  || '',
-    gbraid: sp.get('gbraid') || '',
-    wbraid: sp.get('wbraid') || ''
-  };
-
-  // Compila i campi hidden senza storage (utile anche se l’utente non ha ancora accettato)
-  function fillHidden() {
-    const g = (sessionStorage.getItem('gclid') || fromUrl.gclid || '');
-    if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el => el.value = g);
-  }
-
-  // Dopo consenso Marketing, persistiamo in sessionStorage
-  window.__persistAdParams = function(){
-    if (!window.__adsConsentGranted) return;
-    try {
-      if (fromUrl.gclid)  sessionStorage.setItem('gclid',  fromUrl.gclid);
-      if (fromUrl.gbraid) sessionStorage.setItem('gbraid', fromUrl.gbraid);
-      if (fromUrl.wbraid) sessionStorage.setItem('wbraid', fromUrl.wbraid);
-    } catch(_) {}
-    fillHidden();
-  };
-
-  // In caso di rifiuto, puliamo
-  window.__clearAdParams = function(){
-    try {
-      ['gclid','gbraid','wbraid'].forEach(k => { sessionStorage.removeItem(k); localStorage.removeItem(k); });
-    } catch(_) {}
-  };
-
-  document.addEventListener('DOMContentLoaded', fillHidden);
-})();
-</script>
-
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBBDZZFT"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
   <a href="#intro-benefits" class="skip-link">Salta al contenuto principale</a>
 
   <header>
@@ -569,20 +500,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <form
   id="mini-form"
   name="mini-demo-configuratori"
-  action="/configuratori-3d-2d?demo=1"
+  action="/richiesta-ricevuta.html"
   method="POST"
   data-netlify="true"
   netlify-honeypot="_honey"
-  novalidate
-  data-ga-form="mini_demo"
-  data-ga-params='{"source":"configuratori_3d","form":"mini"}'
   aria-describedby="mini-form-legend"
 >
   <input type="hidden" name="form-name" value="mini-demo-configuratori">
-<input type="hidden" name="lead_source" value="configuratori_3d">
+  <input type="hidden" name="lead_source" value="configuratori_3d">
+  <input type="hidden" name="lead_id" value="">
 
   <!-- Ads/Attribution -->
-  <input type="hidden" id="mini_gclid_field" name="gclid">
+  <input type="hidden" id="mini_gclid_field" name="gclid" value="">
+  <input type="hidden" id="mini_gbraid_field" name="gbraid" value="">
+  <input type="hidden" id="mini_wbraid_field" name="wbraid" value="">
 
   <!-- Servizio preselezionato -->
   <input type="hidden" name="services[]" value="Configuratori Web 2D/3D">
@@ -691,6 +622,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span id="mf_privacy_err" class="error-message" role="alert" aria-live="assertive"></span>
 
   <button type="submit" class="cta-button-large-form" style="align-self:flex-start;">Invia richiesta</button>
+  <p id="mini-submit-status" class="error-message" role="alert" aria-live="assertive" tabindex="-1" hidden></p>
 </form>
 </section>
 
@@ -792,9 +724,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </footer>
 
+  <!-- Thank-you modal: shown only after a verified same-origin POST response. -->
+  <div id="thank-you-modal-mini" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="thank-you-title-mini" tabindex="-1" inert>
+    <div class="modal-content card-gradient">
+      <i class="fas fa-check-circle gradient-icon modal-icon" aria-hidden="true"></i>
+      <h2 id="thank-you-title-mini" class="gradient-text" tabindex="-1">Grazie!</h2>
+      <p>La tua richiesta di <strong>Demo</strong> è stata inviata correttamente. Ti contatteremo a breve.</p>
+      <button class="cta-button-large" id="close-mini-modal" type="button" aria-label="Chiudi">Chiudi</button>
+    </div>
+  </div>
+
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+  <script src="js/ad-attribution-consent.js" defer></script>
   <script src="js/cookie-banner.js" defer></script>
+  <script src="js/netlify-lead-form.js" defer></script>
   <script src="js/configuratori-3d-2d.js" defer></script>
   <script src="js/ga-autotrack.js" defer></script>
   <noscript>Per un'esperienza completa abilita JavaScript.</noscript>

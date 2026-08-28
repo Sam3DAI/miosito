@@ -1,4 +1,4 @@
-// contattaci.js — build safe (rev. Sam 2025-09-12) — single-submit for cross-origin actions
+// contattaci.js — verified Netlify Forms success and accessible thank-you UI
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger   = document.querySelector('.hamburger');
   const mobileMenu  = document.getElementById('mobile-menu');
@@ -12,37 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contact-form');
   if (!contactForm) return;
 
-  /* === GCLID: NO persistenza senza consenso === */
-  const gclidField   = document.getElementById('gclid_field');
-  const gclidSession = sessionStorage.getItem('gclid');
-  if (gclidSession && gclidField) gclidField.value = gclidSession;
-
   /* === Modal Grazie === */
   const modal         = document.getElementById('thank-you-modal');
+  const modalTitle    = document.getElementById('thank-you-title');
   const closeModalBtn = document.getElementById('close-modal');
-  let lastFocus       = null;
-
-  const setModalHidden = (hidden) => {
-    if (!modal) return;
-    modal.toggleAttribute('inert', hidden);
-    modal.setAttribute('aria-hidden', hidden ? 'true' : 'false');
-  };
-
-  const closeThankYou = () => {
-    if (!modal) return;
-    modal.classList.remove('show');
-
-    if (document.activeElement && modal.contains(document.activeElement)) {
-      document.activeElement.blur();
-    }
-    setModalHidden(true);
-
-    if (lastFocus && document.contains(lastFocus)) {
-      lastFocus.focus();
-    } else {
-      document.querySelector('.theme-toggle')?.focus();
-    }
-  };
+  const submitButton  = contactForm.querySelector('[type="submit"]');
+  const thankYouDialog = window.SolveXNetlifyLead && modal && modalTitle && closeModalBtn
+    ? window.SolveXNetlifyLead.createDialog({ dialog: modal, title: modalTitle, closeButton: closeModalBtn, fallbackFocus: submitButton })
+    : null;
 
   /* === Utils === */
   const debounce = (fn, delay) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), delay); }; };
@@ -120,8 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageInput  = document.getElementById('message');
   const privacy       = document.getElementById('privacy');
 
+  const nameErrEl     = document.getElementById('name-error');
+  const emailErrEl    = document.getElementById('email-error');
+  const phoneErrEl    = document.getElementById('phone-error');
+  const messageErrEl  = document.getElementById('message-error');
   const servicesErrEl = document.getElementById('services-error');
   const privacyErrEl  = document.getElementById('privacy-error');
+  const servicesCheckboxGroup = document.getElementById('services-checkbox-group');
+  const servicesFallback = document.getElementById('services-fallback');
+  const servicesFallbackSelect = document.getElementById('services-fallback-select');
+  const serviceCheckboxes = contactForm.querySelectorAll('input[type="checkbox"][name="services[]"]');
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[-0-9()+ ]{6,}$/;
@@ -135,113 +120,76 @@ document.addEventListener('DOMContentLoaded', () => {
     field.setAttribute('aria-invalid', error ? 'true' : 'false');
   };
 
-  nameInput?.addEventListener('blur',   () => validateField(nameInput,   document.getElementById('name-error'),    (v) => !v ? 'Il nome è obbligatorio.' : ''));
-  emailInput?.addEventListener('blur',  () => validateField(emailInput,  document.getElementById('email-error'),   (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
-  phoneInput?.addEventListener('blur',  () => validateField(phoneInput,  document.getElementById('phone-error'),   (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
-  messageInput?.addEventListener('blur',() => validateField(messageInput,document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
+  nameInput?.addEventListener('blur',   () => validateField(nameInput,   nameErrEl,    (v) => !v ? 'Il nome è obbligatorio.' : ''));
+  emailInput?.addEventListener('blur',  () => validateField(emailInput,  emailErrEl,   (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : ''));
+  phoneInput?.addEventListener('blur',  () => validateField(phoneInput,  phoneErrEl,   (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : ''));
+  messageInput?.addEventListener('blur',() => validateField(messageInput,messageErrEl, (v) => !v ? 'Il messaggio è obbligatorio.' : ''));
 
-  /* === Submit form (single-submit, no duplicates) === */
-  // anti doppio-bind se lo script venisse incluso due volte
-  if (contactForm.dataset.boundSubmit === '1') {
-    // già legato in precedenza
-  } else {
-    contactForm.dataset.boundSubmit = '1';
+  const validateContactForm = () => {
+    let valid = true;
 
-    let isSubmitting = false;
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    validateField(nameInput, nameErrEl, (value) => !value ? 'Il nome è obbligatorio.' : '');
+    if (nameInput?.classList.contains('error')) valid = false;
 
-      if (isSubmitting) return;
-      isSubmitting = true;
+    validateField(emailInput, emailErrEl, (value) => !value || !emailRegex.test(value) ? 'Inserisci una email valida.' : '');
+    if (emailInput?.classList.contains('error')) valid = false;
 
-      let valid = true;
+    validateField(phoneInput, phoneErrEl, (value) => value && !phoneRegex.test(value) ? 'Inserisci un numero valido.' : '');
+    if (phoneInput?.classList.contains('error')) valid = false;
 
-      // Campi base
-      validateField(nameInput,  document.getElementById('name-error'),  (v) => !v ? 'Il nome è obbligatorio.' : '');
-      if (nameInput?.classList.contains('error')) valid = false;
+    validateField(messageInput, messageErrEl, (value) => !value ? 'Il messaggio è obbligatorio.' : '');
+    if (messageInput?.classList.contains('error')) valid = false;
 
-      validateField(emailInput, document.getElementById('email-error'), (v) => !v || !emailRegex.test(v) ? 'Inserisci una email valida.' : '');
-      if (emailInput?.classList.contains('error')) valid = false;
+    const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
+    if (servicesErrEl) {
+      servicesErrEl.textContent = servicesChecked === 0 ? 'Seleziona almeno un servizio.' : '';
+      servicesErrEl.style.display = servicesChecked === 0 ? 'block' : 'none';
+    }
+    if (servicesChecked === 0) valid = false;
 
-      validateField(phoneInput, document.getElementById('phone-error'), (v) => v && !phoneRegex.test(v) ? 'Inserisci un numero valido.' : '');
-      if (phoneInput?.classList.contains('error')) valid = false;
-
-      validateField(messageInput, document.getElementById('message-error'), (v) => !v ? 'Il messaggio è obbligatorio.' : '');
-      if (messageInput?.classList.contains('error')) valid = false;
-
-      // Servizi (almeno uno)
-      const servicesChecked = contactForm.querySelectorAll('input[name="services[]"]:checked').length;
-      if (servicesErrEl) {
-        servicesErrEl.textContent = servicesChecked === 0 ? 'Seleziona almeno un servizio.' : '';
-        servicesErrEl.style.display = servicesChecked === 0 ? 'block' : 'none';
+    if (privacy) {
+      const privacyError = privacy.checked ? '' : 'Accetta la Privacy Policy.';
+      privacy.classList.toggle('error', !!privacyError);
+      privacy.setAttribute('aria-invalid', privacyError ? 'true' : 'false');
+      if (privacyErrEl) {
+        privacyErrEl.textContent = privacyError;
+        privacyErrEl.style.display = privacyError ? 'block' : 'none';
       }
-      if (servicesChecked === 0) valid = false;
+      if (privacyError) valid = false;
+    }
 
-      // Privacy (obbligatoria)
-      if (privacy) {
-        if (!privacy.checked) {
-          privacy.classList.add('error');
-          privacy.setAttribute('aria-invalid', 'true');
-          if (privacyErrEl) {
-            privacyErrEl.textContent = 'Accetta la Privacy Policy.';
-            privacyErrEl.style.display = 'block';
-          }
-          valid = false;
-        } else {
-          privacy.classList.remove('error');
-          privacy.setAttribute('aria-invalid', 'false');
-          if (privacyErrEl) {
-            privacyErrEl.textContent = '';
-            privacyErrEl.style.display = 'none';
-          }
-        }
-      }
+    return valid;
+  };
 
-      if (!valid) { isSubmitting = false; return; }
+  const submitStatus = document.getElementById('contact-submit-status');
+  const enhancementNodes = [
+    nameInput, emailInput, phoneInput, messageInput, privacy,
+    nameErrEl, emailErrEl, phoneErrEl, messageErrEl, servicesErrEl, privacyErrEl,
+    servicesCheckboxGroup, servicesFallback, servicesFallbackSelect, submitStatus,
+    submitButton, thankYouDialog
+  ];
+  const canEnhanceServicePicker = window.SolveXNetlifyLead
+    && enhancementNodes.every(Boolean)
+    && serviceCheckboxes.length > 0;
 
-      // Enhanced Conversions: salva dati minimi per uso su pagina di redirect (?success=1)
-      const ec = (() => {
-        const firstNameEC = ((nameInput?.value || '').trim().split(' ')[0] || '').toLowerCase();
-        const emailEC     = (emailInput?.value || '').trim().toLowerCase();
-        const rawPhone    = (phoneInput?.value || '').replace(/[^\d+]/g, '');
-        const phoneEC     = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : '+39' + rawPhone.replace(/^0+/, '')) : '';
-        return { email: emailEC, phone_number: phoneEC, first_name: firstNameEC };
-      })();
-      try { sessionStorage.setItem('__contact_ec', JSON.stringify(ec)); } catch(_) {}
-
-      // Disabilita bottone per sicurezza
-      const submitBtn = contactForm.querySelector('[type="submit"]');
-      submitBtn?.setAttribute('disabled','');
-
-      // IMPORTANTISSIMO: azione è cross-origin (FormSubmit) -> invio nativo UNA VOLTA SOLA
-      // Evitiamo fetch/AJAX per non generare doppio invio in caso di CORS/redirect.
-      contactForm.submit();
+  if (canEnhanceServicePicker) {
+    window.SolveXNetlifyLead.bind({
+      form: contactForm,
+      formName: 'contact-main',
+      leadSource: 'contattaci_page',
+      validate: validateContactForm,
+      statusElement: submitStatus,
+      onSuccess: ({ submitButton: trigger }) => thankYouDialog?.open(trigger)
     });
+
+    /* Reveal the custom UI only after the verified submit listener exists. */
+    if (contactForm.dataset.solvexLeadBound === '1' && contactForm.noValidate) {
+      servicesCheckboxGroup.hidden = false;
+      servicesFallbackSelect.disabled = true;
+      servicesFallbackSelect.required = false;
+      servicesFallback.hidden = true;
+    }
   }
-
-  /* === Modal close listeners === */
-  closeModalBtn?.addEventListener('click', closeThankYou);
-  modal?.addEventListener('click', (e) => { if (e.target === modal) closeThankYou(); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal?.classList.contains('show')) closeThankYou();
-  });
-
-  /* === Modal da redirect (?success=1) SOLO UI + pulizia.
-     Le conversioni vengono gestite da GTM, non più dal codice del sito. === */
-  (function thankYouFromRedirect(){
-    const sp = new URLSearchParams(location.search);
-    if (sp.get('success') !== '1') return;
-
-    try { sessionStorage.removeItem('__contact_ec'); } catch (_) {}
-
-    lastFocus = document.activeElement;
-    modal?.classList.add('show');
-    setModalHidden(false);
-    closeModalBtn?.focus();
-
-    // pulizia URL (?success=1)
-    try { history.replaceState({}, '', location.pathname); } catch(_) {}
-  })();
 
   /* === Evidenzia voce menu corrente === */
   const currentPath = location.pathname.replace(/\/+$/, '');

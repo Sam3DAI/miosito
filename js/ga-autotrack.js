@@ -4,7 +4,7 @@
 
   // gtag stub sicuro
   window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
+  window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
 
   // Helpers
   const now = () => Date.now().toString();
@@ -105,8 +105,7 @@
     // tel/mailto
     if (href.startsWith('tel:') || href.startsWith('mailto:')) {
       sendGAEvent('contact_click', {
-        contact_type: href.startsWith('tel:') ? 'phone' : 'email',
-        contact_value: href.replace(/^mailto:|^tel:/, '')
+        contact_type: href.startsWith('tel:') ? 'phone' : 'email'
       });
       return;
     }
@@ -132,19 +131,7 @@
     }
   }, { passive: true });
 
-  // 4) Form submit (opt-in via data-ga-form sul <form>)
-  document.addEventListener('submit', function (e) {
-    const form = e.target;
-    if (!form || !form.matches('form[data-ga-form]')) return;
-
-    const formName = form.getAttribute('data-ga-form') || 'form';
-    const raw = form.getAttribute('data-ga-params');
-    let extra = {};
-    try { extra = raw ? JSON.parse(raw) : {}; } catch {}
-    sendGAEvent('svx_form_submit', Object.assign({ form_name: formName }, extra));
-  }, { passive: true });
-
-  // 5) Scroll depth 25/50/75/100
+  // 4) Scroll depth 25/50/75/100
   const marks = [25, 50, 75, 100];
   const sent = new Set();
   function onScrollDepth() {
