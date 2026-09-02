@@ -1,0 +1,16 @@
+{
+  "name": "solvex-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0 <23"
+  },
+  "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('_site',{recursive:true,force:true})\" && eleventy",
+    "verify": "node tests/verify-orchestrator.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6"
+  }
+}

@@ -1,0 +1,32 @@
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <img src="{{ site.logoUrl }}" alt="{{ site.footerLogoAlt }}" class="footer-logo" width="180" height="50" decoding="async" loading="lazy">
+        <p>P. IVA: {{ site.vatNumber }}</p>
+        <p>{{ site.addressLine1 }}<br>{{ site.addressLine2 }}</p>
+      </div>
+      <div class="footer-column">
+        <h3>Link Utili</h3>
+        <ul>
+          {% for item in navigation.primary %}<li><a href="{{ item.href }}">{{ item.label }}</a></li>
+          {% endfor %}{% if pageKey == "terms" %}<li><a href="/termini-condizioni" aria-current="page">Termini e Condizioni</a></li>
+          {% endif %}</ul>
+      </div>
+      <div class="footer-column">
+        <h3>Contatti</h3>
+        <p>Email: {{ site.email }}</p>
+        <p>Telefono: {{ site.phone }}</p>
+      </div>
+      <div class="footer-column">
+        <h3>Seguici</h3>
+        <div class="social-icons">
+          {% for item in navigation.social %}<a href="{{ item.href }}" class="social-icon" aria-label="Profilo {{ item.label }}">
+            <i class="{{ item.iconClass }}" aria-hidden="true"></i>
+          </a>
+          {% endfor %}</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {{ site.copyrightYear }} SolveX AI3D - Tutti i diritti riservati. | <a href="/privacy-policy"{% if pageKey == "privacy" %} aria-current="page"{% endif %}>Privacy Policy</a> | <a href="/termini-condizioni"{% if pageKey == "terms" %} aria-current="page"{% endif %}>Termini e Condizioni</a></p>
+    </div>
+  </footer>

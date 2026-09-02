@@ -1,0 +1,11 @@
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <ul role="navigation" aria-label="Menu mobile">
+      {% for item in navigation.primary %}<li><a href="{{ item.href }}">{{ item.label }}</a></li>
+      {% endfor %}{% if pageKey == "terms" %}<li><a href="/termini-condizioni" aria-current="page">Termini e Condizioni</a></li>
+      {% endif %}<li class="social-icons">
+        {% for item in navigation.social %}<a href="{{ item.href }}" class="social-icon" aria-label="Profilo {{ item.label }} di SolveX AI3D">
+          <i class="{{ item.iconClass }}" aria-hidden="true"></i>
+        </a>
+        {% endfor %}</li>
+    </ul>
+  </div>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "partials/seo-head.njk" %}
+  {% block jsonLd %}{% endblock %}
+  {% include "partials/measurement-bootstrap.njk" %}
+</head>
+<body>
+  <a href="#{{ mainId }}" class="skip-link">Salta al contenuto principale</a>
+
+  {% include "partials/site-header.njk" %}
+
+  {% include "partials/mobile-nav.njk" %}
+
+  {% block content %}{% endblock %}
+
+  {% include "partials/site-footer.njk" %}
+
+  {% include "partials/cookie-loader.njk" %}
+</body>
+</html>

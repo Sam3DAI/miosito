@@ -1,0 +1,22 @@
+  <header>
+    <div class="header-container">
+      <a href="/" class="logo-link">
+        <img src="{{ site.logoUrl }}" alt="{{ site.logoAlt }}" class="logo" width="180" height="50" decoding="async" fetchpriority="high">
+      </a>
+      <nav class="desktop-nav" role="navigation" aria-label="Navigazione principale">
+        <ul class="nav-menu">
+          {% for item in navigation.primary %}<li><a href="{{ item.href }}">{{ item.label }}</a></li>
+          {% endfor %}{% if pageKey == "terms" %}<li><a href="/termini-condizioni" aria-current="page">Termini e Condizioni</a></li>
+          {% endif %}</ul>
+      </nav>
+      <div class="header-right">
+        <button class="theme-toggle" aria-label="Cambia tema (chiaro/scuro)" aria-pressed="false">
+          <i class="fas fa-sun theme-icon sun" aria-hidden="true"></i>
+          <i class="fas fa-moon theme-icon moon" aria-hidden="true" style="display:none;"></i>
+        </button>
+        <div class="hamburger" role="button" aria-label="Apri menu mobile" aria-controls="mobile-menu" aria-expanded="false" tabindex="0">
+          <span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </header>

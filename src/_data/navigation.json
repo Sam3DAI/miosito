@@ -1,0 +1,14 @@
+{
+  "primary": [
+    { "href": "/configuratori-3d-2d", "label": "Configuratori 3D/2D" },
+    { "href": "/automazioni-ai-business", "label": "Automazioni AI" },
+    { "href": "/siti-web-custom-seo", "label": "Siti Custom" },
+    { "href": "/chatbot-ai-intelligenti", "label": "Chatbot AI" },
+    { "href": "/contattaci", "label": "Contattaci" }
+  ],
+  "social": [
+    { "href": "https://www.instagram.com/solvex_ai3d/", "label": "Instagram", "iconClass": "fab fa-instagram" },
+    { "href": "https://x.com/SolveX_AI3D", "label": "X (Twitter)", "iconClass": "fab fa-x-twitter" },
+    { "href": "https://www.linkedin.com/company/108791484", "label": "LinkedIn", "iconClass": "fab fa-linkedin-in" }
+  ]
+}

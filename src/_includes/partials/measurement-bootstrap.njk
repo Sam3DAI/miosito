@@ -1,0 +1,61 @@
+  <script>
+  // === Consent Mode v2: default negato ===
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent','default',{
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    wait_for_update:800
+  });
+
+  (function(){
+    let gtagLoaded=false;
+    function loadGtagOnce(){
+      if (gtagLoaded) return; gtagLoaded=true;
+      const s=document.createElement('script');
+      s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id={{ measurement.ga4Id }}';
+      document.head.appendChild(s);
+      gtag('js', new Date());
+    }
+
+    // === Loader separati per categorie (chiamati dal banner) ===
+    window.__loadGA4 = function(){ // Statistiche
+      loadGtagOnce();
+      const isDev = location.hostname !== 'solvex-ai3d.com';
+      gtag('config','{{ measurement.ga4Id }}',{ debug_mode: isDev ? true : undefined });
+    };
+    window.__loadAds = function(){ // Marketing (solo misurazione conversioni)
+      loadGtagOnce();
+      gtag('config','{{ measurement.adsId }}',{ allow_enhanced_conversions:true });
+    };
+  })();
+</script>
+
+<!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
+<script>
+// Non persistiamo nulla finché l’utente non accetta "Marketing"
+(function(){
+  const sp=new URLSearchParams(location.search);
+  const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
+
+  function fillHidden(){
+    const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
+    if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value=g);
+  }
+  window.__persistAdParams=function(){
+    if (!window.__adsConsentGranted) return;
+    try{
+      if (fromUrl.gclid)  sessionStorage.setItem('gclid', fromUrl.gclid);
+      if (fromUrl.gbraid) sessionStorage.setItem('gbraid',fromUrl.gbraid);
+      if (fromUrl.wbraid) sessionStorage.setItem('wbraid',fromUrl.wbraid);
+    }catch(_){}
+    fillHidden();
+  };
+  window.__clearAdParams=function(){
+    try{ ['gclid','gbraid','wbraid'].forEach(k=>{ sessionStorage.removeItem(k); localStorage.removeItem(k); }); }catch(_){}
+  };
+  document.addEventListener('DOMContentLoaded', fillHidden);
+})();
+</script>
