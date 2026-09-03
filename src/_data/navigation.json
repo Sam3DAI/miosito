@@ -1,14 +1,20 @@
 {
-  "primary": [
-    { "href": "/configuratori-3d-2d", "label": "Configuratori 3D/2D" },
-    { "href": "/automazioni-ai-business", "label": "Automazioni AI" },
-    { "href": "/siti-web-custom-seo", "label": "Siti Custom" },
-    { "href": "/chatbot-ai-intelligenti", "label": "Chatbot AI" },
-    { "href": "/contattaci", "label": "Contattaci" }
+  "solutions": [
+    { "key": "configurators", "href": "/configuratori-3d-2d", "label": "Configuratori 2D/3D", "description": "Prodotto e varianti in una vista interattiva" },
+    { "key": "ecommerce", "href": "/configuratori-ecommerce", "label": "Configuratori e-commerce", "description": "Scelta guidata prima del carrello" },
+    { "key": "cpq", "href": "/software-cpq-portali-commerciali", "label": "CPQ e software commerciali", "description": "Regole, listini, preventivi e rete vendita" },
+    { "key": "planner", "href": "/planner-configuratori-arredamento", "label": "Planner e arredamento", "description": "Composizioni, misure e finiture per il B2B" },
+    { "key": "automation", "href": "/automazioni-ai-business", "label": "Automazioni AI", "description": "AI inserita nei workflow commerciali" }
   ],
+  "primary": [
+    { "key": "projects", "href": "/#progetti", "label": "Progetti" },
+    { "key": "method", "href": "/chi-sono#metodo", "label": "Metodo" },
+    { "key": "about", "href": "/chi-sono", "label": "Chi sono" }
+  ],
+  "cta": { "href": "/contattaci", "label": "Valutiamo il tuo progetto" },
   "social": [
-    { "href": "https://www.instagram.com/solvex_ai3d/", "label": "Instagram", "iconClass": "fab fa-instagram" },
-    { "href": "https://x.com/SolveX_AI3D", "label": "X (Twitter)", "iconClass": "fab fa-x-twitter" },
-    { "href": "https://www.linkedin.com/company/108791484", "label": "LinkedIn", "iconClass": "fab fa-linkedin-in" }
+    { "href": "https://www.instagram.com/solvex_ai3d/", "label": "Instagram" },
+    { "href": "https://x.com/SolveX_AI3D", "label": "X" },
+    { "href": "https://www.linkedin.com/company/108791484", "label": "LinkedIn" }
   ]
 }

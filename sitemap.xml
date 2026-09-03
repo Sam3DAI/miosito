@@ -6,12 +6,7 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://solvex-ai3d.com/automazioni-ai-business</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://solvex-ai3d.com/chatbot-ai-intelligenti</loc>
+    <loc>https://solvex-ai3d.com/chi-sono</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -21,9 +16,24 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://solvex-ai3d.com/siti-web-custom-seo</loc>
+    <loc>https://solvex-ai3d.com/configuratori-ecommerce</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://solvex-ai3d.com/software-cpq-portali-commerciali</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://solvex-ai3d.com/planner-configuratori-arredamento</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://solvex-ai3d.com/automazioni-ai-business</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://solvex-ai3d.com/contattaci</loc>
@@ -39,5 +49,15 @@
     <loc>https://solvex-ai3d.com/termini-condizioni</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://solvex-ai3d.com/chatbot-ai-intelligenti</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://solvex-ai3d.com/siti-web-custom-seo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
 </urlset>

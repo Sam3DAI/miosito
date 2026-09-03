@@ -1,11 +1,14 @@
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
+import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 export const GIT_MAX_BUFFER = 64 * 1024 * 1024;
 
 function executeGit(args, { cwd, encoding }) {
-  const result = spawnSync("git", args, {
+  const safeCwd = path.resolve(cwd);
+  const safeArgs = ["-c", `safe.directory=${safeCwd}`, ...args];
+  const result = spawnSync("git", safeArgs, {
     cwd,
     shell: false,
     encoding,
@@ -18,7 +21,7 @@ function executeGit(args, { cwd, encoding }) {
     const stderr = Buffer.isBuffer(result.stderr)
       ? result.stderr.toString("utf8")
       : String(result.stderr ?? "");
-    throw new Error(`git ${args.join(" ")} failed (${result.status}): ${stderr}`);
+    throw new Error(`git ${safeArgs.join(" ")} failed (${result.status}): ${stderr}`);
   }
   return result.stdout;
 }

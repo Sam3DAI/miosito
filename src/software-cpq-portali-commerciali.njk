@@ -1,0 +1,184 @@
+---
+permalink: software-cpq-portali-commerciali.html
+pageKey: cpq
+mainId: main-content
+breadcrumbLabel: CPQ e software commerciali
+title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D"
+description: "Software CPQ e portali B2B su misura per configurazioni, listini, sconti, preventivi, ruoli e documenti nei processi commerciali complessi."
+keywords: "software CPQ su misura, portali commerciali B2B, configurazione preventivi, software rete vendita"
+canonical: "https://solvex-ai3d.com/software-cpq-portali-commerciali"
+openGraph:
+  title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D"
+  description: "Configurazioni, listini, sconti, ruoli e documenti dentro un processo commerciale più controllabile."
+twitter:
+  title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D"
+  description: "Strumenti web per agenti, dealer e clienti B2B, progettati sulle regole commerciali reali."
+---
+{% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+
+{% set processItems = [
+  { title: "Mappa", text: "Utenti, regole, dati e documenti." },
+  { title: "Priorità", text: "Flusso iniziale e confini operativi." },
+  { title: "Prototipo", text: "Schermate e decisioni da verificare." },
+  { title: "Sviluppo", text: "Moduli e autorizzazioni concordate." },
+  { title: "Integrazione", text: "Importazioni e sistemi analizzati." },
+  { title: "Rilascio", text: "Test, passaggio operativo e supporto." }
+] %}
+
+{% set faqItems = [
+  { question: "Che differenza c'è tra un CPQ e un semplice configuratore?", answer: "Un CPQ collega configurazione, regole e logiche commerciali alla preparazione dell'offerta. Può includere listini, sconti, ruoli, revisioni e documenti, mentre un configuratore può fermarsi alla scelta del prodotto." },
+  { question: "Può gestire listini e sconti diversi per agente o cliente?", answer: "Può farlo quando criteri, validità e fonti dei dati sono definiti. Ruoli e autorizzazioni stabiliscono chi vede o applica le informazioni commerciali." },
+  { question: "Il portale può generare preventivi e PDF?", answer: "Sì. Il documento può raccogliere configurazione, dati commerciali e contenuti previsti, con regole di revisione o approvazione coerenti con il processo." },
+  { question: "Si collega a ERP, CRM o altri sistemi?", answer: "Le integrazioni si valutano sulle API, sui formati, sulla qualità dei dati e sulle responsabilità di ciascun sistema. Non vengono promesse compatibilità senza una verifica tecnica." },
+  { question: "Si può partire da un solo flusso commerciale?", answer: "Sì. Un primo perimetro circoscritto permette di verificare il modello operativo e aggiungere moduli solo quando portano valore concreto." }
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://solvex-ai3d.com/software-cpq-portali-commerciali/#service",
+        "name": "Software CPQ e portali commerciali su misura",
+        "serviceType": "Software CPQ e portali commerciali B2B",
+        "url": "https://solvex-ai3d.com/software-cpq-portali-commerciali",
+        "description": "Software CPQ e portali B2B su misura per configurazioni, listini, sconti, preventivi, ruoli e documenti.",
+        "provider": { "@id": "https://solvex-ai3d.com/#organization" },
+        "areaServed": "IT"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://solvex-ai3d.com/software-cpq-portali-commerciali/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
+          { "@type": "ListItem", "position": 2, "name": "CPQ e software commerciali", "item": "https://solvex-ai3d.com/software-cpq-portali-commerciali" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://solvex-ai3d.com/software-cpq-portali-commerciali/#faq",
+        "mainEntity": [
+          {% for item in faqItems %}{
+            "@type": "Question",
+            "name": {{ item.question | json | safe }},
+            "acceptedAnswer": { "@type": "Answer", "text": {{ item.answer | json | safe }} }
+          }{% if not loop.last %},{% endif %}{% endfor %}
+        ]
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content">
+  <section class="page-hero page-hero--compact">
+    <div class="page-hero__layout container">
+      <div class="page-hero__copy">
+        <span class="eyebrow">CPQ · Portali · Processi B2B</span>
+        <h1>Software CPQ e portali commerciali su misura.</h1>
+        <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
+        <div class="cta-group">
+          <a class="button" href="/contattaci">Valutiamo il tuo processo <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="#moduli">Esplora i moduli <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <aside class="card card--gradient" aria-label="Flusso illustrativo CPQ">
+        <span class="card__label">Offerta controllata</span>
+        <h2>Dalla configurazione al documento, con regole e responsabilità.</h2>
+        <div class="flow-panel">
+          <div class="flow-step"><span>01</span><strong>Configura</strong></div>
+          <div class="flow-step"><span>02</span><strong>Calcola</strong></div>
+          <div class="flow-step"><span>03</span><strong>Verifica</strong></div>
+          <div class="flow-step"><span>04</span><strong>Preventivo</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="trust-strip" aria-label="Utenti del sistema">
+    <span>Agenti</span><span>Dealer</span><span>Clienti B2B</span><span>Responsabili commerciali</span>
+  </div>
+
+  <section class="section container" aria-labelledby="control-title">
+    <div class="section-heading">
+      <span class="section-kicker">Configurazione e controllo</span>
+      <h2 id="control-title">Regole commerciali accessibili a chi deve vendere.</h2>
+      <p>Il sistema rende espliciti prodotti, vincoli e passaggi, così ogni utente lavora con informazioni coerenti con il proprio ruolo.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="card"><span class="card__label">Percorso</span><h3>Configurazione guidata</h3><p>Opzioni e passaggi seguono la logica con cui il prodotto viene definito e venduto.</p></article>
+      <article class="card"><span class="card__label">Vincoli</span><h3>Compatibilità e regole</h3><p>Combinazioni, dipendenze e controlli riducono configurazioni incoerenti.</p></article>
+      <article class="card"><span class="card__label">Commerciale</span><h3>Listini, sconti e prezzi</h3><p>Dati e permessi possono differenziare il flusso secondo utente, canale o cliente.</p></article>
+    </div>
+  </section>
+
+  <section id="moduli" class="section section--tinted" aria-labelledby="modules-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Moduli</span>
+        <h2 id="modules-title">Un portale composto sulle esigenze del processo.</h2>
+        <p>Non tutti i progetti richiedono ogni modulo. Si scelgono funzioni, confini e priorità in base agli utenti e ai dati disponibili.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="card card--quiet"><span class="card__index">01</span><h3>Preventivi e PDF</h3><p>Riepiloghi e documenti coerenti con configurazione e regole commerciali.</p></article>
+        <article class="card card--quiet"><span class="card__index">02</span><h3>Account, ruoli e autorizzazioni</h3><p>Visibilità e azioni definite per responsabili, agenti, dealer e clienti.</p></article>
+        <article class="card card--quiet"><span class="card__index">03</span><h3>Salvataggi e duplicazioni</h3><p>Configurazioni riprese, duplicate o usate come base per nuove proposte.</p></article>
+        <article class="card card--quiet"><span class="card__index">04</span><h3>Revisioni</h3><p>Versioni e passaggi di verifica mantengono leggibile l’evoluzione dell’offerta.</p></article>
+        <article class="card card--quiet"><span class="card__index">05</span><h3>Agenti, dealer e clienti B2B</h3><p>Spazi e percorsi calibrati sul ruolo e sul livello di autonomia previsto.</p></article>
+        <article class="card card--quiet"><span class="card__index">06</span><h3>Importazioni</h3><p>Cataloghi e dati possono essere acquisiti da formati concordati e controllabili.</p></article>
+        <article class="card card--quiet"><span class="card__index">07</span><h3>Dashboard</h3><p>Viste operative focalizzate sulle informazioni necessarie alle decisioni.</p></article>
+        <article class="card card--quiet"><span class="card__index">08</span><h3>Documenti</h3><p>Materiali commerciali raccolti o preparati nel punto utile del flusso.</p></article>
+        <article class="card card--quiet"><span class="card__index">09</span><h3>Integrazioni da analizzare</h3><p>ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="cpq-proof-title">
+    <div class="section-heading">
+      <span class="section-kicker">Tipologie reali, forma anonima</span>
+      <h2 id="cpq-proof-title">Progetti che collegano configurazione e proposta.</h2>
+      <p>Esperienze descritte per funzione, senza nomi, metriche o dati cliente.</p>
+    </div>
+    <div class="proof-grid">
+      <article class="card proof-card"><span class="card__label">Portale</span><h3>Portale preventivi B2B.</h3><p>Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.</p></article>
+      <article class="card proof-card card--gradient"><span class="card__label">Configuratore</span><h3>Configuratore tecnico con listini e PDF.</h3><p>Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.</p></article>
+      <article class="card proof-card"><span class="card__label">Approccio</span><h3>Moduli costruiti sul processo.</h3><p>Ruoli, dati e documenti vengono definiti sul caso d’uso, non su un pacchetto universale.</p></article>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="cpq-method-title">
+    <div class="container">
+      <div class="section-heading"><span class="section-kicker">Metodo</span><h2 id="cpq-method-title">Un sistema commerciale richiede confini verificabili.</h2><p>Si parte dal flusso essenziale e si aggiungono funzioni solo quando utenti, dati e responsabilità sono chiari.</p></div>
+      {{ processSteps(processItems) }}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="adjacent-title">
+    <div class="split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Software adiacente</span>
+        <h2 id="adjacent-title">Non rientra perfettamente in un CPQ?</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web adiacente. Il perimetro viene definito sul processo commerciale reale.</p>
+        <a class="button" href="/contattaci">Raccontami il processo <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande su CPQ e portali commerciali.</h2></div>
+      {{ faq(faqItems) }}
+    </div>
+  </section>
+
+  <section class="section section--compact container">
+    {{ finalCta("Il processo commerciale vive ancora tra fogli e passaggi manuali?", "Partiamo da utenti, regole, listini e documenti per definire il primo flusso che vale la pena strutturare.", "Valutiamo il processo") }}
+  </section>
+</main>
+{% endblock %}

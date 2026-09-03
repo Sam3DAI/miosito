@@ -1,8 +1,10 @@
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
+  {% if keywords %}
   <meta name="keywords" content="{{ keywords }}">
+  {% endif %}
   <meta name="author" content="SolveX AI3D">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
@@ -14,7 +16,7 @@
   <meta property="og:description" content="{{ openGraph.description }}">
   <meta property="og:url" content="{{ canonical }}">
   <meta property="og:image" content="{{ site.logoUrl }}">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ twitter.title }}">
   <meta name="twitter:description" content="{{ twitter.description }}">
   <meta name="twitter:image" content="{{ site.logoUrl }}">
@@ -25,26 +27,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/logo-112.png">
-
-  <!-- Preconnect / DNS Prefetch -->
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-  <link rel="preconnect" href="https://www.googleadservices.com" crossorigin>
-  <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
-  <link rel="dns-prefetch" href="//www.googletagmanager.com">
-  <link rel="dns-prefetch" href="//www.google-analytics.com">
-  <link rel="dns-prefetch" href="//www.googleadservices.com">
-  <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
-
-  <!-- CSS -->
-  <link rel="preload" href="css/{{ stylesheet }}" as="style">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="css/{{ stylesheet }}">
-  <link rel="stylesheet" href="css/cookie-banner.css">
-  <link href="chatbot/css/main.9ba5c9e2.css" rel="stylesheet">
 
   <!-- CSP -->
   <meta http-equiv="Content-Security-Policy" content="
@@ -71,3 +53,11 @@
     form-action 'self' https://formsubmit.co;
     object-src 'none'
   ">
+
+  {% include "partials/theme-bootstrap.njk" %}
+
+  <!-- Shared, local-only presentation -->
+  <link rel="stylesheet" href="/css/foundation.css">
+  <link rel="stylesheet" href="/css/site-shell.css">
+  <link rel="stylesheet" href="/css/marketing-pages.css">
+  <link rel="stylesheet" href="/css/cookie-banner.css">

@@ -1,0 +1,171 @@
+---
+permalink: planner-configuratori-arredamento.html
+pageKey: planner
+mainId: main-content
+breadcrumbLabel: Planner e arredamento
+title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D"
+description: "Planner e configuratori B2B per produttori, rivenditori, showroom e reti vendita: composizioni, misure, finiture, prezzi e preventivi."
+keywords: "planner arredamento B2B, configuratori arredamento, planner produttori mobili, software showroom"
+canonical: "https://solvex-ai3d.com/planner-configuratori-arredamento"
+openGraph:
+  title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D"
+  description: "Composizioni, misure, finiture e preventivi per produttori, rivenditori, showroom e reti vendita."
+twitter:
+  title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D"
+  description: "Strumenti B2B su misura per comporre prodotti, verificare vincoli e preparare offerte."
+---
+{% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+
+{% set processItems = [
+  { title: "Catalogo", text: "Moduli, misure, finiture e codici." },
+  { title: "Vincoli", text: "Regole tecniche e commerciali." },
+  { title: "Prototipo", text: "Composizione e percorso da verificare." },
+  { title: "Visuale", text: "2D o 3D secondo il valore utile." },
+  { title: "Commerciale", text: "Prezzi, documenti e utenti B2B." },
+  { title: "Integrazione", text: "Collegamenti e rilascio controllato." }
+] %}
+
+{% set faqItems = [
+  { question: "Il planner è pensato per produttori o rivenditori?", answer: "Può servire entrambi, oltre a showroom e reti vendita. Ruoli, cataloghi, listini e flussi vengono definiti sul modo in cui ogni soggetto compone e presenta il prodotto." },
+  { question: "Può controllare misure e incompatibilità?", answer: "Sì, quando vincoli e dipendenze sono formalizzabili. Il sistema può impedire combinazioni non valide o chiedere le informazioni necessarie prima di proseguire." },
+  { question: "La visualizzazione deve essere in 3D?", answer: "Non necessariamente. Il 2D può essere più efficace per alcune composizioni; il 3D è utile quando volume, materiali o ambiente aiutano davvero la valutazione." },
+  { question: "Può preparare prezzi e preventivi?", answer: "Può collegare la composizione a listini, regole commerciali e documenti, se fonti dei dati e responsabilità del processo sono definite." },
+  { question: "È pensato anche per clienti privati?", answer: "No. È una soluzione B2B progettata sui cataloghi e sui processi commerciali di produttori, rivenditori, showroom e reti vendita." }
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://solvex-ai3d.com/planner-configuratori-arredamento/#service",
+        "name": "Planner e configuratori per arredamento B2B",
+        "serviceType": "Planner e configuratori B2B per arredamento",
+        "url": "https://solvex-ai3d.com/planner-configuratori-arredamento",
+        "description": "Planner e configuratori B2B per produttori, rivenditori, showroom e reti vendita.",
+        "provider": { "@id": "https://solvex-ai3d.com/#organization" },
+        "areaServed": "IT",
+        "audience": { "@type": "BusinessAudience", "audienceType": "Produttori, rivenditori, showroom e reti vendita" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://solvex-ai3d.com/planner-configuratori-arredamento/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
+          { "@type": "ListItem", "position": 2, "name": "Planner e arredamento", "item": "https://solvex-ai3d.com/planner-configuratori-arredamento" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://solvex-ai3d.com/planner-configuratori-arredamento/#faq",
+        "mainEntity": [
+          {% for item in faqItems %}{
+            "@type": "Question",
+            "name": {{ item.question | json | safe }},
+            "acceptedAnswer": { "@type": "Answer", "text": {{ item.answer | json | safe }} }
+          }{% if not loop.last %},{% endif %}{% endfor %}
+        ]
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content">
+  <section class="page-hero page-hero--compact">
+    <div class="page-hero__layout container">
+      <div class="page-hero__copy">
+        <span class="eyebrow">Arredamento B2B · Cataloghi modulari</span>
+        <h1>Planner e configuratori per arredamento pensati per produttori e rivenditori.</h1>
+        <p class="hero-lead">Soluzioni B2B per produttori, rivenditori, showroom e reti vendita che devono comporre prodotti, verificare vincoli e preparare offerte.</p>
+        <div class="cta-group">
+          <a class="button" href="/contattaci">Valutiamo il tuo planner <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="#funzioni">Esplora le funzioni <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <aside class="card card--gradient" aria-label="Flusso illustrativo di un planner B2B">
+        <span class="card__label">Composizione guidata</span>
+        <h2>Moduli, misure e finiture dentro un flusso commerciale.</h2>
+        <div class="flow-panel">
+          <div class="flow-step"><span>01</span><strong>Ambiente</strong></div>
+          <div class="flow-step"><span>02</span><strong>Moduli</strong></div>
+          <div class="flow-step"><span>03</span><strong>Vincoli</strong></div>
+          <div class="flow-step"><span>04</span><strong>Offerta</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="trust-strip" aria-label="Destinatari B2B">
+    <span>Produttori</span><span>Rivenditori</span><span>Showroom</span><span>Reti vendita</span>
+  </div>
+
+  <section class="section container" aria-labelledby="composition-title">
+    <div class="section-heading">
+      <span class="section-kicker">Composizione</span>
+      <h2 id="composition-title">Comporre senza perdere il controllo del catalogo.</h2>
+      <p>Il planner traduce moduli, misure e relazioni tecniche in un’esperienza utilizzabile da chi presenta, configura o vende il prodotto.</p>
+    </div>
+    <div class="problem-grid">
+      <article class="card card--quiet"><span class="card__index">01</span><h3>Composizioni modulari</h3><p>Elementi e accessori vengono organizzati secondo sequenze e dipendenze reali.</p></article>
+      <article class="card card--quiet"><span class="card__index">02</span><h3>Misure e vincoli</h3><p>Dimensioni e incompatibilità possono essere controllate durante la composizione.</p></article>
+      <article class="card card--quiet"><span class="card__index">03</span><h3>Cataloghi estesi</h3><p>Famiglie, codici e varianti richiedono una navigazione progettata sul prodotto.</p></article>
+      <article class="card card--quiet"><span class="card__index">04</span><h3>Rete commerciale</h3><p>Dealer e agenti hanno bisogno di dati coerenti per presentare e quotare la soluzione.</p></article>
+    </div>
+  </section>
+
+  <section id="funzioni" class="section section--tinted" aria-labelledby="planner-functions-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Funzioni</span>
+        <h2 id="planner-functions-title">Dalla composizione alla proposta commerciale.</h2>
+        <p>Ogni funzione viene dimensionata su catalogo, utenti e risultato che il processo deve produrre.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="card"><span class="card__label">Catalogo</span><h3>Moduli e collezioni</h3><p>Prodotti, componenti e famiglie organizzati per costruire composizioni coerenti.</p></article>
+        <article class="card"><span class="card__label">Tecnica</span><h3>Misure e vincoli</h3><p>Controlli su dimensioni, adiacenze e incompatibilità quando le regole sono definibili.</p></article>
+        <article class="card"><span class="card__label">Materiali</span><h3>Finiture e varianti</h3><p>Colori e materiali associati ai prodotti secondo disponibilità e combinazioni ammesse.</p></article>
+        <article class="card"><span class="card__label">Visuale</span><h3>Vista 2D o 3D</h3><p>La rappresentazione viene scelta in base a ciò che utente e cliente devono comprendere.</p></article>
+        <article class="card"><span class="card__label">Spazio</span><h3>Ambienti</h3><p>Dimensioni e contesto possono guidare il posizionamento quando fanno parte del caso d’uso.</p></article>
+        <article class="card"><span class="card__label">Commerciale</span><h3>Prezzi e preventivi</h3><p>Composizione, listini e regole possono alimentare riepiloghi e documenti di offerta.</p></article>
+        <article class="card"><span class="card__label">Utenti</span><h3>Dealer e agenti</h3><p>Ruoli e visibilità supportano i diversi attori della rete commerciale.</p></article>
+        <article class="card"><span class="card__label">Continuità</span><h3>Salvataggio e condivisione</h3><p>Le composizioni possono essere riprese, condivise o trasformate in una richiesta.</p></article>
+        <article class="card"><span class="card__label">Sistemi</span><h3>Integrazioni</h3><p>Cataloghi, listini, CRM o altri strumenti vengono collegati solo dopo analisi delle interfacce.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="planner-proof-title">
+    <div class="split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Esperienza pertinente</span>
+        <h2 id="planner-proof-title">Configuratore tecnico con listini e PDF.</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>Una tipologia di progetto già realizzata che unisce regole, opzioni e prezzi in un percorso guidato con generazione del preventivo.</p>
+        <p>È un’esperienza adiacente utile per affrontare cataloghi di arredamento complessi; non viene presentata come un caso cliente nominativo o come un room planner già pubblicato.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="planner-process-title">
+    <div class="container">
+      <div class="section-heading"><span class="section-kicker">Processo</span><h2 id="planner-process-title">Catalogo e vincoli vengono prima della tecnologia visuale.</h2><p>Il livello di rappresentazione viene scelto dopo aver chiarito composizione, regole, utenti e risultato commerciale.</p></div>
+      {{ processSteps(processItems) }}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="faq-title">
+    <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande su planner e configuratori per arredamento.</h2></div>
+    {{ faq(faqItems) }}
+  </section>
+
+  <section class="section section--compact container">
+    {{ finalCta("Il tuo catalogo richiede composizioni, vincoli e offerte?", "Raccontami prodotti, utenti e passaggi commerciali: definiamo il primo perimetro utile senza inseguire funzioni consumer.", "Valutiamo il planner") }}
+  </section>
+</main>
+{% endblock %}
