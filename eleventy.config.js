@@ -4,13 +4,13 @@ import { fileURLToPath } from "node:url";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
-export const BASE_COMMIT = "5050545994cb2b3b515063a966369d6ac8f1532c";
+export const TASK_BASE_COMMIT = "513900768e8cce95a88132cfa1af93eb36e2ac3d";
+export const BASE_COMMIT = TASK_BASE_COMMIT;
 
-export const PASSTHROUGH_FILES = Object.freeze([
+export const FROZEN_PASSTHROUGH_FILES = Object.freeze([
   "404.html",
   "_redirects",
   "assets/iphone_16_pro_configuratore_3d.glb",
-  "automazioni-ai-business.html",
   "chatbot-ai-intelligenti.html",
   "chatbot/css/main.9ba5c9e2.css",
   "chatbot/css/main.9ba5c9e2.css.map",
@@ -31,7 +31,6 @@ export const PASSTHROUGH_FILES = Object.freeze([
   "css/termini-condizioni.css",
   "favicon-32.png",
   "favicon.ico",
-  "index.html",
   "js/404.js",
   "js/ad-attribution-consent.js",
   "js/automazioni-ai-business.js",
@@ -48,24 +47,101 @@ export const PASSTHROUGH_FILES = Object.freeze([
   "logo-112.png",
   "richiesta-ricevuta.html",
   "robots.txt",
-  "sitemap.xml",
   "siti-web-custom-seo.html"
 ]);
 
-export const MIGRATED_ROUTES = Object.freeze([
+export const OWNED_STATIC_FILES = Object.freeze([
+  "css/foundation.css",
+  "css/site-shell.css",
+  "css/marketing-pages.css",
+  "js/site-shell.js",
+  "sitemap.xml"
+]);
+
+export const GENERATED_ROUTES = Object.freeze([
+  Object.freeze({
+    source: "src/index.njk",
+    destination: "index.html",
+    publicUrl: "/",
+    canonical: "https://solvex-ai3d.com",
+    title: "Configuratori, CPQ e Portali Commerciali su Misura | SolveX AI3D",
+    h1: "Configuratori e software commerciali su misura.",
+    schemaTypes: Object.freeze(["Organization", "WebSite"]),
+    hasFaq: true
+  }),
+  Object.freeze({
+    source: "src/chi-sono.njk",
+    destination: "chi-sono.html",
+    publicUrl: "/chi-sono",
+    canonical: "https://solvex-ai3d.com/chi-sono",
+    title: "Chi è SolveX AI3D | Configuratori e Software Commerciali",
+    h1: "Un partner tecnico diretto per progetti digitali complessi.",
+    schemaTypes: Object.freeze(["AboutPage", "Organization", "Person"]),
+    hasFaq: false
+  }),
+  Object.freeze({
+    source: "src/configuratori-ecommerce.njk",
+    destination: "configuratori-ecommerce.html",
+    publicUrl: "/configuratori-ecommerce",
+    canonical: "https://solvex-ai3d.com/configuratori-ecommerce",
+    title: "Configuratori E-commerce su Misura | SolveX AI3D",
+    h1: "Configuratori e-commerce su misura per prodotti personalizzabili.",
+    schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
+    hasFaq: true
+  }),
+  Object.freeze({
+    source: "src/software-cpq-portali-commerciali.njk",
+    destination: "software-cpq-portali-commerciali.html",
+    publicUrl: "/software-cpq-portali-commerciali",
+    canonical: "https://solvex-ai3d.com/software-cpq-portali-commerciali",
+    title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D",
+    h1: "Software CPQ e portali commerciali su misura.",
+    schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
+    hasFaq: true
+  }),
+  Object.freeze({
+    source: "src/planner-configuratori-arredamento.njk",
+    destination: "planner-configuratori-arredamento.html",
+    publicUrl: "/planner-configuratori-arredamento",
+    canonical: "https://solvex-ai3d.com/planner-configuratori-arredamento",
+    title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D",
+    h1: "Planner e configuratori per arredamento pensati per produttori e rivenditori.",
+    schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
+    hasFaq: true
+  }),
+  Object.freeze({
+    source: "src/automazioni-ai-business.njk",
+    destination: "automazioni-ai-business.html",
+    publicUrl: "/automazioni-ai-business",
+    canonical: "https://solvex-ai3d.com/automazioni-ai-business",
+    title: "Automazioni AI per Processi Commerciali | SolveX AI3D",
+    h1: "Automazioni AI integrate nei processi commerciali.",
+    schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
+    hasFaq: true
+  }),
   Object.freeze({
     source: "src/privacy-policy.njk",
     baseline: "privacy-policy.html",
     destination: "privacy-policy.html",
     publicUrl: "/privacy-policy",
-    canonical: "https://solvex-ai3d.com/privacy-policy"
+    canonical: "https://solvex-ai3d.com/privacy-policy",
+    title: "Privacy Policy | SolveX AI3D - Protezione Dati GDPR",
+    h1: "Informativa sulla Privacy",
+    schemaTypes: Object.freeze(["WebPage", "BreadcrumbList"]),
+    hasFaq: false,
+    legal: true
   }),
   Object.freeze({
     source: "src/termini-condizioni.njk",
     baseline: "termini-condizioni.html",
     destination: "termini-condizioni.html",
     publicUrl: "/termini-condizioni",
-    canonical: "https://solvex-ai3d.com/termini-condizioni"
+    canonical: "https://solvex-ai3d.com/termini-condizioni",
+    title: "Termini e Condizioni | SolveX AI3D - Regole Uso Servizi",
+    h1: "Termini e Condizioni",
+    schemaTypes: Object.freeze(["WebPage", "BreadcrumbList"]),
+    hasFaq: false,
+    legal: true
   })
 ]);
 
@@ -92,16 +168,19 @@ export default function (eleventyConfig) {
   const measurement = JSON.parse(fs.readFileSync(measurementPath, "utf8"));
   assertMeasurementMode(measurement);
 
+  eleventyConfig.addFilter("json", (value) => JSON.stringify(value));
+
+  const copiedFiles = [...FROZEN_PASSTHROUGH_FILES, ...OWNED_STATIC_FILES];
   const destinations = [
-    ...PASSTHROUGH_FILES.map((file) => ({ destination: file })),
-    ...MIGRATED_ROUTES
+    ...copiedFiles.map((file) => ({ destination: file })),
+    ...GENERATED_ROUTES
   ];
   assertUniqueDestinations(destinations);
 
-  for (const file of PASSTHROUGH_FILES) {
+  for (const file of copiedFiles) {
     const sourcePath = path.join(projectRoot, file);
     if (!fs.existsSync(sourcePath) || !fs.statSync(sourcePath).isFile()) {
-      throw new Error(`Missing passthrough allowlist source: ${file}`);
+      throw new Error(`Missing explicit copy source: ${file}`);
     }
     eleventyConfig.addPassthroughCopy({ [file]: file });
   }

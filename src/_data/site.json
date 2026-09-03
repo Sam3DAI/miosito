@@ -1,13 +1,14 @@
 {
   "name": "SolveX AI3D",
   "baseUrl": "https://solvex-ai3d.com",
-  "logoUrl": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751448222/logo_hhdtg4.webp?quality=auto&format=auto",
-  "logoAlt": "Logo di SolveX AI3D, servizi digitali AI e 3D per business",
-  "footerLogoAlt": "Logo di SolveX AI3D nel footer, servizi digitali AI e 3D",
+  "logoUrl": "https://solvex-ai3d.com/logo-112.png",
+  "logoPath": "/logo-112.png",
+  "logoAlt": "SolveX AI3D",
+  "footerLogoAlt": "SolveX AI3D",
   "vatNumber": "04930620275",
   "addressLine1": "Via della Cerva, 68A",
   "addressLine2": "30033 - Noale (VE)",
   "email": "info@solvex-ai3d.com",
   "phone": "+39 3474380837",
-  "copyrightYear": "2025"
+  "copyrightYear": "2026"
 }

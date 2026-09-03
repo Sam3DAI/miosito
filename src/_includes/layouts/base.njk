@@ -7,12 +7,19 @@
   {% block jsonLd %}{% endblock %}
   {% include "partials/measurement-bootstrap.njk" %}
 </head>
-<body>
+<body data-page="{{ pageKey }}">
   <a href="#{{ mainId }}" class="skip-link">Salta al contenuto principale</a>
 
   {% include "partials/site-header.njk" %}
 
-  {% include "partials/mobile-nav.njk" %}
+  {% if breadcrumbLabel %}
+  <nav class="breadcrumb container" aria-label="Percorso">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li aria-current="page">{{ breadcrumbLabel }}</li>
+    </ol>
+  </nav>
+  {% endif %}
 
   {% block content %}{% endblock %}
 

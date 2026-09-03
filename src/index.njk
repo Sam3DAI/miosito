@@ -1,0 +1,258 @@
+---
+permalink: index.html
+pageKey: home
+mainId: main-content
+title: "Configuratori, CPQ e Portali Commerciali su Misura | SolveX AI3D"
+description: "Configuratori web, software CPQ, portali commerciali e planner su misura per aziende che gestiscono prodotti, listini e preventivi complessi."
+keywords: "configuratori su misura, software CPQ, portali commerciali B2B, planner arredamento, configuratori e-commerce"
+canonical: "https://solvex-ai3d.com"
+openGraph:
+  title: "Configuratori e software commerciali su misura | SolveX AI3D"
+  description: "Strumenti web per configurare prodotti, applicare regole, preparare preventivi e supportare reti commerciali B2B."
+twitter:
+  title: "Configuratori e software commerciali su misura | SolveX AI3D"
+  description: "Configuratori, CPQ, portali B2B e planner progettati intorno a cataloghi, regole e processi commerciali."
+---
+{% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+
+{% set methodSteps = [
+  { title: "Analisi", text: "Obiettivi, utenti, dati e vincoli reali." },
+  { title: "Prototipo", text: "Flussi e interfaccia verificati prima dello sviluppo." },
+  { title: "Sviluppo", text: "Funzioni costruite sul perimetro concordato." },
+  { title: "Test", text: "Regole, dispositivi e casi critici controllati." },
+  { title: "Integrazione", text: "Collegamenti valutati sui sistemi disponibili." },
+  { title: "Rilascio", text: "Messa online, passaggio operativo e supporto." }
+] %}
+
+{% set faqItems = [
+  { question: "Quanto costa un configuratore su misura?", answer: "Dipende dalla profondità del catalogo, dalle regole, dalle integrazioni, dai ruoli utente e dall'eventuale componente 2D o 3D. Il preventivo nasce dopo una prima analisi del processo e del perimetro utile." },
+  { question: "Si integra nel sito o e-commerce esistente?", answer: "Può integrarsi, ma la fattibilità va verificata sulle interfacce realmente disponibili: catalogo, API, checkout, autenticazione e tecnologia del sito esistente." },
+  { question: "È meglio un configuratore 2D o 3D?", answer: "La scelta dipende da ciò che l'utente deve capire. Il 2D è spesso efficace per opzioni e composizioni; il 3D aggiunge valore quando forma, materiali o percezione spaziale influenzano la decisione." },
+  { question: "Può gestire prezzi, regole e preventivi?", answer: "Sì, quando listini, vincoli e logiche commerciali sono definibili. La soluzione può guidare le combinazioni e preparare un riepilogo o un documento da sottoporre al flusso previsto." },
+  { question: "È adatto anche alle PMI?", answer: "Sì, se risolve un processo concreto e il perimetro è proporzionato. Si parte dalle funzioni che riducono passaggi manuali e incertezza, senza costruire complessità non necessaria." }
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://solvex-ai3d.com/#organization",
+        "name": "SolveX AI3D",
+        "url": "https://solvex-ai3d.com",
+        "description": "SolveX AI3D progetta configuratori, software CPQ, portali commerciali, planner e automazioni AI integrate nei processi B2B.",
+        "logo": { "@type": "ImageObject", "url": "https://solvex-ai3d.com/logo-112.png", "width": 112, "height": 112 },
+        "vatID": "IT04930620275",
+        "email": "info@solvex-ai3d.com",
+        "telephone": "+39-3474380837",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Via della Cerva, 68A",
+          "postalCode": "30033",
+          "addressLocality": "Noale",
+          "addressRegion": "VE",
+          "addressCountry": "IT"
+        },
+        "sameAs": [
+          "https://www.instagram.com/solvex_ai3d/",
+          "https://x.com/SolveX_AI3D",
+          "https://www.linkedin.com/company/108791484"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://solvex-ai3d.com/#website",
+        "name": "SolveX AI3D",
+        "url": "https://solvex-ai3d.com",
+        "publisher": { "@id": "https://solvex-ai3d.com/#organization" },
+        "inLanguage": "it-IT"
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content">
+  <section class="page-hero">
+    <div class="page-hero__layout container">
+      <div class="page-hero__copy">
+        <span class="eyebrow">SolveX AI3D · Configuratori, CPQ e portali B2B</span>
+        <h1>Configuratori e software commerciali su misura.</h1>
+        <p class="hero-lead">Trasformiamo prodotti, listini e regole di vendita in strumenti web che aiutano aziende e reti commerciali a configurare, preventivare e vendere con meno errori.</p>
+        <div class="cta-group">
+          <a class="button" href="/contattaci">Valutiamo il tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="#soluzioni">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="hero-note">Progetti B2B costruiti intorno al processo reale.</p>
+      </div>
+
+      <figure class="software-visual" aria-label="Esempio illustrativo di un'interfaccia per configurare un prodotto e preparare un preventivo">
+        <div class="software-visual__window">
+          <div class="software-visual__toolbar">
+            <div class="software-visual__dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <span class="software-visual__title">Configurazione prodotto</span>
+            <span class="status-chip">Regole verificate</span>
+          </div>
+          <div class="software-visual__body">
+            <div class="configuration-stage">
+              <span class="configuration-stage__label">Prodotto · Vista illustrativa</span>
+              <div class="product-object" aria-hidden="true"></div>
+            </div>
+            <div class="option-panel">
+              <h2>Opzioni</h2>
+              <div class="option-group">
+                <span>Modello</span>
+                <div class="option-choice is-selected"><span class="swatch"></span> Modulare</div>
+                <div class="option-choice"><span class="swatch"></span> Lineare</div>
+              </div>
+              <div class="option-group">
+                <span>Finitura</span>
+                <div class="option-choice is-selected"><span class="swatch"></span> Variante A</div>
+              </div>
+              <div class="quote-summary">
+                <div><span>Compatibilità</span><strong>Conforme</strong></div>
+                <div><span>Riepilogo</span><strong>Pronto</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>Interfaccia illustrativa: non rappresenta dati o prodotti di un cliente.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="trust-strip" aria-label="Ambiti della soluzione">
+    <span>Cataloghi complessi</span><span>Regole commerciali</span><span>Preventivi e documenti</span><span>Reti vendita B2B</span>
+  </div>
+
+  <section class="section container" aria-labelledby="complexity-title">
+    <div class="section-heading">
+      <span class="section-kicker">Il problema</span>
+      <h2 id="complexity-title">Quando il prodotto è complesso, la vendita non deve esserlo.</h2>
+      <p>Un’interfaccia ben progettata rende esplicite le scelte, applica le regole e accompagna ogni utente verso un risultato verificabile.</p>
+    </div>
+    <div class="problem-grid">
+      <article class="card card--quiet"><span class="card__index">01</span><h3>Molte varianti</h3><p>Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo.</p></article>
+      <article class="card card--quiet"><span class="card__index">02</span><h3>Preventivi manuali</h3><p>Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore.</p></article>
+      <article class="card card--quiet"><span class="card__index">03</span><h3>Regole e incompatibilità</h3><p>Vincoli tecnici e commerciali richiedono un percorso guidato e coerente.</p></article>
+      <article class="card card--quiet"><span class="card__index">04</span><h3>Reti disallineate</h3><p>Cataloghi e procedure diverse possono produrre offerte non uniformi.</p></article>
+    </div>
+  </section>
+
+  <section id="soluzioni" class="section section--tinted" aria-labelledby="solutions-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Soluzioni</span>
+        <h2 id="solutions-title">Una soluzione per ogni processo di vendita.</h2>
+        <p>La tecnologia cambia, ma il criterio resta lo stesso: rendere più chiaro il percorso tra catalogo, scelta e proposta commerciale.</p>
+      </div>
+      <div class="solution-grid">
+        <a class="card card--link card--gradient" href="/configuratori-ecommerce"><span class="card__label">E-commerce</span><h3>Guidare la personalizzazione prima dell’acquisto.</h3><p>Varianti, compatibilità, prezzo e passaggio al carrello dentro un’esperienza coerente.</p><span class="card__arrow">Scopri i configuratori e-commerce →</span></a>
+        <a class="card card--link" href="/software-cpq-portali-commerciali"><span class="card__label">B2B</span><h3>Governare regole, listini e preventivi.</h3><p>Strumenti per agenti, dealer e clienti con ruoli, revisioni e documenti.</p><span class="card__arrow">Scopri CPQ e portali →</span></a>
+        <a class="card card--link" href="/planner-configuratori-arredamento"><span class="card__label">Arredamento</span><h3>Comporre spazi e prodotti modulari.</h3><p>Misure, finiture, vincoli e offerte per produttori, showroom e rivenditori.</p><span class="card__arrow">Scopri planner e configuratori →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="capabilities-title">
+    <div class="section-heading">
+      <span class="section-kicker">Capability</span>
+      <h2 id="capabilities-title">Visualizzare quando serve. Automatizzare dove crea valore.</h2>
+    </div>
+    <div class="capability-strip">
+      <a class="card card--link" href="/configuratori-3d-2d"><span class="card__label">2D / 3D</span><h3>Configuratori di prodotto interattivi.</h3><p>La componente visiva aiuta a comprendere varianti, materiali e risultato della configurazione.</p><span class="card__arrow">Esplora i configuratori 2D/3D →</span></a>
+      <a class="card card--link card--gradient" href="/automazioni-ai-business"><span class="card__label">AI integrata</span><h3>Automazioni dentro il processo commerciale.</h3><p>L’AI supporta documenti, richieste e workflow definiti, mantenendo controllo e supervisione.</p><span class="card__arrow">Esplora le automazioni AI →</span></a>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="flow-title">
+    <div class="container">
+      <div class="section-heading section-heading--center">
+        <span class="section-kicker">Flusso connesso</span>
+        <h2 id="flow-title">Dal catalogo al preventivo, in un unico flusso.</h2>
+        <p>Ogni modulo risponde a un passaggio concreto e può essere dimensionato sulle priorità del progetto.</p>
+      </div>
+      <div class="flow-panel" aria-label="Fasi e funzioni del flusso commerciale">
+        <div class="flow-step"><span>01</span><strong>Configurazione</strong></div>
+        <div class="flow-step"><span>02</span><strong>Regole</strong></div>
+        <div class="flow-step"><span>03</span><strong>Prezzi e listini</strong></div>
+        <div class="flow-step"><span>04</span><strong>Utenti e ruoli</strong></div>
+        <div class="flow-step"><span>05</span><strong>PDF e documenti</strong></div>
+        <div class="flow-step"><span>06</span><strong>Salvataggi</strong></div>
+        <div class="flow-step"><span>07</span><strong>Revisioni</strong></div>
+        <div class="flow-step"><span>08</span><strong>Integrazioni</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="progetti" class="section container" aria-labelledby="projects-title">
+    <div class="section-heading">
+      <span class="section-kicker">Esperienza applicata</span>
+      <h2 id="projects-title">Tipologie di progetto già realizzate.</h2>
+      <p>Esempi anonimi descritti per funzione, senza esporre nomi, dati o risultati dei clienti.</p>
+    </div>
+    <div class="proof-grid">
+      <article class="card proof-card"><span class="card__label">Visuale</span><h3>Configurazione 3D di prodotto.</h3><p>Un’esperienza web per selezionare varianti e leggere visivamente la configurazione.</p></article>
+      <article class="card proof-card"><span class="card__label">Commerciale</span><h3>Portale preventivi B2B.</h3><p>Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.</p></article>
+      <article class="card proof-card"><span class="card__label">Tecnico</span><h3>Configuratore tecnico con listini e PDF.</h3><p>Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.</p></article>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="method-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Metodo</span>
+        <h2 id="method-title">Dal processo reale a uno strumento utilizzabile.</h2>
+        <p>Decisioni visibili, verifiche progressive e una consegna costruita per chi dovrà usare la soluzione.</p>
+      </div>
+      {{ processSteps(methodSteps) }}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="direct-title">
+    <div class="split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Collaborazione</span>
+        <h2 id="direct-title">Un interlocutore diretto, competenze specialistiche quando servono.</h2>
+        <p>Sam resta il referente diretto del progetto e coordina le decisioni dall’analisi al rilascio.</p>
+      </div>
+      <div class="split-panel__body">
+        <ul class="check-list">
+          <li>Responsabilità chiara e confronto senza passaggi inutili.</li>
+          <li>Specialisti coinvolti solo quando il perimetro lo richiede.</li>
+          <li>Priorità, vincoli e verifiche condivisi durante il progetto.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="custom-process-title">
+    <div class="container split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Processi adiacenti</span>
+        <h2 id="custom-process-title">Hai un processo fuori standard?</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>SolveX realizza anche portali e software web su misura quando il progetto riguarda cataloghi, preventivi, documenti, rete vendita, clienti B2B o automazione di processi commerciali.</p>
+        <a class="button" href="/contattaci">Raccontami il processo <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="faq-title">
+    <div class="section-heading section-heading--center">
+      <span class="section-kicker">FAQ</span>
+      <h2 id="faq-title">Domande frequenti prima di iniziare.</h2>
+    </div>
+    {{ faq(faqItems) }}
+  </section>
+
+  <section class="section section--compact container">
+    {{ finalCta("Rendiamo più semplice un processo commerciale complesso.", "Partiamo da catalogo, utenti e passaggi reali per capire quale soluzione ha senso costruire.") }}
+  </section>
+</main>
+{% endblock %}

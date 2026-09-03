@@ -1,0 +1,192 @@
+---
+permalink: configuratori-ecommerce.html
+pageKey: ecommerce
+mainId: main-content
+breadcrumbLabel: Configuratori e-commerce
+title: "Configuratori E-commerce su Misura | SolveX AI3D"
+description: "Configuratori e-commerce su misura per guidare varianti, materiali, accessori, prezzi e ordini, con integrazioni valutate sulla piattaforma esistente."
+keywords: "configuratori e-commerce su misura, prodotti personalizzabili, configuratore WooCommerce, configuratore PrestaShop"
+canonical: "https://solvex-ai3d.com/configuratori-ecommerce"
+openGraph:
+  title: "Configuratori E-commerce su Misura | SolveX AI3D"
+  description: "Percorsi guidati per scegliere varianti, applicare regole e portare una configurazione verso carrello e ordine."
+twitter:
+  title: "Configuratori E-commerce su Misura | SolveX AI3D"
+  description: "Configurazione guidata di prodotti personalizzabili, con integrazioni valutate sullo store esistente."
+---
+{% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+
+{% set processItems = [
+  { title: "Catalogo", text: "Varianti, dati e obiettivi di vendita." },
+  { title: "Regole", text: "Vincoli, compatibilità e dipendenze." },
+  { title: "Prototipo", text: "Percorso di scelta prima dello sviluppo." },
+  { title: "Sviluppo", text: "Interfaccia e logiche sul perimetro utile." },
+  { title: "Integrazione", text: "Carrello, ordine e sistemi disponibili." },
+  { title: "Test", text: "Casi prodotto, dispositivi e passaggi critici." }
+] %}
+
+{% set faqItems = [
+  { question: "Il configuratore può integrarsi nel mio e-commerce esistente?", answer: "Spesso è possibile, ma va verificato sulla piattaforma reale: struttura del catalogo, API, tema, carrello, checkout e modalità di gestione degli ordini." },
+  { question: "Può aggiornare il prezzo mentre cambiano le opzioni?", answer: "Sì, se prezzi, maggiorazioni e regole sono disponibili in una forma attendibile. La logica viene progettata sul listino e sul flusso commerciale effettivo." },
+  { question: "Serve sempre il 3D?", answer: "No. Il 2D o una buona interfaccia di selezione possono essere più chiari e leggeri. Il 3D e l'AR sono utili quando la forma, i materiali o la percezione del prodotto incidono davvero sulla scelta." },
+  { question: "La configurazione può essere salvata o condivisa?", answer: "Può prevedere salvataggio, link condivisibili o riepiloghi, in base agli utenti, al livello di autenticazione e ai sistemi che devono ricevere i dati." },
+  { question: "È compatibile con WooCommerce o PrestaShop?", answer: "Queste piattaforme possono essere integrate, ma non esiste una compatibilità universale immediata. Prima si analizzano catalogo, estensioni, checkout e interfacce disponibili." }
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://solvex-ai3d.com/configuratori-ecommerce/#service",
+        "name": "Configuratori e-commerce su misura",
+        "serviceType": "Configuratori e-commerce per prodotti personalizzabili",
+        "url": "https://solvex-ai3d.com/configuratori-ecommerce",
+        "description": "Configuratori e-commerce su misura per guidare varianti, materiali, accessori, prezzi e ordini.",
+        "provider": { "@id": "https://solvex-ai3d.com/#organization" },
+        "areaServed": "IT"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://solvex-ai3d.com/configuratori-ecommerce/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
+          { "@type": "ListItem", "position": 2, "name": "Configuratori e-commerce", "item": "https://solvex-ai3d.com/configuratori-ecommerce" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://solvex-ai3d.com/configuratori-ecommerce/#faq",
+        "mainEntity": [
+          {% for item in faqItems %}{
+            "@type": "Question",
+            "name": {{ item.question | json | safe }},
+            "acceptedAnswer": { "@type": "Answer", "text": {{ item.answer | json | safe }} }
+          }{% if not loop.last %},{% endif %}{% endfor %}
+        ]
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content">
+  <section class="page-hero page-hero--compact">
+    <div class="page-hero__layout container">
+      <div class="page-hero__copy">
+        <span class="eyebrow">E-commerce · Prodotti personalizzabili</span>
+        <h1>Configuratori e-commerce su misura per prodotti personalizzabili.</h1>
+        <p class="hero-lead">Aiutiamo brand e produttori a rendere più semplice la scelta di varianti, materiali, colori, accessori e configurazioni prima dell’acquisto.</p>
+        <div class="cta-group">
+          <a class="button" href="/contattaci">Valutiamo il tuo configuratore <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="#funzioni">Esplora le funzioni <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <aside class="card card--gradient" aria-label="Flusso di un configuratore e-commerce">
+        <span class="card__label">Dal catalogo all’ordine</span>
+        <h2>Una scelta guidata, coerente con regole e piattaforma.</h2>
+        <div class="flow-panel">
+          <div class="flow-step"><span>01</span><strong>Varianti</strong></div>
+          <div class="flow-step"><span>02</span><strong>Regole</strong></div>
+          <div class="flow-step"><span>03</span><strong>Prezzo</strong></div>
+          <div class="flow-step"><span>04</span><strong>Carrello</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="trust-strip" aria-label="Destinatari e obiettivi">
+    <span>Brand</span><span>Produttori</span><span>Cataloghi con varianti</span><span>Acquisto guidato</span>
+  </div>
+
+  <section class="section container" aria-labelledby="need-title">
+    <div class="section-heading">
+      <span class="section-kicker">Quando serve</span>
+      <h2 id="need-title">Quando scegliere il prodotto richiede più di un elenco di opzioni.</h2>
+      <p>Il configuratore diventa utile quando la personalizzazione influenza compatibilità, prezzo, anteprima o dati che devono arrivare all’ordine.</p>
+    </div>
+    <div class="problem-grid">
+      <article class="card card--quiet"><span class="card__index">01</span><h3>Molte combinazioni</h3><p>Taglie, misure, materiali e accessori creano un catalogo difficile da esplorare.</p></article>
+      <article class="card card--quiet"><span class="card__index">02</span><h3>Scelte dipendenti</h3><p>Una variante può rendere disponibili, obbligatorie o incompatibili altre opzioni.</p></article>
+      <article class="card card--quiet"><span class="card__index">03</span><h3>Prezzo variabile</h3><p>La configurazione può modificare il valore finale secondo regole definite.</p></article>
+      <article class="card card--quiet"><span class="card__index">04</span><h3>Ordini incompleti</h3><p>Dati ambigui o mancanti complicano la gestione dopo il checkout.</p></article>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="guided-title">
+    <div class="container split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Esperienza guidata</span>
+        <h2 id="guided-title">Ogni scelta mostra solo ciò che ha senso.</h2>
+        <p>L’interfaccia accompagna l’utente senza nascondere informazioni importanti o promettere combinazioni che il catalogo non consente.</p>
+      </div>
+      <div class="split-panel__body">
+        <ul class="check-list">
+          <li>Passaggi ordinati secondo il modo in cui viene scelto il prodotto.</li>
+          <li>Spiegazioni contestuali per opzioni tecniche o poco immediate.</li>
+          <li>Riepilogo sempre leggibile prima del passaggio successivo.</li>
+          <li>Errori e incompatibilità comunicati nel momento utile.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="funzioni" class="section container" aria-labelledby="features-title">
+    <div class="section-heading">
+      <span class="section-kicker">Funzioni</span>
+      <h2 id="features-title">Le funzioni dipendono dal prodotto e dal flusso di acquisto.</h2>
+      <p>Il perimetro viene scelto sul valore reale, senza aggiungere tecnologia solo perché disponibile.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="card"><span class="card__label">Regole</span><h3>Compatibilità e vincoli</h3><p>Combinazioni consentite, dipendenze e messaggi aiutano a evitare configurazioni non valide.</p></article>
+      <article class="card"><span class="card__label">Listino</span><h3>Prezzo dinamico</h3><p>Il totale può seguire varianti e maggiorazioni quando i dati commerciali sono definiti.</p></article>
+      <article class="card"><span class="card__label">Visuale</span><h3>2D, 3D e AR quando utili</h3><p>La rappresentazione viene scelta per far comprendere meglio prodotto, materiali o ingombri.</p></article>
+      <article class="card"><span class="card__label">Continuità</span><h3>Salvataggio e condivisione</h3><p>Configurazioni e riepiloghi possono essere ripresi o condivisi secondo utenti e accessi previsti.</p></article>
+      <article class="card"><span class="card__label">Vendita</span><h3>Carrello e ordine</h3><p>La configurazione può trasferire codici, opzioni e dati utili al passaggio commerciale.</p></article>
+      <article class="card"><span class="card__label">Piattaforma</span><h3>E-commerce esistente</h3><p>Architettura, catalogo, checkout e API vengono analizzati prima di definire l’integrazione.</p></article>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="integration-title">
+    <div class="container split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Integrazioni</span>
+        <h2 id="integration-title">WooCommerce, PrestaShop o soluzioni custom: prima si analizza.</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>Non esiste un plugin universale adatto a ogni catalogo. La connessione viene valutata su versione, estensioni, modello dati, checkout, disponibilità delle API e responsabilità dei sistemi coinvolti.</p>
+        <p>Quando l’integrazione diretta non è la strada migliore, si definisce un passaggio alternativo chiaro per configurazione, richiesta o ordine.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="ecommerce-proof-title">
+    <div class="section-heading">
+      <span class="section-kicker">Tipologia reale, forma anonima</span>
+      <h2 id="ecommerce-proof-title">Configurazione 3D di prodotto.</h2>
+      <p>Un’esperienza web realizzata per selezionare varianti e leggere visivamente la configurazione. Il riferimento descrive la tipologia, senza attribuire integrazioni o risultati non pubblici.</p>
+    </div>
+    <div class="card proof-card card--gradient"><span class="card__label">Progetto</span><h3>Dalla scelta alla comprensione visiva.</h3><p>Interazione, opzioni e anteprima raccolte in un percorso coerente con il prodotto.</p></div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="process-title">
+    <div class="container">
+      <div class="section-heading"><span class="section-kicker">Processo</span><h2 id="process-title">Il configuratore nasce dal catalogo, non da un template.</h2><p>Le scelte tecniche seguono regole, dati e passaggi che il negozio deve realmente gestire.</p></div>
+      {{ processSteps(processItems) }}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="faq-title">
+    <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande sui configuratori e-commerce.</h2></div>
+    {{ faq(faqItems) }}
+  </section>
+
+  <section class="section section--compact container">
+    {{ finalCta("Il tuo prodotto richiede una scelta più guidata?", "Condividi catalogo, varianti e piattaforma: il primo passo è capire dove il configuratore può rendere il flusso più chiaro.", "Valutiamo il configuratore") }}
+  </section>
+</main>
+{% endblock %}

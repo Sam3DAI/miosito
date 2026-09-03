@@ -1,0 +1,190 @@
+---
+permalink: automazioni-ai-business.html
+pageKey: automation
+mainId: main-content
+breadcrumbLabel: Automazioni AI
+title: "Automazioni AI per Processi Commerciali | SolveX AI3D"
+description: "Automazioni AI integrate in form, email, CRM e portali per leggere documenti, classificare richieste e supportare workflow commerciali supervisionati."
+keywords: "automazioni AI processi commerciali, AI documenti PDF, automazione CRM, assistenti interni AI"
+canonical: "https://solvex-ai3d.com/automazioni-ai-business"
+openGraph:
+  title: "Automazioni AI per Processi Commerciali | SolveX AI3D"
+  description: "AI inserita in punti precisi del workflow per leggere dati, preparare bozze e supportare attività commerciali supervisionate."
+twitter:
+  title: "Automazioni AI per Processi Commerciali | SolveX AI3D"
+  description: "Automazioni contestuali e supervisionate per documenti, richieste, CRM e portali B2B."
+---
+{% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+
+{% set processItems = [
+  { title: "Caso d'uso", text: "Un passaggio concreto e misurabile." },
+  { title: "Dati", text: "Fonti, qualità e permessi disponibili." },
+  { title: "Controlli", text: "Regole, eccezioni e responsabilità." },
+  { title: "Prototipo", text: "Output verificato su esempi autorizzati." },
+  { title: "Integrazione", text: "Form, email, CRM o portale." },
+  { title: "Supervisione", text: "Monitoraggio e gestione dei casi critici." }
+] %}
+
+{% set faqItems = [
+  { question: "Quali processi commerciali si prestano all'automazione AI?", answer: "Attività ripetitive con input e output riconoscibili, come leggere documenti, classificare richieste, preparare bozze o cercare informazioni. Il caso va delimitato prima di scegliere il modello o lo strumento." },
+  { question: "L'AI può collegarsi a form, email, CRM o portali?", answer: "Può essere integrata quando accessi, API, formati e responsabilità dei sistemi sono disponibili e verificabili. Il collegamento viene progettato sul flusso reale." },
+  { question: "Gli output vengono controllati da una persona?", answer: "Per attività con impatto commerciale, documentale o operativo si definiscono revisione umana, regole di approvazione e gestione delle eccezioni." },
+  { question: "Può lavorare su PDF, listini e documenti interni?", answer: "Può estrarre, classificare o rendere consultabili informazioni, ma qualità, struttura, riservatezza e autorizzazioni dei documenti devono essere valutate nel progetto." },
+  { question: "Da dove conviene iniziare?", answer: "Da un caso circoscritto, frequente e verificabile. Un primo flusso permette di valutare qualità degli output, controlli necessari e valore operativo prima di ampliare l'automazione." }
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://solvex-ai3d.com/automazioni-ai-business/#service",
+        "name": "Automazioni AI integrate nei processi commerciali",
+        "serviceType": "Automazioni AI per processi commerciali B2B",
+        "url": "https://solvex-ai3d.com/automazioni-ai-business",
+        "description": "Automazioni AI supervisionate per documenti, richieste, CRM, portali e workflow commerciali.",
+        "provider": { "@id": "https://solvex-ai3d.com/#organization" },
+        "areaServed": "IT"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://solvex-ai3d.com/automazioni-ai-business/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
+          { "@type": "ListItem", "position": 2, "name": "Automazioni AI", "item": "https://solvex-ai3d.com/automazioni-ai-business" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://solvex-ai3d.com/automazioni-ai-business/#faq",
+        "mainEntity": [
+          {% for item in faqItems %}{
+            "@type": "Question",
+            "name": {{ item.question | json | safe }},
+            "acceptedAnswer": { "@type": "Answer", "text": {{ item.answer | json | safe }} }
+          }{% if not loop.last %},{% endif %}{% endfor %}
+        ]
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content">
+  <section class="page-hero page-hero--compact">
+    <div class="page-hero__layout container">
+      <div class="page-hero__copy">
+        <span class="eyebrow">Capability · Workflow commerciali</span>
+        <h1>Automazioni AI integrate nei processi commerciali.</h1>
+        <p class="hero-lead">L’AI entra in punti precisi di un processo già definito, per leggere informazioni, preparare bozze e collegare strumenti mantenendo controlli e responsabilità umane.</p>
+        <div class="cta-group">
+          <a class="button" href="/contattaci">Valutiamo il caso d’uso <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="#casi-uso">Esplora i casi d’uso <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <aside class="card card--gradient" aria-label="Flusso illustrativo di automazione supervisionata">
+        <span class="card__label">AI nel flusso</span>
+        <h2>Elaborare dove serve, verificare prima dell’azione.</h2>
+        <div class="flow-panel">
+          <div class="flow-step"><span>01</span><strong>Ingresso</strong></div>
+          <div class="flow-step"><span>02</span><strong>Analisi AI</strong></div>
+          <div class="flow-step"><span>03</span><strong>Controllo</strong></div>
+          <div class="flow-step"><span>04</span><strong>Output</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="trust-strip" aria-label="Principi delle automazioni">
+    <span>Caso d’uso definito</span><span>Dati autorizzati</span><span>Controlli espliciti</span><span>Supervisione umana</span>
+  </div>
+
+  <section class="section container" aria-labelledby="role-title">
+    <div class="split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Ruolo dell’AI</span>
+        <h2 id="role-title">Una capability dentro la soluzione, non un fine.</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>Prima si chiariscono processo, dati e responsabilità. Poi si valuta se l’AI può ridurre un passaggio ripetitivo, preparare informazioni o assistere una decisione.</p>
+        <p>Non proponiamo pacchetti indistinti o sostituzione completa delle persone: ogni automazione deve avere confini, controlli e un modo chiaro per gestire le eccezioni.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="casi-uso" class="section section--tinted" aria-labelledby="uses-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Casi d’uso</span>
+        <h2 id="uses-title">Punti concreti in cui l’AI può supportare il lavoro.</h2>
+        <p>Ogni caso viene verificato su qualità dei dati, impatto dell’errore e livello di supervisione necessario.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="card"><span class="card__label">Documenti</span><h3>Estrazione da PDF e listini</h3><p>Individuare campi e informazioni da sottoporre a controllo prima dell’utilizzo.</p></article>
+        <article class="card"><span class="card__label">Richieste</span><h3>Classificazione</h3><p>Ordinare messaggi o richieste secondo categorie e priorità definite dal processo.</p></article>
+        <article class="card"><span class="card__label">Preparazione</span><h3>Documenti e bozze di offerta</h3><p>Comporre una base da verificare usando dati e modelli autorizzati.</p></article>
+        <article class="card"><span class="card__label">Rete vendita</span><h3>Assistenza contestuale</h3><p>Rendere disponibili informazioni pertinenti mentre l’utente gestisce un’attività commerciale.</p></article>
+        <article class="card"><span class="card__label">Connessioni</span><h3>Form, email, CRM e portali</h3><p>Trasferire dati tra passaggi quando interfacce e responsabilità sono definite.</p></article>
+        <article class="card"><span class="card__label">Qualità</span><h3>Controlli sui workflow</h3><p>Segnalare campi mancanti, incoerenze o casi che richiedono attenzione.</p></article>
+        <article class="card"><span class="card__label">Conoscenza</span><h3>Ricerca documentale</h3><p>Consultare fonti interne autorizzate con risposte legate ai documenti disponibili.</p></article>
+        <article class="card"><span class="card__label">Operatività</span><h3>Assistenti interni contestuali</h3><p>Supportare attività specifiche senza presentarsi come servizio chatbot generico.</p></article>
+        <article class="card"><span class="card__label">Responsabilità</span><h3>Revisione e approvazione</h3><p>Inserire passaggi umani prima di azioni con impatto commerciale o documentale.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="supervision-title">
+    <div class="split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Automazione supervisionata</span>
+        <h2 id="supervision-title">Gli output critici restano verificabili.</h2>
+        <p>L’automazione prepara, ordina o segnala; il processo stabilisce quando una persona deve controllare e decidere.</p>
+      </div>
+      <div class="split-panel__body">
+        <ul class="check-list">
+          <li>Fonti e dati accessibili solo secondo autorizzazioni definite.</li>
+          <li>Output trattati come informazioni o bozze quando serve verifica.</li>
+          <li>Casi incerti indirizzati a una persona invece di proseguire automaticamente.</li>
+          <li>Attività e responsabilità rese leggibili nel workflow.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="ai-flow-title">
+    <div class="container">
+      <div class="section-heading section-heading--center"><span class="section-kicker">Flusso accessibile</span><h2 id="ai-flow-title">Dall’ingresso al sistema operativo.</h2><p>Una rappresentazione HTML/CSS del processo, senza grafici o librerie non necessarie.</p></div>
+      <div class="flow-panel" aria-label="Fasi di un'automazione AI supervisionata">
+        <div class="flow-step"><span>01</span><strong>PDF, form o email</strong></div>
+        <div class="flow-step"><span>02</span><strong>Estrazione o classificazione</strong></div>
+        <div class="flow-step"><span>03</span><strong>Regole e controlli</strong></div>
+        <div class="flow-step"><span>04</span><strong>Revisione umana</strong></div>
+        <div class="flow-step"><span>05</span><strong>CRM</strong></div>
+        <div class="flow-step"><span>06</span><strong>Portale</strong></div>
+        <div class="flow-step"><span>07</span><strong>Documento</strong></div>
+        <div class="flow-step"><span>08</span><strong>Tracciamento</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="ai-process-title">
+    <div class="section-heading"><span class="section-kicker">Metodo</span><h2 id="ai-process-title">Si parte da un caso circoscritto.</h2><p>Un primo flusso permette di verificare output, controlli e integrazioni prima di ampliare l’automazione.</p></div>
+    {{ processSteps(processItems) }}
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande sulle automazioni AI commerciali.</h2></div>
+      {{ faq(faqItems) }}
+    </div>
+  </section>
+
+  <section class="section section--compact container">
+    {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l'AI è la capability giusta e dove inserirla.", "Valutiamo il caso d’uso") }}
+  </section>
+</main>
+{% endblock %}

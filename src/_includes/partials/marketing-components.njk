@@ -1,0 +1,30 @@
+{% macro processSteps(items) %}
+<ol class="process-list">
+  {% for item in items %}
+  <li>
+    <strong>{{ item.title }}</strong>
+    <span>{{ item.text }}</span>
+  </li>
+  {% endfor %}
+</ol>
+{% endmacro %}
+
+{% macro faq(items) %}
+<div class="faq-grid">
+  {% for item in items %}
+  <details class="faq-item">
+    <summary>{{ item.question }}</summary>
+    <div class="faq-item__answer"><p>{{ item.answer }}</p></div>
+  </details>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro finalCta(title, text, label="Valutiamo il tuo progetto") %}
+<div class="final-cta">
+  <span class="section-kicker">Primo confronto</span>
+  <h2>{{ title }}</h2>
+  <p>{{ text }}</p>
+  <a class="button" href="/contattaci">{{ label }} <span aria-hidden="true">↗</span></a>
+</div>
+{% endmacro %}
