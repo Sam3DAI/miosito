@@ -169,6 +169,16 @@
 
     const nearestIndex = function () {
       const left = track.scrollLeft;
+      const maximumLeft = Math.max(0, track.scrollWidth - track.clientWidth);
+
+      // Wide viewports can reveal several cards at once, so the browser may
+      // clamp the last card's requested position before its left edge reaches
+      // the track origin. Treat the physical end of the rail as the final
+      // logical card so status, indicators, and navigation limits stay exact.
+      if (maximumLeft > 0 && Math.abs(left - maximumLeft) <= 2) {
+        return cards.length - 1;
+      }
+
       let closest = 0;
       let distance = Infinity;
       cards.forEach(function (card, index) {
@@ -179,6 +189,11 @@
         }
       });
       return closest;
+    };
+
+    const reachableLeft = function (card) {
+      const maximumLeft = Math.max(0, track.scrollWidth - track.clientWidth);
+      return Math.max(0, Math.min(maximumLeft, card.offsetLeft - track.offsetLeft));
     };
 
     const update = function () {
@@ -195,21 +210,43 @@
       const target = cards[Math.max(0, Math.min(cards.length - 1, index))];
       if (!target) return;
       track.scrollTo({
-        left: target.offsetLeft - track.offsetLeft,
+        left: reachableLeft(target),
         behavior: reducedMotion.matches ? "auto" : "smooth"
       });
     };
 
-    previous.addEventListener("click", function () { goTo(activeIndex - 1); });
-    next.addEventListener("click", function () { goTo(activeIndex + 1); });
+    const goPrevious = function () {
+      const currentLeft = track.scrollLeft;
+      for (let index = cards.length - 1; index >= 0; index -= 1) {
+        if (reachableLeft(cards[index]) < currentLeft - 2) {
+          goTo(index);
+          return;
+        }
+      }
+      goTo(0);
+    };
+
+    const goNext = function () {
+      const currentLeft = track.scrollLeft;
+      for (let index = 0; index < cards.length; index += 1) {
+        if (reachableLeft(cards[index]) > currentLeft + 2) {
+          goTo(index);
+          return;
+        }
+      }
+      goTo(cards.length - 1);
+    };
+
+    previous.addEventListener("click", goPrevious);
+    next.addEventListener("click", goNext);
 
     track.addEventListener("keydown", function (event) {
       if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
       event.preventDefault();
       if (event.key === "Home") goTo(0);
       if (event.key === "End") goTo(cards.length - 1);
-      if (event.key === "ArrowLeft") goTo(activeIndex - 1);
-      if (event.key === "ArrowRight") goTo(activeIndex + 1);
+      if (event.key === "ArrowLeft") goPrevious();
+      if (event.key === "ArrowRight") goNext();
     });
 
     track.addEventListener("scroll", function () {

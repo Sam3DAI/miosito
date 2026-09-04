@@ -21,7 +21,7 @@
 {% endmacro %}
 
 {% macro visualCardRail(id, label, items) %}
-<div class="visual-card-rail" data-visual-card-rail>
+<div class="visual-card-rail" data-visual-card-rail role="region" aria-label="{{ label }}">
   <div class="visual-card-rail__controls" data-rail-controls hidden>
     <button type="button" data-rail-previous aria-controls="{{ id }}" aria-label="Mostra le card precedenti">
       <span aria-hidden="true">←</span>
@@ -30,7 +30,7 @@
       <span aria-hidden="true">→</span>
     </button>
   </div>
-  <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track tabindex="0" role="region" aria-label="{{ label }}">
+  <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track tabindex="0">
     {% for item in items %}
     <li class="visual-card" data-rail-card>
       {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}

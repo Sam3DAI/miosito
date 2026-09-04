@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
-export const TASK_BASE_COMMIT = "513900768e8cce95a88132cfa1af93eb36e2ac3d";
+export const TASK_BASE_COMMIT = "353a9cfa55dde08c8093e4455e821c08d88ab849";
 export const BASE_COMMIT = TASK_BASE_COMMIT;
 
 export const FROZEN_PASSTHROUGH_FILES = Object.freeze([
@@ -137,7 +137,7 @@ export const GENERATED_ROUTES = Object.freeze([
     title: "Contatti | Configuratori e Software Commerciali | SolveX AI3D",
     h1: "Raccontaci il prodotto o il processo da semplificare.",
     schemaTypes: Object.freeze(["ContactPage", "Organization", "BreadcrumbList"]),
-    hasFaq: false,
+    hasFaq: true,
     measurementMode: "gtm-verified",
     profile: "lead"
   }),
