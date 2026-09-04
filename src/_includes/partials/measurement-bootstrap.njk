@@ -1,3 +1,25 @@
+{% set activeMeasurementMode = measurementMode or measurement.mode %}
+{% if activeMeasurementMode == "gtm-verified" %}
+  <!-- Consent Mode v2: technical default, executed before GTM. -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 800
+    });
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','{{ measurement.gtmId }}');</script>
+  <!-- End Google Tag Manager -->
+{% else %}
   <script>
   // === Consent Mode v2: default negato ===
   window.dataLayer = window.dataLayer || [];
@@ -31,31 +53,32 @@
       gtag('config','{{ measurement.adsId }}',{ allow_enhanced_conversions:true });
     };
   })();
-</script>
+  </script>
 
-<!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
-<script>
-// Non persistiamo nulla finché l’utente non accetta "Marketing"
-(function(){
-  const sp=new URLSearchParams(location.search);
-  const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
+  <!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
+  <script>
+  // Non persistiamo nulla finché l’utente non accetta "Marketing"
+  (function(){
+    const sp=new URLSearchParams(location.search);
+    const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
 
-  function fillHidden(){
-    const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
-    if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value=g);
-  }
-  window.__persistAdParams=function(){
-    if (!window.__adsConsentGranted) return;
-    try{
-      if (fromUrl.gclid)  sessionStorage.setItem('gclid', fromUrl.gclid);
-      if (fromUrl.gbraid) sessionStorage.setItem('gbraid',fromUrl.gbraid);
-      if (fromUrl.wbraid) sessionStorage.setItem('wbraid',fromUrl.wbraid);
-    }catch(_){}
-    fillHidden();
-  };
-  window.__clearAdParams=function(){
-    try{ ['gclid','gbraid','wbraid'].forEach(k=>{ sessionStorage.removeItem(k); localStorage.removeItem(k); }); }catch(_){}
-  };
-  document.addEventListener('DOMContentLoaded', fillHidden);
-})();
-</script>
+    function fillHidden(){
+      const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
+      if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value=g);
+    }
+    window.__persistAdParams=function(){
+      if (!window.__adsConsentGranted) return;
+      try{
+        if (fromUrl.gclid)  sessionStorage.setItem('gclid', fromUrl.gclid);
+        if (fromUrl.gbraid) sessionStorage.setItem('gbraid',fromUrl.gbraid);
+        if (fromUrl.wbraid) sessionStorage.setItem('wbraid',fromUrl.wbraid);
+      }catch(_){}
+      fillHidden();
+    };
+    window.__clearAdParams=function(){
+      try{ ['gclid','gbraid','wbraid'].forEach(k=>{ sessionStorage.removeItem(k); localStorage.removeItem(k); }); }catch(_){}
+    };
+    document.addEventListener('DOMContentLoaded', fillHidden);
+  })();
+  </script>
+{% endif %}

@@ -1,4 +1,12 @@
   <script src="/js/site-shell.js" defer></script>
+  {% if measurementMode == "gtm-verified" %}
+  <script src="/js/ad-attribution-consent.js" defer></script>
   <script src="/js/cookie-banner.js" defer></script>
-  <noscript><p class="noscript-note">Il sito resta navigabile senza JavaScript; tema e preferenze interattive usano le impostazioni del browser.</p></noscript>
+  <script src="/js/netlify-lead-form.js" defer></script>
+  {% if pageScript %}<script src="{{ pageScript }}" defer></script>{% endif %}
   <script src="/js/ga-autotrack.js" defer></script>
+  {% else %}
+  <script src="/js/cookie-banner.js" defer></script>
+  <script src="/js/ga-autotrack.js" defer></script>
+  {% endif %}
+  <noscript><p class="noscript-note">Il sito resta navigabile senza JavaScript; tema e preferenze interattive usano le impostazioni del browser.</p></noscript>

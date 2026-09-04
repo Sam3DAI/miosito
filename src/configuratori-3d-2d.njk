@@ -1,0 +1,359 @@
+---
+permalink: configuratori-3d-2d.html
+pageKey: configurators
+mainId: main-content
+breadcrumbLabel: Configuratori 2D/3D
+title: "Configuratori Web 2D/3D su Misura per Aziende | SolveX AI3D"
+description: "Configuratori web 2D, 3D e AR su misura per guidare configurazioni, applicare regole, supportare preventivi e rendere più chiara la scelta del prodotto."
+keywords: "configuratori web su misura, configuratore 3D, configuratore 2D, configuratore e-commerce, configuratore CPQ, planner arredamento"
+canonical: "https://solvex-ai3d.com/configuratori-3d-2d"
+measurementMode: gtm-verified
+cspProfile: configurator
+pageStyle: "/css/configuratori-3d-2d.css"
+pageScript: "/js/configuratori-3d-2d.js"
+openGraph:
+  title: "Configuratori Web 2D/3D su Misura per Aziende | SolveX AI3D"
+  description: "Soluzioni 2D, 3D e AR per guidare configurazioni, regole, preventivi e scelta del prodotto."
+twitter:
+  title: "Configuratori Web 2D/3D su Misura | SolveX AI3D"
+  description: "Configuratori di prodotto per e-commerce, CPQ, reti commerciali e arredamento."
+---
+{% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
+
+{% set scenarioItems = [
+  { index: "01", label: "E-commerce", title: "Configuratore per e-commerce", text: "Varianti, materiali, accessori e scelta guidata prima del carrello.", href: "/configuratori-ecommerce" },
+  { index: "02", label: "Rete vendita", title: "Portale commerciale", text: "Configurazioni salvabili e dati coerenti per agenti, dealer e clienti B2B.", href: "/software-cpq-portali-commerciali" },
+  { index: "03", label: "Preventivazione", title: "Configuratore CPQ", text: "Regole prodotto, compatibilità, prezzi e documenti dentro un flusso controllato.", href: "/software-cpq-portali-commerciali" },
+  { index: "04", label: "Composizione", title: "Planner e arredamento", text: "Moduli, misure, finiture e ambienti organizzati secondo il catalogo.", href: "/planner-configuratori-arredamento" }
+] %}
+
+{% set sectorItems = [
+  { index: "01", label: "Moduli e ambienti", title: "Arredamento", text: "Composizioni, misure e finiture per produttori, showroom e rivenditori." },
+  { index: "02", label: "Componenti", title: "Industria", text: "Regole tecniche, varianti e dati utili alla rete vendita e alla preventivazione." },
+  { index: "03", label: "Allestimenti", title: "Automotive", text: "Optional, colori e combinazioni presentati in un percorso leggibile." },
+  { index: "04", label: "Misure", title: "Serramenti", text: "Dimensioni, finiture, compatibilità e supporto alla preparazione dell’offerta." },
+  { index: "05", label: "Esempio secondario", title: "Moda e accessori", text: "Colori, materiali e dettagli quando la personalizzazione incide sulla scelta." }
+] %}
+
+{% set processItems = [
+  { title: "Catalogo", text: "Prodotti, varianti, dati e obiettivi." },
+  { title: "Regole", text: "Compatibilità, dipendenze e vincoli." },
+  { title: "Prototipo", text: "Flusso di scelta e rappresentazione." },
+  { title: "Sviluppo", text: "Interfaccia, logiche e demo sul perimetro." },
+  { title: "Integrazione", text: "Sistemi e passaggi realmente disponibili." },
+  { title: "Test", text: "Prodotti, dispositivi e casi critici." }
+] %}
+
+{% set faqItems = [
+  { question: "Qual è la differenza tra configuratore e-commerce, portale commerciale, CPQ e planner?", answer: "Il configuratore e-commerce guida la scelta prima dell’acquisto; il portale commerciale supporta agenti, dealer o clienti B2B; il CPQ applica regole, prezzi e preventivi; il planner organizza moduli, misure, finiture e ambienti." },
+  { question: "È meglio un configuratore 2D o 3D?", answer: "Dipende da ciò che deve capire l’utente. Il 2D può essere più rapido e chiaro per opzioni e composizioni; il 3D e l’AR sono utili quando forma, materiali o percezione spaziale incidono davvero sulla scelta." },
+  { question: "Il configuratore può integrarsi nel sito o nell’e-commerce esistente?", answer: "Spesso è possibile, ma la fattibilità va verificata su piattaforma, catalogo, API, checkout, autenticazione e sistemi che devono ricevere i dati." },
+  { question: "Può gestire regole prodotto, prezzi e preventivi?", answer: "Sì, quando vincoli, listini e responsabilità sono formalizzabili. Il sistema può guidare le combinazioni e preparare riepiloghi o documenti per il flusso previsto." },
+  { question: "Si può partire da cataloghi e processi già esistenti?", answer: "Sì. Cataloghi, listini, schede prodotto e passaggi commerciali esistenti sono il punto di partenza per definire dati, regole e priorità." }
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://solvex-ai3d.com/configuratori-3d-2d/#service",
+        "name": "Configuratori web 2D/3D su misura",
+        "serviceType": "Configuratori web di prodotto 2D, 3D e AR",
+        "url": "https://solvex-ai3d.com/configuratori-3d-2d",
+        "description": "Configuratori web su misura per guidare configurazioni, applicare regole e supportare preventivi.",
+        "provider": { "@id": "https://solvex-ai3d.com/#organization" },
+        "areaServed": "IT"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://solvex-ai3d.com/configuratori-3d-2d/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
+          { "@type": "ListItem", "position": 2, "name": "Configuratori 2D/3D", "item": "https://solvex-ai3d.com/configuratori-3d-2d" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://solvex-ai3d.com/configuratori-3d-2d/#faq",
+        "mainEntity": [
+          {% for item in faqItems %}{
+            "@type": "Question",
+            "name": {{ item.question | json | safe }},
+            "acceptedAnswer": { "@type": "Answer", "text": {{ item.answer | json | safe }} }
+          }{% if not loop.last %},{% endif %}{% endfor %}
+        ]
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block headExtras %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3/dist/model-viewer.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content" class="configurator-page">
+  <section class="page-hero page-hero--compact">
+    <div class="page-hero__layout container">
+      <div class="page-hero__copy">
+        <span class="eyebrow">Configuratori web · 2D · 3D · AR</span>
+        <h1>Configuratori web su misura, dal prodotto al preventivo.</h1>
+        <p class="hero-lead">Soluzioni 2D, 3D e AR progettate per guidare configurazioni, applicare regole, supportare preventivi e rendere più chiara la scelta del prodotto.</p>
+        <div class="cta-group">
+          <a class="button" href="#configuratore">Scopri la demo <span aria-hidden="true">↓</span></a>
+          <a class="button button--secondary" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <aside class="card card--gradient configurator-hero-panel" aria-label="Componenti di un configuratore">
+        <span class="card__label">Dalla scelta all’offerta</span>
+        <h2>Prodotto, regole e risultato commerciale nello stesso percorso.</h2>
+        <div class="flow-panel">
+          <div class="flow-step"><span>01</span><strong>Opzioni</strong></div>
+          <div class="flow-step"><span>02</span><strong>Vincoli</strong></div>
+          <div class="flow-step"><span>03</span><strong>Visuale</strong></div>
+          <div class="flow-step"><span>04</span><strong>Offerta</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="scenario-title">
+    <div class="section-heading">
+      <span class="section-kicker">Scenari</span>
+      <h2 id="scenario-title">Quattro modi diversi di guidare la configurazione.</h2>
+      <p>Il contesto decide utenti, dati, regole e risultato finale. Ogni scenario porta alla soluzione verticale corrispondente.</p>
+    </div>
+    {{ visualCardRail("configurator-scenarios", "Tipologie di configuratore", scenarioItems) }}
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="technology-title">
+    <div class="container split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Scelta tecnologica</span>
+        <h2 id="technology-title">2D, 3D o AR: la tecnologia dipende da ciò che deve capire l’utente.</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>Una buona interfaccia 2D può essere la scelta più chiara e leggera. Il 3D aggiunge valore quando forma, materiali e proporzioni incidono sulla decisione; l’AR è utile quando il prodotto deve essere letto nello spazio reale.</p>
+        <p>Partiamo dal compito dell’utente e dal processo commerciale, non dall’effetto visivo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="configuratore" class="section container" aria-labelledby="demo-title">
+    <div class="section-heading">
+      <span class="section-kicker">Demo reale 3D</span>
+      <h2 id="demo-title">Prova una configurazione di prodotto.</h2>
+      <p>La demo mantiene rendering, opzioni e passaggio AR esistenti. Non rappresenta un template universale: mostra come una componente visuale può sostenere una scelta guidata.</p>
+    </div>
+
+    <div class="configurator-container">
+      <div class="iframe-container">
+        <canvas id="renderCanvas" aria-label="Demo 3D interattiva di configurazione prodotto"></canvas>
+        <model-viewer
+          id="ar-bridge"
+          src="./assets/iphone_16_pro_configuratore_3d.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          crossorigin="anonymous"
+          class="ar-bridge">
+        </model-viewer>
+
+        <div id="ar-qr-modal" class="qr-modal" style="display:none">
+          <div class="qr-modal__dialog">
+            <button class="qr-close" type="button" aria-label="Chiudi">×</button>
+            <h3>Scansiona il QR code con la fotocamera del dispositivo per aprire la scena 3D nell’ambiente.</h3>
+            <div id="qr-code"></div>
+          </div>
+        </div>
+
+        <div class="ar-button-container">
+          <button class="ar-button" id="ar-button" type="button" title="Visualizza in Realtà Aumentata" aria-label="Visualizza in Realtà Aumentata">AR</button>
+        </div>
+      </div>
+
+      <div class="configurator-options">
+        <span class="card__label">Pannello opzioni</span>
+        <h2>Configura la demo 3D.</h2>
+        <p>Seleziona scocca, sfondo e presenza delle cuffie. Le scelte restano collegate al modello e alla modalità AR esistenti.</p>
+
+        <div class="configurator-option-group">
+          <h3>Colore scocca</h3>
+          <div class="color-options">
+            <label><input type="radio" name="color" id="bianco" aria-label="Colore scocca bianco"><span class="color__swatch" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto')"></span></label>
+            <label><input type="radio" name="color" id="grigio" aria-label="Colore scocca grigio"><span class="color__swatch" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto')"></span></label>
+            <label><input type="radio" name="color" id="bronzo" aria-label="Colore scocca bronzo"><span class="color__swatch" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto')"></span></label>
+            <label><input type="radio" name="color" id="nero" aria-label="Colore scocca nero"><span class="color__swatch" style="background-image:url('https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto')"></span></label>
+          </div>
+        </div>
+
+        <div class="configurator-option-group">
+          <h3>Sfondo schermo</h3>
+          <div class="background-options">
+            <label><input type="radio" name="background" id="sfondo-nero-bronzo" aria-label="Sfondo schermo nero e bronzo"><span class="texture__preview"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto" alt="Sfondo Nero e Bronzo" width="160" height="160" loading="lazy"></span></label>
+            <label><input type="radio" name="background" id="sfondo-arancio-nero" aria-label="Sfondo schermo arancio e nero"><span class="texture__preview"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto" alt="Sfondo Arancio e Nero" width="160" height="160" loading="lazy"></span></label>
+            <label><input type="radio" name="background" id="sfondo-nero-blu" aria-label="Sfondo schermo nero e blu"><span class="texture__preview"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto" alt="Sfondo Nero e Blu" width="160" height="160" loading="lazy"></span></label>
+            <label><input type="radio" name="background" id="sfondo-nero-viola" aria-label="Sfondo schermo nero e viola"><span class="texture__preview"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto" alt="Sfondo Nero e Viola" width="160" height="160" loading="lazy"></span></label>
+          </div>
+        </div>
+
+        <div class="configurator-option-group cuffie-group">
+          <h3>Cuffie</h3>
+          <div class="toggle-switch">
+            <input type="checkbox" id="toggle-airpods" aria-label="Attiva o disattiva la visualizzazione delle cuffie">
+            <label for="toggle-airpods" class="toggle-label"><span class="visually-hidden">Mostra cuffie</span></label>
+          </div>
+        </div>
+        <p class="configurator-note">La funzione AR viene mantenuta per dispositivi compatibili. Nei test di questa task non viene attivata.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="features-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Funzioni trasversali</span>
+        <h2 id="features-title">La visualizzazione è una parte del sistema.</h2>
+        <p>Un configuratore può collegare scelta del prodotto e processo commerciale quando dati e responsabilità sono definiti.</p>
+      </div>
+      <div class="feature-grid configurator-feature-grid">
+        <article class="card"><span class="card__label">Regole</span><h3>Compatibilità e vincoli</h3><p>Combinazioni consentite, dipendenze e messaggi nel punto utile.</p></article>
+        <article class="card"><span class="card__label">Listini</span><h3>Prezzi</h3><p>Maggiorazioni e condizioni applicate su fonti commerciali attendibili.</p></article>
+        <article class="card"><span class="card__label">Offerta</span><h3>Preventivi e PDF</h3><p>Riepiloghi e documenti coerenti con configurazione e flusso previsto.</p></article>
+        <article class="card"><span class="card__label">Accessi</span><h3>Utenti e ruoli</h3><p>Visibilità e azioni calibrate per clienti, agenti, dealer e responsabili.</p></article>
+        <article class="card"><span class="card__label">Continuità</span><h3>Salvataggi</h3><p>Configurazioni riprese, condivise o duplicate quando il processo lo richiede.</p></article>
+        <article class="card"><span class="card__label">Sistemi</span><h3>Integrazioni</h3><p>Cataloghi, e-commerce, CRM o ERP valutati sulle interfacce disponibili.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="sectors-title">
+    <div class="section-heading">
+      <span class="section-kicker">Settori</span>
+      <h2 id="sectors-title">Contesti in cui prodotto e regole devono restare leggibili.</h2>
+      <p>I settori sono esempi di applicazione, non referenze cliente.</p>
+    </div>
+    {{ visualCardRail("configurator-sectors", "Settori per configuratori di prodotto", sectorItems) }}
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="projects-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Tipologie realizzate · forma anonima</span>
+        <h2 id="projects-title">Progetti descritti per funzione.</h2>
+        <p>Nessun nome o risultato cliente: soltanto il tipo di problema affrontato.</p>
+      </div>
+      <div class="proof-grid">
+        <article class="card proof-card"><span class="card__label">Visuale</span><h3>Configurazione 3D di prodotto.</h3><p>Varianti e anteprima raccolte in un’esperienza web interattiva.</p></article>
+        <article class="card proof-card card--gradient"><span class="card__label">Commerciale</span><h3>Portale preventivi B2B.</h3><p>Configurazioni, dati commerciali e documenti organizzati in un flusso riservato.</p></article>
+        <article class="card proof-card"><span class="card__label">Tecnico</span><h3>Configuratore con listini e PDF.</h3><p>Regole, opzioni e prezzi collegati alla preparazione del preventivo.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="process-title">
+    <div class="section-heading">
+      <span class="section-kicker">Processo</span>
+      <h2 id="process-title">Il configuratore nasce dal catalogo, non da una demo.</h2>
+      <p>La demo rende visibile una componente. Il progetto reale parte da dati, regole, utenti e risultato commerciale.</p>
+    </div>
+    {{ processSteps(processItems) }}
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande sui configuratori web.</h2></div>
+      {{ faq(faqItems) }}
+    </div>
+  </section>
+
+  <section id="demo-form" class="section container" aria-labelledby="demo-form-title">
+    <div class="mini-form-shell">
+      <div class="section-heading">
+        <span class="section-kicker">Primo confronto</span>
+        <h2 id="demo-form-title">Descrivi il configuratore da valutare.</h2>
+        <p>Indica il contesto e il passaggio che dovrebbe diventare più semplice. I campi contrassegnati con * sono obbligatori.</p>
+      </div>
+
+      <form id="mini-form" name="mini-demo-configuratori" action="/richiesta-ricevuta.html" method="POST" data-netlify="true" netlify-honeypot="_honey" aria-describedby="mini-form-legend">
+        <input type="hidden" name="form-name" value="mini-demo-configuratori">
+        <input type="hidden" name="lead_source" value="configuratori_3d">
+        <input type="hidden" name="lead_id" value="">
+        <input type="hidden" id="mini_gclid_field" name="gclid" value="">
+        <input type="hidden" id="mini_gbraid_field" name="gbraid" value="">
+        <input type="hidden" id="mini_wbraid_field" name="wbraid" value="">
+        <input type="hidden" name="services[]" value="Configuratori Web 2D/3D">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="honeypot-field">
+        <p id="mini-form-legend" class="visually-hidden">Compila i campi obbligatori per richiedere un confronto sul configuratore più adatto al progetto.</p>
+
+        <div class="mf-grid">
+          <div class="mf-field">
+            <label for="mf_name">Nome e cognome *</label>
+            <input type="text" id="mf_name" name="name" required aria-required="true" aria-invalid="false" aria-describedby="mf_name_err" autocomplete="name" inputmode="text">
+            <span id="mf_name_err" class="error-message" role="alert" aria-live="assertive"></span>
+          </div>
+          <div class="mf-field">
+            <label for="mf_email">Email *</label>
+            <input type="email" id="mf_email" name="email" required aria-required="true" aria-invalid="false" aria-describedby="mf_email_err" autocomplete="email" inputmode="email">
+            <span id="mf_email_err" class="error-message" role="alert" aria-live="assertive"></span>
+          </div>
+        </div>
+
+        <div class="mf-grid">
+          <div class="mf-field">
+            <label for="mf_project_type">Tipo di configuratore *</label>
+            <select id="mf_project_type" name="project_type" required aria-required="true" aria-invalid="false" aria-describedby="mf_project_type_err">
+              <option value="">Seleziona una tipologia</option>
+              <option value="Configuratore per e-commerce">Configuratore per e-commerce</option>
+              <option value="Portale di configurazione per commerciali">Portale di configurazione per commerciali</option>
+              <option value="Configuratore CPQ">Configuratore CPQ</option>
+              <option value="Configuratore / planner per arredamento">Configuratore / planner per arredamento</option>
+              <option value="Da definire">Da definire</option>
+            </select>
+            <span id="mf_project_type_err" class="error-message" role="alert" aria-live="assertive"></span>
+          </div>
+          <div class="mf-field">
+            <label for="mf_website">Sito attuale o riferimento</label>
+            <input type="url" id="mf_website" name="website" autocomplete="url" inputmode="url" placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="mf-field">
+          <label for="mf_msg">Messaggio *</label>
+          <textarea id="mf_msg" name="message" rows="5" required aria-required="true" aria-invalid="false" aria-describedby="mf_msg_err" autocomplete="off" placeholder="Prodotto, utenti, varianti, regole e risultato atteso."></textarea>
+          <span id="mf_msg_err" class="error-message" role="alert" aria-live="assertive"></span>
+        </div>
+
+        <div class="privacy-checkbox">
+          <input type="checkbox" id="mf_privacy" name="privacy" required aria-required="true" aria-describedby="mf_privacy_err" checked>
+          <label for="mf_privacy">Accetto la <a href="/privacy-policy" rel="nofollow">Privacy Policy</a> *</label>
+        </div>
+        <span id="mf_privacy_err" class="error-message" role="alert" aria-live="assertive"></span>
+
+        <button type="submit" class="button">Invia richiesta</button>
+        <p id="mini-submit-status" class="error-message submit-status" role="alert" aria-live="assertive" tabindex="-1" hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section--compact container">
+    {{ finalCta("Un prodotto complesso richiede un percorso più chiaro?", "Condividi catalogo, utenti e passaggi commerciali: definiamo il primo perimetro utile.") }}
+  </section>
+</main>
+
+<div id="thank-you-modal-mini" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="thank-you-title-mini" tabindex="-1" inert>
+  <div class="modal-content">
+    <h2 id="thank-you-title-mini" tabindex="-1">Richiesta ricevuta.</h2>
+    <p>La richiesta è stata inviata correttamente. La esamineremo per proporre il passo successivo più utile.</p>
+    <button class="button" id="close-mini-modal" type="button" aria-label="Chiudi">Chiudi</button>
+  </div>
+</div>
+{% endblock %}
