@@ -6,6 +6,7 @@
   {% include "partials/seo-head.njk" %}
   {% block jsonLd %}{% endblock %}
   {% include "partials/measurement-bootstrap.njk" %}
+  {% block headExtras %}{% endblock %}
 </head>
 <body data-page="{{ pageKey }}">
   <a href="#{{ mainId }}" class="skip-link">Salta al contenuto principale</a>

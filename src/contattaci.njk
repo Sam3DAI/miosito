@@ -1,0 +1,220 @@
+---
+permalink: contattaci.html
+pageKey: contact
+mainId: main-content
+breadcrumbLabel: Contatti
+title: "Contatti | Configuratori e Software Commerciali | SolveX AI3D"
+description: "Condividi con SolveX obiettivi, utenti, dati e complessità di un configuratore, un software CPQ, un portale B2B o un processo commerciale da semplificare."
+keywords: "contatti SolveX AI3D, configuratore su misura, software CPQ, portale B2B, automazioni AI"
+canonical: "https://solvex-ai3d.com/contattaci"
+measurementMode: gtm-verified
+cspProfile: lead
+pageStyle: "/css/contattaci.css"
+pageScript: "/js/contattaci.js"
+openGraph:
+  title: "Contatti | Configuratori e Software Commerciali | SolveX AI3D"
+  description: "Raccogliamo le informazioni essenziali per capire obiettivi, utenti, dati e complessità del progetto."
+twitter:
+  title: "Contatti | SolveX AI3D"
+  description: "Descrivi il prodotto o il processo commerciale da semplificare."
+---
+{% extends "layouts/base.njk" %}
+
+{% set serviceOptions = [
+  "Configuratore 2D/3D",
+  "Configuratore e-commerce",
+  "Software CPQ e preventivazione",
+  "Portale commerciale o area B2B",
+  "Planner o configuratore per arredamento",
+  "Automazioni AI",
+  "Altro software o portale B2B",
+  "Da definire"
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "@id": "https://solvex-ai3d.com/contattaci/#webpage",
+        "url": "https://solvex-ai3d.com/contattaci",
+        "name": "Contatti | Configuratori e Software Commerciali | SolveX AI3D",
+        "description": "Pagina di contatto per configuratori e software commerciali su misura.",
+        "about": { "@id": "https://solvex-ai3d.com/#organization" },
+        "inLanguage": "it-IT"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://solvex-ai3d.com/#organization",
+        "name": "SolveX AI3D",
+        "url": "https://solvex-ai3d.com",
+        "email": "info@solvex-ai3d.com",
+        "telephone": "+39-3474380837",
+        "logo": { "@type": "ImageObject", "url": "https://solvex-ai3d.com/logo-112.png", "width": 112, "height": 112 }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://solvex-ai3d.com/contattaci/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
+          { "@type": "ListItem", "position": 2, "name": "Contatti", "item": "https://solvex-ai3d.com/contattaci" }
+        ]
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content" class="lead-page">
+  <section class="page-hero page-hero--compact lead-hero">
+    <div class="container lead-hero__inner">
+      <span class="eyebrow">Contatti · Primo confronto</span>
+      <h1>Raccontaci il prodotto o il processo da semplificare.</h1>
+      <p class="hero-lead">Raccogliamo le informazioni essenziali per capire obiettivi, utenti, dati e complessità del progetto.</p>
+    </div>
+  </section>
+
+  <section class="section section--compact section--tinted" aria-labelledby="start-title">
+    <div class="container split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Da dove iniziamo</span>
+        <h2 id="start-title">Un contesto chiaro rende utile il primo confronto.</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>Non serve preparare un documento tecnico. Sono sufficienti il prodotto o processo coinvolto, chi lo usa oggi, i passaggi più lenti e il risultato che dovrebbe diventare più semplice.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti" class="section container" aria-labelledby="contact-form-title">
+    <div class="lead-layout">
+      <div class="lead-form-card">
+        <div class="section-heading">
+          <span class="section-kicker">Richiesta</span>
+          <h2 id="contact-form-title">Descrivi il progetto.</h2>
+          <p>I campi contrassegnati con * sono obbligatori.</p>
+        </div>
+
+        <form id="contact-form"
+          name="contact-main"
+          action="/richiesta-ricevuta.html"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="_honey">
+          <input type="hidden" name="form-name" value="contact-main">
+          <input type="hidden" name="lead_source" value="contattaci_page">
+          <input type="hidden" name="lead_id" value="">
+          <input type="hidden" id="gclid_field" name="gclid" value="">
+          <input type="hidden" id="gbraid_field" name="gbraid" value="">
+          <input type="hidden" id="wbraid_field" name="wbraid" value="">
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="honeypot-field">
+
+          <div class="form-field">
+            <label for="name">Nome *</label>
+            <input type="text" id="name" name="name" required aria-required="true" aria-invalid="false" aria-describedby="name-error" autocomplete="name" inputmode="text">
+            <span id="name-error" class="error-message" role="alert" aria-live="assertive"></span>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required aria-required="true" aria-invalid="false" aria-describedby="email-error" autocomplete="email" inputmode="email">
+              <span id="email-error" class="error-message" role="alert" aria-live="assertive"></span>
+            </div>
+            <div class="form-field">
+              <label for="phone">Telefono (opzionale)</label>
+              <input type="tel" id="phone" name="phone" aria-invalid="false" aria-describedby="phone-error" autocomplete="tel" inputmode="tel" minlength="6">
+              <span id="phone-error" class="error-message" role="alert" aria-live="assertive"></span>
+            </div>
+          </div>
+
+          <fieldset id="services-checkbox-group" class="service-picker" hidden>
+            <legend>Ambiti di interesse *</legend>
+            <div class="service-options" aria-describedby="services-error">
+              {% for option in serviceOptions %}
+              <label class="service-option">
+                <input type="checkbox" name="services[]" value="{{ option }}">
+                <span>{{ option }}</span>
+              </label>
+              {% endfor %}
+            </div>
+            <span id="services-error" class="error-message" role="alert" aria-live="assertive"></span>
+          </fieldset>
+
+          <div id="services-fallback" class="form-field services-fallback">
+            <label for="services-fallback-select">Ambiti di interesse *</label>
+            <p id="services-fallback-help" class="field-help">Seleziona uno o più ambiti. Per una selezione multipla usa Ctrl su Windows o Cmd su Mac.</p>
+            <select id="services-fallback-select" name="services[]" multiple size="8" required aria-required="true" aria-describedby="services-fallback-help">
+              {% for option in serviceOptions %}<option value="{{ option }}">{{ option }}</option>{% endfor %}
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="message">Messaggio *</label>
+            <textarea id="message" name="message" rows="6" required aria-required="true" aria-invalid="false" aria-describedby="message-error" autocomplete="off"></textarea>
+            <span id="message-error" class="error-message" role="alert" aria-live="assertive"></span>
+          </div>
+
+          <div class="privacy-checkbox">
+            <input type="checkbox" id="privacy" name="privacy" required aria-required="true" aria-describedby="privacy-error" checked>
+            <label for="privacy">Accetto la <a href="/privacy-policy" rel="nofollow">Privacy Policy</a> *</label>
+          </div>
+          <span id="privacy-error" class="error-message" role="alert" aria-live="assertive"></span>
+
+          <button type="submit" class="button form-submit">Invia la richiesta</button>
+          <p id="contact-submit-status" class="error-message submit-status" role="alert" aria-live="assertive" tabindex="-1" hidden></p>
+        </form>
+      </div>
+
+      <aside class="lead-sidebar" aria-label="Indicazioni per il primo confronto">
+        <section class="card card--gradient">
+          <span class="card__label">Informazioni utili</span>
+          <h2>Cosa è utile indicare.</h2>
+          <ul class="check-list">
+            <li>Prodotto, catalogo o processo coinvolto.</li>
+            <li>Utenti: clienti, agenti, dealer o team interno.</li>
+            <li>Dati, listini o sistemi già disponibili.</li>
+            <li>Passaggio che oggi genera più attrito.</li>
+          </ul>
+        </section>
+        <section class="card">
+          <span class="card__label">Primo confronto</span>
+          <h2>Tempi proporzionati al contesto.</h2>
+          <p>Leggiamo la richiesta e proponiamo il passo successivo compatibile con le informazioni disponibili, senza promettere una stima prima di aver compreso il perimetro.</p>
+        </section>
+        <section class="card direct-contact">
+          <span class="card__label">Contatti diretti</span>
+          <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+          <a href="tel:+393474380837">{{ site.phone }}</a>
+          <p>I dati inviati servono esclusivamente a gestire la richiesta secondo la <a href="/privacy-policy">Privacy Policy</a>.</p>
+        </section>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="contact-faq-title">
+    <div class="container">
+      <div class="section-heading section-heading--center">
+        <span class="section-kicker">FAQ</span>
+        <h2 id="contact-faq-title">Prima di inviare la richiesta.</h2>
+      </div>
+      <div class="faq-grid">
+        <details class="faq-item"><summary>Serve già un capitolato?</summary><div class="faq-item__answer"><p>No. Un primo quadro di prodotto, utenti, dati e obiettivo è sufficiente per capire quale approfondimento serve.</p></div></details>
+        <details class="faq-item"><summary>È possibile partire da cataloghi o processi esistenti?</summary><div class="faq-item__answer"><p>Sì. Cataloghi, listini, documenti e passaggi attuali aiutano a definire vincoli e priorità in modo concreto.</p></div></details>
+        <details class="faq-item"><summary>Quando arriva una stima?</summary><div class="faq-item__answer"><p>Una stima attendibile richiede un perimetro minimo condiviso. Il primo confronto serve a capire quali informazioni mancano per formularla.</p></div></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="thank-you-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="thank-you-title" tabindex="-1" inert>
+  <div class="modal-content">
+    <h2 id="thank-you-title" tabindex="-1">Richiesta ricevuta.</h2>
+    <p>La richiesta è stata inviata correttamente. La esamineremo per proporre il passo successivo più utile.</p>
+    <button id="close-modal" class="button" type="button" aria-label="Chiudi modal di ringraziamento">Chiudi</button>
+  </div>
+</div>
+{% endblock %}

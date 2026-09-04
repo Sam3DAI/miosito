@@ -14,7 +14,7 @@ twitter:
   description: "Configuratori, CPQ, portali B2B e planner progettati intorno a cataloghi, regole e processi commerciali."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
 
 {% set methodSteps = [
   { title: "Analisi", text: "Obiettivi, utenti, dati e vincoli reali." },
@@ -31,6 +31,13 @@ twitter:
   { question: "È meglio un configuratore 2D o 3D?", answer: "La scelta dipende da ciò che l'utente deve capire. Il 2D è spesso efficace per opzioni e composizioni; il 3D aggiunge valore quando forma, materiali o percezione spaziale influenzano la decisione." },
   { question: "Può gestire prezzi, regole e preventivi?", answer: "Sì, quando listini, vincoli e logiche commerciali sono definibili. La soluzione può guidare le combinazioni e preparare un riepilogo o un documento da sottoporre al flusso previsto." },
   { question: "È adatto anche alle PMI?", answer: "Sì, se risolve un processo concreto e il perimetro è proporzionato. Si parte dalle funzioni che riducono passaggi manuali e incertezza, senza costruire complessità non necessaria." }
+] %}
+
+{% set problemItems = [
+  { index: "01", label: "Catalogo", title: "Molte varianti", text: "Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo." },
+  { index: "02", label: "Preventivi", title: "Preventivi manuali", text: "Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore." },
+  { index: "03", label: "Vincoli", title: "Regole e incompatibilità", text: "Vincoli tecnici e commerciali richiedono un percorso guidato e coerente." },
+  { index: "04", label: "Rete vendita", title: "Reti disallineate", text: "Cataloghi e procedure diverse possono produrre offerte non uniformi." }
 ] %}
 
 {% block jsonLd %}
@@ -84,7 +91,7 @@ twitter:
         <h1>Configuratori e software commerciali su misura.</h1>
         <p class="hero-lead">Trasformiamo prodotti, listini e regole di vendita in strumenti web che aiutano aziende e reti commerciali a configurare, preventivare e vendere con meno errori.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Valutiamo il tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--secondary" href="#soluzioni">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
         </div>
         <p class="hero-note">Progetti B2B costruiti intorno al processo reale.</p>
@@ -135,12 +142,7 @@ twitter:
       <h2 id="complexity-title">Quando il prodotto è complesso, la vendita non deve esserlo.</h2>
       <p>Un’interfaccia ben progettata rende esplicite le scelte, applica le regole e accompagna ogni utente verso un risultato verificabile.</p>
     </div>
-    <div class="problem-grid">
-      <article class="card card--quiet"><span class="card__index">01</span><h3>Molte varianti</h3><p>Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo.</p></article>
-      <article class="card card--quiet"><span class="card__index">02</span><h3>Preventivi manuali</h3><p>Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore.</p></article>
-      <article class="card card--quiet"><span class="card__index">03</span><h3>Regole e incompatibilità</h3><p>Vincoli tecnici e commerciali richiedono un percorso guidato e coerente.</p></article>
-      <article class="card card--quiet"><span class="card__index">04</span><h3>Reti disallineate</h3><p>Cataloghi e procedure diverse possono produrre offerte non uniformi.</p></article>
-    </div>
+    {{ visualCardRail("home-problems", "Problemi commerciali frequenti", problemItems) }}
   </section>
 
   <section id="soluzioni" class="section section--tinted" aria-labelledby="solutions-title">
@@ -218,7 +220,7 @@ twitter:
       <div class="split-panel__lead">
         <span class="section-kicker">Collaborazione</span>
         <h2 id="direct-title">Un interlocutore diretto, competenze specialistiche quando servono.</h2>
-        <p>Sam resta il referente diretto del progetto e coordina le decisioni dall’analisi al rilascio.</p>
+        <p>SolveX mantiene un referente chiaro e la responsabilità diretta delle decisioni dall’analisi al rilascio.</p>
       </div>
       <div class="split-panel__body">
         <ul class="check-list">
@@ -238,7 +240,7 @@ twitter:
       </div>
       <div class="split-panel__body">
         <p>SolveX realizza anche portali e software web su misura quando il progetto riguarda cataloghi, preventivi, documenti, rete vendita, clienti B2B o automazione di processi commerciali.</p>
-        <a class="button" href="/contattaci">Raccontami il processo <span aria-hidden="true">↗</span></a>
+        <a class="button" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>

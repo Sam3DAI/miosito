@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
-export const TASK_BASE_COMMIT = "513900768e8cce95a88132cfa1af93eb36e2ac3d";
+export const TASK_BASE_COMMIT = "353a9cfa55dde08c8093e4455e821c08d88ab849";
 export const BASE_COMMIT = TASK_BASE_COMMIT;
 
 export const FROZEN_PASSTHROUGH_FILES = Object.freeze([
@@ -17,13 +17,9 @@ export const FROZEN_PASSTHROUGH_FILES = Object.freeze([
   "chatbot/js/main.996591d1.js",
   "chatbot/js/main.996591d1.js.LICENSE.txt",
   "chatbot/js/main.996591d1.js.map",
-  "configuratori-3d-2d.html",
-  "contattaci.html",
   "css/404.css",
   "css/automazioni-ai-business.css",
   "css/chatbot-ai-intelligenti.css",
-  "css/configuratori-3d-2d.css",
-  "css/contattaci.css",
   "css/cookie-banner.css",
   "css/index.css",
   "css/privacy-policy.css",
@@ -54,6 +50,8 @@ export const OWNED_STATIC_FILES = Object.freeze([
   "css/foundation.css",
   "css/site-shell.css",
   "css/marketing-pages.css",
+  "css/configuratori-3d-2d.css",
+  "css/contattaci.css",
   "js/site-shell.js",
   "sitemap.xml"
 ]);
@@ -70,14 +68,26 @@ export const GENERATED_ROUTES = Object.freeze([
     hasFaq: true
   }),
   Object.freeze({
-    source: "src/chi-sono.njk",
-    destination: "chi-sono.html",
-    publicUrl: "/chi-sono",
-    canonical: "https://solvex-ai3d.com/chi-sono",
-    title: "Chi è SolveX AI3D | Configuratori e Software Commerciali",
-    h1: "Un partner tecnico diretto per progetti digitali complessi.",
-    schemaTypes: Object.freeze(["AboutPage", "Organization", "Person"]),
+    source: "src/chi-siamo.njk",
+    destination: "chi-siamo.html",
+    publicUrl: "/chi-siamo",
+    canonical: "https://solvex-ai3d.com/chi-siamo",
+    title: "Chi siamo | SolveX AI3D",
+    h1: "Un partner tecnico per configuratori e software commerciali.",
+    schemaTypes: Object.freeze(["AboutPage", "Organization", "BreadcrumbList"]),
     hasFaq: false
+  }),
+  Object.freeze({
+    source: "src/configuratori-3d-2d.njk",
+    destination: "configuratori-3d-2d.html",
+    publicUrl: "/configuratori-3d-2d",
+    canonical: "https://solvex-ai3d.com/configuratori-3d-2d",
+    title: "Configuratori Web 2D/3D su Misura per Aziende | SolveX AI3D",
+    h1: "Configuratori web su misura, dal prodotto al preventivo.",
+    schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    profile: "configurator"
   }),
   Object.freeze({
     source: "src/configuratori-ecommerce.njk",
@@ -118,6 +128,18 @@ export const GENERATED_ROUTES = Object.freeze([
     h1: "Automazioni AI integrate nei processi commerciali.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true
+  }),
+  Object.freeze({
+    source: "src/contattaci.njk",
+    destination: "contattaci.html",
+    publicUrl: "/contattaci",
+    canonical: "https://solvex-ai3d.com/contattaci",
+    title: "Contatti | Configuratori e Software Commerciali | SolveX AI3D",
+    h1: "Raccontaci il prodotto o il processo da semplificare.",
+    schemaTypes: Object.freeze(["ContactPage", "Organization", "BreadcrumbList"]),
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    profile: "lead"
   }),
   Object.freeze({
     source: "src/privacy-policy.njk",

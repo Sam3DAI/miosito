@@ -15,7 +15,7 @@ twitter:
   description: "Strumenti B2B su misura per comporre prodotti, verificare vincoli e preparare offerte."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
 
 {% set processItems = [
   { title: "Catalogo", text: "Moduli, misure, finiture e codici." },
@@ -24,6 +24,13 @@ twitter:
   { title: "Visuale", text: "2D o 3D secondo il valore utile." },
   { title: "Commerciale", text: "Prezzi, documenti e utenti B2B." },
   { title: "Integrazione", text: "Collegamenti e rilascio controllato." }
+] %}
+
+{% set compositionItems = [
+  { index: "01", label: "Prodotto", title: "Composizioni modulari", text: "Elementi e accessori vengono organizzati secondo sequenze e dipendenze reali." },
+  { index: "02", label: "Tecnica", title: "Misure e vincoli", text: "Dimensioni e incompatibilità possono essere controllate durante la composizione." },
+  { index: "03", label: "Catalogo", title: "Cataloghi estesi", text: "Famiglie, codici e varianti richiedono una navigazione progettata sul prodotto." },
+  { index: "04", label: "Commerciale", title: "Rete commerciale", text: "Dealer e agenti hanno bisogno di dati coerenti per presentare e quotare la soluzione." }
 ] %}
 
 {% set faqItems = [
@@ -83,7 +90,7 @@ twitter:
         <h1>Planner e configuratori per arredamento pensati per produttori e rivenditori.</h1>
         <p class="hero-lead">Soluzioni B2B per produttori, rivenditori, showroom e reti vendita che devono comporre prodotti, verificare vincoli e preparare offerte.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Valutiamo il tuo planner <span aria-hidden="true">↗</span></a>
+          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--secondary" href="#funzioni">Esplora le funzioni <span aria-hidden="true">↓</span></a>
         </div>
       </div>
@@ -110,12 +117,7 @@ twitter:
       <h2 id="composition-title">Comporre senza perdere il controllo del catalogo.</h2>
       <p>Il planner traduce moduli, misure e relazioni tecniche in un’esperienza utilizzabile da chi presenta, configura o vende il prodotto.</p>
     </div>
-    <div class="problem-grid">
-      <article class="card card--quiet"><span class="card__index">01</span><h3>Composizioni modulari</h3><p>Elementi e accessori vengono organizzati secondo sequenze e dipendenze reali.</p></article>
-      <article class="card card--quiet"><span class="card__index">02</span><h3>Misure e vincoli</h3><p>Dimensioni e incompatibilità possono essere controllate durante la composizione.</p></article>
-      <article class="card card--quiet"><span class="card__index">03</span><h3>Cataloghi estesi</h3><p>Famiglie, codici e varianti richiedono una navigazione progettata sul prodotto.</p></article>
-      <article class="card card--quiet"><span class="card__index">04</span><h3>Rete commerciale</h3><p>Dealer e agenti hanno bisogno di dati coerenti per presentare e quotare la soluzione.</p></article>
-    </div>
+    {{ visualCardRail("planner-scenarios", "Scenari di composizione per arredamento", compositionItems) }}
   </section>
 
   <section id="funzioni" class="section section--tinted" aria-labelledby="planner-functions-title">
@@ -165,7 +167,7 @@ twitter:
   </section>
 
   <section class="section section--compact container">
-    {{ finalCta("Il tuo catalogo richiede composizioni, vincoli e offerte?", "Raccontami prodotti, utenti e passaggi commerciali: definiamo il primo perimetro utile senza inseguire funzioni consumer.", "Valutiamo il planner") }}
+    {{ finalCta("Il tuo catalogo richiede composizioni, vincoli e offerte?", "Descrivi prodotti, utenti e passaggi commerciali: definiamo il primo perimetro utile senza inseguire funzioni consumer.") }}
   </section>
 </main>
 {% endblock %}

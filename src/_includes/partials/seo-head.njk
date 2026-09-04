@@ -1,63 +1,63 @@
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
-  {% if keywords %}
-  <meta name="keywords" content="{{ keywords }}">
-  {% endif %}
+  {% if keywords %}<meta name="keywords" content="{{ keywords }}">{% endif %}
   <meta name="author" content="SolveX AI3D">
   <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
 
-  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="it_IT">
   <meta property="og:title" content="{{ openGraph.title }}">
   <meta property="og:description" content="{{ openGraph.description }}">
   <meta property="og:url" content="{{ canonical }}">
-  <meta property="og:image" content="{{ site.logoUrl }}">
+  <meta property="og:image" content="{{ openGraph.image or site.logoUrl }}">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ twitter.title }}">
   <meta name="twitter:description" content="{{ twitter.description }}">
-  <meta name="twitter:image" content="{{ site.logoUrl }}">
+  <meta name="twitter:image" content="{{ twitter.image or openGraph.image or site.logoUrl }}">
 
   <link rel="canonical" href="{{ canonical }}">
-
-  <!-- FAVICON / SERP ICON -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/logo-112.png">
 
-  <!-- CSP -->
+  {% if cspProfile == "configurator" %}
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    img-src * data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
-    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm/ https://cdn.jsdelivr.net/;
-    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
-    font-src * data:;
+    img-src 'self' data: blob: https://res.cloudinary.com https://assets.babylonjs.com https://api.qrserver.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+    media-src 'self' blob:;
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://cdn.babylonjs.com https://cdnjs.cloudflare.com;
+    style-src 'self' 'unsafe-inline';
+    font-src 'self' data:;
     frame-src https://www.googletagmanager.com;
-    connect-src 'self'
-      https://res.cloudinary.com
-      https://formsubmit.co
-      https://chatbot.solvex-chatbot.xyz
-      https://www.googletagmanager.com
-      https://www.google-analytics.com
-      https://region1.google-analytics.com
-      https://region1.analytics.google.com
-      https://*.google-analytics.com
-      https://pagead2.googlesyndication.com
-      https://googleads.g.doubleclick.net
-      https://www.google.com https://google.com
-      https://www.googleadservices.com https://googleadservices.com;
+    connect-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://region1.analytics.google.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googleadservices.com;
+    worker-src 'self' blob:;
     base-uri 'self';
-    form-action 'self' https://formsubmit.co;
+    form-action 'self';
     object-src 'none'
   ">
+  <meta http-equiv="Permissions-Policy" content="accelerometer=(self), gyroscope=(self), magnetometer=(self), xr-spatial-tracking=(self)">
+  {% else %}
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com;
+    style-src 'self' 'unsafe-inline';
+    font-src 'self' data:;
+    frame-src https://www.googletagmanager.com;
+    connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://region1.analytics.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://google.com https://www.googleadservices.com https://googleadservices.com;
+    base-uri 'self';
+    form-action 'self';
+    object-src 'none'
+  ">
+  {% endif %}
 
   {% include "partials/theme-bootstrap.njk" %}
 
-  <!-- Shared, local-only presentation -->
   <link rel="stylesheet" href="/css/foundation.css">
   <link rel="stylesheet" href="/css/site-shell.css">
   <link rel="stylesheet" href="/css/marketing-pages.css">
+  {% if pageStyle %}<link rel="stylesheet" href="{{ pageStyle }}">{% endif %}
   <link rel="stylesheet" href="/css/cookie-banner.css">

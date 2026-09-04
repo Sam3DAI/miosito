@@ -8,10 +8,11 @@
   ],
   "primary": [
     { "key": "projects", "href": "/#progetti", "label": "Progetti" },
-    { "key": "method", "href": "/chi-sono#metodo", "label": "Metodo" },
-    { "key": "about", "href": "/chi-sono", "label": "Chi sono" }
+    { "key": "method", "href": "/chi-siamo#metodo", "label": "Metodo" },
+    { "key": "about", "href": "/chi-siamo", "label": "Chi siamo" },
+    { "key": "contact", "href": "/contattaci", "label": "Contatti" }
   ],
-  "cta": { "href": "/contattaci", "label": "Valutiamo il tuo progetto" },
+  "cta": { "href": "/contattaci", "label": "Parliamo del tuo progetto" },
   "social": [
     { "href": "https://www.instagram.com/solvex_ai3d/", "label": "Instagram" },
     { "href": "https://x.com/SolveX_AI3D", "label": "X" },
