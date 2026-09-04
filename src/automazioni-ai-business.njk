@@ -15,7 +15,7 @@ twitter:
   description: "Automazioni contestuali e supervisionate per documenti, richieste, CRM e portali B2B."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
 
 {% set processItems = [
   { title: "Caso d'uso", text: "Un passaggio concreto e misurabile." },
@@ -24,6 +24,18 @@ twitter:
   { title: "Prototipo", text: "Output verificato su esempi autorizzati." },
   { title: "Integrazione", text: "Form, email, CRM o portale." },
   { title: "Supervisione", text: "Monitoraggio e gestione dei casi critici." }
+] %}
+
+{% set useItems = [
+  { index: "01", label: "Documenti", title: "Estrazione da PDF e listini", text: "Individuare campi e informazioni da sottoporre a controllo prima dell’utilizzo." },
+  { index: "02", label: "Richieste", title: "Classificazione", text: "Ordinare messaggi o richieste secondo categorie e priorità definite dal processo." },
+  { index: "03", label: "Preparazione", title: "Documenti e bozze di offerta", text: "Comporre una base da verificare usando dati e modelli autorizzati." },
+  { index: "04", label: "Rete vendita", title: "Assistenza contestuale", text: "Rendere disponibili informazioni pertinenti mentre l’utente gestisce un’attività commerciale." },
+  { index: "05", label: "Connessioni", title: "Form, email, CRM e portali", text: "Trasferire dati tra passaggi quando interfacce e responsabilità sono definite." },
+  { index: "06", label: "Qualità", title: "Controlli sui workflow", text: "Segnalare campi mancanti, incoerenze o casi che richiedono attenzione." },
+  { index: "07", label: "Conoscenza", title: "Ricerca documentale", text: "Consultare fonti interne autorizzate con risposte legate ai documenti disponibili." },
+  { index: "08", label: "Operatività", title: "Assistenti interni contestuali", text: "Supportare attività specifiche senza presentarsi come servizio chatbot generico." },
+  { index: "09", label: "Responsabilità", title: "Revisione e approvazione", text: "Inserire passaggi umani prima di azioni con impatto commerciale o documentale." }
 ] %}
 
 {% set faqItems = [
@@ -82,7 +94,7 @@ twitter:
         <h1>Automazioni AI integrate nei processi commerciali.</h1>
         <p class="hero-lead">L’AI entra in punti precisi di un processo già definito, per leggere informazioni, preparare bozze e collegare strumenti mantenendo controlli e responsabilità umane.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Valutiamo il caso d’uso <span aria-hidden="true">↗</span></a>
+          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--secondary" href="#casi-uso">Esplora i casi d’uso <span aria-hidden="true">↓</span></a>
         </div>
       </div>
@@ -123,17 +135,7 @@ twitter:
         <h2 id="uses-title">Punti concreti in cui l’AI può supportare il lavoro.</h2>
         <p>Ogni caso viene verificato su qualità dei dati, impatto dell’errore e livello di supervisione necessario.</p>
       </div>
-      <div class="feature-grid">
-        <article class="card"><span class="card__label">Documenti</span><h3>Estrazione da PDF e listini</h3><p>Individuare campi e informazioni da sottoporre a controllo prima dell’utilizzo.</p></article>
-        <article class="card"><span class="card__label">Richieste</span><h3>Classificazione</h3><p>Ordinare messaggi o richieste secondo categorie e priorità definite dal processo.</p></article>
-        <article class="card"><span class="card__label">Preparazione</span><h3>Documenti e bozze di offerta</h3><p>Comporre una base da verificare usando dati e modelli autorizzati.</p></article>
-        <article class="card"><span class="card__label">Rete vendita</span><h3>Assistenza contestuale</h3><p>Rendere disponibili informazioni pertinenti mentre l’utente gestisce un’attività commerciale.</p></article>
-        <article class="card"><span class="card__label">Connessioni</span><h3>Form, email, CRM e portali</h3><p>Trasferire dati tra passaggi quando interfacce e responsabilità sono definite.</p></article>
-        <article class="card"><span class="card__label">Qualità</span><h3>Controlli sui workflow</h3><p>Segnalare campi mancanti, incoerenze o casi che richiedono attenzione.</p></article>
-        <article class="card"><span class="card__label">Conoscenza</span><h3>Ricerca documentale</h3><p>Consultare fonti interne autorizzate con risposte legate ai documenti disponibili.</p></article>
-        <article class="card"><span class="card__label">Operatività</span><h3>Assistenti interni contestuali</h3><p>Supportare attività specifiche senza presentarsi come servizio chatbot generico.</p></article>
-        <article class="card"><span class="card__label">Responsabilità</span><h3>Revisione e approvazione</h3><p>Inserire passaggi umani prima di azioni con impatto commerciale o documentale.</p></article>
-      </div>
+    {{ visualCardRail("automation-uses", "Casi d’uso per automazioni AI", useItems) }}
     </div>
   </section>
 
@@ -184,7 +186,7 @@ twitter:
   </section>
 
   <section class="section section--compact container">
-    {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l'AI è la capability giusta e dove inserirla.", "Valutiamo il caso d’uso") }}
+    {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l'AI è la capability giusta e dove inserirla.", "Descrivi il tuo progetto") }}
   </section>
 </main>
 {% endblock %}

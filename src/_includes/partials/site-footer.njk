@@ -3,7 +3,7 @@
       <div class="site-footer__brand">
         <a href="/" class="brand brand--footer" aria-label="SolveX AI3D, homepage">
           <img src="{{ site.logoPath }}" alt="" class="brand__mark" width="32" height="32" loading="lazy" decoding="async">
-          <span class="brand__name">SolveX <strong>AI3D</strong></span>
+          <span class="brand__name">{{ site.name }}</span>
         </a>
         <p>Configuratori e software commerciali su misura per processi B2B complessi.</p>
       </div>
@@ -19,8 +19,8 @@
         <h2>Esplora</h2>
         <ul>
           <li><a href="/#progetti">Progetti</a></li>
-          <li><a href="/chi-sono#metodo">Metodo</a></li>
-          <li><a href="/chi-sono"{% if pageKey == "about" %} aria-current="page"{% endif %}>Chi sono</a></li>
+          <li><a href="/chi-siamo#metodo">Metodo</a></li>
+          <li><a href="/chi-siamo"{% if pageKey == "about" %} aria-current="page"{% endif %}>Chi siamo</a></li>
           <li><a href="/contattaci">Contatti</a></li>
           <li><a href="/privacy-policy"{% if pageKey == "privacy" %} aria-current="page"{% endif %}>Privacy</a></li>
           <li><a href="/termini-condizioni"{% if pageKey == "terms" %} aria-current="page"{% endif %}>Termini</a></li>

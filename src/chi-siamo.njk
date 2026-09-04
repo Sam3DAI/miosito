@@ -1,0 +1,187 @@
+---
+permalink: chi-siamo.html
+pageKey: about
+mainId: main-content
+breadcrumbLabel: Chi siamo
+title: "Chi siamo | SolveX AI3D"
+description: "SolveX è un partner tecnico snello per configuratori, software CPQ, portali B2B e processi commerciali: responsabilità diretta e competenze specialistiche quando servono."
+keywords: "SolveX AI3D, configuratori su misura, partner tecnico B2B, software commerciali"
+canonical: "https://solvex-ai3d.com/chi-siamo"
+openGraph:
+  title: "Chi siamo | SolveX AI3D"
+  description: "Un partner tecnico snello per configuratori e software commerciali, con un referente chiaro e competenze proporzionate al progetto."
+twitter:
+  title: "Chi siamo | SolveX AI3D"
+  description: "Progettiamo configuratori e strumenti commerciali B2B con responsabilità diretta e collaborazioni specialistiche quando necessarie."
+---
+{% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import processSteps, finalCta %}
+
+{% set methodSteps = [
+  { title: "Contesto", text: "Prodotto, utenti, dati e obiettivi commerciali." },
+  { title: "Perimetro", text: "Priorità, vincoli e responsabilità resi espliciti." },
+  { title: "Prototipo", text: "Flussi e interfaccia verificati prima dello sviluppo." },
+  { title: "Sviluppo", text: "Funzioni costruite per incrementi controllabili." },
+  { title: "Verifica", text: "Casi reali, dispositivi e passaggi critici testati." },
+  { title: "Continuità", text: "Rilascio, passaggio operativo e supporto concordato." }
+] %}
+
+{% block jsonLd %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "@id": "https://solvex-ai3d.com/chi-siamo/#webpage",
+        "url": "https://solvex-ai3d.com/chi-siamo",
+        "name": "Chi siamo | SolveX AI3D",
+        "description": "SolveX è un partner tecnico snello per configuratori e software commerciali B2B.",
+        "about": { "@id": "https://solvex-ai3d.com/#organization" },
+        "isPartOf": { "@id": "https://solvex-ai3d.com/#website" },
+        "inLanguage": "it-IT"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://solvex-ai3d.com/#organization",
+        "name": "SolveX AI3D",
+        "url": "https://solvex-ai3d.com",
+        "description": "SolveX progetta configuratori, software CPQ, portali commerciali, planner e automazioni integrate nei processi B2B.",
+        "logo": { "@type": "ImageObject", "url": "https://solvex-ai3d.com/logo-112.png", "width": 112, "height": 112 },
+        "vatID": "IT04930620275",
+        "email": "info@solvex-ai3d.com",
+        "telephone": "+39-3474380837",
+        "sameAs": [
+          "https://www.instagram.com/solvex_ai3d/",
+          "https://x.com/SolveX_AI3D",
+          "https://www.linkedin.com/company/108791484"
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://solvex-ai3d.com/chi-siamo/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://solvex-ai3d.com" },
+          { "@type": "ListItem", "position": 2, "name": "Chi siamo", "item": "https://solvex-ai3d.com/chi-siamo" }
+        ]
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+<main id="main-content">
+  <section class="page-hero page-hero--compact">
+    <div class="page-hero__layout container">
+      <div class="page-hero__copy">
+        <span class="eyebrow">Chi siamo · SolveX AI3D</span>
+        <h1>Un partner tecnico per configuratori e software commerciali.</h1>
+        <p class="hero-lead">Progettiamo strumenti digitali legati a prodotti, cataloghi e processi B2B. Manteniamo una struttura snella, un referente chiaro e responsabilità diretta lungo il progetto.</p>
+        <div class="cta-group">
+          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="#metodo">Scopri il metodo <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <aside class="card card--gradient" aria-label="Approccio SolveX">
+        <span class="card__label">Responsabilità diretta</span>
+        <h2>Decisioni chiare, continuità dal primo confronto al rilascio.</h2>
+        <p>Seguiamo analisi, progettazione, sviluppo e coordinamento con un perimetro leggibile. Quando serve, coinvolgiamo competenze specialistiche mirate.</p>
+      </aside>
+    </div>
+  </section>
+
+  <div class="trust-strip" aria-label="Caratteristiche del modello SolveX">
+    <span>Struttura snella</span><span>Referente chiaro</span><span>Responsabilità diretta</span><span>Competenze specialistiche</span>
+  </div>
+
+  <section class="section container" aria-labelledby="identity-title">
+    <div class="split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Identità</span>
+        <h2 id="identity-title">SolveX lavora bene sui progetti che richiedono attenzione.</h2>
+      </div>
+      <div class="split-panel__body">
+        <p>Operiamo tra il modello freelance e quello di un’agenzia: manteniamo velocità, confronto diretto e costi proporzionati, senza rinunciare al rigore necessario per prodotti e processi complessi.</p>
+        <p>Il focus resta su configuratori, CPQ, portali B2B, planner e automazioni inserite in workflow commerciali concreti.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="model-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Come lavoriamo</span>
+        <h2 id="model-title">Un modello essenziale, calibrato sul progetto.</h2>
+        <p>Le responsabilità restano visibili e le competenze vengono coinvolte in modo proporzionato al perimetro.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="card"><span class="card__index">01</span><h3>Responsabilità diretta</h3><p>Un referente conosce obiettivi, vincoli e decisioni lungo tutto il percorso.</p></article>
+        <article class="card"><span class="card__index">02</span><h3>Collaborazioni specialistiche</h3><p>Coinvolgiamo competenze verticali quando una fase richiede esperienza specifica.</p></article>
+        <article class="card"><span class="card__index">03</span><h3>Struttura snella</h3><p>Meno passaggi organizzativi, più tempo dedicato al problema, alle verifiche e alla soluzione.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="focus-title">
+    <div class="section-heading">
+      <span class="section-kicker">Ambito</span>
+      <h2 id="focus-title">Tecnologia legata a prodotti e processi commerciali.</h2>
+      <p>Partiamo dai passaggi che utenti e rete vendita devono davvero completare.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="card card--quiet"><h3>Configuratori</h3><p>Prodotti, varianti, materiali, compatibilità e visualizzazione 2D o 3D.</p></article>
+      <article class="card card--quiet"><h3>CPQ e portali</h3><p>Listini, sconti, preventivi, utenti, documenti e reti commerciali.</p></article>
+      <article class="card card--quiet"><h3>Planner e automazioni</h3><p>Composizioni, vincoli e AI inserita in workflow commerciali controllati.</p></article>
+    </div>
+  </section>
+
+  <section id="metodo" class="section section--tinted" aria-labelledby="method-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Metodo</span>
+        <h2 id="method-title">Prima si chiarisce il processo. Poi si costruisce.</h2>
+        <p>Riduciamo l’incertezza con decisioni progressive, prototipi verificabili e un perimetro tecnico legato agli obiettivi commerciali.</p>
+      </div>
+      {{ processSteps(methodSteps) }}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="collaboration-title">
+    <div class="split-panel">
+      <div class="split-panel__lead">
+        <span class="section-kicker">Collaborazione</span>
+        <h2 id="collaboration-title">Un rapporto diretto, con decisioni condivise.</h2>
+      </div>
+      <div class="split-panel__body">
+        <ul class="check-list">
+          <li>Obiettivi, vincoli e responsabilità definiti prima di ampliare il perimetro.</li>
+          <li>Confronti leggibili anche per chi non ha un ruolo tecnico.</li>
+          <li>Specialisti coinvolti soltanto quando aggiungono valore verificabile.</li>
+          <li>Consegne e verifiche progressive per evitare sorprese alla fine.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" aria-labelledby="boundaries-title">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-kicker">Confini</span>
+        <h2 id="boundaries-title">Dove manteniamo il focus.</h2>
+        <p>Scegliamo progetti collegati a un prodotto o a un processo B2B riconoscibile, evitando pacchetti indistinti e promesse non verificabili.</p>
+      </div>
+      <div class="problem-grid">
+        <article class="card card--quiet"><h3>Strumenti commerciali</h3><p>Cataloghi, configurazioni, offerte, documenti e rete vendita.</p></article>
+        <article class="card card--quiet"><h3>Perimetri concreti</h3><p>Funzioni collegate a utenti, dati e risultati operativi definiti.</p></article>
+        <article class="card card--quiet"><h3>Integrazioni verificabili</h3><p>Collegamenti valutati sulle interfacce e responsabilità disponibili.</p></article>
+        <article class="card card--quiet"><h3>AI supervisionata</h3><p>Regole, controlli e approvazioni prima delle azioni con impatto.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--compact container">
+    {{ finalCta("Cerchi un partner tecnico che resti dentro il progetto?", "Descrivi il prodotto, il processo commerciale e il punto che oggi crea più attrito.") }}
+  </section>
+</main>
+{% endblock %}

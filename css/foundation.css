@@ -267,8 +267,8 @@ li {
 }
 
 .button--secondary {
-  border-color: var(--sx-border-strong);
-  background: var(--sx-bg-elevated);
+  border-color: var(--sx-blue);
+  background: color-mix(in srgb, var(--sx-bg-elevated) 88%, transparent);
   box-shadow: none;
   color: var(--sx-text-strong);
 }

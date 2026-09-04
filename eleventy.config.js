@@ -70,13 +70,13 @@ export const GENERATED_ROUTES = Object.freeze([
     hasFaq: true
   }),
   Object.freeze({
-    source: "src/chi-sono.njk",
-    destination: "chi-sono.html",
-    publicUrl: "/chi-sono",
-    canonical: "https://solvex-ai3d.com/chi-sono",
-    title: "Chi è SolveX AI3D | Configuratori e Software Commerciali",
-    h1: "Un partner tecnico diretto per progetti digitali complessi.",
-    schemaTypes: Object.freeze(["AboutPage", "Organization", "Person"]),
+    source: "src/chi-siamo.njk",
+    destination: "chi-siamo.html",
+    publicUrl: "/chi-siamo",
+    canonical: "https://solvex-ai3d.com/chi-siamo",
+    title: "Chi siamo | SolveX AI3D",
+    h1: "Un partner tecnico per configuratori e software commerciali.",
+    schemaTypes: Object.freeze(["AboutPage", "Organization", "BreadcrumbList"]),
     hasFaq: false
   }),
   Object.freeze({

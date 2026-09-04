@@ -15,7 +15,7 @@ twitter:
   description: "Strumenti web per agenti, dealer e clienti B2B, progettati sulle regole commerciali reali."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
 
 {% set processItems = [
   { title: "Mappa", text: "Utenti, regole, dati e documenti." },
@@ -24,6 +24,18 @@ twitter:
   { title: "Sviluppo", text: "Moduli e autorizzazioni concordate." },
   { title: "Integrazione", text: "Importazioni e sistemi analizzati." },
   { title: "Rilascio", text: "Test, passaggio operativo e supporto." }
+] %}
+
+{% set moduleItems = [
+  { index: "01", label: "Offerta", title: "Preventivi e PDF", text: "Riepiloghi e documenti coerenti con configurazione e regole commerciali." },
+  { index: "02", label: "Accessi", title: "Account, ruoli e autorizzazioni", text: "Visibilità e azioni definite per responsabili, agenti, dealer e clienti." },
+  { index: "03", label: "Continuità", title: "Salvataggi e duplicazioni", text: "Configurazioni riprese, duplicate o usate come base per nuove proposte." },
+  { index: "04", label: "Controllo", title: "Revisioni", text: "Versioni e passaggi di verifica mantengono leggibile l’evoluzione dell’offerta." },
+  { index: "05", label: "Rete", title: "Agenti, dealer e clienti B2B", text: "Spazi e percorsi calibrati sul ruolo e sul livello di autonomia previsto." },
+  { index: "06", label: "Dati", title: "Importazioni", text: "Cataloghi e dati possono essere acquisiti da formati concordati e controllabili." },
+  { index: "07", label: "Operatività", title: "Dashboard", text: "Viste operative focalizzate sulle informazioni necessarie alle decisioni." },
+  { index: "08", label: "Materiali", title: "Documenti", text: "Materiali commerciali raccolti o preparati nel punto utile del flusso." },
+  { index: "09", label: "Sistemi", title: "Integrazioni da analizzare", text: "ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili." }
 ] %}
 
 {% set faqItems = [
@@ -82,7 +94,7 @@ twitter:
         <h1>Software CPQ e portali commerciali su misura.</h1>
         <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Valutiamo il tuo processo <span aria-hidden="true">↗</span></a>
+          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--secondary" href="#moduli">Esplora i moduli <span aria-hidden="true">↓</span></a>
         </div>
       </div>
@@ -123,17 +135,7 @@ twitter:
         <h2 id="modules-title">Un portale composto sulle esigenze del processo.</h2>
         <p>Non tutti i progetti richiedono ogni modulo. Si scelgono funzioni, confini e priorità in base agli utenti e ai dati disponibili.</p>
       </div>
-      <div class="feature-grid">
-        <article class="card card--quiet"><span class="card__index">01</span><h3>Preventivi e PDF</h3><p>Riepiloghi e documenti coerenti con configurazione e regole commerciali.</p></article>
-        <article class="card card--quiet"><span class="card__index">02</span><h3>Account, ruoli e autorizzazioni</h3><p>Visibilità e azioni definite per responsabili, agenti, dealer e clienti.</p></article>
-        <article class="card card--quiet"><span class="card__index">03</span><h3>Salvataggi e duplicazioni</h3><p>Configurazioni riprese, duplicate o usate come base per nuove proposte.</p></article>
-        <article class="card card--quiet"><span class="card__index">04</span><h3>Revisioni</h3><p>Versioni e passaggi di verifica mantengono leggibile l’evoluzione dell’offerta.</p></article>
-        <article class="card card--quiet"><span class="card__index">05</span><h3>Agenti, dealer e clienti B2B</h3><p>Spazi e percorsi calibrati sul ruolo e sul livello di autonomia previsto.</p></article>
-        <article class="card card--quiet"><span class="card__index">06</span><h3>Importazioni</h3><p>Cataloghi e dati possono essere acquisiti da formati concordati e controllabili.</p></article>
-        <article class="card card--quiet"><span class="card__index">07</span><h3>Dashboard</h3><p>Viste operative focalizzate sulle informazioni necessarie alle decisioni.</p></article>
-        <article class="card card--quiet"><span class="card__index">08</span><h3>Documenti</h3><p>Materiali commerciali raccolti o preparati nel punto utile del flusso.</p></article>
-        <article class="card card--quiet"><span class="card__index">09</span><h3>Integrazioni da analizzare</h3><p>ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili.</p></article>
-      </div>
+    {{ visualCardRail("cpq-modules", "Moduli per CPQ e portali commerciali", moduleItems) }}
     </div>
   </section>
 
@@ -165,7 +167,7 @@ twitter:
       </div>
       <div class="split-panel__body">
         <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web adiacente. Il perimetro viene definito sul processo commerciale reale.</p>
-        <a class="button" href="/contattaci">Raccontami il processo <span aria-hidden="true">↗</span></a>
+        <a class="button" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -178,7 +180,7 @@ twitter:
   </section>
 
   <section class="section section--compact container">
-    {{ finalCta("Il processo commerciale vive ancora tra fogli e passaggi manuali?", "Partiamo da utenti, regole, listini e documenti per definire il primo flusso che vale la pena strutturare.", "Valutiamo il processo") }}
+    {{ finalCta("Il processo commerciale vive ancora tra fogli e passaggi manuali?", "Partiamo da utenti, regole, listini e documenti per definire il primo flusso che vale la pena strutturare.") }}
   </section>
 </main>
 {% endblock %}

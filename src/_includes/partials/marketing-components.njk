@@ -20,7 +20,42 @@
 </div>
 {% endmacro %}
 
-{% macro finalCta(title, text, label="Valutiamo il tuo progetto") %}
+{% macro visualCardRail(id, label, items) %}
+<div class="visual-card-rail" data-visual-card-rail>
+  <div class="visual-card-rail__controls" data-rail-controls hidden>
+    <button type="button" data-rail-previous aria-controls="{{ id }}" aria-label="Mostra le card precedenti">
+      <span aria-hidden="true">←</span>
+    </button>
+    <button type="button" data-rail-next aria-controls="{{ id }}" aria-label="Mostra le card successive">
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
+  <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track tabindex="0" role="region" aria-label="{{ label }}">
+    {% for item in items %}
+    <li class="visual-card" data-rail-card>
+      {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}
+        <div class="visual-card__visual{% if item.image %} visual-card__visual--image{% endif %}"{% if not item.image %} aria-hidden="true"{% endif %}>
+          {% if item.image %}<img src="{{ item.image }}" alt="{{ item.alt or '' }}" loading="lazy" decoding="async">{% else %}<span></span>{% endif %}
+        </div>
+        <div class="visual-card__copy">
+          <span class="visual-card__index">{{ item.index or ("0" ~ loop.index) }}</span>
+          {% if item.label %}<span class="visual-card__label">{{ item.label }}</span>{% endif %}
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+          {% if item.href %}<span class="visual-card__arrow" aria-hidden="true">↗</span>{% endif %}
+        </div>
+      {% if item.href %}</a>{% else %}</article>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  <div class="visual-card-rail__indicators" data-rail-indicators aria-hidden="true">
+    {% for item in items %}<span{% if loop.first %} class="is-active"{% endif %}></span>{% endfor %}
+  </div>
+  <p class="visually-hidden" data-rail-status aria-live="polite">Card 1 di {{ items | length }}</p>
+</div>
+{% endmacro %}
+
+{% macro finalCta(title, text, label="Parliamo del tuo progetto") %}
 <div class="final-cta">
   <span class="section-kicker">Primo confronto</span>
   <h2>{{ title }}</h2>

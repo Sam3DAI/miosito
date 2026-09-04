@@ -15,7 +15,7 @@ twitter:
   description: "Configurazione guidata di prodotti personalizzabili, con integrazioni valutate sullo store esistente."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
 
 {% set processItems = [
   { title: "Catalogo", text: "Varianti, dati e obiettivi di vendita." },
@@ -27,11 +27,18 @@ twitter:
 ] %}
 
 {% set faqItems = [
-  { question: "Il configuratore può integrarsi nel mio e-commerce esistente?", answer: "Spesso è possibile, ma va verificato sulla piattaforma reale: struttura del catalogo, API, tema, carrello, checkout e modalità di gestione degli ordini." },
+  { question: "Il configuratore può integrarsi nell’e-commerce esistente?", answer: "Spesso è possibile, ma va verificato sulla piattaforma reale: struttura del catalogo, API, tema, carrello, checkout e modalità di gestione degli ordini." },
   { question: "Può aggiornare il prezzo mentre cambiano le opzioni?", answer: "Sì, se prezzi, maggiorazioni e regole sono disponibili in una forma attendibile. La logica viene progettata sul listino e sul flusso commerciale effettivo." },
   { question: "Serve sempre il 3D?", answer: "No. Il 2D o una buona interfaccia di selezione possono essere più chiari e leggeri. Il 3D e l'AR sono utili quando la forma, i materiali o la percezione del prodotto incidono davvero sulla scelta." },
   { question: "La configurazione può essere salvata o condivisa?", answer: "Può prevedere salvataggio, link condivisibili o riepiloghi, in base agli utenti, al livello di autenticazione e ai sistemi che devono ricevere i dati." },
   { question: "È compatibile con WooCommerce o PrestaShop?", answer: "Queste piattaforme possono essere integrate, ma non esiste una compatibilità universale immediata. Prima si analizzano catalogo, estensioni, checkout e interfacce disponibili." }
+] %}
+
+{% set needItems = [
+  { index: "01", label: "Catalogo", title: "Molte combinazioni", text: "Taglie, misure, materiali e accessori creano un catalogo difficile da esplorare." },
+  { index: "02", label: "Dipendenze", title: "Scelte dipendenti", text: "Una variante può rendere disponibili, obbligatorie o incompatibili altre opzioni." },
+  { index: "03", label: "Listino", title: "Prezzo variabile", text: "La configurazione può modificare il valore finale secondo regole definite." },
+  { index: "04", label: "Ordine", title: "Ordini incompleti", text: "Dati ambigui o mancanti complicano la gestione dopo il checkout." }
 ] %}
 
 {% block jsonLd %}
@@ -82,7 +89,7 @@ twitter:
         <h1>Configuratori e-commerce su misura per prodotti personalizzabili.</h1>
         <p class="hero-lead">Aiutiamo brand e produttori a rendere più semplice la scelta di varianti, materiali, colori, accessori e configurazioni prima dell’acquisto.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Valutiamo il tuo configuratore <span aria-hidden="true">↗</span></a>
+          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--secondary" href="#funzioni">Esplora le funzioni <span aria-hidden="true">↓</span></a>
         </div>
       </div>
@@ -109,12 +116,7 @@ twitter:
       <h2 id="need-title">Quando scegliere il prodotto richiede più di un elenco di opzioni.</h2>
       <p>Il configuratore diventa utile quando la personalizzazione influenza compatibilità, prezzo, anteprima o dati che devono arrivare all’ordine.</p>
     </div>
-    <div class="problem-grid">
-      <article class="card card--quiet"><span class="card__index">01</span><h3>Molte combinazioni</h3><p>Taglie, misure, materiali e accessori creano un catalogo difficile da esplorare.</p></article>
-      <article class="card card--quiet"><span class="card__index">02</span><h3>Scelte dipendenti</h3><p>Una variante può rendere disponibili, obbligatorie o incompatibili altre opzioni.</p></article>
-      <article class="card card--quiet"><span class="card__index">03</span><h3>Prezzo variabile</h3><p>La configurazione può modificare il valore finale secondo regole definite.</p></article>
-      <article class="card card--quiet"><span class="card__index">04</span><h3>Ordini incompleti</h3><p>Dati ambigui o mancanti complicano la gestione dopo il checkout.</p></article>
-    </div>
+    {{ visualCardRail("ecommerce-needs", "Scenari che richiedono una scelta guidata", needItems) }}
   </section>
 
   <section class="section section--tinted" aria-labelledby="guided-title">
@@ -186,7 +188,7 @@ twitter:
   </section>
 
   <section class="section section--compact container">
-    {{ finalCta("Il tuo prodotto richiede una scelta più guidata?", "Condividi catalogo, varianti e piattaforma: il primo passo è capire dove il configuratore può rendere il flusso più chiaro.", "Valutiamo il configuratore") }}
+    {{ finalCta("Il tuo prodotto richiede una scelta più guidata?", "Condividi catalogo, varianti e piattaforma: il primo passo è capire dove il configuratore può rendere il flusso più chiaro.") }}
   </section>
 </main>
 {% endblock %}
