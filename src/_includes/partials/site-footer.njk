@@ -1,3 +1,4 @@
+{% from "partials/social-icon.njk" import socialIcon %}
   <footer class="site-footer">
     <div class="site-footer__inner container">
       <div class="site-footer__brand">
@@ -37,7 +38,7 @@
           <a href="tel:+393474380837">{{ site.phone }}</a>
         </address>
         <div class="site-footer__social" aria-label="Profili social SolveX AI3D">
-          {% for item in navigation.social %}<a href="{{ item.href }}" rel="noopener" aria-label="SolveX AI3D su {{ item.label }}">{{ item.label }}</a>{% endfor %}
+          {% for item in navigation.social %}<a href="{{ item.href }}" rel="noopener" aria-label="SolveX AI3D su {{ item.label }}">{{ socialIcon(item.label) }}<span class="visually-hidden">{{ item.label }}</span></a>{% endfor %}
         </div>
       </div>
     </div>

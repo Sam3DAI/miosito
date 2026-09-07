@@ -1,3 +1,4 @@
+{% from "partials/social-icon.njk" import socialIcon %}
   <header class="site-header" data-site-header>
     <div class="site-header__inner container">
       <a href="/" class="brand" aria-label="SolveX AI3D, homepage"{% if pageKey == "home" %} aria-current="page"{% endif %}>
@@ -20,6 +21,9 @@
           </summary>
 
           <div class="site-navigation__overlay" id="site-menu-overlay">
+            <button class="site-navigation__close" type="button" data-menu-close aria-label="Chiudi il menu principale">
+              <span>Chiudi</span><span aria-hidden="true">×</span>
+            </button>
             <div class="site-navigation__layout container">
               <nav class="site-navigation__solutions" aria-label="Soluzioni">
                 <p class="site-navigation__eyebrow">Soluzioni</p>
@@ -27,12 +31,10 @@
                   {% for item in navigation.solutions %}
                   <li>
                     <a href="{{ item.href }}"{% if pageKey == item.key %} aria-current="page"{% endif %}>
-                      <span class="site-navigation__number">0{{ loop.index }}</span>
                       <span class="site-navigation__link-copy">
                         <strong>{{ item.label }}</strong>
                         <small>{{ item.description }}</small>
                       </span>
-                      <span class="site-navigation__arrow" aria-hidden="true">↗</span>
                     </a>
                   </li>
                   {% endfor %}
@@ -59,7 +61,7 @@
                     <span>{{ site.addressLine1 }} · {{ site.addressLine2 }}</span>
                   </address>
                   <div class="site-navigation__social" aria-label="Profili social SolveX AI3D">
-                    {% for item in navigation.social %}<a href="{{ item.href }}" rel="noopener">{{ item.label }}</a>{% endfor %}
+                    {% for item in navigation.social %}<a href="{{ item.href }}" rel="noopener" aria-label="SolveX AI3D su {{ item.label }}">{{ socialIcon(item.label) }}<span class="visually-hidden">{{ item.label }}</span></a>{% endfor %}
                   </div>
                 </div>
               </div>

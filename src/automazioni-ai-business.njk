@@ -15,7 +15,7 @@ twitter:
   description: "Automazioni contestuali e supervisionate per documenti, richieste, CRM e portali B2B."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
 
 {% set processItems = [
   { title: "Caso d'uso", text: "Un passaggio concreto e misurabile." },
@@ -90,7 +90,6 @@ twitter:
   <section class="page-hero page-hero--compact">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <span class="eyebrow">Capability · Workflow commerciali</span>
         <h1>Automazioni AI integrate nei processi commerciali.</h1>
         <p class="hero-lead">L’AI entra in punti precisi di un processo già definito, per leggere informazioni, preparare bozze e collegare strumenti mantenendo controlli e responsabilità umane.</p>
         <div class="cta-group">
@@ -98,15 +97,10 @@ twitter:
           <a class="button button--secondary" href="#casi-uso">Esplora i casi d’uso <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <aside class="card card--gradient" aria-label="Flusso illustrativo di automazione supervisionata">
+      <aside class="hero-editorial-note" aria-label="Principio di automazione supervisionata">
         <span class="card__label">AI nel flusso</span>
         <h2>Elaborare dove serve, verificare prima dell’azione.</h2>
-        <div class="flow-panel">
-          <div class="flow-step"><span>01</span><strong>Ingresso</strong></div>
-          <div class="flow-step"><span>02</span><strong>Analisi AI</strong></div>
-          <div class="flow-step"><span>03</span><strong>Controllo</strong></div>
-          <div class="flow-step"><span>04</span><strong>Output</strong></div>
-        </div>
+        <p>Input autorizzato, elaborazione circoscritta, controllo umano e output destinato al sistema corretto.</p>
       </aside>
     </div>
   </section>
@@ -160,16 +154,16 @@ twitter:
   <section class="section section--tinted" aria-labelledby="ai-flow-title">
     <div class="container">
       <div class="section-heading section-heading--center"><span class="section-kicker">Flusso accessibile</span><h2 id="ai-flow-title">Dall’ingresso al sistema operativo.</h2><p>Una rappresentazione HTML/CSS del processo, senza grafici o librerie non necessarie.</p></div>
-      <div class="flow-panel" aria-label="Fasi di un'automazione AI supervisionata">
-        <div class="flow-step"><span>01</span><strong>PDF, form o email</strong></div>
-        <div class="flow-step"><span>02</span><strong>Estrazione o classificazione</strong></div>
-        <div class="flow-step"><span>03</span><strong>Regole e controlli</strong></div>
-        <div class="flow-step"><span>04</span><strong>Revisione umana</strong></div>
-        <div class="flow-step"><span>05</span><strong>CRM</strong></div>
-        <div class="flow-step"><span>06</span><strong>Portale</strong></div>
-        <div class="flow-step"><span>07</span><strong>Documento</strong></div>
-        <div class="flow-step"><span>08</span><strong>Tracciamento</strong></div>
-      </div>
+      <ul class="function-grid" aria-label="Fasi di un'automazione AI supervisionata">
+        <li>{{ functionIcon("documents") }}<strong>PDF, form o email</strong></li>
+        <li>{{ functionIcon("configuration") }}<strong>Estrazione o classificazione</strong></li>
+        <li>{{ functionIcon("rules") }}<strong>Regole e controlli</strong></li>
+        <li>{{ functionIcon("users") }}<strong>Revisione umana</strong></li>
+        <li>{{ functionIcon("integrations") }}<strong>CRM</strong></li>
+        <li>{{ functionIcon("integrations") }}<strong>Portale</strong></li>
+        <li>{{ functionIcon("documents") }}<strong>Documento</strong></li>
+        <li>{{ functionIcon("revisions") }}<strong>Tracciamento</strong></li>
+      </ul>
     </div>
   </section>
 

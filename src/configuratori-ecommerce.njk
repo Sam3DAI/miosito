@@ -35,10 +35,10 @@ twitter:
 ] %}
 
 {% set needItems = [
-  { index: "01", label: "Catalogo", title: "Molte combinazioni", text: "Taglie, misure, materiali e accessori creano un catalogo difficile da esplorare." },
-  { index: "02", label: "Dipendenze", title: "Scelte dipendenti", text: "Una variante può rendere disponibili, obbligatorie o incompatibili altre opzioni." },
-  { index: "03", label: "Listino", title: "Prezzo variabile", text: "La configurazione può modificare il valore finale secondo regole definite." },
-  { index: "04", label: "Ordine", title: "Ordini incompleti", text: "Dati ambigui o mancanti complicano la gestione dopo il checkout." }
+  { label: "Catalogo", title: "Molte combinazioni", text: "Taglie, misure, materiali e accessori creano un catalogo difficile da esplorare.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Configuratore e-commerce con varianti e materiali" },
+  { label: "Dipendenze", title: "Scelte dipendenti", text: "Una variante può rendere disponibili, obbligatorie o incompatibili altre opzioni.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/macchinari_e_attrezzature_ujxyrm.jpg", alt: "Configuratore tecnico con opzioni dipendenti" },
+  { label: "Listino", title: "Prezzo variabile", text: "La configurazione può modificare il valore finale secondo regole definite.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Configuratore CPQ con riepilogo economico" },
+  { label: "Ordine", title: "Ordini completi", text: "Un percorso guidato raccoglie i dati necessari prima del checkout.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale con configurazioni organizzate" }
 ] %}
 
 {% block jsonLd %}
@@ -93,16 +93,10 @@ twitter:
           <a class="button button--secondary" href="#funzioni">Esplora le funzioni <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <aside class="card card--gradient" aria-label="Flusso di un configuratore e-commerce">
-        <span class="card__label">Dal catalogo all’ordine</span>
-        <h2>Una scelta guidata, coerente con regole e piattaforma.</h2>
-        <div class="flow-panel">
-          <div class="flow-step"><span>01</span><strong>Varianti</strong></div>
-          <div class="flow-step"><span>02</span><strong>Regole</strong></div>
-          <div class="flow-step"><span>03</span><strong>Prezzo</strong></div>
-          <div class="flow-step"><span>04</span><strong>Carrello</strong></div>
-        </div>
-      </aside>
+      <figure class="hero-media hero-media--compact">
+        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,h_900,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg" width="1200" height="900" alt="Configuratore e-commerce con prodotto e opzioni di personalizzazione" loading="eager" decoding="async">
+        <figcaption>Configurazione prodotto e-commerce</figcaption>
+      </figure>
     </div>
   </section>
 
