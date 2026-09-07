@@ -13,7 +13,7 @@
 <div class="faq-grid">
   {% for item in items %}
   <details class="faq-item">
-    <summary>{{ item.question }}</summary>
+    <summary>{% if item.highlight %}{{ item.question | replace(item.highlight, '<span class="gradient-text">' ~ item.highlight ~ '</span>') | safe }}{% else %}{{ item.question }}{% endif %}</summary>
     <div class="faq-item__answer"><p>{{ item.answer }}</p></div>
   </details>
   {% endfor %}
@@ -48,10 +48,9 @@
     <li class="visual-card{% if item.image %} visual-card--image{% else %} visual-card--text{% endif %}" data-rail-card>
       {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}
         {% if item.image %}
-        <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.image | replace('w_900,h_1150', 'w_540,h_690') | replace(',', '%2C') }} 540w, {{ item.image | replace(',', '%2C') }} 900w, {{ item.image | replace('w_900,h_1150', 'w_1200,h_1533') | replace(',', '%2C') }} 1200w" sizes="(max-width: 720px) 82vw, 390px" alt="{{ item.alt or '' }}" width="900" height="1150" loading="lazy" decoding="async">
+        <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.image | replace('w_900,h_1150', 'w_540,h_690') | replace(',', '%2C') }} 540w, {{ item.image | replace(',', '%2C') }} 900w, {{ item.image | replace('w_900,h_1150', 'w_1200,h_1533') | replace(',', '%2C') }} 1200w" sizes="(max-width: 720px) 300px, 350px" alt="{{ item.alt or '' }}" width="900" height="1150" loading="lazy" decoding="async">
         {% endif %}
         <div class="visual-card__copy">
-          {% if item.label %}<span class="visual-card__label">{{ item.label }}</span>{% endif %}
           <h3>{{ item.title }}</h3>
           <p>{{ item.text }}</p>
         </div>
@@ -68,7 +67,6 @@
 
 {% macro finalCta(title, text, label="Parliamo del tuo progetto") %}
 <div class="final-cta">
-  <span class="section-kicker">Primo confronto</span>
   <h2>{{ title }}</h2>
   <p>{{ text }}</p>
   <a class="button" href="/contattaci">{{ label }} <span aria-hidden="true">↗</span></a>

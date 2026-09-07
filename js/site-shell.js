@@ -71,7 +71,6 @@
   if (siteMenu) {
     const summary = siteMenu.querySelector(":scope > summary");
     const overlay = siteMenu.querySelector(".site-navigation__overlay");
-    const closeButton = siteMenu.querySelector("[data-menu-close]");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let closingTimer = 0;
     let restoreFocus = false;
@@ -80,9 +79,11 @@
     const inertState = new Map();
 
     const backgroundTargets = function () {
-      return [...body.children].filter(function (element) {
+      const pageContent = [...body.children].filter(function (element) {
         return element !== header && element.tagName !== "SCRIPT" && element.tagName !== "STYLE";
       });
+      // Do not inert the header: it contains the persistent menu control.
+      return pageContent.concat([...header.querySelectorAll(".brand, .theme-toggle, .header-cta")]);
     };
 
     const setBackgroundInert = function (inert) {
@@ -139,7 +140,7 @@
 
       if (siteMenu.open && !siteMenu.classList.contains("is-closing")) {
         window.requestAnimationFrame(function () {
-          if (closeButton) closeButton.focus();
+          if (siteMenu.open && !siteMenu.classList.contains("is-closing")) summary.focus({ preventScroll: true });
         });
       }
     };
@@ -154,13 +155,13 @@
           return;
         }
         event.preventDefault();
-        closeMenu(true);
-      });
-    }
-
-    if (closeButton) {
-      closeButton.addEventListener("click", function () {
-        closeMenu(true);
+        if (siteMenu.classList.contains("is-closing")) {
+          window.clearTimeout(closingTimer);
+          siteMenu.classList.remove("is-closing");
+          restoreFocus = false;
+        } else {
+          closeMenu(true);
+        }
       });
     }
 
@@ -190,7 +191,7 @@
         last.focus();
       } else if (!event.shiftKey && document.activeElement === last) {
         event.preventDefault();
-        first.focus();
+        first.focus({ preventScroll: true });
       }
     });
   }
@@ -225,7 +226,7 @@
       let closest = 0;
       let distance = Infinity;
       cards.forEach(function (card, index) {
-        const currentDistance = Math.abs(card.offsetLeft - track.offsetLeft - left);
+        const currentDistance = Math.abs(card.offsetLeft - cards[0].offsetLeft - left);
         if (currentDistance < distance) {
           distance = currentDistance;
           closest = index;
@@ -236,13 +237,14 @@
 
     const reachableLeft = function (card) {
       const maximumLeft = Math.max(0, track.scrollWidth - track.clientWidth);
-      return Math.max(0, Math.min(maximumLeft, card.offsetLeft - track.offsetLeft));
+      return Math.max(0, Math.min(maximumLeft, card.offsetLeft - cards[0].offsetLeft));
     };
 
     const update = function () {
       activeIndex = nearestIndex();
-      previous.disabled = activeIndex === 0;
-      next.disabled = activeIndex === cards.length - 1;
+      const maximumLeft = Math.max(0, track.scrollWidth - track.clientWidth);
+      previous.disabled = track.scrollLeft <= 2;
+      next.disabled = maximumLeft <= 2 || track.scrollLeft >= maximumLeft - 2;
       indicators.forEach(function (indicator, index) {
         indicator.classList.toggle("is-active", index === activeIndex);
       });
@@ -284,7 +286,7 @@
     next.addEventListener("click", goNext);
 
     track.addEventListener("keydown", function (event) {
-      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      if (event.target !== track || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
       event.preventDefault();
       if (event.key === "Home") goTo(0);
       if (event.key === "End") goTo(cards.length - 1);

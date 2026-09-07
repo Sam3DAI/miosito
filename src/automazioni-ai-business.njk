@@ -27,15 +27,15 @@ twitter:
 ] %}
 
 {% set useItems = [
-  { index: "01", label: "Documenti", title: "Estrazione da PDF e listini", text: "Individuare campi e informazioni da sottoporre a controllo prima dell’utilizzo." },
-  { index: "02", label: "Richieste", title: "Classificazione", text: "Ordinare messaggi o richieste secondo categorie e priorità definite dal processo." },
-  { index: "03", label: "Preparazione", title: "Documenti e bozze di offerta", text: "Comporre una base da verificare usando dati e modelli autorizzati." },
-  { index: "04", label: "Rete vendita", title: "Assistenza contestuale", text: "Rendere disponibili informazioni pertinenti mentre l’utente gestisce un’attività commerciale." },
-  { index: "05", label: "Connessioni", title: "Form, email, CRM e portali", text: "Trasferire dati tra passaggi quando interfacce e responsabilità sono definite." },
-  { index: "06", label: "Qualità", title: "Controlli sui workflow", text: "Segnalare campi mancanti, incoerenze o casi che richiedono attenzione." },
-  { index: "07", label: "Conoscenza", title: "Ricerca documentale", text: "Consultare fonti interne autorizzate con risposte legate ai documenti disponibili." },
-  { index: "08", label: "Operatività", title: "Assistenti interni contestuali", text: "Supportare attività specifiche senza presentarsi come servizio chatbot generico." },
-  { index: "09", label: "Responsabilità", title: "Revisione e approvazione", text: "Inserire passaggi umani prima di azioni con impatto commerciale o documentale." }
+  { label: "Documenti", title: "Estrazione da PDF e listini", text: "Individuare campi e informazioni da sottoporre a controllo prima dell’utilizzo." },
+  { label: "Richieste", title: "Classificazione", text: "Ordinare messaggi o richieste secondo categorie e priorità definite dal processo." },
+  { label: "Preparazione", title: "Documenti e bozze di offerta", text: "Comporre una base da verificare usando dati e modelli autorizzati." },
+  { label: "Rete vendita", title: "Assistenza contestuale", text: "Rendere disponibili informazioni pertinenti mentre l’utente gestisce un’attività commerciale." },
+  { label: "Connessioni", title: "Form, email, CRM e portali", text: "Trasferire dati tra passaggi quando interfacce e responsabilità sono definite." },
+  { label: "Qualità", title: "Controlli sui workflow", text: "Segnalare campi mancanti, incoerenze o casi che richiedono attenzione." },
+  { label: "Conoscenza", title: "Ricerca documentale", text: "Consultare fonti interne autorizzate con risposte legate ai documenti disponibili." },
+  { label: "Operatività", title: "Assistenti interni contestuali", text: "Aiutare il team a trovare informazioni e completare attività con fonti autorizzate." },
+  { label: "Responsabilità", title: "Revisione e approvazione", text: "Inserire passaggi umani prima di azioni con impatto commerciale o documentale." }
 ] %}
 
 {% set faqItems = [
@@ -90,7 +90,7 @@ twitter:
   <section class="page-hero page-hero--compact">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <h1>Automazioni AI integrate nei processi commerciali.</h1>
+        <h1><span class="gradient-text">Automazioni AI</span> integrate nei processi commerciali.</h1>
         <p class="hero-lead">L’AI entra in punti precisi di un processo già definito, per leggere informazioni, preparare bozze e collegare strumenti mantenendo controlli e responsabilità umane.</p>
         <div class="cta-group">
           <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
@@ -105,15 +105,11 @@ twitter:
     </div>
   </section>
 
-  <div class="trust-strip" aria-label="Principi delle automazioni">
-    <span>Caso d’uso definito</span><span>Dati autorizzati</span><span>Controlli espliciti</span><span>Supervisione umana</span>
-  </div>
-
   <section class="section container" aria-labelledby="role-title">
     <div class="split-panel">
       <div class="split-panel__lead">
         <span class="section-kicker">Ruolo dell’AI</span>
-        <h2 id="role-title">Una capability dentro la soluzione, non un fine.</h2>
+        <h2 id="role-title">L’AI serve quando migliora un’attività.</h2>
       </div>
       <div class="split-panel__body">
         <p>Prima si chiariscono processo, dati e responsabilità. Poi si valuta se l’AI può ridurre un passaggio ripetitivo, preparare informazioni o assistere una decisione.</p>
@@ -122,15 +118,13 @@ twitter:
     </div>
   </section>
 
-  <section id="casi-uso" class="section section--tinted" aria-labelledby="uses-title">
-    <div class="container">
-      <div class="section-heading">
+  <section id="casi-uso" class="section section--rail" aria-labelledby="uses-title">
+      <div class="section-heading rail-heading">
         <span class="section-kicker">Casi d’uso</span>
         <h2 id="uses-title">Punti concreti in cui l’AI può supportare il lavoro.</h2>
         <p>Ogni caso viene verificato su qualità dei dati, impatto dell’errore e livello di supervisione necessario.</p>
       </div>
     {{ visualCardRail("automation-uses", "Casi d’uso per automazioni AI", useItems) }}
-    </div>
   </section>
 
   <section class="section container" aria-labelledby="supervision-title">
@@ -153,7 +147,7 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="ai-flow-title">
     <div class="container">
-      <div class="section-heading section-heading--center"><span class="section-kicker">Flusso accessibile</span><h2 id="ai-flow-title">Dall’ingresso al sistema operativo.</h2><p>Una rappresentazione HTML/CSS del processo, senza grafici o librerie non necessarie.</p></div>
+      <div class="section-heading section-heading--center"><span class="section-kicker">Come funziona</span><h2 id="ai-flow-title">Dal documento al sistema di lavoro.</h2><p>Il documento viene elaborato e controllato prima che le informazioni passino al CRM, al portale o alla preparazione dell’offerta.</p></div>
       <ul class="function-grid" aria-label="Fasi di un'automazione AI supervisionata">
         <li>{{ functionIcon("documents") }}<strong>PDF, form o email</strong></li>
         <li>{{ functionIcon("configuration") }}<strong>Estrazione o classificazione</strong></li>
@@ -174,13 +168,13 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="faq-title">
     <div class="container">
-      <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande sulle automazioni AI commerciali.</h2></div>
+      <div class="section-heading section-heading--center"><h2 id="faq-title"><span class="gradient-text">Domande</span> sulle automazioni AI commerciali.</h2></div>
       {{ faq(faqItems) }}
     </div>
   </section>
 
   <section class="section section--compact container">
-    {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l'AI è la capability giusta e dove inserirla.", "Descrivi il tuo progetto") }}
+    {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l’AI è utile e dove inserirla.", "Descrivi il tuo progetto") }}
   </section>
 </main>
 {% endblock %}

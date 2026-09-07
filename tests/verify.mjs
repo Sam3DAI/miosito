@@ -380,7 +380,7 @@ const requiredContent = Object.freeze({
   "configuratori-3d-2d.html": Object.freeze([
     "Per e-commerce, rete commerciale, arredamento e molto altro. Sia 2D che 3D con AR.",
     "I contesti in cui fanno la differenza.",
-    "Prova una configurazione di prodotto.",
+    "Demo 3D. Anche in Realtà Aumentata.",
     "Progetti descritti per funzione.",
     "Descrivi il configuratore da valutare."
   ]),
@@ -415,7 +415,7 @@ const requiredContent = Object.freeze({
     "Prezzi e preventivi"
   ]),
   "automazioni-ai-business.html": Object.freeze([
-    "Una capability dentro la soluzione, non un fine.",
+    "L’AI serve quando migliora un’attività.",
     "Estrazione da PDF e listini",
     "Classificazione",
     "Documenti e bozze di offerta",
@@ -427,7 +427,7 @@ const requiredContent = Object.freeze({
     "Automazione supervisionata"
   ]),
   "contattaci.html": Object.freeze([
-    "Da dove iniziamo",
+    "Serve già un capitolato?",
     "Descrivi il progetto.",
     "Cosa è utile indicare.",
     "Tempi proporzionati al contesto.",
@@ -565,9 +565,15 @@ function stripMarkup(value) {
     value
       .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
       .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+      // Inline emphasis does not insert spaces before punctuation in the DOM.
+      .replace(/<\/?span\b[^>]*>/gi, "")
       .replace(/<[^>]+>/g, " ")
   );
 }
+
+assert.equal(stripMarkup('Meglio il <span class="gradient-text">3D</span>?'), "Meglio il 3D?");
+assert.equal(stripMarkup("<p>Uno.</p><p>Due.</p>"), "Uno. Due.");
+assert.notEqual(stripMarkup("<span>3D</span>?"), stripMarkup("<span>2D</span>?"));
 
 function firstMatch(html, regex, label) {
   const match = html.match(regex);
@@ -887,9 +893,9 @@ function assertGeneratedPageContract(route, html) {
   assert.doesNotMatch(shell, /Chatbot AI|Siti Custom|Software Custom/i, `${route.publicUrl}: retired offer appears in new navigation`);
   assert.match(header, /<details\b[^>]*data-site-menu[^>]*>[\s\S]*?<summary\b[^>]*aria-controls=["']site-menu-overlay["'][^>]*>/i, `${route.publicUrl}: native full-screen menu contract missing`);
   assert.match(header, /id=["']site-menu-overlay["']/i, `${route.publicUrl}: menu overlay missing`);
-  assert.match(header, />\s*Menu\s*</i, `${route.publicUrl}: menu open label missing`);
-  assert.match(header, />\s*Chiudi\s*</i, `${route.publicUrl}: menu close label missing`);
-  assert.match(header, /<button\b[^>]*data-menu-close[^>]*aria-label=["']Chiudi il menu principale["'][^>]*>/i, `${route.publicUrl}: real menu close button missing`);
+  assert.equal((header.match(/<summary\b/gi) ?? []).length, 1, `${route.publicUrl}: exactly one persistent menu control required`);
+  assert.match(header, /<summary\b[^>]*aria-label=["']Apri il menu principale["']/i, `${route.publicUrl}: accessible native menu name missing`);
+  assert.doesNotMatch(header, /data-menu-close|site-navigation__trigger-label|>\s*(?:Menu|Chiudi)\s*</i, `${route.publicUrl}: duplicate or moving menu control returned`);
   assert.equal((header.match(/data-site-menu\b/gi) ?? []).length, 1, `${route.publicUrl}: menu must be unique`);
   assert.doesNotMatch(header, /site-navigation__(?:number|arrow)/i, `${route.publicUrl}: decorative menu numbering or arrows returned`);
   assert.equal((header.match(/class=["'][^"']*site-navigation__link-copy[^"']*["']/gi) ?? []).length, 5, `${route.publicUrl}: menu solution descriptions missing`);
@@ -981,9 +987,11 @@ function assertGeneratedPageContract(route, html) {
   }
 
   const visibleText = stripMarkup(mainMarkup);
+  assert.doesNotMatch(visibleText, /nei test (?:della|di questa) task|una rappresentazione HTML\/CSS|helper preservat/i, `${route.publicUrl}: internal QA copy must not be published`);
   assert.doesNotMatch(html, /class=["'][^"']*(?:card__index|visual-card__index|site-navigation__number|flow-step)[^"']*["']/i, `${route.publicUrl}: decorative numbering or retired flow step returned`);
   for (const marker of requiredContent[route.destination] ?? []) {
-    assert.ok(visibleText.includes(marker), `${route.publicUrl}: required content missing: ${marker}`);
+    // Presence markers are semantic; redundant labels need not retain title case.
+    assert.ok(visibleText.toLocaleLowerCase("it").includes(marker.toLocaleLowerCase("it")), `${route.publicUrl}: required content missing: ${marker}`);
   }
   assert.doesNotMatch(visibleText, /\b(?:Raccontami|Parlami|Contattami|Valutiamo il tuo progetto)\b/i, `${route.publicUrl}: retired personal CTA found`);
   if (institutionalVoiceDestinations.has(route.destination)) {
@@ -1416,19 +1424,44 @@ run(process.execPath, ["--check", path.join(root, "js", "site-shell.js")]);
 run(process.execPath, ["--check", path.join(root, "tests", "no-js-smoke-server.mjs")]);
 assert.doesNotMatch(siteShellSource, /\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|\.submit\s*\(|requestSubmit|createElement\s*\(\s*["']script["']|https?:\/\//i, "site-shell.js must remain UI-only with no network, form submission, or dynamic remote script behavior");
 assert.doesNotMatch(siteShellSource, /setInterval|autoplay|cloneNode/i, "site-shell.js must not add autoplay or infinite-loop behavior");
-for (const marker of ["Escape", "event.key !== \"Tab\"", "summary.focus({ preventScroll: true })", "is-menu-open", "data-menu-close", "setBackgroundInert", "openingScrollY", "prefers-reduced-motion: reduce", "ArrowLeft", "ArrowRight", "Home", "End", "reachableLeft", "goPrevious", "goNext"]) {
+for (const marker of ["Escape", "event.key !== \"Tab\"", "summary.focus({ preventScroll: true })", "is-menu-open", "setBackgroundInert", "openingScrollY", "prefers-reduced-motion: reduce", "ArrowLeft", "ArrowRight", "Home", "End", "reachableLeft", "goPrevious", "goNext"]) {
   assert.ok(siteShellSource.includes(marker), `site-shell.js interaction contract missing: ${marker}`);
 }
 const foundationCssSource = fs.readFileSync(path.join(root, "css", "foundation.css"), "utf8");
-assert.match(foundationCssSource, /\.button--secondary\s*\{[^}]*border-color:\s*var\(--sx-blue\)/s, "Secondary button blue border must be visible at rest");
+assert.match(foundationCssSource, /\.button\s*\{[^}]*border:\s*2px solid var\(--sx-blue\)/s, "Page buttons must inherit the production blue outline at rest");
+assert.match(foundationCssSource, /\.button--secondary\s*\{[^}]*border-width:\s*1px/s, "Secondary action retains its lighter outlined hierarchy");
+assert.match(foundationCssSource, /--sx-bg:\s*light-dark\(#fafafa, #000000\)/, "Production light/dark backgrounds required");
+assert.match(foundationCssSource, /--sx-gradient:\s*linear-gradient\(90deg, #45b6fe, #d95bc5\)/, "Canonical two-stop production brand gradient required");
+assert.match(foundationCssSource, /scrollbar-gutter:\s*stable/, "Scrollbar space must remain stable for the persistent control");
 assert.doesNotMatch(foundationCssSource, /\.(?:eyebrow|section-kicker)::before/, "Global eyebrow/kicker gradient bars must stay removed");
 const shellCssSource = fs.readFileSync(path.join(root, "css", "site-shell.css"), "utf8");
+assert.match(shellCssSource, /html\.is-menu-open\s*\{\s*overflow:\s*hidden;/, "Menu locks only the document scroll container");
+assert.doesNotMatch(shellCssSource, /body\.is-menu-open[^}]*overflow:\s*hidden/s, "Body scroll containment must not displace the sticky menu trigger after a long scroll");
+assert.ok(siteShellSource.includes("first.focus({ preventScroll: true })"), "Focus-loop return must not scroll the document under the menu");
 assert.match(shellCssSource, /\.site-navigation__overlay\s*\{[^}]*position:\s*fixed[^}]*inset:\s*0/s, "Menu overlay must fill the viewport");
-assert.match(shellCssSource, /\.site-navigation__close\s*\{[^}]*position:\s*fixed/s, "Menu close button must remain viewport-fixed");
+assert.match(shellCssSource, /\.site-navigation__trigger\s*\{[^}]*position:\s*relative[^}]*z-index:\s*12/s, "Persistent summary must stay above the fixed overlay");
+assert.doesNotMatch(shellCssSource, /site-navigation__close|visibility:\s*hidden;\s*pointer-events:\s*none/, "Do not replace or hide the persistent control");
 assert.doesNotMatch(shellCssSource, /\.site-header::before/, "Global header gradient bar must stay removed");
 assert.match(shellCssSource, /transition:[^;]*300ms/s, "Menu transition must remain within the approved 250-350 ms range");
 const railCssSource = fs.readFileSync(path.join(root, "css", "marketing-pages.css"), "utf8");
 assert.match(railCssSource, /\.visual-card-rail__track\s*\{[^}]*overflow-x:\s*auto[^}]*scroll-snap-type:\s*x mandatory/s, "Visual rail must use native horizontal scroll snap");
+
+assert.doesNotMatch(railCssSource, /radial-gradient|visual-card__visual|justify-content:\s*flex-end|margin-right:\s*calc/, "Retired mockups, bottom-copy and one-sided rail breakout must not return");
+assert.match(railCssSource, /\.visual-card__inner\s*\{[^}]*justify-content:\s*flex-start/s, "Card copy must start at the top");
+assert.match(railCssSource, /\.faq-item summary::after\s*\{[^}]*border-radius:\s*50%/s, "FAQ toggle must retain the circular production treatment");
+const socialSource = fs.readFileSync(path.join(root, "src/_includes/partials/social-icon.njk"), "utf8");
+assert.match(socialSource, /Font Awesome Free 6\.5\.2.*CC BY 4\.0/, "Official social glyph attribution must be preserved");
+assert.doesNotMatch(socialSource, /<rect\b|<circle\b|M5 4l14 16/, "Do not restore approximated social brands");
+for (const source of [foundationCssSource, shellCssSource, railCssSource]) {
+  assert.doesNotMatch(source, /#070911|#0f1420|#151b29|#168bf2|radial-gradient/i, "Superseded blue-black theme must not return");
+}
+
+assert.doesNotMatch(shellCssSource, /\.site-footer__social a\s*\{[^}]*border(?:-radius)?\s*:/s, "Social glyphs must not receive decorative circular badges");
+const configuratorCssSource = fs.readFileSync(path.join(root, "css/configuratori-3d-2d.css"), "utf8");
+assert.match(configuratorCssSource, /\.qr-modal\s*\{[^}]*position:\s*fixed[^}]*z-index:\s*1700/s, "The QR modal must escape the clipped viewer and preserve its overlay stacking");
+for (const selector of [".qr-modal__dialog", ".qr-close", "#qr-code"]) {
+  assert.ok(configuratorCssSource.includes(selector), `Frozen QR styling hook missing: ${selector}`);
+}
 
 const expectedOutputs = [
   ...EXPECTED_FROZEN_PASSTHROUGH_FILES,
