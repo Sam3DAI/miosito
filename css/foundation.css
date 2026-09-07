@@ -1,26 +1,27 @@
 :root {
   color-scheme: light dark;
-  --sx-bg: #f7f8fc;
-  --sx-bg-elevated: #ffffff;
-  --sx-bg-soft: #eef2f8;
-  --sx-text: #111827;
-  --sx-text-strong: #050816;
-  --sx-text-muted: #5f6b7a;
-  --sx-border: rgba(15, 23, 42, 0.12);
-  --sx-border-strong: rgba(15, 23, 42, 0.2);
-  --sx-blue: #168bf2;
-  --sx-blue-deep: #0967c2;
-  --sx-violet: #8957f2;
+  /* The production palette is shared by shell and legacy-owned lead themes. */
+  --sx-bg: light-dark(#fafafa, #000000);
+  --sx-bg-elevated: light-dark(#f5f5f7, #1d1d1f);
+  --sx-bg-soft: light-dark(#f5f5f7, #1d1d1f);
+  --sx-text: light-dark(#1d1d1f, #f5f5f7);
+  --sx-text-strong: var(--sx-text);
+  --sx-text-muted: light-dark(#6e6e73, #a1a1a6);
+  --sx-border: light-dark(#d2d2d7, #38383b);
+  --sx-border-strong: light-dark(#86868b, #6e6e73);
+  --sx-blue: #45b6fe;
+  --sx-cyan: var(--sx-blue);
   --sx-pink: #d95bc5;
-  --sx-cyan: #45b6fe;
-  --sx-positive: #0f8a62;
-  --sx-positive-text: #08724f;
-  --sx-warning: #ad6800;
-  --sx-gradient: linear-gradient(105deg, #168bf2 0%, #8957f2 52%, #d95bc5 100%);
-  --sx-gradient-action: linear-gradient(105deg, #075fae 0%, #6c38c2 52%, #a62d88 100%);
-  --sx-gradient-soft: linear-gradient(135deg, rgba(22, 139, 242, 0.12), rgba(137, 87, 242, 0.1) 52%, rgba(217, 91, 197, 0.1));
-  --sx-shadow-sm: 0 10px 32px rgba(26, 36, 60, 0.08);
-  --sx-shadow-lg: 0 28px 80px rgba(31, 42, 78, 0.14);
+  --sx-gradient: linear-gradient(90deg, #45b6fe, #d95bc5);
+  /* AA text/focus variants only; the brand fill and outline stay unchanged. */
+  --sx-blue-deep: light-dark(#006eac, #45b6fe);
+  --sx-text-pink: light-dark(#993588, #d95bc5);
+  --sx-gradient-text: linear-gradient(90deg, var(--sx-blue-deep), var(--sx-text-pink));
+  --sx-positive: light-dark(#08724f, #78e5bd);
+  --sx-positive-text: var(--sx-positive);
+  --sx-warning: light-dark(#885200, #f8bd67);
+  --sx-shadow-sm: 0 8px 24px #0000000d;
+  --sx-shadow-lg: 0 20px 50px #0000001a;
   --sx-radius-sm: 0.75rem;
   --sx-radius-md: 1.25rem;
   --sx-radius-lg: 2rem;
@@ -34,51 +35,13 @@
   --sx-space-8: 7rem;
   --sx-container: 75rem;
   --sx-transition: 180ms ease;
+  --sx-page-gutter: max(1.5rem, calc((100% - var(--sx-container)) / 2));
+  --sx-rail-gutter: max(1.5rem, calc((100% - 66rem) / 2));
 }
 
-html[data-theme="dark"] {
-  --sx-bg: #070911;
-  --sx-bg-elevated: #0f1420;
-  --sx-bg-soft: #151b29;
-  --sx-text: #e9edf5;
-  --sx-text-strong: #ffffff;
-  --sx-text-muted: #a7b0c0;
-  --sx-border: rgba(255, 255, 255, 0.12);
-  --sx-border-strong: rgba(255, 255, 255, 0.2);
-  --sx-blue: #58afff;
-  --sx-blue-deep: #8ac8ff;
-  --sx-violet: #ac8aff;
-  --sx-pink: #f182d9;
-  --sx-positive: #5bd3a8;
-  --sx-positive-text: #78e5bd;
-  --sx-warning: #f8bd67;
-  --sx-gradient-soft: linear-gradient(135deg, rgba(69, 182, 254, 0.16), rgba(137, 87, 242, 0.13) 52%, rgba(217, 91, 197, 0.13));
-  --sx-shadow-sm: 0 12px 36px rgba(0, 0, 0, 0.28);
-  --sx-shadow-lg: 0 30px 90px rgba(0, 0, 0, 0.42);
-}
-
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme]) {
-    --sx-bg: #070911;
-    --sx-bg-elevated: #0f1420;
-    --sx-bg-soft: #151b29;
-    --sx-text: #e9edf5;
-    --sx-text-strong: #ffffff;
-    --sx-text-muted: #a7b0c0;
-    --sx-border: rgba(255, 255, 255, 0.12);
-    --sx-border-strong: rgba(255, 255, 255, 0.2);
-    --sx-blue: #58afff;
-    --sx-blue-deep: #8ac8ff;
-    --sx-violet: #ac8aff;
-    --sx-pink: #f182d9;
-    --sx-positive: #5bd3a8;
-    --sx-positive-text: #78e5bd;
-    --sx-warning: #f8bd67;
-    --sx-gradient-soft: linear-gradient(135deg, rgba(69, 182, 254, 0.16), rgba(137, 87, 242, 0.13) 52%, rgba(217, 91, 197, 0.13));
-    --sx-shadow-sm: 0 12px 36px rgba(0, 0, 0, 0.28);
-    --sx-shadow-lg: 0 30px 90px rgba(0, 0, 0, 0.42);
-  }
-}
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme="dark"],
+body.dark-mode { color-scheme: dark; }
 
 *,
 *::before,
@@ -87,18 +50,19 @@ html[data-theme="dark"] {
 }
 
 html {
-  min-width: 20rem;
-  scroll-behavior: smooth;
+  min-width: 0;
+  /* Keep document navigation and menu scroll restoration native and immediate. */
+  scroll-behavior: auto;
   scroll-padding-top: 6rem;
+  scrollbar-gutter: stable;
 }
 
 body {
   margin: 0;
-  min-width: 20rem;
-  overflow-x: hidden;
+  min-width: 0;
   background: var(--sx-bg);
   color: var(--sx-text);
-  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.65;
   text-rendering: optimizeLegibility;
@@ -169,16 +133,16 @@ li {
 }
 
 ::selection {
-  background: rgba(137, 87, 242, 0.26);
+  background: color-mix(in srgb, var(--sx-blue) 30%, transparent);
 }
 
 :focus-visible {
-  outline: 3px solid var(--sx-blue);
+  outline: 3px solid var(--sx-blue-deep);
   outline-offset: 4px;
 }
 
 .container {
-  width: min(calc(100% - 2rem), var(--sx-container));
+  width: min(calc(100% - 3rem), var(--sx-container));
   margin-inline: auto;
 }
 
@@ -213,7 +177,7 @@ li {
 }
 
 .gradient-text {
-  background: var(--sx-gradient);
+  background: var(--sx-gradient-text);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -238,35 +202,28 @@ li {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  padding: 0.8rem 1.25rem;
-  border: 1px solid transparent;
+  padding: 0.85rem 1.5rem;
+  border: 2px solid var(--sx-blue);
   border-radius: 999px;
-  background: var(--sx-gradient-action);
-  box-shadow: 0 12px 28px rgba(83, 91, 224, 0.2);
-  color: #fff;
-  font-size: 0.96rem;
-  font-weight: 750;
+  background: transparent;
+  color: var(--sx-blue-deep);
+  font-size: 0.98rem;
+  font-weight: 700;
   line-height: 1.2;
   text-decoration: none;
-  transition: transform var(--sx-transition), box-shadow var(--sx-transition), filter var(--sx-transition);
+  transition: color var(--sx-transition), background var(--sx-transition);
 }
 
-.button:hover {
-  box-shadow: 0 16px 34px rgba(83, 91, 224, 0.3);
-  filter: saturate(1.08);
-  transform: translateY(-2px);
+.button:hover,
+.button:focus-visible {
+  background: var(--sx-gradient);
+  color: #1d1d1f;
 }
 
 .button--secondary {
-  border-color: var(--sx-blue);
-  background: color-mix(in srgb, var(--sx-bg-elevated) 88%, transparent);
-  box-shadow: none;
-  color: var(--sx-text-strong);
-}
-
-.button--secondary:hover {
-  border-color: var(--sx-blue);
-  box-shadow: var(--sx-shadow-sm);
+  border-width: 1px;
+  color: var(--sx-text);
+  font-weight: 500;
 }
 
 .button--compact {
@@ -277,7 +234,7 @@ li {
 
 @media (max-width: 30rem) {
   .container {
-    width: min(calc(100% - 1.25rem), var(--sx-container));
+    width: min(calc(100% - 2.5rem), var(--sx-container));
   }
 }
 

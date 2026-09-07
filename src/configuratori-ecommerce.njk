@@ -29,7 +29,7 @@ twitter:
 {% set faqItems = [
   { question: "Il configuratore può integrarsi nell’e-commerce esistente?", answer: "Spesso è possibile, ma va verificato sulla piattaforma reale: struttura del catalogo, API, tema, carrello, checkout e modalità di gestione degli ordini." },
   { question: "Può aggiornare il prezzo mentre cambiano le opzioni?", answer: "Sì, se prezzi, maggiorazioni e regole sono disponibili in una forma attendibile. La logica viene progettata sul listino e sul flusso commerciale effettivo." },
-  { question: "Serve sempre il 3D?", answer: "No. Il 2D o una buona interfaccia di selezione possono essere più chiari e leggeri. Il 3D e l'AR sono utili quando la forma, i materiali o la percezione del prodotto incidono davvero sulla scelta." },
+  { highlight: "Serve sempre il 3D?", question: "Serve sempre il 3D?", answer: "No. Il 2D o una buona interfaccia di selezione possono essere più chiari e leggeri. Il 3D e l'AR sono utili quando la forma, i materiali o la percezione del prodotto incidono davvero sulla scelta." },
   { question: "La configurazione può essere salvata o condivisa?", answer: "Può prevedere salvataggio, link condivisibili o riepiloghi, in base agli utenti, al livello di autenticazione e ai sistemi che devono ricevere i dati." },
   { question: "È compatibile con WooCommerce o PrestaShop?", answer: "Queste piattaforme possono essere integrate, ma non esiste una compatibilità universale immediata. Prima si analizzano catalogo, estensioni, checkout e interfacce disponibili." }
 ] %}
@@ -85,8 +85,7 @@ twitter:
   <section class="page-hero page-hero--compact">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <span class="eyebrow">E-commerce · Prodotti personalizzabili</span>
-        <h1>Configuratori e-commerce su misura per prodotti personalizzabili.</h1>
+        <h1><span class="gradient-text">Configuratori e-commerce</span> su misura per prodotti personalizzabili.</h1>
         <p class="hero-lead">Aiutiamo brand e produttori a rendere più semplice la scelta di varianti, materiali, colori, accessori e configurazioni prima dell’acquisto.</p>
         <div class="cta-group">
           <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
@@ -100,12 +99,8 @@ twitter:
     </div>
   </section>
 
-  <div class="trust-strip" aria-label="Destinatari e obiettivi">
-    <span>Brand</span><span>Produttori</span><span>Cataloghi con varianti</span><span>Acquisto guidato</span>
-  </div>
-
-  <section class="section container" aria-labelledby="need-title">
-    <div class="section-heading">
+  <section class="section section--rail" aria-labelledby="need-title">
+    <div class="section-heading rail-heading">
       <span class="section-kicker">Quando serve</span>
       <h2 id="need-title">Quando scegliere il prodotto richiede più di un elenco di opzioni.</h2>
       <p>Il configuratore diventa utile quando la personalizzazione influenza compatibilità, prezzo, anteprima o dati che devono arrivare all’ordine.</p>
@@ -135,7 +130,7 @@ twitter:
     <div class="section-heading">
       <span class="section-kicker">Funzioni</span>
       <h2 id="features-title">Le funzioni dipendono dal prodotto e dal flusso di acquisto.</h2>
-      <p>Il perimetro viene scelto sul valore reale, senza aggiungere tecnologia solo perché disponibile.</p>
+      <p>Partiamo da regole, dati da raccogliere e informazioni da trasferire all’ordine.</p>
     </div>
     <div class="feature-grid">
       <article class="card"><span class="card__label">Regole</span><h3>Compatibilità e vincoli</h3><p>Combinazioni consentite, dipendenze e messaggi aiutano a evitare configurazioni non valide.</p></article>
@@ -164,7 +159,7 @@ twitter:
     <div class="section-heading">
       <span class="section-kicker">Tipologia reale, forma anonima</span>
       <h2 id="ecommerce-proof-title">Configurazione 3D di prodotto.</h2>
-      <p>Un’esperienza web realizzata per selezionare varianti e leggere visivamente la configurazione. Il riferimento descrive la tipologia, senza attribuire integrazioni o risultati non pubblici.</p>
+      <p>Un’esperienza web realizzata per selezionare varianti e leggere visivamente la configurazione. L’esempio è descritto in forma anonima.</p>
     </div>
     <div class="card proof-card card--gradient"><span class="card__label">Progetto</span><h3>Dalla scelta alla comprensione visiva.</h3><p>Interazione, opzioni e anteprima raccolte in un percorso coerente con il prodotto.</p></div>
   </section>
@@ -177,7 +172,7 @@ twitter:
   </section>
 
   <section class="section container" aria-labelledby="faq-title">
-    <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande sui configuratori e-commerce.</h2></div>
+    <div class="section-heading section-heading--center"><h2 id="faq-title"><span class="gradient-text">Domande</span> sui configuratori e-commerce.</h2></div>
     {{ faq(faqItems) }}
   </section>
 

@@ -26,7 +26,7 @@ twitter:
 ] %}
 
 {% set faqItems = [
-  { question: "Quanto costa un configuratore su misura?", answer: "Dipende dalla profondità del catalogo, dalle regole, dalle integrazioni, dai ruoli utente e dall'eventuale componente 2D o 3D. Il preventivo nasce dopo una prima analisi del processo e del perimetro utile." },
+  { highlight: "Quanto costa", question: "Quanto costa un configuratore su misura?", answer: "Dipende dalla profondità del catalogo, dalle regole, dalle integrazioni, dai ruoli utente e dall'eventuale componente 2D o 3D. Il preventivo nasce dopo una prima analisi del processo e del perimetro utile." },
   { question: "Si integra nel sito o e-commerce esistente?", answer: "Può integrarsi, ma la fattibilità va verificata sulle interfacce realmente disponibili: catalogo, API, checkout, autenticazione e tecnologia del sito esistente." },
   { question: "È meglio un configuratore 2D o 3D?", answer: "La scelta dipende da ciò che l'utente deve capire. Il 2D è spesso efficace per opzioni e composizioni; il 3D aggiunge valore quando forma, materiali o percezione spaziale influenzano la decisione." },
   { question: "Può gestire prezzi, regole e preventivi?", answer: "Sì, quando listini, vincoli e logiche commerciali sono definibili. La soluzione può guidare le combinazioni e preparare un riepilogo o un documento da sottoporre al flusso previsto." },
@@ -87,28 +87,22 @@ twitter:
   <section class="page-hero">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <h1>Configuratori e software commerciali. Su misura.</h1>
+        <h1><span class="gradient-text">Configuratori</span> e software commerciali. Su misura.</h1>
         <p class="hero-lead">Trasformiamo prodotti, listini e regole di vendita in strumenti web per configurare, preventivare e vendere con meno errori.</p>
         <div class="cta-group">
           <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--secondary" href="#soluzioni">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
         </div>
-        <p class="hero-note">Progetti B2B costruiti intorno al processo reale.</p>
       </div>
 
       <figure class="hero-media">
         <img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,h_900,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg" srcset="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_720%2Ch_540%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 720w, https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_1200%2Ch_900%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 1200w, https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_1600%2Ch_1200%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 1600w" sizes="(max-width: 1024px) 92vw, 48vw" width="1200" height="900" alt="Configuratore di prodotto reale con anteprima della sedia e opzioni di personalizzazione" fetchpriority="high" decoding="async">
-        <figcaption>Esempio di configurazione prodotto</figcaption>
       </figure>
     </div>
   </section>
 
-  <div class="trust-strip" aria-label="Ambiti della soluzione">
-    <span>Cataloghi complessi</span><span>Regole commerciali</span><span>Preventivi e documenti</span><span>Reti vendita B2B</span>
-  </div>
-
-  <section class="section container" aria-labelledby="complexity-title">
-    <div class="section-heading">
+  <section class="section section--rail" aria-labelledby="complexity-title">
+    <div class="section-heading rail-heading">
       <span class="section-kicker">Il problema</span>
       <h2 id="complexity-title">Quando il prodotto è complesso, la vendita non deve esserlo.</h2>
       <p>Un’interfaccia ben progettata rende esplicite le scelte, applica le regole e accompagna ogni utente verso un risultato verificabile.</p>
@@ -177,7 +171,7 @@ twitter:
     <div class="container">
       <div class="section-heading">
         <span class="section-kicker">Metodo</span>
-        <h2 id="method-title">Dal processo reale a uno strumento utilizzabile.</h2>
+        <h2 id="method-title">Dall’analisi al rilascio.</h2>
         <p>Decisioni visibili, verifiche progressive e una consegna costruita per chi dovrà usare la soluzione.</p>
       </div>
       {{ processSteps(methodSteps) }}
@@ -216,7 +210,7 @@ twitter:
   <section class="section container" aria-labelledby="faq-title">
     <div class="section-heading section-heading--center">
       <span class="section-kicker">FAQ</span>
-      <h2 id="faq-title">Domande frequenti prima di iniziare.</h2>
+      <h2 id="faq-title"><span class="gradient-text">Domande frequenti</span> prima di iniziare.</h2>
     </div>
     {{ faq(faqItems) }}
   </section>

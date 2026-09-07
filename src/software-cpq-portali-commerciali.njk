@@ -29,13 +29,13 @@ twitter:
 {% set moduleItems = [
   { label: "Offerta", title: "Preventivi e PDF", text: "Riepiloghi e documenti coerenti con configurazione e regole commerciali.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Configuratore CPQ con dati di configurazione e prezzo" },
   { label: "Accessi", title: "Account, ruoli e autorizzazioni", text: "Visibilità e azioni definite per responsabili, agenti, dealer e clienti.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale con area riservata" },
-  { index: "03", label: "Continuità", title: "Salvataggi e duplicazioni", text: "Configurazioni riprese, duplicate o usate come base per nuove proposte." },
-  { index: "04", label: "Controllo", title: "Revisioni", text: "Versioni e passaggi di verifica mantengono leggibile l’evoluzione dell’offerta." },
-  { index: "05", label: "Rete", title: "Agenti, dealer e clienti B2B", text: "Spazi e percorsi calibrati sul ruolo e sul livello di autonomia previsto." },
-  { index: "06", label: "Dati", title: "Importazioni", text: "Cataloghi e dati possono essere acquisiti da formati concordati e controllabili." },
-  { index: "07", label: "Operatività", title: "Dashboard", text: "Viste operative focalizzate sulle informazioni necessarie alle decisioni." },
-  { index: "08", label: "Materiali", title: "Documenti", text: "Materiali commerciali raccolti o preparati nel punto utile del flusso." },
-  { index: "09", label: "Sistemi", title: "Integrazioni da analizzare", text: "ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili." }
+  { label: "Continuità", title: "Salvataggi e duplicazioni", text: "Configurazioni riprese, duplicate o usate come base per nuove proposte." },
+  { label: "Controllo", title: "Revisioni", text: "Versioni e passaggi di verifica mantengono leggibile l’evoluzione dell’offerta." },
+  { label: "Rete", title: "Agenti, dealer e clienti B2B", text: "Spazi e percorsi calibrati sul ruolo e sul livello di autonomia previsto." },
+  { label: "Dati", title: "Importazioni", text: "Cataloghi e dati possono essere acquisiti da formati concordati e controllabili." },
+  { label: "Operatività", title: "Dashboard", text: "Viste operative focalizzate sulle informazioni necessarie alle decisioni." },
+  { label: "Materiali", title: "Documenti", text: "Materiali commerciali raccolti o preparati nel punto utile del flusso." },
+  { label: "Sistemi", title: "Integrazioni da analizzare", text: "ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili." }
 ] %}
 
 {% set faqItems = [
@@ -90,8 +90,7 @@ twitter:
   <section class="page-hero page-hero--compact">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <span class="eyebrow">CPQ · Portali · Processi B2B</span>
-        <h1>Software CPQ e portali commerciali su misura.</h1>
+        <h1><span class="gradient-text">Software CPQ</span> e portali commerciali su misura.</h1>
         <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
         <div class="cta-group">
           <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
@@ -104,10 +103,6 @@ twitter:
       </figure>
     </div>
   </section>
-
-  <div class="trust-strip" aria-label="Utenti del sistema">
-    <span>Agenti</span><span>Dealer</span><span>Clienti B2B</span><span>Responsabili commerciali</span>
-  </div>
 
   <section class="section container" aria-labelledby="control-title">
     <div class="section-heading">
@@ -122,15 +117,13 @@ twitter:
     </div>
   </section>
 
-  <section id="moduli" class="section section--tinted" aria-labelledby="modules-title">
-    <div class="container">
-      <div class="section-heading">
+  <section id="moduli" class="section section--rail" aria-labelledby="modules-title">
+      <div class="section-heading rail-heading">
         <span class="section-kicker">Moduli</span>
-        <h2 id="modules-title">Un portale composto sulle esigenze del processo.</h2>
+        <h2 id="modules-title">Dal preventivo ai documenti della rete vendita.</h2>
         <p>Non tutti i progetti richiedono ogni modulo. Si scelgono funzioni, confini e priorità in base agli utenti e ai dati disponibili.</p>
       </div>
     {{ visualCardRail("cpq-modules", "Moduli per CPQ e portali commerciali", moduleItems) }}
-    </div>
   </section>
 
   <section class="section container" aria-labelledby="cpq-proof-title">
@@ -156,11 +149,11 @@ twitter:
   <section class="section container" aria-labelledby="adjacent-title">
     <div class="split-panel">
       <div class="split-panel__lead">
-        <span class="section-kicker">Software adiacente</span>
+        <span class="section-kicker">Altri processi B2B</span>
         <h2 id="adjacent-title">Non rientra perfettamente in un CPQ?</h2>
       </div>
       <div class="split-panel__body">
-        <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web adiacente. Il perimetro viene definito sul processo commerciale reale.</p>
+        <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web dedicato. Partiamo dall’attività da organizzare e dai sistemi già utilizzati.</p>
         <a class="button" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -168,7 +161,7 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="faq-title">
     <div class="container">
-      <div class="section-heading section-heading--center"><span class="section-kicker">FAQ</span><h2 id="faq-title">Domande su CPQ e portali commerciali.</h2></div>
+      <div class="section-heading section-heading--center"><h2 id="faq-title"><span class="gradient-text">Domande</span> su CPQ e portali commerciali.</h2></div>
       {{ faq(faqItems) }}
     </div>
   </section>

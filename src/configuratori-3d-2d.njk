@@ -24,7 +24,7 @@ twitter:
 {% set scenarioItems = [
   { label: "E-commerce", title: "Configuratore per e-commerce", text: "Personalizzazione del prodotto con varianti, materiali e accessori prima del carrello.", href: "/configuratori-ecommerce", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Configuratore e-commerce con anteprima prodotto e opzioni di personalizzazione" },
   { label: "Rete vendita", title: "Portale per rete commerciale", text: "Area riservata per agenti e B2B con configurazioni salvabili e supporto al processo di vendita.", href: "/software-cpq-portali-commerciali", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale riservato con attività e configurazioni" },
-  { label: "Preventivazione", title: "Configuratore CPQ", text: "Regole prodotto, compatibilità, prezzi e preventivi dentro un flusso controllato.", href: "/software-cpq-portali-commerciali", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Configuratore CPQ con opzioni e riepilogo economico" },
+  { label: "Preventivazione", title: "Configuratore CPQ", text: "Regole prodotto, compatibilità, prezzi e preventivi nello stesso percorso.", href: "/software-cpq-portali-commerciali", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Configuratore CPQ con opzioni e riepilogo economico" },
   { label: "Composizione", title: "Planner per arredamento", text: "Configurazione di moduli e finiture con una resa visiva chiara per facilitare la scelta.", href: "/planner-configuratori-arredamento", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Planner_arredamento_eg9vpf.jpg", alt: "Planner per arredamento con composizione dell'ambiente" }
 ] %}
 
@@ -38,7 +38,7 @@ twitter:
 
 {% set faqItems = [
   { question: "Quali sono le differenze tra configuratore e-commerce, portale commerciale, configuratore CPQ e planner per arredamento?", answer: "Il configuratore e-commerce guida il cliente finale nella personalizzazione; il portale commerciale supporta agenti, dealer o clienti B2B; il CPQ aggiunge regole, prezzi e preventivi; il planner organizza moduli, misure, finiture e ambienti." },
-  { question: "Meglio un configuratore 2D o un configuratore 3D?", answer: "Dipende dal prodotto e dall'obiettivo. Il 2D può essere più rapido e chiaro per opzioni e composizioni; il 3D e l'AR sono utili quando forma, materiali o percezione spaziale incidono davvero sulla scelta." },
+  { highlight: "2D o un configuratore 3D?", question: "Meglio un configuratore 2D o un configuratore 3D?", answer: "Dipende dal prodotto e dall'obiettivo. Il 2D può essere più rapido e chiaro per opzioni e composizioni; il 3D e l'AR sono utili quando forma, materiali o percezione spaziale incidono davvero sulla scelta." },
   { question: "Un configuratore si integra nel sito o e-commerce che uso già oggi?", answer: "Spesso è possibile, ma la fattibilità va verificata su piattaforma, catalogo, API, checkout, autenticazione e sistemi che devono ricevere i dati." },
   { question: "Un configuratore può gestire anche regole prodotto, prezzi e preventivi?", answer: "Sì, quando vincoli, listini e responsabilità sono formalizzabili. Il sistema può guidare le combinazioni e preparare riepiloghi o documenti per il flusso previsto." },
   { question: "Si può partire da un catalogo, listino o processo già esistente?", answer: "Sì. Cataloghi, listini, schede prodotto e passaggi commerciali esistenti sono il punto di partenza per definire dati, regole e priorità." },
@@ -95,40 +95,35 @@ twitter:
 <main id="main-content" class="configurator-page">
   <section class="page-hero page-hero--compact configurator-legacy-hero">
     <div class="container">
-      <h1>Configuratori su misura. Scegli quale.</h1>
-      <p class="hero-lead">Per e-commerce, rete commerciale, arredamento e molto altro. In 2D, 3D o AR quando serve davvero a capire e vendere il prodotto.</p>
-      <div class="cta-group">
-        <a class="button" href="#intro-benefits">Scegli il configuratore <span aria-hidden="true">↓</span></a>
-        <a class="button button--secondary" href="#demo-form">Richiedi un confronto <span aria-hidden="true">↓</span></a>
-      </div>
+      <h1><span class="gradient-text">Configuratori</span> su misura.<br> Scegli quale.</h1>
     </div>
   </section>
 
-  <section id="intro-benefits" class="section container" aria-labelledby="scenario-title">
-    <div class="configurator-introduction">
-      <h2 id="scenario-title">Per e-commerce, rete commerciale, arredamento e molto altro. Sia 2D che 3D con AR.</h2>
-      <p>Realizziamo configuratori web su misura per aziende che vendono prodotti personalizzabili, gestiscono preventivi complessi o hanno bisogno di una configurazione visiva chiara. Qui puoi capire quale tipologia si adatta meglio al tuo caso: ogni soluzione nasce attorno al processo reale.</p>
+  <section id="intro-benefits" class="section section--rail" aria-labelledby="scenario-title">
+    <div class="container">
+      <div class="configurator-introduction editorial-inset">
+        <h2>Per e-commerce, rete commerciale, arredamento e molto altro. Sia <span class="gradient-text">2D che 3D con AR</span>.</h2>
+        <p>Realizziamo configuratori web per aziende che vendono prodotti personalizzabili, gestiscono preventivi complessi o hanno bisogno di una configurazione visiva chiara.</p>
+        <p>Parti da chi userà il sistema e dal risultato che deve ottenere: personalizzare un acquisto, preparare un’offerta o comporre un ambiente.</p>
+        <div class="cta-group">
+          <a class="button" href="#demo-form">Richiedi un confronto <span aria-hidden="true">↓</span></a>
+          <a class="button button--secondary" href="#configurator-scenarios">Scegli il configuratore <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
     </div>
+    <div class="section-heading rail-heading"><h2 id="scenario-title"><span class="gradient-text">Scegli</span> il tipo di configuratore.</h2></div>
     {{ visualCardRail("configurator-scenarios", "Tipologie di configuratore", scenarioItems, "legacy") }}
   </section>
 
   <section id="settori-3d" class="section section--tinted" aria-labelledby="sectors-title">
-    <div class="container">
-      <div class="section-heading">
-        <h2 id="sectors-title">I contesti in cui fanno la differenza.</h2>
-        <p>Settori di applicazione, non referenze cliente: l'immagine mostra il tipo di esperienza configurabile.</p>
-      </div>
-      {{ visualCardRail("configurator-sectors", "Settori per configuratori di prodotto", sectorItems, "legacy") }}
+    <div class="section-heading rail-heading">
+      <h2 id="sectors-title">I contesti in cui fanno la differenza.</h2>
+      <p>Dal prodotto industriale all’arredamento: opzioni, misure e vincoli cambiano con il settore.</p>
     </div>
+    {{ visualCardRail("configurator-sectors", "Settori per configuratori di prodotto", sectorItems, "legacy") }}
   </section>
 
   <section id="configuratore" class="section container" aria-labelledby="demo-title">
-    <div class="section-heading">
-      <span class="section-kicker">Demo reale 3D</span>
-      <h2 id="demo-title">Prova una configurazione di prodotto.</h2>
-      <p>Questa demo orientata all'e-commerce mantiene rendering, opzioni e passaggio AR esistenti. Nei test della task l'AR non viene attivata.</p>
-    </div>
-
     <div class="configurator-container">
       <div class="iframe-container">
         <canvas id="renderCanvas" aria-label="Demo 3D interattiva di configurazione prodotto"></canvas>
@@ -156,10 +151,11 @@ twitter:
       </div>
 
       <div class="configurator-options">
-        <span class="card__label">Pannello opzioni</span>
-        <h2>Configura la demo 3D.</h2>
-        <p>Seleziona scocca, sfondo e presenza delle cuffie. Le scelte restano collegate al modello e alla modalità AR esistenti.</p>
-
+        <div class="configurator-description">
+          <h2 id="demo-title"><span class="gradient-text">Demo</span> 3D.<br> Anche in <span class="gradient-text">Realtà Aumentata</span>.</h2>
+          <p>Personalizza colori, sfondo e accessori. Esplora il modello in 3D e, sui dispositivi compatibili, visualizzalo nel tuo ambiente con la realtà aumentata.</p>
+        </div>
+        <div class="configurator-controls">
         <div class="configurator-option-group">
           <h3>Colore scocca</h3>
           <div class="color-options">
@@ -187,7 +183,8 @@ twitter:
             <label for="toggle-airpods" class="toggle-label"><span class="visually-hidden">Mostra cuffie</span></label>
           </div>
         </div>
-        <p class="configurator-note">La funzione AR viene mantenuta per dispositivi compatibili. Nei test di questa task non viene attivata.</p>
+          <p class="configurator-note">È un esempio e-commerce: regole, prezzi e preventivi vengono definiti nel progetto su misura.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -201,7 +198,7 @@ twitter:
       <div class="section-heading">
         <span class="section-kicker">Esperienza applicata</span>
         <h2 id="proof-title">Progetti descritti per funzione.</h2>
-        <p>Nessun logo, metrica o testimonianza senza fonte: qui mostriamo soltanto problemi affrontati in forma anonima.</p>
+        <p>Tre esempi anonimi: dall’anteprima di prodotto alla preparazione dell’offerta.</p>
       </div>
       <div class="proof-grid">
         <article class="card proof-card"><span class="card__label">Visuale</span><h3>Configurazione 3D di prodotto.</h3><p>Varianti e anteprima raccolte in un'esperienza web interattiva.</p></article>
@@ -300,7 +297,7 @@ twitter:
   <section id="faq-configuratori" class="section container" aria-labelledby="faq-title">
     <div class="section-heading section-heading--center">
       <span class="section-kicker">FAQ</span>
-      <h2 id="faq-title">Domande frequenti sui configuratori.</h2>
+      <h2 id="faq-title"><span class="gradient-text">Domande frequenti</span> sui configuratori.</h2>
     </div>
     {{ faq(faqItems) }}
   </section>

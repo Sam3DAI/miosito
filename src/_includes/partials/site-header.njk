@@ -15,15 +15,10 @@
 
         <details class="site-navigation" data-site-menu>
           <summary class="site-navigation__trigger" aria-label="Apri il menu principale" aria-controls="site-menu-overlay">
-            <span class="site-navigation__trigger-label site-navigation__trigger-label--open">Menu</span>
-            <span class="site-navigation__trigger-label site-navigation__trigger-label--close">Chiudi</span>
             <span class="hamburger-bars" aria-hidden="true"><span></span><span></span></span>
           </summary>
 
           <div class="site-navigation__overlay" id="site-menu-overlay">
-            <button class="site-navigation__close" type="button" data-menu-close aria-label="Chiudi il menu principale">
-              <span>Chiudi</span><span aria-hidden="true">×</span>
-            </button>
             <div class="site-navigation__layout container">
               <nav class="site-navigation__solutions" aria-label="Soluzioni">
                 <p class="site-navigation__eyebrow">Soluzioni</p>
@@ -61,7 +56,7 @@
                     <span>{{ site.addressLine1 }} · {{ site.addressLine2 }}</span>
                   </address>
                   <div class="site-navigation__social" aria-label="Profili social SolveX AI3D">
-                    {% for item in navigation.social %}<a href="{{ item.href }}" rel="noopener" aria-label="SolveX AI3D su {{ item.label }}">{{ socialIcon(item.label) }}<span class="visually-hidden">{{ item.label }}</span></a>{% endfor %}
+                    {% for item in navigation.social %}<a href="{{ item.href }}" rel="noopener" aria-label="SolveX AI3D su {{ item.label }}">{{ socialIcon(item.label, "menu") }}<span class="visually-hidden">{{ item.label }}</span></a>{% endfor %}
                   </div>
                 </div>
               </div>
