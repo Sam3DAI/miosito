@@ -3,6 +3,7 @@
 
   const root = document.documentElement;
   const body = document.body;
+  root.classList.add("has-site-shell-js");
   const themeToggle = document.querySelector("[data-theme-toggle]");
   const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
   const pageOwnsTheme = body.dataset.page === "contact" || body.dataset.page === "configurators";
@@ -70,9 +71,33 @@
   if (siteMenu) {
     const summary = siteMenu.querySelector(":scope > summary");
     const overlay = siteMenu.querySelector(".site-navigation__overlay");
+    const closeButton = siteMenu.querySelector("[data-menu-close]");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let closingTimer = 0;
     let restoreFocus = false;
+    let openingScrollY = null;
+    let wasOpen = false;
+    const inertState = new Map();
+
+    const backgroundTargets = function () {
+      return [...body.children].filter(function (element) {
+        return element !== header && element.tagName !== "SCRIPT" && element.tagName !== "STYLE";
+      });
+    };
+
+    const setBackgroundInert = function (inert) {
+      if (inert) {
+        backgroundTargets().forEach(function (element) {
+          if (!inertState.has(element)) inertState.set(element, element.inert);
+          element.inert = true;
+        });
+        return;
+      }
+      inertState.forEach(function (previous, element) {
+        element.inert = previous;
+      });
+      inertState.clear();
+    };
 
     const menuFocusables = function () {
       return [...siteMenu.querySelectorAll("summary, a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])")]
@@ -80,10 +105,17 @@
     };
 
     const finishClose = function () {
+      const scrollYToRestore = openingScrollY;
       window.clearTimeout(closingTimer);
       siteMenu.classList.remove("is-closing");
       siteMenu.open = false;
-      if (restoreFocus && summary) summary.focus();
+      if (restoreFocus) {
+        if (summary) summary.focus({ preventScroll: true });
+        window.requestAnimationFrame(function () {
+          window.scrollTo({ top: scrollYToRestore ?? window.scrollY, left: 0, behavior: "auto" });
+        });
+      }
+      openingScrollY = null;
       restoreFocus = false;
     };
 
@@ -98,14 +130,16 @@
       if (!summary) return;
       summary.setAttribute("aria-expanded", String(siteMenu.open));
       summary.setAttribute("aria-label", siteMenu.open ? "Chiudi il menu principale" : "Apri il menu principale");
+      if (siteMenu.open && !wasOpen && openingScrollY === null) openingScrollY = window.scrollY;
       body.classList.toggle("is-menu-open", siteMenu.open);
       root.classList.toggle("is-menu-open", siteMenu.open);
       if (header) header.classList.toggle("is-menu-active", siteMenu.open);
+      setBackgroundInert(siteMenu.open);
+      wasOpen = siteMenu.open;
 
       if (siteMenu.open && !siteMenu.classList.contains("is-closing")) {
         window.requestAnimationFrame(function () {
-          const firstLink = overlay && overlay.querySelector("a[href]");
-          if (firstLink) firstLink.focus();
+          if (closeButton) closeButton.focus();
         });
       }
     };
@@ -115,8 +149,17 @@
 
     if (summary) {
       summary.addEventListener("click", function (event) {
-        if (!siteMenu.open) return;
+        if (!siteMenu.open) {
+          openingScrollY = window.scrollY;
+          return;
+        }
         event.preventDefault();
+        closeMenu(true);
+      });
+    }
+
+    if (closeButton) {
+      closeButton.addEventListener("click", function () {
         closeMenu(true);
       });
     }

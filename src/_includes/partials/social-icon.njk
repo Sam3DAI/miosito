@@ -1,0 +1,9 @@
+{% macro socialIcon(name) %}
+  {% if name == "Instagram" %}
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.7" r="0.8" class="social-icon__fill"/></svg>
+  {% elif name == "X" %}
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4l14 16M19 4L5 20"/></svg>
+  {% elif name == "LinkedIn" %}
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="9" width="3.5" height="11"/><circle cx="5.75" cy="5.75" r="1.75" class="social-icon__fill"/><path d="M11 20V9m0 5c0-2.8 1.5-5 4.5-5s4.5 2 4.5 5v6"/></svg>
+  {% endif %}
+{% endmacro %}

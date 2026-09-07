@@ -98,7 +98,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     publicUrl: "/",
     canonical: "https://solvex-ai3d.com",
     title: "Configuratori, CPQ e Portali Commerciali su Misura | SolveX AI3D",
-    h1: "Configuratori e software commerciali su misura.",
+    h1: "Configuratori e software commerciali. Su misura.",
     schemaTypes: Object.freeze(["Organization", "WebSite"]),
     hasFaq: true
   }),
@@ -118,7 +118,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     publicUrl: "/configuratori-3d-2d",
     canonical: "https://solvex-ai3d.com/configuratori-3d-2d",
     title: "Configuratori Web 2D/3D su Misura per Aziende | SolveX AI3D",
-    h1: "Configuratori web su misura, dal prodotto al preventivo.",
+    h1: "Configuratori su misura. Scegli quale.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
@@ -261,11 +261,12 @@ const expectedFaqQuestions = Object.freeze({
     "È adatto anche alle PMI?"
   ]),
   "configuratori-3d-2d.html": Object.freeze([
-    "Qual è la differenza tra configuratore e-commerce, portale commerciale, CPQ e planner?",
-    "È meglio un configuratore 2D o 3D?",
-    "Il configuratore può integrarsi nel sito o nell’e-commerce esistente?",
-    "Può gestire regole prodotto, prezzi e preventivi?",
-    "Si può partire da cataloghi e processi già esistenti?"
+    "Quali sono le differenze tra configuratore e-commerce, portale commerciale, configuratore CPQ e planner per arredamento?",
+    "Meglio un configuratore 2D o un configuratore 3D?",
+    "Un configuratore si integra nel sito o e-commerce che uso già oggi?",
+    "Un configuratore può gestire anche regole prodotto, prezzi e preventivi?",
+    "Si può partire da un catalogo, listino o processo già esistente?",
+    "Per quali aziende ha davvero senso realizzare un configuratore su misura?"
   ]),
   "configuratori-ecommerce.html": Object.freeze([
     "Il configuratore può integrarsi nell’e-commerce esistente?",
@@ -356,11 +357,10 @@ const expectedFooterLinks = Object.freeze([
 
 const requiredContent = Object.freeze({
   "index.html": Object.freeze([
-    "SolveX AI3D · Configuratori, CPQ e portali B2B",
-    "Trasformiamo prodotti, listini e regole di vendita in strumenti web che aiutano aziende e reti commerciali a configurare, preventivare e vendere con meno errori.",
+    "Trasformiamo prodotti, listini e regole di vendita in strumenti web per configurare, preventivare e vendere con meno errori.",
     "Quando il prodotto è complesso, la vendita non deve esserlo.",
     "Una soluzione per ogni processo di vendita.",
-    "Dal catalogo al preventivo, in un unico flusso.",
+    "Dal catalogo al preventivo. In un unico flusso.",
     "Tipologie di progetto già realizzate.",
     "Configurazione 3D di prodotto.",
     "Portale preventivi B2B.",
@@ -378,11 +378,10 @@ const requiredContent = Object.freeze({
     "Prima si chiarisce il processo. Poi si costruisce."
   ]),
   "configuratori-3d-2d.html": Object.freeze([
-    "2D, 3D o AR: la tecnologia dipende da ciò che deve capire l’utente.",
+    "Per e-commerce, rete commerciale, arredamento e molto altro. Sia 2D che 3D con AR.",
+    "I contesti in cui fanno la differenza.",
     "Prova una configurazione di prodotto.",
-    "Compatibilità e vincoli",
-    "Preventivi e PDF",
-    "Tipologie realizzate · forma anonima",
+    "Progetti descritti per funzione.",
     "Descrivi il configuratore da valutare."
   ]),
   "configuratori-ecommerce.html": Object.freeze([
@@ -447,6 +446,15 @@ const expectedRails = Object.freeze({
   "contattaci.html": Object.freeze([]),
   "privacy-policy.html": Object.freeze([]),
   "termini-condizioni.html": Object.freeze([])
+});
+
+const expectedRailImages = Object.freeze({
+  "index.html": Object.freeze({ "home-problems": 4 }),
+  "configuratori-3d-2d.html": Object.freeze({ "configurator-scenarios": 4, "configurator-sectors": 5 }),
+  "configuratori-ecommerce.html": Object.freeze({ "ecommerce-needs": 4 }),
+  "software-cpq-portali-commerciali.html": Object.freeze({ "cpq-modules": 2 }),
+  "planner-configuratori-arredamento.html": Object.freeze({ "planner-scenarios": 4 }),
+  "automazioni-ai-business.html": Object.freeze({ "automation-uses": 0 })
 });
 
 const institutionalVoiceDestinations = Object.freeze(new Set([
@@ -677,7 +685,7 @@ function assertHardenedCsp(html, route) {
       }
     : {
         ...shared,
-        "img-src": sourceList("'self' data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net"),
+        "img-src": sourceList("'self' data: https://res.cloudinary.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net"),
         "script-src": sourceList("'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com"),
         "style-src": sourceList("'self' 'unsafe-inline'"),
         "font-src": sourceList("'self' data:"),
@@ -881,10 +889,11 @@ function assertGeneratedPageContract(route, html) {
   assert.match(header, /id=["']site-menu-overlay["']/i, `${route.publicUrl}: menu overlay missing`);
   assert.match(header, />\s*Menu\s*</i, `${route.publicUrl}: menu open label missing`);
   assert.match(header, />\s*Chiudi\s*</i, `${route.publicUrl}: menu close label missing`);
+  assert.match(header, /<button\b[^>]*data-menu-close[^>]*aria-label=["']Chiudi il menu principale["'][^>]*>/i, `${route.publicUrl}: real menu close button missing`);
   assert.equal((header.match(/data-site-menu\b/gi) ?? []).length, 1, `${route.publicUrl}: menu must be unique`);
-  const menuNumbers = [...header.matchAll(/class=["'][^"']*site-navigation__number[^"']*["'][^>]*>\s*(0[1-5])\s*</gi)].map((match) => match[1]);
-  assert.deepEqual(menuNumbers, ["01", "02", "03", "04", "05"], `${route.publicUrl}: menu solution numbering changed`);
+  assert.doesNotMatch(header, /site-navigation__(?:number|arrow)/i, `${route.publicUrl}: decorative menu numbering or arrows returned`);
   assert.equal((header.match(/class=["'][^"']*site-navigation__link-copy[^"']*["']/gi) ?? []).length, 5, `${route.publicUrl}: menu solution descriptions missing`);
+  assert.equal((header.match(/<svg\b[^>]*aria-hidden=["']true["']/gi) ?? []).length >= 5, true, `${route.publicUrl}: local SVG shell icons missing`);
   const secondaryList = firstMatch(header, /(<ul\b[^>]*class=["'][^"']*site-navigation__secondary-links[^"']*["'][^>]*>[\s\S]*?<\/ul>)/i, `${route.publicUrl} secondary menu`);
   assert.equal((secondaryList.match(/<li\b/g) ?? []).length, 4, `${route.publicUrl}: secondary menu must expose four links`);
   assert.doesNotMatch(shell, /brand__name[\s\S]{0,80}<strong\b/i, `${route.publicUrl}: AI3D must not receive separate brand emphasis`);
@@ -960,11 +969,19 @@ function assertGeneratedPageContract(route, html) {
     assert.equal((html.match(/iphone_16_pro_configuratore_3d\.glb/g) ?? []).length, 1, `${route.publicUrl}: GLB reference must appear once`);
     assert.equal(metaContent(html, "http-equiv", "Permissions-Policy"), "accelerometer=(self), gyroscope=(self), magnetometer=(self), xr-spatial-tracking=(self)", `${route.publicUrl}: 3D Permissions-Policy changed`);
     assert.doesNotMatch(html, /ApexCharts|stats-chart|logos-carousel/i, `${route.publicUrl}: removed chart or logo carousel returned`);
+    const legacySectionOrder = ["intro-benefits", "settori-3d", "configuratore", "social-proof", "demo-form", "why-choose", "faq-configuratori"]
+      .map((id) => html.indexOf(`id="${id}"`));
+    assert.ok(legacySectionOrder.every((index) => index >= 0), `${route.publicUrl}: a required legacy section anchor is missing`);
+    assert.deepEqual([...legacySectionOrder].sort((a, b) => a - b), legacySectionOrder, `${route.publicUrl}: legacy section order changed`);
+    for (const assetPath of approvedLegacyCardAssetPaths) {
+      assert.ok(html.includes(assetPath), `${route.publicUrl}: approved legacy card asset missing: ${assetPath}`);
+    }
   } else {
     assert.doesNotMatch(html, /<model-viewer\b|\.glb(?:[?"'])|babylon|ApexCharts/i, `${route.publicUrl}: heavy visual runtime leaked into non-configurator page`);
   }
 
   const visibleText = stripMarkup(mainMarkup);
+  assert.doesNotMatch(html, /class=["'][^"']*(?:card__index|visual-card__index|site-navigation__number|flow-step)[^"']*["']/i, `${route.publicUrl}: decorative numbering or retired flow step returned`);
   for (const marker of requiredContent[route.destination] ?? []) {
     assert.ok(visibleText.includes(marker), `${route.publicUrl}: required content missing: ${marker}`);
   }
@@ -989,6 +1006,14 @@ function assertGeneratedPageContract(route, html) {
       assertAttributeValue(trackTag, "tabindex", "0", `${route.publicUrl} rail ${id}`);
       assert.equal((track.match(/data-rail-card\b/g) ?? []).length, expectedCards, `${route.publicUrl}: ${id} card count mismatch`);
       assert.equal((html.match(new RegExp(`aria-controls=["']${id}["']`, "g")) ?? []).length, 2, `${route.publicUrl}: ${id} must have two labelled arrow controls`);
+      assert.doesNotMatch(track, /visual-card__(?:index|arrow)/i, `${route.publicUrl}: ${id} decorative card numbering or arrows returned`);
+      const expectedImages = expectedRailImages[route.destination]?.[id] ?? 0;
+      const railImages = tags(track, "img");
+      assert.equal(railImages.length, expectedImages, `${route.publicUrl}: ${id} image count mismatch`);
+      for (const image of railImages) {
+        assert.ok(attribute(image, "srcset"), `${route.publicUrl}: ${id} responsive image srcset missing`);
+        assert.ok(attribute(image, "sizes"), `${route.publicUrl}: ${id} responsive image sizes missing`);
+      }
       const indicatorBlock = firstMatch(html, new RegExp(`id=["']${id}["'][\\s\\S]*?<\\/ol>\\s*(<div\\b[^>]*data-rail-indicators[^>]*>[\\s\\S]*?<\\/div>)`, "i"), `${route.publicUrl} ${id} indicators`);
       assert.equal((indicatorBlock.match(/<span\b/g) ?? []).length, expectedCards, `${route.publicUrl}: ${id} indicator count mismatch`);
     }
@@ -1179,6 +1204,33 @@ function configuratorBaselineVisualUrls() {
     .map((match) => match[0].replaceAll("&amp;", "&")));
 }
 
+const approvedLegacyCardAssetPaths = new Set([
+  "v1777911837/Configuratore_e-commerce_x0cfvo.jpg",
+  "v1777911838/Portale_commerciali_gu6ta3.jpg",
+  "v1777911838/CPQ_lv1miq.jpg",
+  "v1777911837/Planner_arredamento_eg9vpf.jpg",
+  "v1777911838/arredamento_pdjefm.jpg",
+  "v1777911837/macchinari_e_attrezzature_ujxyrm.jpg",
+  "v1777911838/moda_e_acessori_cbiexl.jpg",
+  "v1777911838/automotive_i0mcou.jpg",
+  "v1777911837/serramenti_f2nxbu.jpg"
+]);
+
+function isApprovedLegacyCardVisualUrl(raw) {
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "https:" || url.hostname !== "res.cloudinary.com") return false;
+    const prefix = "/dqhbriryo/image/upload/";
+    if (!url.pathname.startsWith(prefix)) return false;
+    const parts = url.pathname.slice(prefix.length).split("/");
+    const versionIndex = parts.findIndex((part) => /^v\d+$/.test(part));
+    if (versionIndex < 0) return false;
+    return approvedLegacyCardAssetPaths.has(parts.slice(versionIndex).join("/"));
+  } catch {
+    return false;
+  }
+}
+
 function resourceReferences(html, route) {
   const references = new Set();
   const remoteReferences = new Set();
@@ -1192,8 +1244,9 @@ function resourceReferences(html, route) {
 
   const registerRemote = (raw) => {
     const normalized = raw.replaceAll("&amp;", "&");
-    assert.equal(route.profile, "configurator", `${route.publicUrl}: unexpected remote document resource: ${normalized}`);
-    assert.ok(exactRemoteScripts.has(normalized) || frozenVisualUrls.has(normalized), `${route.publicUrl}: remote resource is outside the frozen configurator allowlist: ${normalized}`);
+    const isFrozenConfiguratorResource = route.profile === "configurator"
+      && (exactRemoteScripts.has(normalized) || frozenVisualUrls.has(normalized));
+    assert.ok(isFrozenConfiguratorResource || isApprovedLegacyCardVisualUrl(normalized), `${route.publicUrl}: remote resource is outside the frozen or owner-approved visual allowlist: ${normalized}`);
     remoteReferences.add(normalized);
   };
   const networkTags = [
@@ -1363,13 +1416,16 @@ run(process.execPath, ["--check", path.join(root, "js", "site-shell.js")]);
 run(process.execPath, ["--check", path.join(root, "tests", "no-js-smoke-server.mjs")]);
 assert.doesNotMatch(siteShellSource, /\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|\.submit\s*\(|requestSubmit|createElement\s*\(\s*["']script["']|https?:\/\//i, "site-shell.js must remain UI-only with no network, form submission, or dynamic remote script behavior");
 assert.doesNotMatch(siteShellSource, /setInterval|autoplay|cloneNode/i, "site-shell.js must not add autoplay or infinite-loop behavior");
-for (const marker of ["Escape", "event.key !== \"Tab\"", "summary.focus()", "is-menu-open", "prefers-reduced-motion: reduce", "ArrowLeft", "ArrowRight", "Home", "End", "reachableLeft", "goPrevious", "goNext"]) {
+for (const marker of ["Escape", "event.key !== \"Tab\"", "summary.focus({ preventScroll: true })", "is-menu-open", "data-menu-close", "setBackgroundInert", "openingScrollY", "prefers-reduced-motion: reduce", "ArrowLeft", "ArrowRight", "Home", "End", "reachableLeft", "goPrevious", "goNext"]) {
   assert.ok(siteShellSource.includes(marker), `site-shell.js interaction contract missing: ${marker}`);
 }
 const foundationCssSource = fs.readFileSync(path.join(root, "css", "foundation.css"), "utf8");
 assert.match(foundationCssSource, /\.button--secondary\s*\{[^}]*border-color:\s*var\(--sx-blue\)/s, "Secondary button blue border must be visible at rest");
+assert.doesNotMatch(foundationCssSource, /\.(?:eyebrow|section-kicker)::before/, "Global eyebrow/kicker gradient bars must stay removed");
 const shellCssSource = fs.readFileSync(path.join(root, "css", "site-shell.css"), "utf8");
 assert.match(shellCssSource, /\.site-navigation__overlay\s*\{[^}]*position:\s*fixed[^}]*inset:\s*0/s, "Menu overlay must fill the viewport");
+assert.match(shellCssSource, /\.site-navigation__close\s*\{[^}]*position:\s*fixed/s, "Menu close button must remain viewport-fixed");
+assert.doesNotMatch(shellCssSource, /\.site-header::before/, "Global header gradient bar must stay removed");
 assert.match(shellCssSource, /transition:[^;]*300ms/s, "Menu transition must remain within the approved 250-350 ms range");
 const railCssSource = fs.readFileSync(path.join(root, "css", "marketing-pages.css"), "utf8");
 assert.match(railCssSource, /\.visual-card-rail__track\s*\{[^}]*overflow-x:\s*auto[^}]*scroll-snap-type:\s*x mandatory/s, "Visual rail must use native horizontal scroll snap");

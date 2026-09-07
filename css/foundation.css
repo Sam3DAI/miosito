@@ -223,7 +223,6 @@ li {
 .section-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
   margin-bottom: 1.1rem;
   color: var(--sx-blue-deep);
   font-size: 0.78rem;
@@ -231,14 +230,6 @@ li {
   letter-spacing: 0.11em;
   line-height: 1.4;
   text-transform: uppercase;
-}
-
-.eyebrow::before,
-.section-kicker::before {
-  width: 1.75rem;
-  height: 2px;
-  background: var(--sx-gradient);
-  content: "";
 }
 
 .button {

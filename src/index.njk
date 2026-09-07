@@ -14,7 +14,7 @@ twitter:
   description: "Configuratori, CPQ, portali B2B e planner progettati intorno a cataloghi, regole e processi commerciali."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
 
 {% set methodSteps = [
   { title: "Analisi", text: "Obiettivi, utenti, dati e vincoli reali." },
@@ -34,10 +34,10 @@ twitter:
 ] %}
 
 {% set problemItems = [
-  { index: "01", label: "Catalogo", title: "Molte varianti", text: "Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo." },
-  { index: "02", label: "Preventivi", title: "Preventivi manuali", text: "Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore." },
-  { index: "03", label: "Vincoli", title: "Regole e incompatibilità", text: "Vincoli tecnici e commerciali richiedono un percorso guidato e coerente." },
-  { index: "04", label: "Rete vendita", title: "Reti disallineate", text: "Cataloghi e procedure diverse possono produrre offerte non uniformi." }
+  { label: "Catalogo", title: "Molte varianti", text: "Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Interfaccia reale di configurazione prodotto con varianti e materiali" },
+  { label: "Preventivi", title: "Preventivi manuali", text: "Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Interfaccia CPQ con configurazione e riepilogo commerciale" },
+  { label: "Vincoli", title: "Regole e incompatibilità", text: "Vincoli tecnici e commerciali richiedono un percorso guidato e coerente.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/macchinari_e_attrezzature_ujxyrm.jpg", alt: "Configuratore per macchinari e attrezzature con opzioni tecniche" },
+  { label: "Rete vendita", title: "Reti disallineate", text: "Cataloghi e procedure diverse possono produrre offerte non uniformi.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale riservato con attività e configurazioni" }
 ] %}
 
 {% block jsonLd %}
@@ -87,9 +87,8 @@ twitter:
   <section class="page-hero">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <span class="eyebrow">SolveX AI3D · Configuratori, CPQ e portali B2B</span>
-        <h1>Configuratori e software commerciali su misura.</h1>
-        <p class="hero-lead">Trasformiamo prodotti, listini e regole di vendita in strumenti web che aiutano aziende e reti commerciali a configurare, preventivare e vendere con meno errori.</p>
+        <h1>Configuratori e software commerciali. Su misura.</h1>
+        <p class="hero-lead">Trasformiamo prodotti, listini e regole di vendita in strumenti web per configurare, preventivare e vendere con meno errori.</p>
         <div class="cta-group">
           <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--secondary" href="#soluzioni">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
@@ -97,37 +96,9 @@ twitter:
         <p class="hero-note">Progetti B2B costruiti intorno al processo reale.</p>
       </div>
 
-      <figure class="software-visual" aria-label="Esempio illustrativo di un'interfaccia per configurare un prodotto e preparare un preventivo">
-        <div class="software-visual__window">
-          <div class="software-visual__toolbar">
-            <div class="software-visual__dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <span class="software-visual__title">Configurazione prodotto</span>
-            <span class="status-chip">Regole verificate</span>
-          </div>
-          <div class="software-visual__body">
-            <div class="configuration-stage">
-              <span class="configuration-stage__label">Prodotto · Vista illustrativa</span>
-              <div class="product-object" aria-hidden="true"></div>
-            </div>
-            <div class="option-panel">
-              <h2>Opzioni</h2>
-              <div class="option-group">
-                <span>Modello</span>
-                <div class="option-choice is-selected"><span class="swatch"></span> Modulare</div>
-                <div class="option-choice"><span class="swatch"></span> Lineare</div>
-              </div>
-              <div class="option-group">
-                <span>Finitura</span>
-                <div class="option-choice is-selected"><span class="swatch"></span> Variante A</div>
-              </div>
-              <div class="quote-summary">
-                <div><span>Compatibilità</span><strong>Conforme</strong></div>
-                <div><span>Riepilogo</span><strong>Pronto</strong></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <figcaption>Interfaccia illustrativa: non rappresenta dati o prodotti di un cliente.</figcaption>
+      <figure class="hero-media">
+        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,h_900,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg" srcset="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_720%2Ch_540%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 720w, https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_1200%2Ch_900%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 1200w, https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_1600%2Ch_1200%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 1600w" sizes="(max-width: 1024px) 92vw, 48vw" width="1200" height="900" alt="Configuratore di prodotto reale con anteprima della sedia e opzioni di personalizzazione" fetchpriority="high" decoding="async">
+        <figcaption>Esempio di configurazione prodotto</figcaption>
       </figure>
     </div>
   </section>
@@ -162,7 +133,6 @@ twitter:
 
   <section class="section container" aria-labelledby="capabilities-title">
     <div class="section-heading">
-      <span class="section-kicker">Capability</span>
       <h2 id="capabilities-title">Visualizzare quando serve. Automatizzare dove crea valore.</h2>
     </div>
     <div class="capability-strip">
@@ -174,20 +144,19 @@ twitter:
   <section class="section section--tinted" aria-labelledby="flow-title">
     <div class="container">
       <div class="section-heading section-heading--center">
-        <span class="section-kicker">Flusso connesso</span>
-        <h2 id="flow-title">Dal catalogo al preventivo, in un unico flusso.</h2>
+        <h2 id="flow-title">Dal catalogo al preventivo.<br>In un unico flusso.</h2>
         <p>Ogni modulo risponde a un passaggio concreto e può essere dimensionato sulle priorità del progetto.</p>
       </div>
-      <div class="flow-panel" aria-label="Fasi e funzioni del flusso commerciale">
-        <div class="flow-step"><span>01</span><strong>Configurazione</strong></div>
-        <div class="flow-step"><span>02</span><strong>Regole</strong></div>
-        <div class="flow-step"><span>03</span><strong>Prezzi e listini</strong></div>
-        <div class="flow-step"><span>04</span><strong>Utenti e ruoli</strong></div>
-        <div class="flow-step"><span>05</span><strong>PDF e documenti</strong></div>
-        <div class="flow-step"><span>06</span><strong>Salvataggi</strong></div>
-        <div class="flow-step"><span>07</span><strong>Revisioni</strong></div>
-        <div class="flow-step"><span>08</span><strong>Integrazioni</strong></div>
-      </div>
+      <ul class="function-grid" aria-label="Funzioni del flusso commerciale">
+        <li>{{ functionIcon("configuration") }}<strong>Configurazione</strong></li>
+        <li>{{ functionIcon("rules") }}<strong>Regole</strong></li>
+        <li>{{ functionIcon("pricing") }}<strong>Prezzi e listini</strong></li>
+        <li>{{ functionIcon("users") }}<strong>Utenti e ruoli</strong></li>
+        <li>{{ functionIcon("documents") }}<strong>PDF e documenti</strong></li>
+        <li>{{ functionIcon("saves") }}<strong>Salvataggi</strong></li>
+        <li>{{ functionIcon("revisions") }}<strong>Revisioni</strong></li>
+        <li>{{ functionIcon("integrations") }}<strong>Integrazioni</strong></li>
+      </ul>
     </div>
   </section>
 
@@ -235,7 +204,6 @@ twitter:
   <section class="section section--tinted" aria-labelledby="custom-process-title">
     <div class="container split-panel">
       <div class="split-panel__lead">
-        <span class="section-kicker">Processi adiacenti</span>
         <h2 id="custom-process-title">Hai un processo fuori standard?</h2>
       </div>
       <div class="split-panel__body">

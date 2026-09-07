@@ -63,7 +63,7 @@ export const GENERATED_ROUTES = Object.freeze([
     publicUrl: "/",
     canonical: "https://solvex-ai3d.com",
     title: "Configuratori, CPQ e Portali Commerciali su Misura | SolveX AI3D",
-    h1: "Configuratori e software commerciali su misura.",
+    h1: "Configuratori e software commerciali. Su misura.",
     schemaTypes: Object.freeze(["Organization", "WebSite"]),
     hasFaq: true
   }),
@@ -83,7 +83,7 @@ export const GENERATED_ROUTES = Object.freeze([
     publicUrl: "/configuratori-3d-2d",
     canonical: "https://solvex-ai3d.com/configuratori-3d-2d",
     title: "Configuratori Web 2D/3D su Misura per Aziende | SolveX AI3D",
-    h1: "Configuratori web su misura, dal prodotto al preventivo.",
+    h1: "Configuratori su misura. Scegli quale.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
