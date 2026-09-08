@@ -71,7 +71,6 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
   "js/cookie-banner.js",
   "js/ga-autotrack.js",
   "js/index.js",
-  "js/netlify-lead-form.js",
   "js/privacy-policy.js",
   "js/siti-web-custom-seo.js",
   "js/termini-condizioni.js",
@@ -88,6 +87,9 @@ const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
   "css/configuratori-3d-2d.css",
   "css/contattaci.css",
   "js/site-shell.js",
+  "css/service-demo-form.css",
+  "js/service-demo-form.js",
+  "js/netlify-lead-form.js",
   "sitemap.xml"
 ]);
 
@@ -132,7 +134,9 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     title: "Configuratori E-commerce su Misura | SolveX AI3D",
     h1: "Configuratori e-commerce su misura per prodotti personalizzabili.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/software-cpq-portali-commerciali.njk",
@@ -142,7 +146,9 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D",
     h1: "Software CPQ e portali commerciali su misura.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/planner-configuratori-arredamento.njk",
@@ -152,7 +158,9 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D",
     h1: "Planner e configuratori per arredamento pensati per produttori e rivenditori.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/automazioni-ai-business.njk",
@@ -162,7 +170,9 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     title: "Automazioni AI per Processi Commerciali | SolveX AI3D",
     h1: "Automazioni AI integrate nei processi commerciali.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/contattaci.njk",
@@ -205,7 +215,6 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
 const functionalProtectedFiles = Object.freeze([
   "js/configuratori-3d-2d.js",
   "js/contattaci.js",
-  "js/netlify-lead-form.js",
   "js/ad-attribution-consent.js",
   "assets/iphone_16_pro_configuratore_3d.glb"
 ]);
@@ -382,7 +391,7 @@ const requiredContent = Object.freeze({
     "I contesti in cui fanno la differenza.",
     "Demo 3D. Anche in Realtà Aumentata.",
     "Progetti descritti per funzione.",
-    "Descrivi il configuratore da valutare."
+    "Descrivi il configuratore che vorresti."
   ]),
   "configuratori-ecommerce.html": Object.freeze([
     "Esperienza guidata",
@@ -431,12 +440,12 @@ const requiredContent = Object.freeze({
     "Descrivi il progetto.",
     "Cosa è utile indicare.",
     "Tempi proporzionati al contesto.",
-    "Invia la richiesta"
+    "Invia richiesta"
   ])
 });
 
 const expectedRails = Object.freeze({
-  "index.html": Object.freeze([["home-problems", 4]]),
+  "index.html": Object.freeze([["home-problems", 4], ["home-projects", 3]]),
   "chi-siamo.html": Object.freeze([]),
   "configuratori-3d-2d.html": Object.freeze([["configurator-scenarios", 4], ["configurator-sectors", 5]]),
   "configuratori-ecommerce.html": Object.freeze([["ecommerce-needs", 4]]),
@@ -933,7 +942,7 @@ function assertGeneratedPageContract(route, html) {
       "/js/ad-attribution-consent.js",
       "/js/cookie-banner.js",
       "/js/netlify-lead-form.js",
-      route.profile === "configurator" ? "/js/configuratori-3d-2d.js" : "/js/contattaci.js",
+      route.profile === "configurator" ? "/js/configuratori-3d-2d.js" : route.formProfile === "service-demo" ? "/js/service-demo-form.js" : "/js/contattaci.js",
       "/js/ga-autotrack.js"
     ];
     let previousIndex = -1;
@@ -1091,10 +1100,55 @@ function assertContactFormContract(html) {
   const fallbackOptions = [...fallback.matchAll(/<option\b([^>]*)>([\s\S]*?)<\/option>/gi)].map((match) => attribute(match[1], "value"));
   assert.deepEqual(fallbackOptions, contactServiceOptions, "contact form: no-JS service options differ from JavaScript options");
   assert.match(html, /id=["']services-checkbox-group["'][^>]*\bhidden\b/i, "contact form: enhanced checkbox group must start hidden");
-  assert.match(html, /<button\b[^>]*type=["']submit["'][^>]*>\s*Invia la richiesta\s*<\/button>/i, "contact form: submit label changed");
+  assert.match(html, /<button\b[^>]*type=["']submit["'][^>]*>\s*Invia richiesta\s*<\/button>/i, "contact form: submit label changed");
   for (const id of ["thank-you-modal", "thank-you-title", "close-modal"]) {
     assert.match(html, new RegExp(`\\bid=["']${id}["']`, "i"), `contact form: success modal node missing: ${id}`);
   }
+}
+
+// Independent contract oracle for the explicitly authorized four-page delta.
+const serviceDemoContracts = [
+  ["configuratori-ecommerce", "demo-configuratori-ecommerce", "ecommerce_page", "Configuratore e-commerce", "Descrivi il configuratore e-commerce che vorresti."],
+  ["software-cpq-portali-commerciali", "demo-cpq-portali", "cpq_portali_page", "CPQ e portali commerciali", "Descrivi il processo commerciale da semplificare."],
+  ["planner-configuratori-arredamento", "demo-planner-arredamento", "planner_arredamento_page", "Planner e configuratore per arredamento", "Descrivi il planner che vorresti."],
+  ["automazioni-ai-business", "demo-automazioni-ai", "automazioni_ai_page", "Automazioni AI per processi commerciali", "Descrivi il processo da automatizzare."]
+];
+
+function assertServiceDemoContract(html, [page, name, source, service, heading]) {
+  const form = formById(html, "service-demo-form", page + " demo");
+  const formTag = openingTag(form, "form", page + " demo opening");
+  for (const [key, value] of [["name", name], ["method", "POST"], ["action", "/richiesta-ricevuta.html"], ["data-netlify", "true"], ["netlify-honeypot", "_honey"]]) {
+    assertAttributeValue(formTag, key, value, page);
+  }
+  assert.doesNotMatch(formTag, /\bnovalidate\b/i, page + ": native validation must work before helper binding");
+  const inputs = tags(form, "input");
+  const hidden = [["form-name", name], ["lead_source", source], ["lead_id", ""], ["gclid", ""], ["gbraid", ""], ["wbraid", ""], ["services[]", service], ["project_type", service]];
+  for (const [key, value] of hidden) {
+    const matches = inputs.filter(tag => attribute(tag, "name") === key);
+    assert.equal(matches.length, 1, page + ": hidden field missing or duplicated " + key);
+    assertAttributeValue(matches[0], "type", "hidden", page + ": " + key);
+    assertAttributeValue(matches[0], "value", value, page + ": " + key);
+  }
+  const expectedNames = hidden.map(([key]) => key).concat(["_honey", "name", "email", "website", "message", "privacy"]).sort();
+  assert.deepEqual(inputs.concat(tags(form, "textarea")).map(tag => attribute(tag, "name")).sort(), expectedNames, page + ": field schema drift");
+  for (const key of ["name", "email", "message", "privacy"]) {
+    const field = controlById(form, key === "message" ? "textarea" : "input", "sd-" + key, page);
+    assertAttributeValue(field, "name", key, page);
+    assert.match(field, /\brequired\b/, page + ": required missing");
+    assertAttributeValue(field, "aria-describedby", "sd-" + key + "-error", page);
+  }
+  const privacy = controlById(form, "input", "sd-privacy", page);
+  assertAttributeValue(privacy, "type", "checkbox", page);
+  assert.doesNotMatch(privacy, /\bchecked\b/, page + ": new privacy must start unchecked");
+  assertAttributeValue(controlById(form, "input", "sd-email", page), "type", "email", page);
+  assert.doesNotMatch(controlById(form, "input", "sd-website", page), /\brequired\b/);
+  assert.equal((html.match(/id="service-demo-form"/g) || []).length, 1);
+  assert.equal((html.match(/id="demo-form"/g) || []).length, 1);
+  assert.match(html, /class="section-heading" id="demo-form">\s*<span class="section-kicker">Richiesta demo<\/span>/);
+  assert.ok(stripMarkup(html).includes(heading), page + ": contextual heading");
+  assert.match(form, />Invia richiesta<\/button>/);
+  assert.ok(linkPairs(html).some(link => link.href === "#demo-form" && link.text.replace(/[↗↓]/g, "").trim() === "Richiedi una Demo gratuita"), page + ": own-page primary CTA");
+  assert.doesNotMatch(html, /thank-you-modal|<canvas|babylon|\/js\/configuratori-3d-2d\.js|[?&](?:success|demo)=1/);
 }
 
 function assertConfiguratorFunctionalContract(html) {
@@ -1224,6 +1278,15 @@ const approvedLegacyCardAssetPaths = new Set([
   "v1777911837/serramenti_f2nxbu.jpg"
 ]);
 
+// Task 29 reuses this existing production illustration only in the homepage
+// capability card. Keep the nine hub assets and their completeness gate intact.
+const reusedAiCapabilityUrl = "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,c_limit/v1752249260/Autodocs_AI_adhyrh.webp";
+assert.ok(readGitBlobBuffer("513900768e8cce95a88132cfa1af93eb36e2ac3d", "index.html", root).buffer.includes(Buffer.from("v1752249260/Autodocs_AI_adhyrh.webp")), "Reused AI illustration must have production provenance");
+const isReusedAiCapability = (route, url) => route.publicUrl === "/" && url === reusedAiCapabilityUrl;
+assert.equal(isReusedAiCapability({ publicUrl: "/" }, reusedAiCapabilityUrl), true);
+assert.equal(isReusedAiCapability({ publicUrl: "/automazioni-ai-business" }, reusedAiCapabilityUrl), false);
+assert.equal(isReusedAiCapability({ publicUrl: "/" }, reusedAiCapabilityUrl + ".unexpected"), false);
+
 function isApprovedLegacyCardVisualUrl(raw) {
   try {
     const url = new URL(raw);
@@ -1254,7 +1317,7 @@ function resourceReferences(html, route) {
     const normalized = raw.replaceAll("&amp;", "&");
     const isFrozenConfiguratorResource = route.profile === "configurator"
       && (exactRemoteScripts.has(normalized) || frozenVisualUrls.has(normalized));
-    assert.ok(isFrozenConfiguratorResource || isApprovedLegacyCardVisualUrl(normalized), `${route.publicUrl}: remote resource is outside the frozen or owner-approved visual allowlist: ${normalized}`);
+    assert.ok(isFrozenConfiguratorResource || isApprovedLegacyCardVisualUrl(normalized) || isReusedAiCapability(route, normalized), `${route.publicUrl}: remote resource is outside the frozen or owner-approved visual allowlist: ${normalized}`);
     remoteReferences.add(normalized);
   };
   const networkTags = [
@@ -1345,8 +1408,8 @@ function assertRouteRegistry() {
   assert.deepEqual(OWNED_STATIC_FILES, EXPECTED_OWNED_STATIC_FILES, "Eleventy owned-static registry differs from the independent expected list");
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
-  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 36, "Frozen passthrough inventory changed unexpectedly");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 7, "Owned static inventory changed unexpectedly");
+  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 35, "Only the lead helper may leave the frozen registry");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 10, "Owned inventory: prior seven plus controlled helper, shared form CSS and adapter");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1420,6 +1483,23 @@ assert.deepEqual(measurement, {
 }, "Measurement identifiers or default mode changed");
 
 const siteShellSource = fs.readFileSync(path.join(root, "js", "site-shell.js"), "utf8");
+const helperFile = "js/netlify-lead-form.js";
+const helperBefore = readGitBlobBuffer("ffa0b3cab1d444420bc460a4307fe1593ebbf692", helperFile, root).buffer;
+const helperAfter = fs.readFileSync(path.join(root, helperFile));
+const originalSources = "['contattaci_page', 'configuratori_3d']";
+const expandedSources = "['contattaci_page', 'configuratori_3d', 'ecommerce_page', 'cpq_portali_page', 'planner_arredamento_page', 'automazioni_ai_page']";
+const normalizedHelperAfter = helperAfter.toString("utf8").replace(/\r\n/g, "\n");
+assert.equal(normalizedHelperAfter.split(expandedSources).length - 1, 1, "Exactly one expanded allowlist required");
+assert.equal(normalizedHelperAfter.replace(expandedSources, originalSources), helperBefore.toString("utf8").replace(/\r\n/g, "\n"), "The helper delta must consist ONLY of four explicit source additions");
+const sourceAllowlistEvidence = {
+  result: "EXACT_FOUR_ADDITIONS", baseCommit: "ffa0b3cab1d444420bc460a4307fe1593ebbf692",
+  beforeGitSha256: sha256(helperBefore), afterSourceSha256: sha256(helperAfter),
+  normalizedAfterSha256: sha256(Buffer.from(normalizedHelperAfter)), eolNormalization: "CRLF_TO_LF_FOR_DELTA_ONLY"
+};
+const serviceAdapterSource = fs.readFileSync(path.join(root, "js/service-demo-form.js"), "utf8");
+assert.doesNotMatch(serviceAdapterSource, /fetch\s*\(|XMLHttpRequest|sendBeacon|randomUUID|dataLayer|sessionStorage|localStorage|setInterval|setTimeout|lead_id/, "Adapter must not duplicate transport, UUID, consent, dedup or retry engines");
+assert.match(serviceAdapterSource, /helper\.bind\(/);
+assert.doesNotMatch(serviceAdapterSource, /noValidate\s*=|novalidate/i, "Only the helper may disable native validation after initialization");
 run(process.execPath, ["--check", path.join(root, "js", "site-shell.js")]);
 run(process.execPath, ["--check", path.join(root, "tests", "no-js-smoke-server.mjs")]);
 assert.doesNotMatch(siteShellSource, /\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|\.submit\s*\(|requestSubmit|createElement\s*\(\s*["']script["']|https?:\/\//i, "site-shell.js must remain UI-only with no network, form submission, or dynamic remote script behavior");
@@ -1448,7 +1528,7 @@ assert.match(railCssSource, /\.visual-card-rail__track\s*\{[^}]*overflow-x:\s*au
 
 assert.doesNotMatch(railCssSource, /radial-gradient|visual-card__visual|justify-content:\s*flex-end|margin-right:\s*calc/, "Retired mockups, bottom-copy and one-sided rail breakout must not return");
 assert.match(railCssSource, /\.visual-card__inner\s*\{[^}]*justify-content:\s*flex-start/s, "Card copy must start at the top");
-assert.match(railCssSource, /\.faq-item summary::after\s*\{[^}]*border-radius:\s*50%/s, "FAQ toggle must retain the circular production treatment");
+assert.match(railCssSource, /\.faq-symbol\s*\{[^}]*border-radius:\s*50%/s, "FAQ toggle must retain the circular production treatment");
 const socialSource = fs.readFileSync(path.join(root, "src/_includes/partials/social-icon.njk"), "utf8");
 assert.match(socialSource, /Font Awesome Free 6\.5\.2.*CC BY 4\.0/, "Official social glyph attribution must be preserved");
 assert.doesNotMatch(socialSource, /<rect\b|<circle\b|M5 4l14 16/, "Do not restore approximated social brands");
@@ -1468,7 +1548,7 @@ const expectedOutputs = [
   ...EXPECTED_OWNED_STATIC_FILES,
   ...EXPECTED_GENERATED_ROUTES.map((route) => route.destination)
 ];
-assert.equal(expectedOutputs.length, 53, "Expected output count changed unexpectedly");
+assert.equal(expectedOutputs.length, 55, "Expected output count changed unexpectedly");
 
 const frozenEvidence = [];
 const ownedEvidence = [];
@@ -1529,6 +1609,9 @@ function verifyBuiltOutput() {
   assert.equal((configurator.match(/name=["']mini-demo-configuratori["']/g) ?? []).length, 1, "mini-demo-configuratori form missing or duplicated");
   assertContactFormContract(contact);
   assertConfiguratorFunctionalContract(configurator);
+  for (const contract of serviceDemoContracts) {
+    assertServiceDemoContract(fs.readFileSync(path.join(outputRoot, contract[0] + ".html"), "utf8"), contract);
+  }
 
   const netlifyForms = expectedOutputs
     .filter((file) => file.endsWith(".html"))
@@ -1536,8 +1619,8 @@ function verifyBuiltOutput() {
       const html = fs.readFileSync(path.join(outputRoot, ...file.split("/")), "utf8");
       return [...html.matchAll(/<form\b[^>]*\bdata-netlify=["']true["'][^>]*>/gi)].map((match) => ({ file, tag: match[0] }));
     });
-  assert.equal(netlifyForms.length, 2, "Published output must expose exactly the two deliberate Netlify forms");
-  assert.deepEqual(netlifyForms.map((entry) => attribute(entry.tag, "name")).sort(), ["contact-main", "mini-demo-configuratori"], "Netlify form identities changed");
+  assert.equal(netlifyForms.length, 6, "Published output must expose exactly the six deliberate Netlify forms");
+  assert.deepEqual(netlifyForms.map((entry) => attribute(entry.tag, "name")).sort(), ["contact-main", "demo-automazioni-ai", "demo-configuratori-ecommerce", "demo-cpq-portali", "demo-planner-arredamento", "mini-demo-configuratori"], "Netlify form identities changed");
 
   return { builtInventory, inventoryComparison, currentPerformance };
 }
@@ -1636,7 +1719,7 @@ const summary = {
   seoAndSchema: "PASS",
   contentContract: "PASS",
   measurementMode: measurement.mode,
-  measurementProfiles: { legacyDirectRoutes: 8, gtmVerifiedRoutes: 2 },
+  measurementProfiles: { legacyDirectRoutes: 4, gtmVerifiedRoutes: 6 },
   cspProfiles: { standardRoutes: 8, leadRoutes: 1, configuratorRoutes: 1 },
   menuContract: "PASS",
   railContract: "PASS",
@@ -1648,7 +1731,10 @@ const summary = {
   cspHardening: "PASS",
   configuratorFunctionalFreeze: "PASS",
   contactFunctionalFreeze: "PASS",
-  formsDetected: 2,
+  formsDetected: 6,
+  sourceAllowlistEvidence,
+  serviceDemoFormsBuild: "PASS",
+  serviceDemoProviderDelivery: "NOT_TESTED_NO_REAL_SUBMISSION",
   frozenManifestSha256,
   sharedCssGzipBytes,
   shellJsGzipBytes,

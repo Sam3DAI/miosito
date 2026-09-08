@@ -192,7 +192,7 @@
     const offlineMessage = options.offlineMessage || 'Sei offline. La richiesta non è stata inviata: controlla la connessione e riprova manualmente.';
     const deliveryUnknownMessage = options.deliveryUnknownMessage || 'Stato dell\'invio incerto: la richiesta potrebbe essere stata ricevuta. Non reinviare subito. Se scegli di riprovare manualmente, potrebbe essere creato un duplicato.';
 
-    if (form.getAttribute('name') !== formName || !['contattaci_page', 'configuratori_3d'].includes(leadSource) || typeof validate !== 'function') {
+    if (form.getAttribute('name') !== formName || !['contattaci_page', 'configuratori_3d', 'ecommerce_page', 'cpq_portali_page', 'planner_arredamento_page', 'automazioni_ai_page'].includes(leadSource) || typeof validate !== 'function') {
       throw new Error('Invalid verified lead form configuration.');
     }
 

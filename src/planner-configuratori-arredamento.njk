@@ -1,6 +1,9 @@
 ---
 permalink: planner-configuratori-arredamento.html
 pageKey: planner
+measurementMode: gtm-verified
+pageStyle: "/css/service-demo-form.css"
+pageScript: "/js/service-demo-form.js"
 mainId: main-content
 breadcrumbLabel: Planner e arredamento
 title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D"
@@ -83,20 +86,18 @@ twitter:
 
 {% block content %}
 <main id="main-content">
-  <section class="page-hero page-hero--compact">
+  <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
         <h1><span class="gradient-text">Planner e configuratori</span> per arredamento pensati per produttori e rivenditori.</h1>
+        <div class="hero-introduction">
         <p class="hero-lead">Composizioni, misure e finiture in uno strumento B2B che aiuta showroom e reti vendita a preparare offerte coerenti con il catalogo.</p>
         <div class="cta-group">
-          <a class="button button--page button--project" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
           <a class="button button--page button--secondary" href="#funzioni">Esplora le funzioni <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <figure class="hero-media hero-media--compact">
-        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,h_900,c_fill,g_auto/v1777911837/Planner_arredamento_eg9vpf.jpg" width="1200" height="900" alt="Planner per arredamento con composizione visiva dell'ambiente" loading="eager" decoding="async">
-        <figcaption>Composizione, misure e finiture</figcaption>
-      </figure>
+      </div>
     </div>
   </section>
 
@@ -111,9 +112,9 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="planner-functions-title">
     <div class="container">
-      <div class="section-heading">
+      <div class="section-heading" id="funzioni">
         <span class="section-kicker">Funzioni</span>
-        <h2 id="planner-functions-title"><span class="anchor-target" id="funzioni">Dalla composizione alla proposta commerciale.</span></h2>
+        <h2 id="planner-functions-title">Dalla composizione alla proposta commerciale.</h2>
         <p>Ogni funzione viene dimensionata su catalogo, utenti e risultato che il processo deve produrre.</p>
       </div>
       <div class="feature-grid">
@@ -155,8 +156,10 @@ twitter:
     {{ faq(faqItems) }}
   </section>
 
+  {% include "partials/service-demo-form.njk" %}
+
   <section class="section section--compact container">
-    {{ finalCta("Il tuo catalogo richiede composizioni, vincoli e offerte?", "Descrivi prodotti, utenti e passaggi commerciali: valutiamo moduli, misure e documenti necessari alla tua rete vendita.") }}
+    {{ finalCta("Il tuo catalogo richiede composizioni, vincoli e offerte?", "Descrivi prodotti, utenti e passaggi commerciali: valutiamo moduli, misure e documenti necessari alla tua rete vendita.", "Richiedi una Demo gratuita", false, "#demo-form") }}
   </section>
 </main>
 {% endblock %}

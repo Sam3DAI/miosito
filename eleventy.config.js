@@ -36,7 +36,6 @@ export const FROZEN_PASSTHROUGH_FILES = Object.freeze([
   "js/cookie-banner.js",
   "js/ga-autotrack.js",
   "js/index.js",
-  "js/netlify-lead-form.js",
   "js/privacy-policy.js",
   "js/siti-web-custom-seo.js",
   "js/termini-condizioni.js",
@@ -53,6 +52,9 @@ export const OWNED_STATIC_FILES = Object.freeze([
   "css/configuratori-3d-2d.css",
   "css/contattaci.css",
   "js/site-shell.js",
+  "css/service-demo-form.css",
+  "js/service-demo-form.js",
+  "js/netlify-lead-form.js",
   "sitemap.xml"
 ]);
 
@@ -97,7 +99,9 @@ export const GENERATED_ROUTES = Object.freeze([
     title: "Configuratori E-commerce su Misura | SolveX AI3D",
     h1: "Configuratori e-commerce su misura per prodotti personalizzabili.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/software-cpq-portali-commerciali.njk",
@@ -107,7 +111,9 @@ export const GENERATED_ROUTES = Object.freeze([
     title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D",
     h1: "Software CPQ e portali commerciali su misura.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/planner-configuratori-arredamento.njk",
@@ -117,7 +123,9 @@ export const GENERATED_ROUTES = Object.freeze([
     title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D",
     h1: "Planner e configuratori per arredamento pensati per produttori e rivenditori.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/automazioni-ai-business.njk",
@@ -127,7 +135,9 @@ export const GENERATED_ROUTES = Object.freeze([
     title: "Automazioni AI per Processi Commerciali | SolveX AI3D",
     h1: "Automazioni AI integrate nei processi commerciali.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
-    hasFaq: true
+    hasFaq: true,
+    measurementMode: "gtm-verified",
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/contattaci.njk",

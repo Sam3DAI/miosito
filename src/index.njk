@@ -34,7 +34,7 @@ twitter:
 ] %}
 
 {% set problemItems = [
-  { label: "Catalogo", title: "Molte varianti", text: "Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Interfaccia reale di configurazione prodotto con varianti e materiali" },
+  { label: "Catalogo", title: "Molte varianti", text: "Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Illustrazione SolveX di configurazione prodotto con varianti e materiali" },
   { label: "Preventivi", title: "Preventivi manuali", text: "Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Interfaccia CPQ con configurazione e riepilogo commerciale" },
   { label: "Vincoli", title: "Regole e incompatibilità", text: "Vincoli tecnici e commerciali richiedono un percorso guidato e coerente.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/macchinari_e_attrezzature_ujxyrm.jpg", alt: "Configuratore per macchinari e attrezzature con opzioni tecniche" },
   { label: "Rete vendita", title: "Reti disallineate", text: "Cataloghi e procedure diverse possono produrre offerte non uniformi.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale riservato con attività e configurazioni" }
@@ -84,20 +84,18 @@ twitter:
 
 {% block content %}
 <main id="main-content">
-  <section class="page-hero">
+  <section class="page-hero page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
         <h1><span class="gradient-text">Configuratori</span> e software commerciali. Su misura.</h1>
+        <div class="hero-introduction">
         <p class="hero-lead">Trasformiamo prodotti, listini e regole di vendita in strumenti web per configurare, preventivare e vendere con meno errori.</p>
         <div class="cta-group">
           <a class="button button--page button--project" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
           <a class="button button--page button--secondary" href="#soluzioni">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
         </div>
+        </div>
       </div>
-
-      <figure class="hero-media">
-        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,h_900,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg" srcset="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_720%2Ch_540%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 720w, https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_1200%2Ch_900%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 1200w, https://res.cloudinary.com/dqhbriryo/image/upload/f_auto%2Cq_auto%2Cw_1600%2Ch_1200%2Cc_fill%2Cg_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg 1600w" sizes="(max-width: 1024px) 92vw, 48vw" width="1200" height="900" alt="Configuratore di prodotto reale con anteprima della sedia e opzioni di personalizzazione" fetchpriority="high" decoding="async">
-      </figure>
     </div>
   </section>
 
@@ -112,15 +110,15 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="solutions-title">
     <div class="container">
-      <div class="section-heading section-heading--statement">
+      <div class="section-heading section-heading--statement" id="soluzioni">
         <span class="section-kicker">Soluzioni</span>
-        <h2 id="solutions-title"><span class="anchor-target" id="soluzioni"><span class="statement-line">Una <span class="gradient-text">soluzione</span>.</span> <span class="statement-line">Per ogni processo <span class="gradient-text">di vendita</span>.</span></span></h2>
+        <h2 id="solutions-title"><span class="statement-line">Una <span class="gradient-text">soluzione</span>.</span> <span class="statement-line">Per ogni processo <span class="gradient-text">di vendita</span>.</span></h2>
         <p>La tecnologia cambia, ma il criterio resta lo stesso: rendere più chiaro il percorso tra catalogo, scelta e proposta commerciale.</p>
       </div>
       <div class="solution-grid">
-        <a class="card card--link card--gradient" href="/configuratori-ecommerce"><span class="card__label">E-commerce</span><h3>Guidare la personalizzazione prima dell’acquisto.</h3><p>Varianti, compatibilità, prezzo e passaggio al carrello dentro un’esperienza coerente.</p><span class="card__arrow">Scopri i configuratori e-commerce →</span></a>
-        <a class="card card--link" href="/software-cpq-portali-commerciali"><span class="card__label">B2B</span><h3>Governare regole, listini e preventivi.</h3><p>Strumenti per agenti, dealer e clienti con ruoli, revisioni e documenti.</p><span class="card__arrow">Scopri CPQ e portali →</span></a>
-        <a class="card card--link" href="/planner-configuratori-arredamento"><span class="card__label">Arredamento</span><h3>Comporre spazi e prodotti modulari.</h3><p>Misure, finiture, vincoli e offerte per produttori, showroom e rivenditori.</p><span class="card__arrow">Scopri planner e configuratori →</span></a>
+        <a class="card card--link" href="/configuratori-ecommerce">{{ functionIcon("configuration") }}<span class="card__label">E-commerce</span><h3>Guidare la <span class="gradient-text">personalizzazione</span> prima dell’acquisto.</h3><p>Varianti, compatibilità, prezzo e passaggio al carrello dentro un’esperienza coerente.</p><span class="card__arrow">Scopri i configuratori e-commerce <span aria-hidden="true">→</span></span></a>
+        <a class="card card--link" href="/software-cpq-portali-commerciali">{{ functionIcon("pricing") }}<span class="card__label">B2B</span><h3>Governare regole, listini e <span class="gradient-text">preventivi</span>.</h3><p>Strumenti per agenti, dealer e clienti con ruoli, revisioni e documenti.</p><span class="card__arrow">Scopri CPQ e portali <span aria-hidden="true">→</span></span></a>
+        <a class="card card--link" href="/planner-configuratori-arredamento">{{ functionIcon("rules") }}<span class="card__label">Arredamento</span><h3>Comporre <span class="gradient-text">spazi</span> e prodotti modulari.</h3><p>Misure, finiture, vincoli e offerte per produttori, showroom e rivenditori.</p><span class="card__arrow">Scopri planner e configuratori <span aria-hidden="true">→</span></span></a>
       </div>
     </div>
   </section>
@@ -130,8 +128,14 @@ twitter:
       <h2 id="capabilities-title"><span class="statement-line"><span class="gradient-text">Visualizzare</span> quando serve.</span> <span class="statement-line"><span class="gradient-text">Automatizzare</span> dove crea valore.</span></h2>
     </div>
     <div class="capability-strip">
-      <a class="card card--link" href="/configuratori-3d-2d"><span class="card__label">2D / 3D</span><h3>Configuratori di prodotto interattivi.</h3><p>La componente visiva aiuta a comprendere varianti, materiali e risultato della configurazione.</p><span class="card__arrow">Esplora i configuratori 2D/3D →</span></a>
-      <a class="card card--link card--gradient" href="/automazioni-ai-business"><span class="card__label">AI integrata</span><h3>Automazioni dentro il processo commerciale.</h3><p>L’AI supporta documenti, richieste e workflow definiti, mantenendo controllo e supervisione.</p><span class="card__arrow">Esplora le automazioni AI →</span></a>
+      <a class="card card--link capability-card" href="/configuratori-3d-2d">
+        <div class="capability-card__copy"><span class="card__label">2D / 3D</span><h3>Configuratori di prodotto interattivi.</h3><p>La componente visiva aiuta a comprendere varianti, materiali e risultato della configurazione.</p><span class="card__arrow">Esplora i configuratori 2D/3D <span aria-hidden="true">→</span></span></div>
+        <figure class="capability-card__media"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,c_limit/v1777911837/Configuratore_e-commerce_x0cfvo.jpg" width="1200" height="900" alt="Illustrazione SolveX della configurazione di prodotto" loading="lazy" decoding="async"><figcaption>Visualizzazione illustrativa SolveX.</figcaption></figure>
+      </a>
+      <a class="card card--link capability-card" href="/automazioni-ai-business">
+        <div class="capability-card__copy"><span class="card__label">AI integrata</span><h3>Automazioni dentro il processo commerciale.</h3><p>L’AI supporta documenti, richieste e workflow definiti, mantenendo controllo e supervisione.</p><span class="card__arrow">Esplora le automazioni AI <span aria-hidden="true">→</span></span></div>
+        <figure class="capability-card__media"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,c_limit/v1752249260/Autodocs_AI_adhyrh.webp" width="1200" height="900" alt="Illustrazione SolveX dell’elaborazione di documenti con AI" loading="lazy" decoding="async"><figcaption>Visualizzazione illustrativa SolveX.</figcaption></figure>
+      </a>
     </div>
   </section>
 
@@ -142,29 +146,30 @@ twitter:
         <p>Ogni modulo risponde a un passaggio concreto e può essere dimensionato sulle priorità del progetto.</p>
       </div>
       <ul class="function-grid" aria-label="Funzioni del flusso commerciale">
-        <li>{{ functionIcon("configuration") }}<strong>Configurazione</strong></li>
-        <li>{{ functionIcon("rules") }}<strong>Regole</strong></li>
-        <li>{{ functionIcon("pricing") }}<strong>Prezzi e listini</strong></li>
-        <li>{{ functionIcon("users") }}<strong>Utenti e ruoli</strong></li>
-        <li>{{ functionIcon("documents") }}<strong>PDF e documenti</strong></li>
-        <li>{{ functionIcon("saves") }}<strong>Salvataggi</strong></li>
-        <li>{{ functionIcon("revisions") }}<strong>Revisioni</strong></li>
-        <li>{{ functionIcon("integrations") }}<strong>Integrazioni</strong></li>
+        <li class="editorial-card">{{ functionIcon("configuration") }}<strong>Configurazione</strong><p>Guida la scelta di varianti e opzioni del prodotto.</p></li>
+        <li class="editorial-card">{{ functionIcon("rules") }}<strong>Regole</strong><p>Verifica compatibilità e dipendenze tra le scelte.</p></li>
+        <li class="editorial-card">{{ functionIcon("pricing") }}<strong>Prezzi e listini</strong><p>Applica i dati commerciali previsti per la configurazione.</p></li>
+        <li class="editorial-card">{{ functionIcon("users") }}<strong>Utenti e ruoli</strong><p>Definisce visibilità e azioni per ogni profilo.</p></li>
+        <li class="editorial-card">{{ functionIcon("documents") }}<strong>PDF e documenti</strong><p>Raccoglie configurazione e dati nel riepilogo di offerta.</p></li>
+        <li class="editorial-card">{{ functionIcon("saves") }}<strong>Salvataggi</strong><p>Permette di riprendere e condividere le configurazioni.</p></li>
+        <li class="editorial-card">{{ functionIcon("revisions") }}<strong>Revisioni</strong><p>Mantiene leggibili versioni e passaggi di verifica.</p></li>
+        <li class="editorial-card">{{ functionIcon("integrations") }}<strong>Integrazioni</strong><p>Collega cataloghi e sistemi dopo l’analisi delle interfacce.</p></li>
       </ul>
     </div>
   </section>
 
-  <section class="section container" aria-labelledby="projects-title">
-    <div class="section-heading">
+  <section class="section section--rail" aria-labelledby="projects-title">
+    <div class="section-heading rail-heading" id="progetti">
       <span class="section-kicker">Esperienza applicata</span>
-      <h2 id="projects-title"><span class="anchor-target" id="progetti">Tipologie di progetto già realizzate.</span></h2>
+      <h2 id="projects-title">Tipologie di progetto già realizzate.</h2>
       <p>Esempi anonimi descritti per funzione, senza esporre nomi, dati o risultati dei clienti.</p>
     </div>
-    <div class="proof-grid">
-      <article class="card proof-card"><span class="card__label">Visuale</span><h3>Configurazione 3D di prodotto.</h3><p>Un’esperienza web per selezionare varianti e leggere visivamente la configurazione.</p></article>
-      <article class="card proof-card"><span class="card__label">Commerciale</span><h3>Portale preventivi B2B.</h3><p>Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.</p></article>
-      <article class="card proof-card"><span class="card__label">Tecnico</span><h3>Configuratore tecnico con listini e PDF.</h3><p>Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.</p></article>
-    </div>
+    {% set projectItems = [
+      { title: "Configurazione 3D di prodotto.", text: "Un’esperienza web per selezionare varianti e leggere visivamente la configurazione.", icon: "configuration", image: "", alt: "" },
+      { title: "Portale preventivi B2B.", text: "Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.", icon: "users", image: "", alt: "" },
+      { title: "Configuratore tecnico con listini e PDF.", text: "Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.", icon: "documents", image: "", alt: "" }
+    ] %}
+    {{ visualCardRail("home-projects", "Progetti anonimi per funzione", projectItems, "landscape") }}
   </section>
 
   <section class="section section--tinted" aria-labelledby="method-title">

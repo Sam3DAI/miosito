@@ -1,6 +1,9 @@
 ---
 permalink: software-cpq-portali-commerciali.html
 pageKey: cpq
+measurementMode: gtm-verified
+pageStyle: "/css/service-demo-form.css"
+pageScript: "/js/service-demo-form.js"
 mainId: main-content
 breadcrumbLabel: CPQ e software commerciali
 title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D"
@@ -87,20 +90,18 @@ twitter:
 
 {% block content %}
 <main id="main-content">
-  <section class="page-hero page-hero--compact">
+  <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
         <h1><span class="gradient-text">Software CPQ</span> e portali commerciali su misura.</h1>
+        <div class="hero-introduction">
         <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
         <div class="cta-group">
-          <a class="button button--page button--project" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
           <a class="button button--page button--secondary" href="#moduli">Esplora i moduli <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <figure class="hero-media hero-media--compact">
-        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,h_900,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg" width="1200" height="900" alt="Software CPQ con configurazione e riepilogo commerciale" loading="eager" decoding="async">
-        <figcaption>Configurazione, regole e offerta</figcaption>
-      </figure>
+      </div>
     </div>
   </section>
 
@@ -118,9 +119,9 @@ twitter:
   </section>
 
   <section class="section section--rail" aria-labelledby="modules-title">
-      <div class="section-heading rail-heading">
+      <div class="section-heading rail-heading" id="moduli">
         <span class="section-kicker">Moduli</span>
-        <h2 id="modules-title"><span class="anchor-target" id="moduli">Dal preventivo ai documenti della rete vendita.</span></h2>
+        <h2 id="modules-title">Dal preventivo ai documenti della rete vendita.</h2>
         <p>Non tutti i progetti richiedono ogni modulo. Si scelgono funzioni, confini e priorità in base agli utenti e ai dati disponibili.</p>
       </div>
     {{ visualCardRail("cpq-modules", "Moduli per CPQ e portali commerciali", moduleItems) }}
@@ -166,8 +167,10 @@ twitter:
     </div>
   </section>
 
+  {% include "partials/service-demo-form.njk" %}
+
   <section class="section section--compact container">
-    {{ finalCta("Il processo commerciale vive ancora tra fogli e passaggi manuali?", "Partiamo da utenti, regole, listini e documenti per definire il primo flusso che vale la pena strutturare.") }}
+    {{ finalCta("Il processo commerciale vive ancora tra fogli e passaggi manuali?", "Partiamo da utenti, regole, listini e documenti per definire il primo flusso che vale la pena strutturare.", "Richiedi una Demo gratuita", false, "#demo-form") }}
   </section>
 </main>
 {% endblock %}

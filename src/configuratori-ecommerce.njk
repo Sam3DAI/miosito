@@ -1,6 +1,9 @@
 ---
 permalink: configuratori-ecommerce.html
 pageKey: ecommerce
+measurementMode: gtm-verified
+pageStyle: "/css/service-demo-form.css"
+pageScript: "/js/service-demo-form.js"
 mainId: main-content
 breadcrumbLabel: Configuratori e-commerce
 title: "Configuratori E-commerce su Misura | SolveX AI3D"
@@ -82,20 +85,18 @@ twitter:
 
 {% block content %}
 <main id="main-content">
-  <section class="page-hero page-hero--compact">
+  <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <h1><span class="gradient-text">Configuratori e-commerce</span> su misura per prodotti personalizzabili.</h1>
+        <h1><span class="gradient-text">Configuratori <span class="word-keep">e-commerce</span></span> su misura per prodotti personalizzabili.</h1>
+        <div class="hero-introduction">
         <p class="hero-lead">Aiutiamo brand e produttori a rendere più semplice la scelta di varianti, materiali, colori, accessori e configurazioni prima dell’acquisto.</p>
         <div class="cta-group">
-          <a class="button button--page button--project" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
           <a class="button button--page button--secondary" href="#funzioni">Esplora le funzioni <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <figure class="hero-media hero-media--compact">
-        <img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,h_900,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg" width="1200" height="900" alt="Configuratore e-commerce con prodotto e opzioni di personalizzazione" loading="eager" decoding="async">
-        <figcaption>Configurazione prodotto e-commerce</figcaption>
-      </figure>
+      </div>
     </div>
   </section>
 
@@ -127,9 +128,9 @@ twitter:
   </section>
 
   <section class="section container" aria-labelledby="features-title">
-    <div class="section-heading">
+    <div class="section-heading" id="funzioni">
       <span class="section-kicker">Funzioni</span>
-      <h2 id="features-title"><span class="anchor-target" id="funzioni">Le funzioni dipendono dal prodotto e dal flusso di acquisto.</span></h2>
+      <h2 id="features-title">Le funzioni dipendono dal prodotto e dal flusso di acquisto.</h2>
       <p>Partiamo da regole, dati da raccogliere e informazioni da trasferire all’ordine.</p>
     </div>
     <div class="feature-grid">
@@ -176,8 +177,10 @@ twitter:
     {{ faq(faqItems) }}
   </section>
 
+  {% include "partials/service-demo-form.njk" %}
+
   <section class="section section--compact container">
-    {{ finalCta("Il tuo prodotto richiede una scelta più guidata?", "Condividi catalogo, varianti e piattaforma: il primo passo è capire dove il configuratore può rendere il flusso più chiaro.") }}
+    {{ finalCta("Il tuo prodotto richiede una scelta più guidata?", "Condividi catalogo, varianti e piattaforma: il primo passo è capire dove il configuratore può rendere il flusso più chiaro.", "Richiedi una Demo gratuita", false, "#demo-form") }}
   </section>
 </main>
 {% endblock %}
