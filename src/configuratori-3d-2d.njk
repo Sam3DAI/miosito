@@ -39,8 +39,8 @@ twitter:
 {% set faqItems = [
   { question: "Quali sono le differenze tra configuratore e-commerce, portale commerciale, configuratore CPQ e planner per arredamento?", answer: "Il configuratore e-commerce guida il cliente finale nella personalizzazione; il portale commerciale supporta agenti, dealer o clienti B2B; il CPQ aggiunge regole, prezzi e preventivi; il planner organizza moduli, misure, finiture e ambienti." },
   { highlight: "2D o un configuratore 3D?", question: "Meglio un configuratore 2D o un configuratore 3D?", answer: "Dipende dal prodotto e dall'obiettivo. Il 2D può essere più rapido e chiaro per opzioni e composizioni; il 3D e l'AR sono utili quando forma, materiali o percezione spaziale incidono davvero sulla scelta." },
-  { question: "Un configuratore si integra nel sito o e-commerce che uso già oggi?", answer: "Spesso è possibile, ma la fattibilità va verificata su piattaforma, catalogo, API, checkout, autenticazione e sistemi che devono ricevere i dati." },
-  { question: "Un configuratore può gestire anche regole prodotto, prezzi e preventivi?", answer: "Sì, quando vincoli, listini e responsabilità sono formalizzabili. Il sistema può guidare le combinazioni e preparare riepiloghi o documenti per il flusso previsto." },
+  { highlight: "si integra", question: "Un configuratore si integra nel sito o e-commerce che uso già oggi?", answer: "Spesso è possibile, ma la fattibilità va verificata su piattaforma, catalogo, API, checkout, autenticazione e sistemi che devono ricevere i dati." },
+  { highlight: "regole prodotto, prezzi e preventivi", question: "Un configuratore può gestire anche regole prodotto, prezzi e preventivi?", answer: "Sì, quando vincoli, listini e responsabilità sono formalizzabili. Il sistema può guidare le combinazioni e preparare riepiloghi o documenti per il flusso previsto." },
   { question: "Si può partire da un catalogo, listino o processo già esistente?", answer: "Sì. Cataloghi, listini, schede prodotto e passaggi commerciali esistenti sono il punto di partenza per definire dati, regole e priorità." },
   { question: "Per quali aziende ha davvero senso realizzare un configuratore su misura?", answer: "Soprattutto per aziende che vendono prodotti personalizzabili, gestiscono molte varianti o preventivi complessi e devono aiutare clienti o rete vendita a capire meglio cosa stanno scegliendo." }
 ] %}
@@ -106,13 +106,13 @@ twitter:
         <p>Realizziamo configuratori web per aziende che vendono prodotti personalizzabili, gestiscono preventivi complessi o hanno bisogno di una configurazione visiva chiara.</p>
         <p>Parti da chi userà il sistema e dal risultato che deve ottenere: personalizzare un acquisto, preparare un’offerta o comporre un ambiente.</p>
         <div class="cta-group">
-          <a class="button" href="#demo-form">Richiedi un confronto <span aria-hidden="true">↓</span></a>
-          <a class="button button--secondary" href="#configurator-scenarios">Scegli il configuratore <span aria-hidden="true">↓</span></a>
+          <a class="button button--page" href="#demo-form">Richiedi un confronto <span aria-hidden="true">↓</span></a>
+          <a class="button button--page button--secondary" href="#configurator-scenarios">Scegli il configuratore <span aria-hidden="true">↓</span></a>
         </div>
       </div>
     </div>
     <div class="section-heading rail-heading"><h2 id="scenario-title"><span class="gradient-text">Scegli</span> il tipo di configuratore.</h2></div>
-    {{ visualCardRail("configurator-scenarios", "Tipologie di configuratore", scenarioItems, "legacy") }}
+    {{ visualCardRail("configurator-scenarios", "Tipologie di configuratore", scenarioItems, "legacy", "scenario-title") }}
   </section>
 
   <section id="settori-3d" class="section section--tinted" aria-labelledby="sectors-title">
@@ -123,7 +123,7 @@ twitter:
     {{ visualCardRail("configurator-sectors", "Settori per configuratori di prodotto", sectorItems, "legacy") }}
   </section>
 
-  <section id="configuratore" class="section container" aria-labelledby="demo-title">
+  <section class="section container" aria-labelledby="demo-title">
     <div class="configurator-container">
       <div class="iframe-container">
         <canvas id="renderCanvas" aria-label="Demo 3D interattiva di configurazione prodotto"></canvas>
@@ -152,7 +152,7 @@ twitter:
 
       <div class="configurator-options">
         <div class="configurator-description">
-          <h2 id="demo-title"><span class="gradient-text">Demo</span> 3D.<br> Anche in <span class="gradient-text">Realtà Aumentata</span>.</h2>
+          <h2 id="demo-title"><span class="anchor-target" id="configuratore"><span class="gradient-text">Demo</span> 3D.<br> Anche in <span class="gradient-text">Realtà Aumentata</span>.</span></h2>
           <p>Personalizza colori, sfondo e accessori. Esplora il modello in 3D e, sui dispositivi compatibili, visualizzalo nel tuo ambiente con la realtà aumentata.</p>
         </div>
         <div class="configurator-controls">
@@ -190,7 +190,7 @@ twitter:
   </section>
 
   <section class="section section--compact container configurator-cta-bridge" aria-label="Richiesta di confronto">
-    <a class="button" href="#demo-form">Richiedi un confronto sul tuo configuratore <span aria-hidden="true">↓</span></a>
+    <a class="button button--page" href="#demo-form">Richiedi un confronto sul tuo configuratore <span aria-hidden="true">↓</span></a>
   </section>
 
   <section id="social-proof" class="section section--tinted" aria-labelledby="proof-title">
@@ -208,11 +208,11 @@ twitter:
     </div>
   </section>
 
-  <section id="demo-form" class="section container" aria-labelledby="demo-form-title">
+  <section class="section container" aria-labelledby="demo-form-title">
     <div class="mini-form-shell">
       <div class="section-heading">
         <span class="section-kicker">Primo confronto</span>
-        <h2 id="demo-form-title">Descrivi il configuratore da valutare.</h2>
+        <h2 id="demo-form-title"><span class="anchor-target" id="demo-form">Descrivi il configuratore da valutare.</span></h2>
         <p>Indica il contesto e il passaggio che dovrebbe diventare più semplice. I campi contrassegnati con * sono obbligatori.</p>
       </div>
 
@@ -271,7 +271,7 @@ twitter:
         </div>
         <span id="mf_privacy_err" class="error-message" role="alert" aria-live="assertive"></span>
 
-        <button type="submit" class="button">Invia richiesta</button>
+        <button type="submit" class="button button--submit">Invia richiesta</button>
         <p id="mini-submit-status" class="error-message submit-status" role="alert" aria-live="assertive" tabindex="-1" hidden></p>
       </form>
     </div>

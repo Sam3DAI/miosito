@@ -16,7 +16,8 @@
   /* AA text/focus variants only; the brand fill and outline stay unchanged. */
   --sx-blue-deep: light-dark(#006eac, #45b6fe);
   --sx-text-pink: light-dark(#993588, #d95bc5);
-  --sx-gradient-text: linear-gradient(90deg, var(--sx-blue-deep), var(--sx-text-pink));
+  --sx-header-height: calc(4.75rem + 1px);
+  --sx-anchor-offset: calc(var(--sx-header-height) + 1.5rem);
   --sx-positive: light-dark(#08724f, #78e5bd);
   --sx-positive-text: var(--sx-positive);
   --sx-warning: light-dark(#885200, #f8bd67);
@@ -53,7 +54,7 @@ html {
   min-width: 0;
   /* Keep document navigation and menu scroll restoration native and immediate. */
   scroll-behavior: auto;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 0;
   scrollbar-gutter: stable;
 }
 
@@ -176,8 +177,9 @@ li {
   transform: translateY(0);
 }
 
+/* Owner-requested display treatment; its light-mode contrast exception is documented. */
 .gradient-text {
-  background: var(--sx-gradient-text);
+  background: var(--sx-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -214,22 +216,64 @@ li {
   transition: color var(--sx-transition), background var(--sx-transition);
 }
 
-.button:hover,
-.button:focus-visible {
-  background: var(--sx-gradient);
-  color: #1d1d1f;
+.button--page {
+  border-width: 1px;
+  box-shadow: 0 10px 25px rgb(69 182 254 / 18%);
+  transition: color 200ms ease, background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
 
 .button--secondary {
   border-width: 1px;
-  color: var(--sx-text);
+  border-color: var(--sx-pink);
+  color: var(--sx-text-pink);
   font-weight: 500;
 }
 
 .button--compact {
-  min-height: 2.65rem;
+  min-height: 2.75rem;
   padding: 0.65rem 1rem;
   font-size: 0.85rem;
+}
+
+/* Explicit project CTA variant: halve only the measured lateral padding. */
+.button--project { padding-inline: 0.75rem; }
+.button--compact.button--project { padding-inline: 0.5rem; }
+
+.button--submit {
+  width: fit-content;
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  justify-self: start;
+  align-self: start;
+}
+
+/* White hover/display gradients are the scoped owner-requested exception.
+   Ordinary text, form controls and focus retain their readable variants. */
+.button--page:focus-visible,
+.button--menu:focus-visible {
+  background: var(--sx-gradient);
+  color: #fff;
+}
+.button--page.button--secondary:focus-visible { background: var(--sx-pink); }
+.button--submit:focus-visible { background: var(--sx-text); color: var(--sx-bg); }
+
+@media (hover: hover) and (pointer: fine) {
+  .button--page:hover {
+    background: var(--sx-gradient);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgb(69 182 254 / 25%);
+  }
+  .button--page.button--secondary:hover { background: var(--sx-pink); }
+  .button--menu:hover { background: var(--sx-gradient); color: #fff; }
+  .button--submit:hover { background: var(--sx-text); color: var(--sx-bg); }
+}
+
+/* One native fragment offset; functional form/rail IDs are not renamed. */
+[id] { scroll-margin-top: var(--sx-anchor-offset); }
+
+@media (max-width: 55rem) {
+  :root { --sx-header-height: calc(4.25rem + 1px); }
 }
 
 @media (max-width: 30rem) {
@@ -239,6 +283,7 @@ li {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .button--page:hover { transform: none; }
   html {
     scroll-behavior: auto;
   }

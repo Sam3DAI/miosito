@@ -33,7 +33,7 @@
 </svg>
 {% endmacro %}
 
-{% macro visualCardRail(id, label, items, variant="editorial") %}
+{% macro visualCardRail(id, label, items, variant="editorial", anchorHeading="") %}
 <div class="visual-card-rail visual-card-rail--{{ variant }}" data-visual-card-rail role="region" aria-label="{{ label }}">
   <div class="visual-card-rail__controls" data-rail-controls hidden>
     <button type="button" data-rail-previous aria-controls="{{ id }}" aria-label="Mostra le card precedenti">
@@ -43,7 +43,7 @@
       <span aria-hidden="true">→</span>
     </button>
   </div>
-  <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track tabindex="0">
+  <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track{% if anchorHeading %} data-rail-anchor-heading="{{ anchorHeading }}"{% endif %} tabindex="0">
     {% for item in items %}
     <li class="visual-card{% if item.image %} visual-card--image{% else %} visual-card--text{% endif %}" data-rail-card>
       {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}
@@ -65,10 +65,10 @@
 </div>
 {% endmacro %}
 
-{% macro finalCta(title, text, label="Parliamo del tuo progetto") %}
+{% macro finalCta(title, text, label="Parliamo del tuo progetto", projectSpacing=true) %}
 <div class="final-cta">
   <h2>{{ title }}</h2>
   <p>{{ text }}</p>
-  <a class="button" href="/contattaci">{{ label }} <span aria-hidden="true">↗</span></a>
+  <a class="button button--page{% if projectSpacing %} button--project{% endif %}" href="/contattaci">{{ label }} <span aria-hidden="true">↗</span></a>
 </div>
 {% endmacro %}

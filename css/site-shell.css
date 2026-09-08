@@ -2,7 +2,7 @@
   position: sticky;
   z-index: 1000;
   top: 0;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid var(--sx-border);
   background: color-mix(in srgb, var(--sx-bg) 82%, transparent);
   backdrop-filter: blur(18px) saturate(1.25);
   transition: border-color var(--sx-transition), box-shadow var(--sx-transition), background var(--sx-transition);

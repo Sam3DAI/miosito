@@ -359,7 +359,7 @@ const requiredContent = Object.freeze({
   "index.html": Object.freeze([
     "Trasformiamo prodotti, listini e regole di vendita in strumenti web per configurare, preventivare e vendere con meno errori.",
     "Quando il prodotto è complesso, la vendita non deve esserlo.",
-    "Una soluzione per ogni processo di vendita.",
+    "Una soluzione. Per ogni processo di vendita.",
     "Dal catalogo al preventivo. In un unico flusso.",
     "Tipologie di progetto già realizzate.",
     "Configurazione 3D di prodotto.",

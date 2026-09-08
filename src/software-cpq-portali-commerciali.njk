@@ -39,10 +39,10 @@ twitter:
 ] %}
 
 {% set faqItems = [
-  { question: "Che differenza c'è tra un CPQ e un semplice configuratore?", answer: "Un CPQ collega configurazione, regole e logiche commerciali alla preparazione dell'offerta. Può includere listini, sconti, ruoli, revisioni e documenti, mentre un configuratore può fermarsi alla scelta del prodotto." },
+  { highlight: "CPQ", question: "Che differenza c'è tra un CPQ e un semplice configuratore?", answer: "Un CPQ collega configurazione, regole e logiche commerciali alla preparazione dell'offerta. Può includere listini, sconti, ruoli, revisioni e documenti, mentre un configuratore può fermarsi alla scelta del prodotto." },
   { question: "Può gestire listini e sconti diversi per agente o cliente?", answer: "Può farlo quando criteri, validità e fonti dei dati sono definiti. Ruoli e autorizzazioni stabiliscono chi vede o applica le informazioni commerciali." },
-  { question: "Il portale può generare preventivi e PDF?", answer: "Sì. Il documento può raccogliere configurazione, dati commerciali e contenuti previsti, con regole di revisione o approvazione coerenti con il processo." },
-  { question: "Si collega a ERP, CRM o altri sistemi?", answer: "Le integrazioni si valutano sulle API, sui formati, sulla qualità dei dati e sulle responsabilità di ciascun sistema. Non vengono promesse compatibilità senza una verifica tecnica." },
+  { highlight: "preventivi e PDF", question: "Il portale può generare preventivi e PDF?", answer: "Sì. Il documento può raccogliere configurazione, dati commerciali e contenuti previsti, con regole di revisione o approvazione coerenti con il processo." },
+  { highlight: "ERP, CRM", question: "Si collega a ERP, CRM o altri sistemi?", answer: "Le integrazioni si valutano sulle API, sui formati, sulla qualità dei dati e sulle responsabilità di ciascun sistema. Non vengono promesse compatibilità senza una verifica tecnica." },
   { question: "Si può partire da un solo flusso commerciale?", answer: "Sì. Un primo perimetro circoscritto permette di verificare il modello operativo e aggiungere moduli solo quando portano valore concreto." }
 ] %}
 
@@ -93,8 +93,8 @@ twitter:
         <h1><span class="gradient-text">Software CPQ</span> e portali commerciali su misura.</h1>
         <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
-          <a class="button button--secondary" href="#moduli">Esplora i moduli <span aria-hidden="true">↓</span></a>
+          <a class="button button--page button--project" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--secondary" href="#moduli">Esplora i moduli <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       <figure class="hero-media hero-media--compact">
@@ -117,10 +117,10 @@ twitter:
     </div>
   </section>
 
-  <section id="moduli" class="section section--rail" aria-labelledby="modules-title">
+  <section class="section section--rail" aria-labelledby="modules-title">
       <div class="section-heading rail-heading">
         <span class="section-kicker">Moduli</span>
-        <h2 id="modules-title">Dal preventivo ai documenti della rete vendita.</h2>
+        <h2 id="modules-title"><span class="anchor-target" id="moduli">Dal preventivo ai documenti della rete vendita.</span></h2>
         <p>Non tutti i progetti richiedono ogni modulo. Si scelgono funzioni, confini e priorità in base agli utenti e ai dati disponibili.</p>
       </div>
     {{ visualCardRail("cpq-modules", "Moduli per CPQ e portali commerciali", moduleItems) }}
@@ -154,7 +154,7 @@ twitter:
       </div>
       <div class="split-panel__body">
         <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web dedicato. Partiamo dall’attività da organizzare e dai sistemi già utilizzati.</p>
-        <a class="button" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
+        <a class="button button--page" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
