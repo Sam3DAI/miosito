@@ -1,6 +1,6 @@
 /* Shared editorial layouts, derived from the production SolveX system. */
 .page-hero {
-  padding: clamp(2.5rem, 4vw, 4rem) 0 clamp(4rem, 7vw, 6.5rem);
+  padding: clamp(2.5rem, 4vw, 4rem) 0 clamp(3rem, 5vw, 4.5rem);
 }
 .page-hero__layout {
   display: grid;
@@ -79,13 +79,20 @@
   margin: 0;
   color: var(--sx-text-muted);
 }
-.section { padding-block: clamp(4.5rem, 8vw, 8rem); }
-.section--compact { padding-block: clamp(3rem, 5vw, 5rem); }
+.section { padding-block: clamp(3rem, 5.6vw, 5rem); }
+.section--compact { padding-block: clamp(2rem, 4vw, 3.5rem); }
 .section-heading {
   max-width: 50rem;
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 .section-heading h2 { margin-bottom: 1rem; }
+.section-heading--statement { max-width: 68rem; }
+.statement-line { display: block; }
+.anchor-target { display: block; }
+/* Keep functional track IDs: include their measured heading in the same native offset. */
+[data-rail-anchor-heading] { scroll-margin-top: calc(var(--sx-anchor-offset) + var(--sx-anchor-context, 0px)); }
+/* Each semantic line may wrap naturally on narrow or enlarged-text layouts. */
+.section-heading--statement h2 { text-wrap: auto; }
 .section-heading p {
   max-width: 43rem;
   margin-bottom: 0;
@@ -126,7 +133,13 @@
   flex-direction: column;
   text-decoration: none;
 }
-.card--link:hover h3 { color: var(--sx-blue-deep); }
+.card--link,
+a.visual-card__inner { transition: transform 200ms ease, box-shadow 200ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .card--link:hover,
+  a.visual-card__inner:hover { transform: scale(1.025); box-shadow: 0 8px 18px #0000001f; }
+  .card--link:hover h3 { color: var(--sx-blue-deep); }
+}
 .card__label {
   display: inline-block;
   margin-bottom: 1.5rem;
@@ -154,7 +167,7 @@
   margin: 0;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  padding: 0.5rem var(--sx-rail-gutter) 1.25rem;
+  padding: 1rem var(--sx-rail-gutter) 1.25rem;
   gap: 1.25rem;
   list-style: none;
   scroll-padding-inline: var(--sx-rail-gutter);
@@ -180,7 +193,7 @@
   color: inherit;
   text-decoration: none;
 }
-a.visual-card__inner:hover { outline: 2px solid var(--sx-blue); outline-offset: 3px; }
+a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); outline-offset: 4px; }
 .visual-card__image {
   position: absolute;
   z-index: -1;
@@ -207,7 +220,7 @@ a.visual-card__inner:hover { outline: 2px solid var(--sx-blue); outline-offset: 
 .visual-card--image h3 { color: #fff; }
 .visual-card-rail__controls {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   inset: calc(50% - 2.5rem) 0 auto;
   display: flex;
   justify-content: space-between;
@@ -300,8 +313,9 @@ a.visual-card__inner:hover { outline: 2px solid var(--sx-blue); outline-offset: 
   height: 2.1rem;
   place-items: center;
   border-radius: 50%;
-  background: var(--sx-blue);
-  color: #1d1d1f;
+  border: 1px solid var(--sx-blue);
+  background: transparent;
+  color: var(--sx-blue);
   content: "+";
   font-size: 1.5rem;
   font-weight: 400;
@@ -317,7 +331,10 @@ a.visual-card__inner:hover { outline: 2px solid var(--sx-blue); outline-offset: 
   line-height: 1.7;
 }
 .faq-item__answer p:last-child { margin-bottom: 0; }
-.final-cta { padding-block: clamp(1rem, 4vw, 4rem); text-align: center; }
+.final-cta { padding-block: clamp(1rem, 3vw, 3rem); text-align: center; }
+@media (prefers-reduced-motion: reduce) {
+  .card--link:hover, a.visual-card__inner:hover { transform: none; }
+}
 .final-cta h2 { max-width: 23ch; margin: 0 auto 1.5rem; }
 .final-cta p { max-width: 39rem; margin: 0 auto 2rem; color: var(--sx-text-muted); }
 
@@ -441,6 +458,6 @@ a.visual-card__inner:hover { outline: 2px solid var(--sx-blue); outline-offset: 
 }
 @media (max-width: 28rem) {
   .cta-group { align-items: stretch; flex-direction: column; }
-  .cta-group .button { width: 100%; }
+  .cta-group .button--page { width: 100%; }
   .process-list { grid-template-columns: 1fr; }
 }

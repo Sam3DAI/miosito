@@ -40,8 +40,8 @@ twitter:
 
 {% set faqItems = [
   { question: "Quali processi commerciali si prestano all'automazione AI?", answer: "Attività ripetitive con input e output riconoscibili, come leggere documenti, classificare richieste, preparare bozze o cercare informazioni. Il caso va delimitato prima di scegliere il modello o lo strumento." },
-  { question: "L'AI può collegarsi a form, email, CRM o portali?", answer: "Può essere integrata quando accessi, API, formati e responsabilità dei sistemi sono disponibili e verificabili. Il collegamento viene progettato sul flusso reale." },
-  { question: "Gli output vengono controllati da una persona?", answer: "Per attività con impatto commerciale, documentale o operativo si definiscono revisione umana, regole di approvazione e gestione delle eccezioni." },
+  { highlight: "form, email, CRM o portali", question: "L'AI può collegarsi a form, email, CRM o portali?", answer: "Può essere integrata quando accessi, API, formati e responsabilità dei sistemi sono disponibili e verificabili. Il collegamento viene progettato sul flusso reale." },
+  { highlight: "controllati da una persona", question: "Gli output vengono controllati da una persona?", answer: "Per attività con impatto commerciale, documentale o operativo si definiscono revisione umana, regole di approvazione e gestione delle eccezioni." },
   { question: "Può lavorare su PDF, listini e documenti interni?", answer: "Può estrarre, classificare o rendere consultabili informazioni, ma qualità, struttura, riservatezza e autorizzazioni dei documenti devono essere valutate nel progetto." },
   { question: "Da dove conviene iniziare?", answer: "Da un caso circoscritto, frequente e verificabile. Un primo flusso permette di valutare qualità degli output, controlli necessari e valore operativo prima di ampliare l'automazione." }
 ] %}
@@ -93,8 +93,8 @@ twitter:
         <h1><span class="gradient-text">Automazioni AI</span> integrate nei processi commerciali.</h1>
         <p class="hero-lead">L’AI entra in punti precisi di un processo già definito, per leggere informazioni, preparare bozze e collegare strumenti mantenendo controlli e responsabilità umane.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
-          <a class="button button--secondary" href="#casi-uso">Esplora i casi d’uso <span aria-hidden="true">↓</span></a>
+          <a class="button button--page button--project" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--secondary" href="#casi-uso">Esplora i casi d’uso <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       <aside class="hero-editorial-note" aria-label="Principio di automazione supervisionata">
@@ -118,10 +118,10 @@ twitter:
     </div>
   </section>
 
-  <section id="casi-uso" class="section section--rail" aria-labelledby="uses-title">
+  <section class="section section--rail" aria-labelledby="uses-title">
       <div class="section-heading rail-heading">
         <span class="section-kicker">Casi d’uso</span>
-        <h2 id="uses-title">Punti concreti in cui l’AI può supportare il lavoro.</h2>
+        <h2 id="uses-title"><span class="anchor-target" id="casi-uso">Punti concreti in cui l’AI può supportare il lavoro.</span></h2>
         <p>Ogni caso viene verificato su qualità dei dati, impatto dell’errore e livello di supervisione necessario.</p>
       </div>
     {{ visualCardRail("automation-uses", "Casi d’uso per automazioni AI", useItems) }}
@@ -174,7 +174,7 @@ twitter:
   </section>
 
   <section class="section section--compact container">
-    {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l’AI è utile e dove inserirla.", "Descrivi il tuo progetto") }}
+    {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l’AI è utile e dove inserirla.", "Descrivi il tuo progetto", false) }}
   </section>
 </main>
 {% endblock %}

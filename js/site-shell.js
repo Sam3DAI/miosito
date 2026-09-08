@@ -205,28 +205,47 @@
     const indicators = [...rail.querySelectorAll("[data-rail-indicators] span")];
     const status = rail.querySelector("[data-rail-status]");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const tolerance = 2;
     let frame = 0;
-    let activeIndex = 0;
+    let pendingLeft = null;
+    let motionTimer = 0;
 
-    if (!track || cards.length < 2 || !controls || !previous || !next) return;
-    controls.hidden = false;
+    if (!track || !cards.length || !controls || !previous || !next) return;
+
+    const anchorHeadingId = track.getAttribute("data-rail-anchor-heading");
+    const anchorHeading = anchorHeadingId ? document.getElementById(anchorHeadingId) : null;
+    const measureAnchorContext = function () {
+      if (!anchorHeading) return;
+      const context = Math.max(0, track.getBoundingClientRect().top - anchorHeading.getBoundingClientRect().top);
+      track.style.setProperty("--sx-anchor-context", `${context}px`);
+    };
+    measureAnchorContext();
+    if (anchorHeading && "ResizeObserver" in window) {
+      new window.ResizeObserver(measureAnchorContext).observe(anchorHeading);
+    }
+
+    const maximumLeft = function () {
+      return Math.max(0, track.scrollWidth - track.clientWidth);
+    };
+
+    const clearMotion = function () {
+      window.clearTimeout(motionTimer);
+      pendingLeft = null;
+    };
+
+    const reachableLeft = function (card) {
+      return Math.max(0, Math.min(maximumLeft(), card.offsetLeft - cards[0].offsetLeft));
+    };
 
     const nearestIndex = function () {
       const left = track.scrollLeft;
-      const maximumLeft = Math.max(0, track.scrollWidth - track.clientWidth);
-
-      // Wide viewports can reveal several cards at once, so the browser may
-      // clamp the last card's requested position before its left edge reaches
-      // the track origin. Treat the physical end of the rail as the final
-      // logical card so status, indicators, and navigation limits stay exact.
-      if (maximumLeft > 0 && Math.abs(left - maximumLeft) <= 2) {
-        return cards.length - 1;
-      }
-
+      const maximum = maximumLeft();
+      // Several cards can share the same physical endpoint on desktop.
+      if (maximum > tolerance && Math.abs(left - maximum) <= tolerance) return cards.length - 1;
       let closest = 0;
       let distance = Infinity;
       cards.forEach(function (card, index) {
-        const currentDistance = Math.abs(card.offsetLeft - cards[0].offsetLeft - left);
+        const currentDistance = Math.abs(reachableLeft(card) - left);
         if (currentDistance < distance) {
           distance = currentDistance;
           closest = index;
@@ -235,55 +254,70 @@
       return closest;
     };
 
-    const reachableLeft = function (card) {
-      const maximumLeft = Math.max(0, track.scrollWidth - track.clientWidth);
-      return Math.max(0, Math.min(maximumLeft, card.offsetLeft - cards[0].offsetLeft));
-    };
-
     const update = function () {
-      activeIndex = nearestIndex();
-      const maximumLeft = Math.max(0, track.scrollWidth - track.clientWidth);
-      previous.disabled = track.scrollLeft <= 2;
-      next.disabled = maximumLeft <= 2 || track.scrollLeft >= maximumLeft - 2;
+      const hasOverflow = cards.length > 1 && maximumLeft() > tolerance;
+      controls.hidden = !hasOverflow;
+      previous.disabled = !hasOverflow;
+      next.disabled = !hasOverflow;
+      const activeIndex = nearestIndex();
       indicators.forEach(function (indicator, index) {
         indicator.classList.toggle("is-active", index === activeIndex);
       });
       if (status) status.textContent = `Card ${activeIndex + 1} di ${cards.length}`;
+      if (pendingLeft !== null && Math.abs(track.scrollLeft - pendingLeft) <= tolerance) clearMotion();
+    };
+
+    const moveTo = function (left) {
+      if (maximumLeft() <= tolerance || pendingLeft !== null) return;
+      pendingLeft = Math.max(0, Math.min(maximumLeft(), left));
+      // Ignore repeated commands during this movement: a partial last card
+      // must reach the real endpoint before a later click can wrap it.
+      // Native gestures cancel the guard; the timeout prevents a stuck lock.
+      motionTimer = window.setTimeout(function () { clearMotion(); update(); }, 900);
+      track.scrollTo({ left: pendingLeft, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      update();
     };
 
     const goTo = function (index) {
-      const target = cards[Math.max(0, Math.min(cards.length - 1, index))];
-      if (!target) return;
-      track.scrollTo({
-        left: reachableLeft(target),
-        behavior: reducedMotion.matches ? "auto" : "smooth"
-      });
+      clearMotion();
+      moveTo(reachableLeft(cards[Math.max(0, Math.min(cards.length - 1, index))]));
     };
 
-    const goPrevious = function () {
+    const goPrevious = function (wrap = false) {
+      if (pendingLeft !== null || maximumLeft() <= tolerance) return;
       const currentLeft = track.scrollLeft;
+      if (currentLeft <= tolerance) {
+        if (wrap) moveTo(maximumLeft());
+        return;
+      }
       for (let index = cards.length - 1; index >= 0; index -= 1) {
-        if (reachableLeft(cards[index]) < currentLeft - 2) {
-          goTo(index);
+        if (reachableLeft(cards[index]) < currentLeft - tolerance) {
+          moveTo(reachableLeft(cards[index]));
           return;
         }
       }
-      goTo(0);
+      moveTo(0);
     };
 
-    const goNext = function () {
+    const goNext = function (wrap = false) {
+      if (pendingLeft !== null || maximumLeft() <= tolerance) return;
       const currentLeft = track.scrollLeft;
+      if (currentLeft >= maximumLeft() - tolerance) {
+        if (wrap) moveTo(0);
+        return;
+      }
       for (let index = 0; index < cards.length; index += 1) {
-        if (reachableLeft(cards[index]) > currentLeft + 2) {
-          goTo(index);
+        if (reachableLeft(cards[index]) > currentLeft + tolerance) {
+          moveTo(reachableLeft(cards[index]));
           return;
         }
       }
-      goTo(cards.length - 1);
+      moveTo(maximumLeft());
     };
 
-    previous.addEventListener("click", goPrevious);
-    next.addEventListener("click", goNext);
+    // Only an explicit arrow-button activation wraps; swipes and track keys do not.
+    previous.addEventListener("click", function () { goPrevious(true); });
+    next.addEventListener("click", function () { goNext(true); });
 
     track.addEventListener("keydown", function (event) {
       if (event.target !== track || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
@@ -293,12 +327,15 @@
       if (event.key === "ArrowLeft") goPrevious();
       if (event.key === "ArrowRight") goNext();
     });
-
     track.addEventListener("scroll", function () {
       window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(update);
     }, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
+    track.addEventListener("scrollend", function () { clearMotion(); update(); }, { passive: true });
+    ["pointerdown", "touchstart", "wheel"].forEach(function (type) {
+      track.addEventListener(type, clearMotion, { passive: true });
+    });
+    window.addEventListener("resize", function () { clearMotion(); measureAnchorContext(); update(); }, { passive: true });
     update();
   });
 })();

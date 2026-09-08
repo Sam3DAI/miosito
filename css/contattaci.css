@@ -1,5 +1,5 @@
 [data-page="contact"] .lead-hero {
-  padding-bottom: clamp(3.5rem, 7vw, 6rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .lead-hero__inner {
@@ -20,20 +20,19 @@
 
 .lead-form-card {
   min-width: 0;
-  padding: clamp(1.4rem, 4vw, 3rem);
+  padding: clamp(1rem, 2.5vw, 1.75rem);
   border: 1px solid var(--sx-border);
   border-radius: var(--sx-radius-lg);
   background: var(--sx-bg-elevated);
   box-shadow: var(--sx-shadow-lg);
 }
 
-.lead-form-card .section-heading {
-  margin-bottom: 2rem;
-}
+.lead-form-card .section-heading { margin-bottom: 1.5rem; }
+.lead-form-card h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); line-height: 1.2; }
 
 #contact-form {
   display: grid;
-  gap: 1.2rem;
+  gap: 0.875rem;
 }
 
 .honeypot-field {
@@ -53,9 +52,14 @@
 
 .form-field {
   display: grid;
+  align-content: start;
   min-width: 0;
   gap: 0.45rem;
 }
+
+/* The enhanced picker and the native no-JS fallback are mutually exclusive. */
+.services-fallback[hidden],
+.submit-status[hidden] { display: none; }
 
 .form-field label,
 .service-picker legend {
@@ -68,8 +72,9 @@
 .form-field textarea,
 .form-field select {
   width: 100%;
-  min-height: 3.2rem;
-  padding: 0.75rem 0.85rem;
+  min-height: 2.875rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 1rem;
   border: 1px solid var(--sx-border-strong);
   border-radius: 0.7rem;
   background: var(--sx-bg);
@@ -92,6 +97,13 @@
   border-color: var(--sx-blue);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--sx-blue) 16%, transparent);
   outline: 0;
+}
+
+.form-field input:focus-visible,
+.form-field textarea:focus-visible,
+.form-field select:focus-visible {
+  outline: 3px solid var(--sx-blue-deep);
+  outline-offset: 3px;
 }
 
 .form-field input.error,
@@ -176,7 +188,7 @@
 
 .error-message {
   display: block;
-  min-height: 1.15rem;
+  min-height: 0;
   color: #b42345;
   font-size: 0.78rem;
   font-weight: 650;
@@ -284,7 +296,5 @@ html[data-theme="dark"] .error-message,
     grid-column: auto;
   }
 
-  .form-submit {
-    width: 100%;
-  }
+  .form-submit { width: fit-content; }
 }

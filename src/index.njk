@@ -27,9 +27,9 @@ twitter:
 
 {% set faqItems = [
   { highlight: "Quanto costa", question: "Quanto costa un configuratore su misura?", answer: "Dipende dalla profondità del catalogo, dalle regole, dalle integrazioni, dai ruoli utente e dall'eventuale componente 2D o 3D. Il preventivo nasce dopo una prima analisi del processo e del perimetro utile." },
-  { question: "Si integra nel sito o e-commerce esistente?", answer: "Può integrarsi, ma la fattibilità va verificata sulle interfacce realmente disponibili: catalogo, API, checkout, autenticazione e tecnologia del sito esistente." },
-  { question: "È meglio un configuratore 2D o 3D?", answer: "La scelta dipende da ciò che l'utente deve capire. Il 2D è spesso efficace per opzioni e composizioni; il 3D aggiunge valore quando forma, materiali o percezione spaziale influenzano la decisione." },
-  { question: "Può gestire prezzi, regole e preventivi?", answer: "Sì, quando listini, vincoli e logiche commerciali sono definibili. La soluzione può guidare le combinazioni e preparare un riepilogo o un documento da sottoporre al flusso previsto." },
+  { highlight: "Si integra", question: "Si integra nel sito o e-commerce esistente?", answer: "Può integrarsi, ma la fattibilità va verificata sulle interfacce realmente disponibili: catalogo, API, checkout, autenticazione e tecnologia del sito esistente." },
+  { highlight: "2D o 3D", question: "È meglio un configuratore 2D o 3D?", answer: "La scelta dipende da ciò che l'utente deve capire. Il 2D è spesso efficace per opzioni e composizioni; il 3D aggiunge valore quando forma, materiali o percezione spaziale influenzano la decisione." },
+  { highlight: "regole e preventivi", question: "Può gestire prezzi, regole e preventivi?", answer: "Sì, quando listini, vincoli e logiche commerciali sono definibili. La soluzione può guidare le combinazioni e preparare un riepilogo o un documento da sottoporre al flusso previsto." },
   { question: "È adatto anche alle PMI?", answer: "Sì, se risolve un processo concreto e il perimetro è proporzionato. Si parte dalle funzioni che riducono passaggi manuali e incertezza, senza costruire complessità non necessaria." }
 ] %}
 
@@ -90,8 +90,8 @@ twitter:
         <h1><span class="gradient-text">Configuratori</span> e software commerciali. Su misura.</h1>
         <p class="hero-lead">Trasformiamo prodotti, listini e regole di vendita in strumenti web per configurare, preventivare e vendere con meno errori.</p>
         <div class="cta-group">
-          <a class="button" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
-          <a class="button button--secondary" href="#soluzioni">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
+          <a class="button button--page button--project" href="/contattaci">Parliamo del tuo progetto <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--secondary" href="#soluzioni">Esplora le soluzioni <span aria-hidden="true">↓</span></a>
         </div>
       </div>
 
@@ -110,11 +110,11 @@ twitter:
     {{ visualCardRail("home-problems", "Problemi commerciali frequenti", problemItems) }}
   </section>
 
-  <section id="soluzioni" class="section section--tinted" aria-labelledby="solutions-title">
+  <section class="section section--tinted" aria-labelledby="solutions-title">
     <div class="container">
-      <div class="section-heading">
+      <div class="section-heading section-heading--statement">
         <span class="section-kicker">Soluzioni</span>
-        <h2 id="solutions-title">Una soluzione per ogni processo di vendita.</h2>
+        <h2 id="solutions-title"><span class="anchor-target" id="soluzioni"><span class="statement-line">Una <span class="gradient-text">soluzione</span>.</span> <span class="statement-line">Per ogni processo <span class="gradient-text">di vendita</span>.</span></span></h2>
         <p>La tecnologia cambia, ma il criterio resta lo stesso: rendere più chiaro il percorso tra catalogo, scelta e proposta commerciale.</p>
       </div>
       <div class="solution-grid">
@@ -126,8 +126,8 @@ twitter:
   </section>
 
   <section class="section container" aria-labelledby="capabilities-title">
-    <div class="section-heading">
-      <h2 id="capabilities-title">Visualizzare quando serve. Automatizzare dove crea valore.</h2>
+    <div class="section-heading section-heading--statement">
+      <h2 id="capabilities-title"><span class="statement-line"><span class="gradient-text">Visualizzare</span> quando serve.</span> <span class="statement-line"><span class="gradient-text">Automatizzare</span> dove crea valore.</span></h2>
     </div>
     <div class="capability-strip">
       <a class="card card--link" href="/configuratori-3d-2d"><span class="card__label">2D / 3D</span><h3>Configuratori di prodotto interattivi.</h3><p>La componente visiva aiuta a comprendere varianti, materiali e risultato della configurazione.</p><span class="card__arrow">Esplora i configuratori 2D/3D →</span></a>
@@ -137,8 +137,8 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="flow-title">
     <div class="container">
-      <div class="section-heading section-heading--center">
-        <h2 id="flow-title">Dal catalogo al preventivo.<br>In un unico flusso.</h2>
+      <div class="section-heading section-heading--center section-heading--statement">
+        <h2 id="flow-title"><span class="statement-line">Dal catalogo al <span class="gradient-text">preventivo</span>.</span> <span class="statement-line">In un <span class="gradient-text">unico flusso</span>.</span></h2>
         <p>Ogni modulo risponde a un passaggio concreto e può essere dimensionato sulle priorità del progetto.</p>
       </div>
       <ul class="function-grid" aria-label="Funzioni del flusso commerciale">
@@ -154,10 +154,10 @@ twitter:
     </div>
   </section>
 
-  <section id="progetti" class="section container" aria-labelledby="projects-title">
+  <section class="section container" aria-labelledby="projects-title">
     <div class="section-heading">
       <span class="section-kicker">Esperienza applicata</span>
-      <h2 id="projects-title">Tipologie di progetto già realizzate.</h2>
+      <h2 id="projects-title"><span class="anchor-target" id="progetti">Tipologie di progetto già realizzate.</span></h2>
       <p>Esempi anonimi descritti per funzione, senza esporre nomi, dati o risultati dei clienti.</p>
     </div>
     <div class="proof-grid">
@@ -202,7 +202,7 @@ twitter:
       </div>
       <div class="split-panel__body">
         <p>SolveX realizza anche portali e software web su misura quando il progetto riguarda cataloghi, preventivi, documenti, rete vendita, clienti B2B o automazione di processi commerciali.</p>
-        <a class="button" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
+        <a class="button button--page" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
