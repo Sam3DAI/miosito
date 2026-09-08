@@ -101,7 +101,7 @@ export const GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/software-cpq-portali-commerciali.njk",
@@ -113,7 +113,7 @@ export const GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/planner-configuratori-arredamento.njk",
@@ -125,7 +125,7 @@ export const GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/automazioni-ai-business.njk",
@@ -137,7 +137,7 @@ export const GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/contattaci.njk",

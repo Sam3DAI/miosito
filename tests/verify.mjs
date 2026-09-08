@@ -136,7 +136,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/software-cpq-portali-commerciali.njk",
@@ -148,7 +148,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/planner-configuratori-arredamento.njk",
@@ -160,7 +160,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/automazioni-ai-business.njk",
@@ -172,7 +172,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
-    profile: "service-demo"
+    formProfile: "service-demo"
   }),
   Object.freeze({
     source: "src/contattaci.njk",
@@ -942,7 +942,7 @@ function assertGeneratedPageContract(route, html) {
       "/js/ad-attribution-consent.js",
       "/js/cookie-banner.js",
       "/js/netlify-lead-form.js",
-      route.profile === "configurator" ? "/js/configuratori-3d-2d.js" : route.profile === "service-demo" ? "/js/service-demo-form.js" : "/js/contattaci.js",
+      route.profile === "configurator" ? "/js/configuratori-3d-2d.js" : route.formProfile === "service-demo" ? "/js/service-demo-form.js" : "/js/contattaci.js",
       "/js/ga-autotrack.js"
     ];
     let previousIndex = -1;
@@ -1278,6 +1278,15 @@ const approvedLegacyCardAssetPaths = new Set([
   "v1777911837/serramenti_f2nxbu.jpg"
 ]);
 
+// Task 29 reuses this existing production illustration only in the homepage
+// capability card. Keep the nine hub assets and their completeness gate intact.
+const reusedAiCapabilityUrl = "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,c_limit/v1752249260/Autodocs_AI_adhyrh.webp";
+assert.ok(readGitBlobBuffer("513900768e8cce95a88132cfa1af93eb36e2ac3d", "index.html", root).buffer.includes(Buffer.from("v1752249260/Autodocs_AI_adhyrh.webp")), "Reused AI illustration must have production provenance");
+const isReusedAiCapability = (route, url) => route.publicUrl === "/" && url === reusedAiCapabilityUrl;
+assert.equal(isReusedAiCapability({ publicUrl: "/" }, reusedAiCapabilityUrl), true);
+assert.equal(isReusedAiCapability({ publicUrl: "/automazioni-ai-business" }, reusedAiCapabilityUrl), false);
+assert.equal(isReusedAiCapability({ publicUrl: "/" }, reusedAiCapabilityUrl + ".unexpected"), false);
+
 function isApprovedLegacyCardVisualUrl(raw) {
   try {
     const url = new URL(raw);
@@ -1308,7 +1317,7 @@ function resourceReferences(html, route) {
     const normalized = raw.replaceAll("&amp;", "&");
     const isFrozenConfiguratorResource = route.profile === "configurator"
       && (exactRemoteScripts.has(normalized) || frozenVisualUrls.has(normalized));
-    assert.ok(isFrozenConfiguratorResource || isApprovedLegacyCardVisualUrl(normalized), `${route.publicUrl}: remote resource is outside the frozen or owner-approved visual allowlist: ${normalized}`);
+    assert.ok(isFrozenConfiguratorResource || isApprovedLegacyCardVisualUrl(normalized) || isReusedAiCapability(route, normalized), `${route.publicUrl}: remote resource is outside the frozen or owner-approved visual allowlist: ${normalized}`);
     remoteReferences.add(normalized);
   };
   const networkTags = [
