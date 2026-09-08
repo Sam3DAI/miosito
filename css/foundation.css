@@ -184,6 +184,7 @@ li {
   -webkit-background-clip: text;
   color: transparent;
 }
+.word-keep { white-space: nowrap; }
 
 .eyebrow,
 .section-kicker {
@@ -242,10 +243,18 @@ li {
 .button--submit {
   width: fit-content;
   min-height: 2.75rem;
-  padding: 0.65rem 1rem;
+  padding: 13px 22px;
+  border: 1px solid var(--sx-blue);
+  border-radius: 25px;
+  color: var(--sx-text);
+  font-weight: 600;
   justify-self: start;
   align-self: start;
+  letter-spacing: 0.2px;
+  box-shadow: 0 10px 25px rgb(69 182 254 / 18%);
+  transition: color 200ms ease, background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
 }
+.button--menu { border-width: 1px; }
 
 /* White hover/display gradients are the scoped owner-requested exception.
    Ordinary text, form controls and focus retain their readable variants. */
@@ -255,7 +264,7 @@ li {
   color: #fff;
 }
 .button--page.button--secondary:focus-visible { background: var(--sx-pink); }
-.button--submit:focus-visible { background: var(--sx-text); color: var(--sx-bg); }
+.button--submit:focus-visible { background: var(--sx-gradient); color: #fff; }
 
 @media (hover: hover) and (pointer: fine) {
   .button--page:hover {
@@ -266,7 +275,7 @@ li {
   }
   .button--page.button--secondary:hover { background: var(--sx-pink); }
   .button--menu:hover { background: var(--sx-gradient); color: #fff; }
-  .button--submit:hover { background: var(--sx-text); color: var(--sx-bg); }
+  .button--submit:hover { background: var(--sx-gradient); color: #fff; transform: translateY(-1px); box-shadow: 0 14px 30px rgb(69 182 254 / 25%); }
 }
 
 /* One native fragment offset; functional form/rail IDs are not renamed. */
@@ -283,7 +292,7 @@ li {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .button--page:hover { transform: none; }
+  .button--page:hover, .button--submit:hover { transform: none; }
   html {
     scroll-behavior: auto;
   }

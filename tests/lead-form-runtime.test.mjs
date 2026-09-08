@@ -10,8 +10,20 @@ const leadHelperCode = fs.readFileSync(path.join(root, "js", "netlify-lead-form.
 const attributionCode = fs.readFileSync(path.join(root, "js", "ad-attribution-consent.js"), "utf8");
 const contactPageCode = fs.readFileSync(path.join(root, "js", "contattaci.js"), "utf8");
 const configuratorPageCode = fs.readFileSync(path.join(root, "js", "configuratori-3d-2d.js"), "utf8");
+const servicePageCode = fs.readFileSync(path.join(root, "js", "service-demo-form.js"), "utf8");
+// Independent identities from FORM_CONTRACT; not imported from implementation data.
+const serviceProfiles = [
+  ["ecommerce", "demo-configuratori-ecommerce", "ecommerce_page", "Configuratore e-commerce"],
+  ["cpq", "demo-cpq-portali", "cpq_portali_page", "CPQ e portali commerciali"],
+  ["planner", "demo-planner-arredamento", "planner_arredamento_page", "Planner e configuratore per arredamento"],
+  ["automation", "demo-automazioni-ai", "automazioni_ai_page", "Automazioni AI per processi commerciali"]
+].map(([key, formName, leadSource, service]) => Object.freeze({
+  key, formName, leadSource, services: [service], serviceDemo: true,
+  pii: { name: "SERVICE_NAME_SENTINEL", email: "service-pii@example.test", website: "https://reference.example.test", project_type: service, message: "SERVICE_MESSAGE_SENTINEL" }
+}));
 
 const profiles = Object.freeze([
+  ...serviceProfiles,
   Object.freeze({
     key: "contact",
     formName: "contact-main",
@@ -238,6 +250,8 @@ class FakeHTMLFormElement extends FakeElement {
     if (selector === '[type="submit"]') {
       return this.controls.find((control) => control.type === "submit") || null;
     }
+    const named = selector.match(/^\[name="([^"]+)"\]$/);
+    if (named) return this.controls.find((control) => control.name === named[1]) || null;
     return null;
   }
 
@@ -475,6 +489,90 @@ function createRuntimeEnvironment(profile, { fetchImpl, onLine = true, search = 
 
 function parseRequestBody(call) {
   return new URLSearchParams(call.options.body);
+}
+
+function createServiceAdapterEnvironment(profile, options) {
+  const env = createRuntimeEnvironment(profile, options);
+  env.form.id = "service-demo-form";
+  env.document.register(env.form);
+  env.statusElement.id = "service-demo-status";
+  env.document.register(env.statusElement);
+  env.success = registerPageElement(env.document, "service-demo-success");
+  env.success.hidden = true;
+  for (const name of ["name", "email", "website", "message", "privacy"]) {
+    const field = env.form.querySelector('[name="' + name + '"]');
+    field.id = "sd-" + name;
+    field.required = name !== "website";
+    if (name === "email" || name === "website") field.type = name === "email" ? "email" : "url";
+    // Only the DOM validity surface is simulated here; native constraints are
+    // verified separately with real browser forms and a loopback POST sink.
+    Object.defineProperty(field, "validity", { get() {
+      let valid = !field.required || (field.type === "checkbox" ? field.checked : Boolean(field.value));
+      if (field.type === "email" && field.value) valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
+      if (field.type === "url" && field.value) { try { new URL(field.value); } catch { valid = false; } }
+      return { valid };
+    } });
+    if (name === "privacy") field.defaultChecked = false;
+    env.document.register(field);
+    registerPageElement(env.document, "sd-" + name + "-error");
+  }
+  env.runAdapter = () => vm.runInContext(servicePageCode, env.context, { filename: "js/service-demo-form.js" });
+  return env;
+}
+
+for (const profile of serviceProfiles) {
+  test(profile.formName + ": real adapter binds once, validates and delegates to the real helper", async () => {
+    const env = createServiceAdapterEnvironment(profile);
+    assert.equal(env.form.noValidate, false);
+    env.runAdapter();
+    env.runAdapter();
+    assert.equal(env.form.noValidate, true);
+    assert.equal(env.form.listeners.get("submit").length, 1);
+    for (const [name, value] of [["name", ""], ["email", "invalid"], ["website", "invalid"], ["message", "  "], ["privacy", false]]) {
+      const field = env.form.querySelector('[name="' + name + '"]');
+      const previous = name === "privacy" ? field.checked : field.value;
+      if (name === "privacy") field.checked = value; else field.value = value;
+      await env.form.emit("submit").promise;
+      assert.equal(env.fetchCalls.length, 0, name + " must block transport");
+      assert.equal(field.getAttribute("aria-invalid"), "true");
+      assert.equal(env.document.activeElement, field);
+      if (name === "privacy") field.checked = previous; else field.value = previous;
+    }
+    const firstId = env.leadId.value;
+    await env.form.emit("submit").promise;
+    assert.equal(env.fetchCalls.length, 1);
+    assert.equal(env.window.dataLayer.length, 1);
+    assert.equal(env.success.hidden, false);
+    assert.equal(env.document.activeElement, env.success);
+    assert.notEqual(env.leadId.value, firstId);
+    assert.equal(env.form.querySelector('[name="privacy"]').checked, false);
+    assert.equal(env.form.querySelector('[name="services[]"]').value, profile.services[0]);
+    assert.equal(env.form.querySelector('[name="project_type"]').value, profile.pii.project_type);
+    env.form.querySelector('[name="privacy"]').checked = true;
+    await env.form.emit("submit").promise;
+    assert.equal(env.fetchCalls.length, 2);
+    assert.notEqual(parseRequestBody(env.fetchCalls[1]).get("lead_id"), firstId);
+  });
+
+  test(profile.formName + ": unknown names and origins never bind", () => {
+    for (const change of ["name", "source", "hidden-name"]) {
+      const env = createServiceAdapterEnvironment(profile);
+      if (change === "name") env.form.setAttribute("name", "unknown-demo");
+      if (change === "source") env.form.querySelector('[name="lead_source"]').value = "unknown-source";
+      if (change === "hidden-name") env.form.querySelector('[name="form-name"]').value = "unknown-demo";
+      env.runAdapter();
+      assert.equal(env.form.noValidate, false);
+      assert.equal(env.form.listeners.has("submit"), false);
+      assert.equal(env.fetchCalls.length, 0);
+    }
+    const env = createRuntimeEnvironment(profile);
+    assert.throws(() => env.window.SolveXNetlifyLead.bind({
+      form: env.form, formName: profile.formName, leadSource: "unknown-source", validate: () => true
+    }), /Invalid/);
+    assert.throws(() => env.window.SolveXNetlifyLead.bind({
+      form: env.form, formName: "unknown-demo", leadSource: profile.leadSource, validate: () => true
+    }), /Invalid/);
+  });
 }
 
 function deferred() {
@@ -733,6 +831,10 @@ for (const profile of profiles) {
     assert.equal(env.hookCalls.clear, 1);
     assert.equal(env.submitButton.disabled, false);
     assert.equal(env.form.hasAttribute("aria-busy"), false);
+    if (profile.serviceDemo) {
+      assert.equal(env.form.querySelector('[name="services[]"]').value, profile.services[0]);
+      assert.equal(env.form.querySelector('[name="project_type"]').value, profile.pii.project_type);
+    }
   });
 
   test(`${profile.formName}: HTTP 500 emits no event and preserves the lead id`, async () => {

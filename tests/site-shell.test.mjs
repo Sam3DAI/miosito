@@ -226,7 +226,7 @@ test("FAQ highlights are substrings of plain questions and leave answers unmodif
     }
   }
   const css = read("css/marketing-pages.css");
-  assert.match(css, /\.faq-item summary::after\s*\{[^}]*border:\s*1px solid var\(--sx-blue\)[^}]*background:\s*transparent[^}]*color:\s*var\(--sx-blue\)/s);
+  assert.match(css, /\.faq-symbol\s*\{[^}]*border:\s*1px solid var\(--sx-blue\)[^}]*background:\s*transparent[^}]*color:\s*var\(--sx-blue\)/s);
 });
 
 test("header border, native anchor offset, swatch ring and card motion stay scoped", () => {
@@ -234,11 +234,12 @@ test("header border, native anchor offset, swatch ring and card motion stay scop
   assert.match(read("css/site-shell.css"), /\.site-header\s*\{[^}]*border-bottom:\s*1px solid var\(--sx-border\)/s);
   assert.match(foundation, /scroll-padding-top:\s*0/);
   assert.match(foundation, /\[id\]\s*\{\s*scroll-margin-top:\s*var\(--sx-anchor-offset\)/);
-  assert.doesNotMatch(shell, /scrollIntoView|hashchange/);
+  assert.doesNotMatch(shell, /scrollIntoView/);
+  assert.match(shell, /if \(!fragmentAligned \|\| body\.classList\.contains\("is-menu-open"\)\) return/);
   const demo = read("css/configuratori-3d-2d.css");
   assert.match(demo, /\.background-options input:checked \+ \.texture__preview\s*\{\s*border-color:\s*var\(--sx-blue\);\s*\}/);
-  assert.match(css, /a\.visual-card__inner:hover\s*\{\s*transform:\s*scale\(1\.025\)/);
-  assert.match(css, /prefers-reduced-motion: reduce[\s\S]*a\.visual-card__inner:hover\s*\{\s*transform:\s*none/);
+  assert.match(css, /\.visual-card__inner:hover\s*\{\s*transform:\s*scale\(1\.02\)/);
+  assert.match(css, /prefers-reduced-motion: reduce[\s\S]*\.visual-card__inner:hover\s*\{\s*transform:\s*none/);
 });
 
 test("compact form fields align without empty error rows and retain a clear keyboard focus", () => {
@@ -249,4 +250,52 @@ test("compact form fields align without empty error rows and retain a clear keyb
     assert.match(css, /\.submit-status\[hidden\]\s*\{\s*display: none/);
   }
   assert.match(read("css/contattaci.css"), /\.services-fallback\[hidden\],\s*\.submit-status\[hidden\]\s*\{\s*display: none/);
+});
+
+test("orientation realigns only an already aligned fragment, never a reader who scrolled away", () => {
+  let top = 1000, menuOpen = false, frameId = 0;
+  const frames = new Map(), requests = [];
+  const window = Object.assign(eventTarget(), {
+    scrollY: 899, location: { hash: "#metodo" },
+    matchMedia() { return { matches: false, addEventListener() {} }; },
+    getComputedStyle() { return { scrollMarginTop: "101px" }; },
+    requestAnimationFrame(callback) { frames.set(++frameId, callback); return frameId; },
+    cancelAnimationFrame(id) { frames.delete(id); },
+    scrollTo(options) { requests.push(options); this.scrollY = options.top; }
+  });
+  const target = { getBoundingClientRect() { return { top: top - window.scrollY }; } };
+  const header = { classList: { toggle() {} } };
+  const document = {
+    documentElement: { dataset: { theme: "light" }, classList: { add() {} } },
+    body: { dataset: { page: "fixture" }, classList: { toggle() {}, contains() { return menuOpen; } } },
+    querySelector(selector) { return selector === "[data-site-header]" ? header : null; },
+    querySelectorAll() { return []; },
+    getElementById(id) { return id === "metodo" ? target : null; }
+  };
+  const flush = () => { const callbacks = [...frames.values()]; frames.clear(); callbacks.forEach(callback => callback()); };
+  vm.runInNewContext(shell, { window, document, localStorage: { getItem() { return null; } } });
+  flush();
+  top += 286; window.emit("resize"); flush();
+  assert.equal(requests.length, 1);
+  assert.equal(top - window.scrollY, 101, "CSS offset is the only positioning authority");
+  assert.equal(requests[0].behavior, "instant");
+  window.scrollY += 150; window.emit("scroll");
+  top += 300; window.emit("resize"); flush();
+  assert.equal(requests.length, 1, "Do not return readers to an old hash");
+  window.scrollY = top - 101; window.emit("scroll"); menuOpen = true;
+  top += 90; window.emit("resize"); flush();
+  assert.equal(requests.length, 1, "Do not move the background of an open menu");
+  menuOpen = false; window.location.hash = "#%"; window.emit("hashchange"); flush();
+  window.emit("resize"); flush();
+  assert.equal(requests.length, 1, "Malformed hashes must be inert");
+});
+
+test("shared legacy submit and menu border declarations remain exactly one CSS pixel", () => {
+  const css = read("css/foundation.css");
+  assert.match(css, /\.button--menu\s*\{\s*border-width:\s*1px\s*;/);
+  assert.match(css, /\.button--submit\s*\{[^}]*padding:\s*13px 22px;[^}]*border:\s*1px solid var\(--sx-blue\);[^}]*border-radius:\s*25px;[^}]*font-weight:\s*600;/s);
+  assert.match(css, /\.button--submit:hover\s*\{[^}]*background:\s*var\(--sx-gradient\);[^}]*color:\s*#fff;[^}]*translateY\(-1px\)/s);
+  for (const file of ["css/site-shell.css", "css/marketing-pages.css", "css/configuratori-3d-2d.css", "css/contattaci.css", "css/service-demo-form.css"]) {
+    assert.doesNotMatch(read(file), /(?:\.button--(?:menu|submit)|\.header-cta|\.site-navigation__cta|\.form-submit)[^{}]*\{[^}]*border(?:-width)?:/s, file + ": no page override of the shared border");
+  }
 });

@@ -1,0 +1,26 @@
+{
+  "ecommerce": {
+    "name": "demo-configuratori-ecommerce",
+    "source": "ecommerce_page",
+    "service": "Configuratore e-commerce",
+    "heading": "Descrivi il configuratore e-commerce che vorresti."
+  },
+  "cpq": {
+    "name": "demo-cpq-portali",
+    "source": "cpq_portali_page",
+    "service": "CPQ e portali commerciali",
+    "heading": "Descrivi il processo commerciale da semplificare."
+  },
+  "planner": {
+    "name": "demo-planner-arredamento",
+    "source": "planner_arredamento_page",
+    "service": "Planner e configuratore per arredamento",
+    "heading": "Descrivi il planner che vorresti."
+  },
+  "automation": {
+    "name": "demo-automazioni-ai",
+    "source": "automazioni_ai_page",
+    "service": "Automazioni AI per processi commerciali",
+    "heading": "Descrivi il processo da automatizzare."
+  }
+}

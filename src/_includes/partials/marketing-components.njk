@@ -1,7 +1,8 @@
 {% macro processSteps(items) %}
 <ol class="process-list">
   {% for item in items %}
-  <li>
+  <li class="editorial-card">
+    {{ functionIcon(item.icon or ["rules", "configuration", "integrations", "revisions", "documents", "saves"][loop.index0]) }}
     <strong>{{ item.title }}</strong>
     <span>{{ item.text }}</span>
   </li>
@@ -13,7 +14,7 @@
 <div class="faq-grid">
   {% for item in items %}
   <details class="faq-item">
-    <summary>{% if item.highlight %}{{ item.question | replace(item.highlight, '<span class="gradient-text">' ~ item.highlight ~ '</span>') | safe }}{% else %}{{ item.question }}{% endif %}</summary>
+    <summary>{% if item.highlight %}{{ item.question | replace(item.highlight, '<span class="gradient-text">' ~ item.highlight ~ '</span>') | safe }}{% else %}{{ item.question }}{% endif %}<span class="faq-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h14"/><path class="faq-symbol__vertical" d="M12 5v14"/></svg></span></summary>
     <div class="faq-item__answer"><p>{{ item.answer }}</p></div>
   </details>
   {% endfor %}
@@ -47,13 +48,19 @@
     {% for item in items %}
     <li class="visual-card{% if item.image %} visual-card--image{% else %} visual-card--text{% endif %}" data-rail-card>
       {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}
-        {% if item.image %}
+        {% if item.image and variant != "landscape" %}
         <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.image | replace('w_900,h_1150', 'w_540,h_690') | replace(',', '%2C') }} 540w, {{ item.image | replace(',', '%2C') }} 900w, {{ item.image | replace('w_900,h_1150', 'w_1200,h_1533') | replace(',', '%2C') }} 1200w" sizes="(max-width: 720px) 300px, 350px" alt="{{ item.alt or '' }}" width="900" height="1150" loading="lazy" decoding="async">
         {% endif %}
         <div class="visual-card__copy">
           <h3>{{ item.title }}</h3>
           <p>{{ item.text }}</p>
         </div>
+        {% if variant == "landscape" %}
+        <div class="project-media">
+          {% if item.image %}<img src="{{ item.image }}" alt="{{ item.alt }}" width="1600" height="900" loading="lazy" decoding="async">
+          {% else %}<div class="project-media__placeholder" aria-hidden="true">{{ functionIcon(item.icon or "configuration") }}</div>{% endif %}
+        </div>
+        {% endif %}
       {% if item.href %}</a>{% else %}</article>{% endif %}
     </li>
     {% endfor %}
@@ -65,10 +72,10 @@
 </div>
 {% endmacro %}
 
-{% macro finalCta(title, text, label="Parliamo del tuo progetto", projectSpacing=true) %}
+{% macro finalCta(title, text, label="Parliamo del tuo progetto", projectSpacing=true, href="/contattaci") %}
 <div class="final-cta">
   <h2>{{ title }}</h2>
   <p>{{ text }}</p>
-  <a class="button button--page{% if projectSpacing %} button--project{% endif %}" href="/contattaci">{{ label }} <span aria-hidden="true">↗</span></a>
+  <a class="button button--page{% if projectSpacing %} button--project{% endif %}" href="{{ href }}">{{ label }} <span aria-hidden="true">↗</span></a>
 </div>
 {% endmacro %}

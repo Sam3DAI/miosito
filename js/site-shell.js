@@ -65,6 +65,43 @@
     };
     updateHeader();
     window.addEventListener("scroll", updateHeader, { passive: true });
+
+    // Preserve an already aligned fragment across an orientation/breakpoint
+    // change. CSS remains the only source of its offset. Never pull a reader
+    // back to an old hash after they have scrolled away from that heading.
+    let fragmentAligned = false;
+    let fragmentResizeFrame = 0;
+    const fragmentPosition = function () {
+      let id;
+      try { id = decodeURIComponent(window.location.hash.slice(1)); } catch (_) { return null; }
+      const target = id && document.getElementById(id);
+      if (!target) return null;
+      return { target, delta: target.getBoundingClientRect().top -
+        (parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0) };
+    };
+    const rememberFragment = function () {
+      if (fragmentResizeFrame) return;
+      const position = fragmentPosition();
+      fragmentAligned = Boolean(position && Math.abs(position.delta) <= 3);
+    };
+    window.addEventListener("scroll", rememberFragment, { passive: true });
+    window.addEventListener("hashchange", function () { window.requestAnimationFrame(rememberFragment); });
+    window.addEventListener("pageshow", rememberFragment);
+    window.addEventListener("resize", function () {
+      if (!fragmentAligned || body.classList.contains("is-menu-open")) return;
+      const previous = fragmentPosition();
+      if (!previous) return;
+      window.cancelAnimationFrame(fragmentResizeFrame);
+      fragmentResizeFrame = window.requestAnimationFrame(function () {
+        const current = fragmentPosition();
+        if (current && current.target === previous.target) {
+          window.scrollTo({ top: window.scrollY + current.delta, left: 0, behavior: "instant" });
+        }
+        fragmentResizeFrame = 0;
+        rememberFragment();
+      });
+    });
+    window.requestAnimationFrame(rememberFragment);
   }
 
   const siteMenu = document.querySelector("[data-site-menu]");

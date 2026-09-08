@@ -1,0 +1,55 @@
+{% set demo = serviceDemos[pageKey] %}
+<section class="section container" aria-labelledby="service-demo-title">
+  <div class="service-demo-shell">
+    <div class="section-heading" id="demo-form">
+      <span class="section-kicker">Richiesta demo</span>
+      <h2 id="service-demo-title">{{ demo.heading | replace("e-commerce", '<span class="word-keep">e-commerce</span>') | safe }}</h2>
+      <p>Raccontaci il tuo obiettivo. Ti mostriamo gli esempi e le funzionalità più pertinenti.</p>
+    </div>
+    <form id="service-demo-form" name="{{ demo.name }}" action="/richiesta-ricevuta.html" method="POST" data-netlify="true" netlify-honeypot="_honey" aria-describedby="service-demo-legend">
+      <input type="hidden" name="form-name" value="{{ demo.name }}">
+      <input type="hidden" name="lead_source" value="{{ demo.source }}">
+      <input type="hidden" name="lead_id" value="">
+      <input type="hidden" name="gclid" value="">
+      <input type="hidden" name="gbraid" value="">
+      <input type="hidden" name="wbraid" value="">
+      <input type="hidden" name="services[]" value="{{ demo.service }}">
+      <input type="hidden" name="project_type" value="{{ demo.service }}">
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">
+      <p id="service-demo-legend" class="service-demo-legend">I campi contrassegnati con * sono obbligatori.</p>
+      <div class="service-demo-grid">
+        <div class="service-demo-field">
+          <label for="sd-name">Nome e cognome *</label>
+          <input id="sd-name" type="text" name="name" required autocomplete="name" aria-describedby="sd-name-error">
+          <span id="sd-name-error" class="service-demo-error" aria-live="polite"></span>
+        </div>
+        <div class="service-demo-field">
+          <label for="sd-email">Email *</label>
+          <input id="sd-email" type="email" name="email" required autocomplete="email" inputmode="email" aria-describedby="sd-email-error">
+          <span id="sd-email-error" class="service-demo-error" aria-live="polite"></span>
+        </div>
+      </div>
+      <div class="service-demo-field">
+        <label for="sd-website">Sito attuale o riferimento</label>
+        <input id="sd-website" type="url" name="website" autocomplete="url" inputmode="url" placeholder="https://..." aria-describedby="sd-website-error">
+        <span id="sd-website-error" class="service-demo-error" aria-live="polite"></span>
+      </div>
+      <div class="service-demo-field">
+        <label for="sd-message">Messaggio *</label>
+        <textarea id="sd-message" name="message" rows="5" required aria-describedby="sd-message-error" placeholder="Obiettivo, utenti e passaggio da rendere più semplice."></textarea>
+        <span id="sd-message-error" class="service-demo-error" aria-live="polite"></span>
+      </div>
+      <div class="service-demo-privacy">
+        <input id="sd-privacy" type="checkbox" name="privacy" required aria-describedby="sd-privacy-error">
+        <label for="sd-privacy">Accetto la <a href="/privacy-policy" rel="nofollow">Privacy Policy</a> *</label>
+      </div>
+      <span id="sd-privacy-error" class="service-demo-error" aria-live="polite"></span>
+      <button type="submit" class="button button--submit">Invia richiesta</button>
+      <p id="service-demo-status" class="service-demo-error" role="alert" tabindex="-1" hidden></p>
+    </form>
+    <div id="service-demo-success" class="service-demo-success" role="status" tabindex="-1" hidden>
+      <h3>Richiesta ricevuta.</h3>
+      <p>La esamineremo per proporti esempi e funzionalità pertinenti al tuo obiettivo.</p>
+    </div>
+  </div>
+</section>
