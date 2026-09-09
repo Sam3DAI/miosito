@@ -18,15 +18,15 @@ twitter:
   description: "Strumenti web per agenti, dealer e clienti B2B, progettati sulle regole commerciali reali."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
 
 {% set processItems = [
-  { title: "Mappa", text: "Utenti, regole, dati e documenti." },
-  { title: "Priorità", text: "Flusso iniziale e confini operativi." },
-  { title: "Prototipo", text: "Schermate e decisioni da verificare." },
-  { title: "Sviluppo", text: "Moduli e autorizzazioni concordate." },
-  { title: "Integrazione", text: "Importazioni e sistemi analizzati." },
-  { title: "Rilascio", text: "Test, passaggio operativo e supporto." }
+  { title: "Mappa", icon: "users", accent: "teal", highlight: "Mappa", text: "Utenti, regole, dati e documenti." },
+  { title: "Priorità", icon: "rules", accent: "violet", highlight: "Priorità", text: "Flusso iniziale e confini operativi." },
+  { title: "Prototipo", icon: "configuration", accent: "blue", highlight: "Prototipo", text: "Schermate e decisioni da verificare." },
+  { title: "Sviluppo", icon: "configuration", accent: "blue", highlight: "Sviluppo", text: "Moduli e autorizzazioni concordate." },
+  { title: "Integrazione", icon: "integrations", accent: "magenta", highlight: "Integrazione", text: "Importazioni e sistemi analizzati." },
+  { title: "Rilascio", icon: "saves", accent: "green", highlight: "Rilascio", text: "Test, passaggio operativo e supporto." }
 ] %}
 
 {% set moduleItems = [
@@ -38,7 +38,7 @@ twitter:
   { label: "Dati", title: "Importazioni", text: "Cataloghi e dati possono essere acquisiti da formati concordati e controllabili.", image: originalImages31["CPQ-06"].src, alt: originalImages31["CPQ-06"].alt, imageMeta: originalImages31["CPQ-06"] },
   { label: "Operatività", title: "Dashboard", text: "Viste operative focalizzate sulle informazioni necessarie alle decisioni.", image: originalImages31["CPQ-07"].src, alt: originalImages31["CPQ-07"].alt, imageMeta: originalImages31["CPQ-07"] },
   { label: "Materiali", title: "Documenti", text: "Materiali commerciali raccolti o preparati nel punto utile del flusso.", image: originalImages31["CPQ-08"].src, alt: originalImages31["CPQ-08"].alt, imageMeta: originalImages31["CPQ-08"] },
-  { label: "Sistemi", title: "Integrazioni da analizzare", text: "ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili.", image: originalImages31["CPQ-09"].src, alt: originalImages31["CPQ-09"].alt, imageMeta: originalImages31["CPQ-09"], note: "Esempio illustrativo. Le integrazioni si verificano sul progetto." }
+  { label: "Sistemi", title: "Integrazioni da analizzare", text: "ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili.", image: originalImages31["CPQ-09"].src, alt: originalImages31["CPQ-09"].alt, imageMeta: originalImages31["CPQ-09"] }
 ] %}
 
 {% set faqItems = [
@@ -93,7 +93,7 @@ twitter:
   <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <h1><span class="gradient-text">Software CPQ</span> e portali commerciali su misura.</h1>
+        <h1><span class="statement-line"><span class="gradient-text">Software CPQ</span> e portali commerciali.</span> <span class="statement-line">Su misura.</span></h1>
         <div class="hero-introduction">
         <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
         <div class="cta-group">
@@ -108,24 +108,23 @@ twitter:
   <section class="section container" aria-labelledby="control-title">
     <div class="section-heading">
       <span class="section-kicker">Configurazione e controllo</span>
-      <h2 id="control-title">Regole commerciali accessibili a chi deve vendere.</h2>
+      <h2 id="control-title"><span class="statement-line">Regole commerciali accessibili.</span> <span class="statement-line">A chi deve vendere.</span></h2>
       <p>Il sistema rende espliciti prodotti, vincoli e passaggi, così ogni utente lavora con informazioni coerenti con il proprio ruolo.</p>
     </div>
     <div class="feature-grid">
-      <article class="card"><span class="card__label">Percorso</span><h3>Configurazione guidata</h3><p>Opzioni e passaggi seguono la logica con cui il prodotto viene definito e venduto.</p></article>
-      <article class="card"><span class="card__label">Vincoli</span><h3>Compatibilità e regole</h3><p>Combinazioni, dipendenze e controlli riducono configurazioni incoerenti.</p></article>
-      <article class="card"><span class="card__label">Commerciale</span><h3>Listini, sconti e prezzi</h3><p>Dati e permessi possono differenziare il flusso secondo utente, canale o cliente.</p></article>
+      <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Percorso</span><h3><span class="accent-text">Configurazione</span> guidata</h3><p>Opzioni e passaggi seguono la logica con cui il prodotto viene definito e venduto.</p></article>
+      <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Vincoli</span><h3>Compatibilità e <span class="accent-text">regole</span></h3><p>Combinazioni, dipendenze e controlli riducono configurazioni incoerenti.</p></article>
+      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Commerciale</span><h3>Listini, sconti e <span class="accent-text">prezzi</span></h3><p>Dati e permessi possono differenziare il flusso secondo utente, canale o cliente.</p></article>
     </div>
   </section>
 
   <section class="section section--rail" aria-labelledby="modules-title">
       <div class="section-heading rail-heading" id="moduli">
         <span class="section-kicker">Moduli</span>
-        <h2 id="modules-title">Dal preventivo ai documenti della rete vendita.</h2>
+        <h2 id="modules-title"><span class="statement-line">Dal preventivo ai documenti.</span> <span class="statement-line">Per la rete vendita.</span></h2>
         <p>Non tutti i progetti richiedono ogni modulo. Si scelgono funzioni, confini e priorità in base agli utenti e ai dati disponibili.</p>
       </div>
     {{ visualCardRail("cpq-modules", "Moduli per CPQ e portali commerciali", moduleItems) }}
-    <p class="rail-heading original-image-note">Illustrazioni di esempio, non screenshot di progetti realizzati.</p>
   </section>
 
   <section class="section container" aria-labelledby="cpq-proof-title">
@@ -152,7 +151,7 @@ twitter:
     <div class="split-panel">
       <div class="split-panel__lead">
         <span class="section-kicker">Altri processi B2B</span>
-        <h2 id="adjacent-title">Non rientra perfettamente in un CPQ?</h2>
+        <h2 id="adjacent-title"><span class="statement-line">Non sai se rientri</span> <span class="statement-line">correttamente nella</span> <span class="statement-line">scelta di un CPQ?</span></h2>
       </div>
       <div class="split-panel__body">
         <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web dedicato. Partiamo dall’attività da organizzare e dai sistemi già utilizzati.</p>

@@ -29,6 +29,7 @@ import {
   canonicalizeRenderedText
 } from "./html-contract.mjs";
 import { verifyRealBinaryOutputs } from "./binary-post-build.mjs";
+import { assertVisual32Html, assertVisual32Sources, assertDisplayOnly32, assertVisualEvidence32 } from "./visual-consistency-32.mjs";
 import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -67,7 +68,6 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
   "js/ad-attribution-consent.js",
   "js/automazioni-ai-business.js",
   "js/chatbot-ai-intelligenti.js",
-  "js/configuratori-3d-2d.js",
   "js/contattaci.js",
   "js/cookie-banner.js",
   "js/ga-autotrack.js",
@@ -82,6 +82,7 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
 ]);
 
 const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
+  "js/configuratori-3d-2d.js",
   "css/foundation.css",
   "css/site-shell.css",
   "css/marketing-pages.css",
@@ -134,7 +135,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     publicUrl: "/configuratori-ecommerce",
     canonical: "https://solvex-ai3d.com/configuratori-ecommerce",
     title: "Configuratori E-commerce su Misura | SolveX AI3D",
-    h1: "Configuratori e-commerce su misura per prodotti personalizzabili.",
+    h1: "Configuratori e-commerce su misura. Per prodotti personalizzabili.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
@@ -146,7 +147,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     publicUrl: "/software-cpq-portali-commerciali",
     canonical: "https://solvex-ai3d.com/software-cpq-portali-commerciali",
     title: "Software CPQ e Portali Commerciali su Misura | SolveX AI3D",
-    h1: "Software CPQ e portali commerciali su misura.",
+    h1: "Software CPQ e portali commerciali. Su misura.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
@@ -158,7 +159,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     publicUrl: "/planner-configuratori-arredamento",
     canonical: "https://solvex-ai3d.com/planner-configuratori-arredamento",
     title: "Planner e Configuratori per Arredamento B2B | SolveX AI3D",
-    h1: "Planner e configuratori per arredamento pensati per produttori e rivenditori.",
+    h1: "Planner e configuratori per arredamento. Pensati per produttori e rivenditori.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
@@ -170,7 +171,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     publicUrl: "/automazioni-ai-business",
     canonical: "https://solvex-ai3d.com/automazioni-ai-business",
     title: "Automazioni AI per Processi Commerciali | SolveX AI3D",
-    h1: "Automazioni AI integrate nei processi commerciali.",
+    h1: "Automazioni AI. Integrate nei processi commerciali.",
     schemaTypes: Object.freeze(["Service", "BreadcrumbList", "FAQPage"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
@@ -182,7 +183,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     publicUrl: "/contattaci",
     canonical: "https://solvex-ai3d.com/contattaci",
     title: "Contatti | Configuratori e Software Commerciali | SolveX AI3D",
-    h1: "Raccontaci il prodotto o il processo da semplificare.",
+    h1: "Raccontaci il prodotto. O il processo da semplificare.",
     schemaTypes: Object.freeze(["ContactPage", "Organization", "BreadcrumbList"]),
     hasFaq: true,
     measurementMode: "gtm-verified",
@@ -215,7 +216,6 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
 ]);
 
 const functionalProtectedFiles = Object.freeze([
-  "js/configuratori-3d-2d.js",
   "js/contattaci.js",
   "js/ad-attribution-consent.js",
   "assets/iphone_16_pro_configuratore_3d.glb"
@@ -372,11 +372,11 @@ const requiredContent = Object.freeze({
     "Quando il prodotto è complesso, la vendita non deve esserlo.",
     "Una soluzione. Per ogni processo di vendita.",
     "Dal catalogo al preventivo. In un unico flusso.",
-    "Tipologie di progetto già realizzate.",
+    "Alcuni dei nostri progetti",
     "Configurazione 3D di prodotto.",
     "Portale preventivi B2B.",
     "Configuratore tecnico con listini e PDF.",
-    "Un interlocutore diretto, competenze specialistiche quando servono.",
+    "Un interlocutore diretto. Un flusso snello e veloce.",
     "Hai un processo fuori standard?",
     "Raccontaci il tuo processo"
   ]),
@@ -402,7 +402,7 @@ const requiredContent = Object.freeze({
     "2D, 3D e AR quando utili",
     "Salvataggio e condivisione",
     "Carrello e ordine",
-    "WooCommerce, PrestaShop o soluzioni custom: prima si analizza."
+    "Shopify, WooCommerce, PrestaShop, ecc. Integrazioni su misura."
   ]),
   "software-cpq-portali-commerciali.html": Object.freeze([
     "Listini, sconti e prezzi",
@@ -412,7 +412,7 @@ const requiredContent = Object.freeze({
     "Agenti, dealer e clienti B2B",
     "Importazioni",
     "Dashboard",
-    "Non rientra perfettamente in un CPQ?"
+    "Non sai se rientri correttamente nella scelta di un CPQ?"
   ]),
   "planner-configuratori-arredamento.html": Object.freeze([
     "Produttori",
@@ -1418,8 +1418,8 @@ function assertRouteRegistry() {
   assert.deepEqual(OWNED_STATIC_FILES, EXPECTED_OWNED_STATIC_FILES, "Eleventy owned-static registry differs from the independent expected list");
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
-  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 35, "Only the lead helper may leave the frozen registry");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 79, "Owned inventory: ten baseline assets plus 69 exact original-image derivatives");
+  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 34, "Only the approved lead helper and display-only 3D file leave the historical frozen registry");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 80, "Eleven owned assets including display-only 3D, plus 69 owner derivatives");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1520,7 +1520,7 @@ for (const marker of ["Escape", "event.key !== \"Tab\"", "summary.focus({ preven
 const foundationCssSource = fs.readFileSync(path.join(root, "css", "foundation.css"), "utf8");
 assert.match(foundationCssSource, /\.button\s*\{[^}]*border:\s*2px solid var\(--sx-blue\)/s, "Page buttons must inherit the production blue outline at rest");
 assert.match(foundationCssSource, /\.button--secondary\s*\{[^}]*border-width:\s*1px/s, "Secondary action retains its lighter outlined hierarchy");
-assert.match(foundationCssSource, /--sx-bg:\s*light-dark\(#fafafa, #000000\)/, "Production light/dark backgrounds required");
+assert.match(foundationCssSource, /--sx-bg:\s*light-dark\(#f5f5f7, #000000\)/, "Production light/dark backgrounds required");
 assert.match(foundationCssSource, /--sx-gradient:\s*linear-gradient\(90deg, #45b6fe, #d95bc5\)/, "Canonical two-stop production brand gradient required");
 assert.match(foundationCssSource, /scrollbar-gutter:\s*stable/, "Scrollbar space must remain stable for the persistent control");
 assert.doesNotMatch(foundationCssSource, /\.(?:eyebrow|section-kicker)::before/, "Global eyebrow/kicker gradient bars must stay removed");
@@ -1581,6 +1581,7 @@ function verifyBuiltOutput() {
     const html = htmlBuffer.toString("utf8");
     assertGeneratedPageContract(route, html);
     assertOriginalHtml(route, html);
+    assertVisual32Html(route.publicUrl, html);
     currentPerformance.push(assertPerformanceBudget(route, htmlBuffer));
 
     const title = stripMarkup(firstMatch(html, /<title>([\s\S]*?)<\/title>/i, `${route.publicUrl} title`));
@@ -1668,6 +1669,10 @@ for (const file of EXPECTED_OWNED_STATIC_FILES) {
 }
 
 const originalImageEvidence = assertOriginalSources(root);
+const visual32SourceEvidence = assertVisual32Sources(root);
+const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
+  ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
+  : { result: "NOT_RUN_SEPARATE_REAL_BROWSER_GATE", requiredBeforeStaging: true };
 const firstVerification = verifyBuiltOutput();
 
 buildFromAbsentOutput();
@@ -1677,6 +1682,7 @@ performanceEvidence.push(...secondVerification.currentPerformance);
 
 const binaryPostBuildEvidence = verifyRealBinaryOutputs({ root, outputRoot, baseRef: BASE_COMMIT });
 
+const displayOnly32Evidence = assertDisplayOnly32(root, outputRoot);
 const functionalFreezeEvidence = functionalProtectedFiles.map((file) => {
   const frozen = frozenEvidence.find((entry) => entry.file === file);
   assert.ok(frozen, `Functionally protected file is not frozen passthrough: ${file}`);
@@ -1741,7 +1747,7 @@ const summary = {
   generatedPagesChatbotRuntime: 0,
   legalContentFreeze: "PASS",
   cspHardening: "PASS",
-  configuratorFunctionalFreeze: "PASS",
+  configuratorFunctionalFreeze: "PASS_WITH_EXACT_TWO_LITERAL_DISPLAY_ONLY_DELTA",
   contactFunctionalFreeze: "PASS",
   formsDetected: 6,
   sourceAllowlistEvidence,
@@ -1757,6 +1763,9 @@ const summary = {
   legacyReferenceEvidence,
   ownedEvidence,
   originalImageEvidence,
+  visual32SourceEvidence,
+  browserVisual32Evidence,
+  displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison
 };
 

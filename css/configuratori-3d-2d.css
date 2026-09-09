@@ -3,15 +3,10 @@
 .configurator-legacy-hero h1 {
   max-width: none;
   margin: 0;
-  font-size: clamp(2.75rem, 5vw, 4.5rem);
-  line-height: 1.2;
 }
 .configurator-introduction { margin-bottom: clamp(3rem, 6vw, 5rem); }
 .configurator-introduction h2 {
   margin-bottom: 1.5rem;
-  font-size: 1.875rem;
-  line-height: 1.35;
-  letter-spacing: -0.02em;
 }
 .configurator-introduction p {
   color: var(--sx-text-muted);
@@ -34,8 +29,6 @@
 .configurator-description { grid-area: intro; }
 .configurator-description h2 {
   margin-bottom: 1.25rem;
-  font-size: clamp(1.875rem, 2.6vw, 2.5rem);
-  line-height: 1.2;
 }
 .configurator-description p { color: var(--sx-text-muted); }
 .configurator-note { margin: 0; color: var(--sx-text-muted); font-size: 0.875rem; grid-column: 1 / -1; }
@@ -178,7 +171,7 @@
 
 .mini-form-shell .section-heading { max-width: none; margin-bottom: 1.5rem; }
 .submit-status[hidden] { display: none; }
-.mini-form-shell h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); line-height: 1.2; }
+.mini-form-shell h2 { font-size: var(--sx-type-form); line-height: 1.2; }
 #mini-form {
   display: grid;
   width: 100%;
@@ -325,16 +318,13 @@ html[data-theme="dark"] .error-message,
 @media (max-width: 56rem) {
   .configurator-container { grid-template-columns: 1fr; grid-template-areas: "intro" "viewer" "controls"; grid-template-rows: auto auto auto; gap: 1.25rem; }
   .configurator-description { max-width: 42rem; }
-  .configurator-description h2 { font-size: 1.875rem; }
   .configurator-description br { display: none; }
   .iframe-container { height: 24rem; }
   .configurator-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; }
   .configurator-introduction { margin-left: 12%; }
 }
 @media (max-width: 42rem) {
-  .configurator-legacy-hero h1 { font-size: clamp(2.3rem, 8vw, 3.25rem); }
   .configurator-introduction { margin-left: 0; }
-  .configurator-introduction h2 { font-size: 1.55rem; }
   .configurator-introduction p { font-size: 1.05rem; }
   .iframe-container { height: 21rem; }
   .configurator-controls, .mf-grid { grid-template-columns: 1fr; }

@@ -8,7 +8,7 @@
   background: var(--sx-bg-elevated);
 }
 .service-demo-shell .section-heading { margin-bottom: 1.5rem; }
-.service-demo-shell h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.15; }
+.service-demo-shell h2 { font-size: var(--sx-type-form); line-height: 1.2; }
 #service-demo-form { display: grid; gap: 1rem; }
 .service-demo-legend { margin: 0; color: var(--sx-text-muted); font-size: 0.85rem; }
 .service-demo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }

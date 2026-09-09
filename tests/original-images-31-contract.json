@@ -135,64 +135,66 @@
       "template": "src/index.njk",
       "collection": "capability-strip",
       "title": "Configuratori di prodotto interattivi.",
-      "placement": "home_capability_media",
+      "placement": "home_capability_full_card",
       "alt": "Illustrazione di una poltrona con un’interfaccia di personalizzazione di materiali e componenti.",
-      "background": "#f7f8fb",
+      "background": "#f9fafd",
       "variants": [
         {
-          "file": "assets/images/originals-31/home-cap-01-original-576.webp",
+          "file": "assets/images/originals-31/home-cap-01-full-576.webp",
           "width": 576,
-          "height": 360,
-          "bytes": 19434,
-          "sha256": "66d1860bbb13cb901892db8231a81a2633c272eb076e10c81dce08cc254d1c0f"
+          "height": 673,
+          "bytes": 20648,
+          "sha256": "c022adeb15abdc42738a837a9acd264a4a8153c83bc826df807cc160fa5cbd3c"
         },
         {
-          "file": "assets/images/originals-31/home-cap-01-original-928.webp",
+          "file": "assets/images/originals-31/home-cap-01-full-928.webp",
           "width": 928,
-          "height": 580,
-          "bytes": 38996,
-          "sha256": "bb20f156553ce5056aded03d233bc92948a186b6e0b192abe045c900d90f1685"
+          "height": 1084,
+          "bytes": 43276,
+          "sha256": "23e00600d12e1661acde8fff178ac03eb9bca9d6e0f0b8cb540fcb3ceb2ec0fb"
         },
         {
-          "file": "assets/images/originals-31/home-cap-01-original-1152.webp",
+          "file": "assets/images/originals-31/home-cap-01-full-1152.webp",
           "width": 1152,
-          "height": 720,
-          "bytes": 53330,
-          "sha256": "7b44d71ebd4f2051ea2f853119afaac8628db4c4e07ae5f89242feb6d0acb6c8"
+          "height": 1346,
+          "bytes": 63492,
+          "sha256": "7a8b87c2c333afb9fa8cca5d7e03afdd913afd60e1a499f55531e33c28ed113d"
         }
-      ]
+      ],
+      "sourceSha256": "f23cf3920db857fc35d1c9e4475a6de331d61784282943f8dc99860da64bc1b6"
     },
     {
       "id": "HOME-CAP-02",
       "template": "src/index.njk",
       "collection": "capability-strip",
       "title": "Automazioni dentro il processo commerciale.",
-      "placement": "home_capability_media",
+      "placement": "home_capability_full_card",
       "alt": "Illustrazione di un flusso AI che elabora richieste e prepara documenti commerciali.",
-      "background": "#fefdfe",
+      "background": "#fefefe",
       "variants": [
         {
-          "file": "assets/images/originals-31/home-cap-02-original-576.webp",
+          "file": "assets/images/originals-31/home-cap-02-full-576.webp",
           "width": 576,
-          "height": 360,
-          "bytes": 22194,
-          "sha256": "ccd11558784925a0c5cc5c5af61a252d5ef28a19e807d84b81b6ac7007e8a562"
+          "height": 672,
+          "bytes": 21950,
+          "sha256": "94adb3a71228e5632b6ae67f1707253ca11898eb7be2021747e89e7f274e6fe9"
         },
         {
-          "file": "assets/images/originals-31/home-cap-02-original-928.webp",
+          "file": "assets/images/originals-31/home-cap-02-full-928.webp",
           "width": 928,
-          "height": 580,
-          "bytes": 44030,
-          "sha256": "5863b5d226ed8192702e357e29ba7b3e65b195d22900183c726a6edc17ee1691"
+          "height": 1083,
+          "bytes": 45380,
+          "sha256": "952b45afbb0f72e8b4aebaa71f62b8eede8ffa75f60560d393d034204c2e8f87"
         },
         {
-          "file": "assets/images/originals-31/home-cap-02-original-1152.webp",
+          "file": "assets/images/originals-31/home-cap-02-full-1152.webp",
           "width": 1152,
-          "height": 720,
-          "bytes": 59334,
-          "sha256": "b6d04ab4b44632995db29f5b32e10c3d172cd2ac4ca5bf3ed95975e0cea2e1bb"
+          "height": 1344,
+          "bytes": 63448,
+          "sha256": "85880a20731d8f5a67d336c996bfebd03be3911974ffe735206475d3b5d24422"
         }
-      ]
+      ],
+      "sourceSha256": "ce06f939f967e707162d008f06c638ecfdf2c5118f2991477d332c30050064d8"
     },
     {
       "id": "ECOM-01",
@@ -738,5 +740,10 @@
         }
       ]
     }
-  ]
+  ],
+  "fullCard32": {
+    "baseline": "93262817ac1473f937148d5cc8d2298a5eeb85e9",
+    "packSha256": "b8e8a1e2f5c3951d66640baf03124240900cec0ce222fe3d988834e8ba2ed9f9",
+    "policy": "Six supplied uncropped WebP replace only capability media; all 63 portrait derivatives remain exact."
+  }
 }

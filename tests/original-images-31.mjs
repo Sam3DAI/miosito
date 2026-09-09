@@ -70,7 +70,9 @@ export function assertOriginalSources(root = rootDefault) {
     const old = readGitBlobBuffer(originalContract.base, file, root).buffer.toString("utf8").replaceAll("\r\n", "\n");
     const current = fs.readFileSync(path.join(root, file), "utf8").replaceAll("\r\n", "\n");
     const hero = source => source.match(/<section class="page-hero[^"]*"[^>]*>[\s\S]*?<\/section>/)?.[0];
-    assert.equal(hero(current), hero(old), file + " frozen text-only hero");
+    // Task 32 authorizes only the H1 within these image-bearing heroes. Its exact text is independently checked.
+    const withoutHeading = block => block.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, "<h1></h1>");
+    assert.equal(withoutHeading(hero(current)), withoutHeading(hero(old)), file + " frozen hero introduction, links and structure");
     for (const collection of new Set(originalContract.assets.filter(a => a.template === file && a.placement === "portrait_rail").map(a => a.collection))) {
       const pattern = new RegExp("{% set " + collection + " = \\[[\\s\\S]*?\\] %}");
       assert.equal(stripMedia(current.match(pattern)[0]), stripMedia(old.match(pattern)[0]), file + " preserves card order, title, description and links");
@@ -96,15 +98,16 @@ export function assertOriginalHtml(route, html) {
       block = [...html.matchAll(/<a class="card card--link capability-card"[^>]*>[\s\S]*?<\/a>/g)].find(m => m[0].includes('data-original-asset="' + a.id + '"'))?.[0];
       assert.ok(block, a.id + " capability missing");
       assert.equal(text(block.match(/<h3>([\s\S]*?)<\/h3>/)[1]), a.title);
-      assert.match(block, /Visualizzazione illustrativa SolveX\./);
+      assert.doesNotMatch(block, /<figure|<figcaption|capability-card__media/);
+      assert.match(block, /class="capability-card__image"/);
     }
     const image = block.match(/<img\b[^>]*>/)[0], entry = metadata[a.id];
     for (const name of ["src", "srcset", "sizes", "alt", "width", "height"]) assert.equal(attr(image, name), String(entry[name]), a.id + " " + name);
     assert.equal(attr(image, "loading"), "lazy");
     assert.equal(attr(image, "decoding"), "async");
     assert.equal(attr(image, "fetchpriority"), "");
-    if (a.id === "CPQ-09") assert.match(block, /Esempio illustrativo\. Le integrazioni si verificano sul progetto\./);
+    if (a.id === "CPQ-09") assert.match(block, /ERP, CRM e altri sistemi vengono valutati sulle interfacce realmente disponibili\./);
   }
-  if (expected.some(a => a.placement === "portrait_rail")) assert.equal((html.match(/Illustrazioni di esempio, non screenshot di progetti realizzati\./g) ?? []).length, 1);
+  if (expected.some(a => a.placement === "portrait_rail")) assert.equal((html.match(/Illustrazioni di esempio, non screenshot di progetti realizzati\./g) ?? []).length, 0);
   return expected.length;
 }

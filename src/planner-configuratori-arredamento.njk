@@ -18,15 +18,15 @@ twitter:
   description: "Strumenti B2B su misura per comporre prodotti, verificare vincoli e preparare offerte."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
 
 {% set processItems = [
-  { title: "Catalogo", text: "Moduli, misure, finiture e codici." },
-  { title: "Vincoli", text: "Regole tecniche e commerciali." },
-  { title: "Prototipo", text: "Composizione e percorso da verificare." },
-  { title: "Visuale", text: "2D o 3D secondo il valore utile." },
-  { title: "Commerciale", text: "Prezzi, documenti e utenti B2B." },
-  { title: "Integrazione", text: "Collegamenti e rilascio controllato." }
+  { title: "Catalogo", icon: "documents", accent: "blue", highlight: "Catalogo", text: "Moduli, misure, finiture e codici." },
+  { title: "Vincoli", icon: "rules", accent: "violet", highlight: "Vincoli", text: "Regole tecniche e commerciali." },
+  { title: "Prototipo", icon: "configuration", accent: "blue", highlight: "Prototipo", text: "Composizione e percorso da verificare." },
+  { title: "Visuale", icon: "configuration", accent: "blue", highlight: "Visuale", text: "2D o 3D secondo il valore utile." },
+  { title: "Commerciale", icon: "pricing", accent: "orange", highlight: "Commerciale", text: "Prezzi, documenti e utenti B2B." },
+  { title: "Integrazione", icon: "integrations", accent: "magenta", highlight: "Integrazione", text: "Collegamenti e rilascio controllato." }
 ] %}
 
 {% set compositionItems = [
@@ -89,7 +89,7 @@ twitter:
   <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <h1><span class="gradient-text">Planner e configuratori</span> per arredamento pensati per produttori e rivenditori.</h1>
+        <h1><span class="statement-line"><span class="gradient-text">Planner e configuratori</span> per arredamento.</span> <span class="statement-line">Pensati per produttori e rivenditori.</span></h1>
         <div class="hero-introduction">
         <p class="hero-lead">Composizioni, misure e finiture in uno strumento B2B che aiuta showroom e reti vendita a preparare offerte coerenti con il catalogo.</p>
         <div class="cta-group">
@@ -108,26 +108,25 @@ twitter:
       <p>Il planner traduce moduli, misure e relazioni tecniche in un’esperienza utilizzabile da chi presenta, configura o vende il prodotto.</p>
     </div>
     {{ visualCardRail("planner-scenarios", "Scenari di composizione per arredamento", compositionItems) }}
-    <p class="rail-heading original-image-note">Illustrazioni di esempio, non screenshot di progetti realizzati.</p>
   </section>
 
   <section class="section section--tinted" aria-labelledby="planner-functions-title">
     <div class="container">
       <div class="section-heading" id="funzioni">
         <span class="section-kicker">Funzioni</span>
-        <h2 id="planner-functions-title">Dalla composizione alla proposta commerciale.</h2>
+        <h2 id="planner-functions-title"><span class="statement-line">Dalla composizione.</span> <span class="statement-line">Alla proposta commerciale.</span></h2>
         <p>Ogni funzione viene dimensionata su catalogo, utenti e risultato che il processo deve produrre.</p>
       </div>
       <div class="feature-grid">
-        <article class="card"><span class="card__label">Catalogo</span><h3>Moduli e collezioni</h3><p>Prodotti, componenti e famiglie organizzati per costruire composizioni coerenti.</p></article>
-        <article class="card"><span class="card__label">Tecnica</span><h3>Misure e vincoli</h3><p>Controlli su dimensioni, adiacenze e incompatibilità quando le regole sono definibili.</p></article>
-        <article class="card"><span class="card__label">Materiali</span><h3>Finiture e varianti</h3><p>Colori e materiali associati ai prodotti secondo disponibilità e combinazioni ammesse.</p></article>
-        <article class="card"><span class="card__label">Visuale</span><h3>Vista 2D o 3D</h3><p>La rappresentazione viene scelta in base a ciò che utente e cliente devono comprendere.</p></article>
-        <article class="card"><span class="card__label">Spazio</span><h3>Ambienti</h3><p>Dimensioni e contesto possono guidare il posizionamento quando fanno parte del caso d’uso.</p></article>
-        <article class="card"><span class="card__label">Commerciale</span><h3>Prezzi e preventivi</h3><p>Composizione, listini e regole possono alimentare riepiloghi e documenti di offerta.</p></article>
-        <article class="card"><span class="card__label">Utenti</span><h3>Dealer e agenti</h3><p>Ruoli e visibilità supportano i diversi attori della rete commerciale.</p></article>
-        <article class="card"><span class="card__label">Continuità</span><h3>Salvataggio e condivisione</h3><p>Le composizioni possono essere riprese, condivise o trasformate in una richiesta.</p></article>
-        <article class="card"><span class="card__label">Sistemi</span><h3>Integrazioni</h3><p>Cataloghi, listini, CRM o altri strumenti vengono collegati solo dopo analisi delle interfacce.</p></article>
+        <article class="card" data-card-accent="blue">{{ functionIcon("documents") }}<span class="card__label">Catalogo</span><h3>Moduli e <span class="accent-text">collezioni</span></h3><p>Prodotti, componenti e famiglie organizzati per costruire composizioni coerenti.</p></article>
+        <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Tecnica</span><h3>Misure e <span class="accent-text">vincoli</span></h3><p>Controlli su dimensioni, adiacenze e incompatibilità quando le regole sono definibili.</p></article>
+        <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Materiali</span><h3>Finiture e <span class="accent-text">varianti</span></h3><p>Colori e materiali associati ai prodotti secondo disponibilità e combinazioni ammesse.</p></article>
+        <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Visuale</span><h3>Vista <span class="accent-text">2D o 3D</span></h3><p>La rappresentazione viene scelta in base a ciò che utente e cliente devono comprendere.</p></article>
+        <article class="card" data-card-accent="teal">{{ functionIcon("users") }}<span class="card__label">Spazio</span><h3><span class="accent-text">Ambienti</span></h3><p>Dimensioni e contesto possono guidare il posizionamento quando fanno parte del caso d’uso.</p></article>
+        <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Commerciale</span><h3><span class="accent-text">Prezzi</span> e preventivi</h3><p>Composizione, listini e regole possono alimentare riepiloghi e documenti di offerta.</p></article>
+        <article class="card" data-card-accent="teal">{{ functionIcon("users") }}<span class="card__label">Utenti</span><h3><span class="accent-text">Dealer e agenti</span></h3><p>Ruoli e visibilità supportano i diversi attori della rete commerciale.</p></article>
+        <article class="card" data-card-accent="green">{{ functionIcon("saves") }}<span class="card__label">Continuità</span><h3><span class="accent-text">Salvataggio</span> e condivisione</h3><p>Le composizioni possono essere riprese, condivise o trasformate in una richiesta.</p></article>
+        <article class="card" data-card-accent="magenta">{{ functionIcon("integrations") }}<span class="card__label">Sistemi</span><h3><span class="accent-text">Integrazioni</span></h3><p>Cataloghi, listini, CRM o altri strumenti vengono collegati solo dopo analisi delle interfacce.</p></article>
       </div>
     </div>
   </section>
@@ -147,13 +146,13 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="planner-process-title">
     <div class="container">
-      <div class="section-heading"><span class="section-kicker">Processo</span><h2 id="planner-process-title">Catalogo e vincoli vengono prima della tecnologia visuale.</h2><p>Il livello di rappresentazione viene scelto dopo aver chiarito composizione, regole, utenti e risultato commerciale.</p></div>
+      <div class="section-heading"><span class="section-kicker">Processo</span><h2 id="planner-process-title"><span class="statement-line">Catalogo e vincoli.</span> <span class="statement-line">Vengono prima della tecnologia visuale.</span></h2><p>Il livello di rappresentazione viene scelto dopo aver chiarito composizione, regole, utenti e risultato commerciale.</p></div>
       {{ processSteps(processItems) }}
     </div>
   </section>
 
   <section class="section container" aria-labelledby="faq-title">
-    <div class="section-heading section-heading--center"><h2 id="faq-title"><span class="gradient-text">Domande</span> su planner e configuratori per arredamento.</h2></div>
+    <div class="section-heading section-heading--center"><h2 id="faq-title"><span class="statement-line"><span class="gradient-text">Domande</span> su planner e configuratori</span> <span class="statement-line">per arredamento.</span></h2></div>
     {{ faq(faqItems) }}
   </section>
 

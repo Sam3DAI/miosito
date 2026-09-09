@@ -19,6 +19,21 @@ twitter:
   description: "Descrivi il prodotto o il processo commerciale da semplificare."
 ---
 {% extends "layouts/base.njk" %}
+{% from "partials/marketing-components.njk" import faq %}
+{% set faqItems = [
+  {
+    "question": "Serve già un capitolato?",
+    "answer": "No. Un primo quadro di prodotto, utenti, dati e obiettivo è sufficiente per capire quale approfondimento serve."
+  },
+  {
+    "question": "È possibile partire da cataloghi o processi esistenti?",
+    "answer": "Sì. Cataloghi, listini, documenti e passaggi attuali aiutano a definire vincoli e priorità in modo concreto."
+  },
+  {
+    "question": "Quando arriva una stima?",
+    "answer": "Una stima attendibile richiede un perimetro minimo condiviso. Il primo confronto serve a capire quali informazioni mancano per formularla."
+  }
+] %}
 
 {% set serviceOptions = [
   "Configuratore 2D/3D",
@@ -72,7 +87,7 @@ twitter:
   <section class="page-hero page-hero--compact lead-hero">
     <div class="container lead-hero__inner">
       <span class="eyebrow">Contatti · Primo confronto</span>
-      <h1>Raccontaci il prodotto o il processo da <span class="gradient-text">semplificare</span>.</h1>
+      <h1><span class="statement-line">Raccontaci il prodotto.</span> <span class="statement-line">O il processo da <span class="gradient-text">semplificare</span>.</span></h1>
       <p class="hero-lead">Raccogliamo le informazioni essenziali per capire obiettivi, utenti, dati e complessità del progetto.</p>
     </div>
   </section>
@@ -189,11 +204,7 @@ twitter:
         <span class="section-kicker">FAQ</span>
         <h2 id="contact-faq-title">Prima di <span class="gradient-text">inviare la richiesta</span>.</h2>
       </div>
-      <div class="faq-grid">
-        <details class="faq-item"><summary>Serve già un capitolato?</summary><div class="faq-item__answer"><p>No. Un primo quadro di prodotto, utenti, dati e obiettivo è sufficiente per capire quale approfondimento serve.</p></div></details>
-        <details class="faq-item"><summary>È possibile partire da cataloghi o processi esistenti?</summary><div class="faq-item__answer"><p>Sì. Cataloghi, listini, documenti e passaggi attuali aiutano a definire vincoli e priorità in modo concreto.</p></div></details>
-        <details class="faq-item"><summary>Quando arriva una stima?</summary><div class="faq-item__answer"><p>Una stima attendibile richiede un perimetro minimo condiviso. Il primo confronto serve a capire quali informazioni mancano per formularla.</p></div></details>
-      </div>
+      {{ faq(faqItems) }}
     </div>
   </section>
 </main>

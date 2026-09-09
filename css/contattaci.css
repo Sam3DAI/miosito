@@ -6,10 +6,7 @@
   max-width: 68rem;
 }
 
-.lead-hero h1 {
-  max-width: 22ch;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-}
+.lead-hero h1 { max-width: none; }
 
 .lead-layout {
   display: grid;
@@ -28,7 +25,7 @@
 }
 
 .lead-form-card .section-heading { margin-bottom: 1.5rem; }
-.lead-form-card h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); line-height: 1.2; }
+.lead-form-card h2 { font-size: var(--sx-type-form); line-height: 1.2; }
 
 #contact-form {
   display: grid;
