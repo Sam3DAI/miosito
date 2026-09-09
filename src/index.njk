@@ -34,10 +34,10 @@ twitter:
 ] %}
 
 {% set problemItems = [
-  { label: "Catalogo", title: "Molte varianti", text: "Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Illustrazione SolveX di configurazione prodotto con varianti e materiali" },
-  { label: "Preventivi", title: "Preventivi manuali", text: "Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Interfaccia CPQ con configurazione e riepilogo commerciale" },
-  { label: "Vincoli", title: "Regole e incompatibilità", text: "Vincoli tecnici e commerciali richiedono un percorso guidato e coerente.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/macchinari_e_attrezzature_ujxyrm.jpg", alt: "Configuratore per macchinari e attrezzature con opzioni tecniche" },
-  { label: "Rete vendita", title: "Reti disallineate", text: "Cataloghi e procedure diverse possono produrre offerte non uniformi.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale riservato con attività e configurazioni" }
+  { label: "Catalogo", title: "Molte varianti", text: "Opzioni, materiali e combinazioni rendono difficile orientarsi nel catalogo.", image: originalImages31["HOME-01"].src, alt: originalImages31["HOME-01"].alt, imageMeta: originalImages31["HOME-01"] },
+  { label: "Preventivi", title: "Preventivi manuali", text: "Passaggi ripetitivi aumentano tempi, duplicazioni e possibilità di errore.", image: originalImages31["HOME-02"].src, alt: originalImages31["HOME-02"].alt, imageMeta: originalImages31["HOME-02"] },
+  { label: "Vincoli", title: "Regole e incompatibilità", text: "Vincoli tecnici e commerciali richiedono un percorso guidato e coerente.", image: originalImages31["HOME-03"].src, alt: originalImages31["HOME-03"].alt, imageMeta: originalImages31["HOME-03"] },
+  { label: "Rete vendita", title: "Reti disallineate", text: "Cataloghi e procedure diverse possono produrre offerte non uniformi.", image: originalImages31["HOME-04"].src, alt: originalImages31["HOME-04"].alt, imageMeta: originalImages31["HOME-04"] }
 ] %}
 
 {% block jsonLd %}
@@ -106,6 +106,7 @@ twitter:
       <p>Un’interfaccia ben progettata rende esplicite le scelte, applica le regole e accompagna ogni utente verso un risultato verificabile.</p>
     </div>
     {{ visualCardRail("home-problems", "Problemi commerciali frequenti", problemItems) }}
+    <p class="rail-heading original-image-note">Illustrazioni di esempio, non screenshot di progetti realizzati.</p>
   </section>
 
   <section class="section section--tinted" aria-labelledby="solutions-title">
@@ -130,11 +131,11 @@ twitter:
     <div class="capability-strip">
       <a class="card card--link capability-card" href="/configuratori-3d-2d">
         <div class="capability-card__copy"><span class="card__label">2D / 3D</span><h3>Configuratori di prodotto interattivi.</h3><p>La componente visiva aiuta a comprendere varianti, materiali e risultato della configurazione.</p><span class="card__arrow">Esplora i configuratori 2D/3D <span aria-hidden="true">→</span></span></div>
-        <figure class="capability-card__media"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,c_limit/v1777911837/Configuratore_e-commerce_x0cfvo.jpg" width="1200" height="900" alt="Illustrazione SolveX della configurazione di prodotto" loading="lazy" decoding="async"><figcaption>Visualizzazione illustrativa SolveX.</figcaption></figure>
+        <figure class="capability-card__media"><img data-original-asset="HOME-CAP-01" src="{{ originalImages31["HOME-CAP-01"].src }}" srcset="{{ originalImages31["HOME-CAP-01"].srcset }}" sizes="{{ originalImages31["HOME-CAP-01"].sizes }}" width="{{ originalImages31["HOME-CAP-01"].width }}" height="{{ originalImages31["HOME-CAP-01"].height }}" alt="{{ originalImages31["HOME-CAP-01"].alt }}" style="background: {{ originalImages31["HOME-CAP-01"].background }}" loading="lazy" decoding="async"><figcaption>Visualizzazione illustrativa SolveX.</figcaption></figure>
       </a>
       <a class="card card--link capability-card" href="/automazioni-ai-business">
         <div class="capability-card__copy"><span class="card__label">AI integrata</span><h3>Automazioni dentro il processo commerciale.</h3><p>L’AI supporta documenti, richieste e workflow definiti, mantenendo controllo e supervisione.</p><span class="card__arrow">Esplora le automazioni AI <span aria-hidden="true">→</span></span></div>
-        <figure class="capability-card__media"><img src="https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_1200,c_limit/v1752249260/Autodocs_AI_adhyrh.webp" width="1200" height="900" alt="Illustrazione SolveX dell’elaborazione di documenti con AI" loading="lazy" decoding="async"><figcaption>Visualizzazione illustrativa SolveX.</figcaption></figure>
+        <figure class="capability-card__media"><img data-original-asset="HOME-CAP-02" src="{{ originalImages31["HOME-CAP-02"].src }}" srcset="{{ originalImages31["HOME-CAP-02"].srcset }}" sizes="{{ originalImages31["HOME-CAP-02"].sizes }}" width="{{ originalImages31["HOME-CAP-02"].width }}" height="{{ originalImages31["HOME-CAP-02"].height }}" alt="{{ originalImages31["HOME-CAP-02"].alt }}" style="background: {{ originalImages31["HOME-CAP-02"].background }}" loading="lazy" decoding="async"><figcaption>Visualizzazione illustrativa SolveX.</figcaption></figure>
       </a>
     </div>
   </section>

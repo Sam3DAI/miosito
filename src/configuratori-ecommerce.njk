@@ -38,10 +38,10 @@ twitter:
 ] %}
 
 {% set needItems = [
-  { label: "Catalogo", title: "Molte combinazioni", text: "Taglie, misure, materiali e accessori creano un catalogo difficile da esplorare.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Configuratore e-commerce con varianti e materiali" },
-  { label: "Dipendenze", title: "Scelte dipendenti", text: "Una variante può rendere disponibili, obbligatorie o incompatibili altre opzioni.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/macchinari_e_attrezzature_ujxyrm.jpg", alt: "Configuratore tecnico con opzioni dipendenti" },
-  { label: "Listino", title: "Prezzo variabile", text: "La configurazione può modificare il valore finale secondo regole definite.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg", alt: "Configuratore CPQ con riepilogo economico" },
-  { label: "Ordine", title: "Ordini completi", text: "Un percorso guidato raccoglie i dati necessari prima del checkout.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale con configurazioni organizzate" }
+  { label: "Catalogo", title: "Molte combinazioni", text: "Taglie, misure, materiali e accessori creano un catalogo difficile da esplorare.", image: originalImages31["ECOM-01"].src, alt: originalImages31["ECOM-01"].alt, imageMeta: originalImages31["ECOM-01"] },
+  { label: "Dipendenze", title: "Scelte dipendenti", text: "Una variante può rendere disponibili, obbligatorie o incompatibili altre opzioni.", image: originalImages31["ECOM-02"].src, alt: originalImages31["ECOM-02"].alt, imageMeta: originalImages31["ECOM-02"] },
+  { label: "Listino", title: "Prezzo variabile", text: "La configurazione può modificare il valore finale secondo regole definite.", image: originalImages31["ECOM-03"].src, alt: originalImages31["ECOM-03"].alt, imageMeta: originalImages31["ECOM-03"] },
+  { label: "Ordine", title: "Ordini completi", text: "Un percorso guidato raccoglie i dati necessari prima del checkout.", image: originalImages31["ECOM-04"].src, alt: originalImages31["ECOM-04"].alt, imageMeta: originalImages31["ECOM-04"] }
 ] %}
 
 {% block jsonLd %}
@@ -107,6 +107,7 @@ twitter:
       <p>Il configuratore diventa utile quando la personalizzazione influenza compatibilità, prezzo, anteprima o dati che devono arrivare all’ordine.</p>
     </div>
     {{ visualCardRail("ecommerce-needs", "Scenari che richiedono una scelta guidata", needItems) }}
+    <p class="rail-heading original-image-note">Illustrazioni di esempio, non screenshot di progetti realizzati.</p>
   </section>
 
   <section class="section section--tinted" aria-labelledby="guided-title">

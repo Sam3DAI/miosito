@@ -30,10 +30,10 @@ twitter:
 ] %}
 
 {% set compositionItems = [
-  { label: "Prodotto", title: "Composizioni modulari", text: "Elementi e accessori vengono organizzati secondo sequenze e dipendenze reali.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Planner_arredamento_eg9vpf.jpg", alt: "Planner per composizioni di arredamento" },
-  { label: "Tecnica", title: "Misure e vincoli", text: "Dimensioni e incompatibilità possono essere controllate durante la composizione.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/serramenti_f2nxbu.jpg", alt: "Configuratore con misure e vincoli dimensionali" },
-  { label: "Catalogo", title: "Cataloghi estesi", text: "Famiglie, codici e varianti richiedono una navigazione progettata sul prodotto.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/arredamento_pdjefm.jpg", alt: "Configuratore per cataloghi di arredamento" },
-  { label: "Commerciale", title: "Rete commerciale", text: "Dealer e agenti hanno bisogno di dati coerenti per presentare e quotare la soluzione.", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg", alt: "Portale commerciale per dealer e agenti" }
+  { label: "Prodotto", title: "Composizioni modulari", text: "Elementi e accessori vengono organizzati secondo sequenze e dipendenze reali.", image: originalImages31["PLANNER-01"].src, alt: originalImages31["PLANNER-01"].alt, imageMeta: originalImages31["PLANNER-01"] },
+  { label: "Tecnica", title: "Misure e vincoli", text: "Dimensioni e incompatibilità possono essere controllate durante la composizione.", image: originalImages31["PLANNER-02"].src, alt: originalImages31["PLANNER-02"].alt, imageMeta: originalImages31["PLANNER-02"] },
+  { label: "Catalogo", title: "Cataloghi estesi", text: "Famiglie, codici e varianti richiedono una navigazione progettata sul prodotto.", image: originalImages31["PLANNER-03"].src, alt: originalImages31["PLANNER-03"].alt, imageMeta: originalImages31["PLANNER-03"] },
+  { label: "Commerciale", title: "Rete commerciale", text: "Dealer e agenti hanno bisogno di dati coerenti per presentare e quotare la soluzione.", image: originalImages31["PLANNER-04"].src, alt: originalImages31["PLANNER-04"].alt, imageMeta: originalImages31["PLANNER-04"] }
 ] %}
 
 {% set faqItems = [
@@ -108,6 +108,7 @@ twitter:
       <p>Il planner traduce moduli, misure e relazioni tecniche in un’esperienza utilizzabile da chi presenta, configura o vende il prodotto.</p>
     </div>
     {{ visualCardRail("planner-scenarios", "Scenari di composizione per arredamento", compositionItems) }}
+    <p class="rail-heading original-image-note">Illustrazioni di esempio, non screenshot di progetti realizzati.</p>
   </section>
 
   <section class="section section--tinted" aria-labelledby="planner-functions-title">
