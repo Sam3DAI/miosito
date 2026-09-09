@@ -1,10 +1,14 @@
+{% macro cardTitle(title, highlight) %}
+{% if highlight %}{{ title | replace(highlight, '<span class="accent-text">' ~ highlight ~ '</span>') | safe }}{% else %}{{ title }}{% endif %}
+{% endmacro %}
+
 {% macro processSteps(items) %}
 <ol class="process-list">
   {% for item in items %}
-  <li class="editorial-card">
-    {{ functionIcon(item.icon or ["rules", "configuration", "integrations", "revisions", "documents", "saves"][loop.index0]) }}
-    <strong>{{ item.title }}</strong>
-    <span>{{ item.text }}</span>
+  <li class="editorial-card" data-card-accent="{{ item.accent }}">
+    {{ functionIcon(item.icon) }}
+    <strong>{{ cardTitle(item.title, item.highlight) }}</strong>
+    <span class="process-list__text">{{ item.text }}</span>
   </li>
   {% endfor %}
 </ol>
@@ -29,8 +33,8 @@
   {% elif name == "users" %}<circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.2"/><path d="M3.5 20c.3-4 2.1-6 5.5-6s5.2 2 5.5 6M14 15c3.7-.4 5.8 1.3 6.3 5"/>
   {% elif name == "documents" %}<path d="M6 3h8l4 4v14H6V3Z"/><path d="M14 3v5h4M9 12h6M9 16h6"/>
   {% elif name == "saves" %}<path d="M4 7h16v13H4V7Z"/><path d="M7 3h10l2 4H5l2-4ZM9 11h6"/>
-  {% elif name == "revisions" %}<path d="M5 8a8 8 0 1 1-1 8"/><path d="M5 3v5H0M12 7v5l3 2"/>
-  {% elif name == "integrations" %}<path d="m9 15 6-6M7 17l-1 1a3.5 3.5 0 0 1-5-5l4-4a3.5 3.5 0 0 1 5 0M17 7l1-1a3.5 3.5 0 1 1 5 5l-4 4a3.5 3.5 0 0 1-5 0"/>{% endif %}
+  {% elif name == "revisions" %}<path d="M5 8a8 8 0 1 1-1 8"/><path d="M5 3v5H1.5M12 7v5l3 2"/>
+  {% elif name == "integrations" %}<path d="m9 15 6-6M8 16l-1 1a3.2 3.2 0 0 1-4.5-4.5L6 9a3.2 3.2 0 0 1 4.5 0M16 8l1-1a3.2 3.2 0 0 1 4.5 4.5L18 15a3.2 3.2 0 0 1-4.5 0"/>{% endif %}
 </svg>
 {% endmacro %}
 
@@ -46,7 +50,7 @@
   </div>
   <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track{% if anchorHeading %} data-rail-anchor-heading="{{ anchorHeading }}"{% endif %} tabindex="0">
     {% for item in items %}
-    <li class="visual-card{% if item.image %} visual-card--image{% if item.imageMeta %} visual-card--original{% endif %}{% else %} visual-card--text{% endif %}" data-rail-card{% if item.imageMeta %} data-original-asset="{{ item.imageMeta.id }}" style="--original-image-bg: {{ item.imageMeta.background }}"{% endif %}>
+    <li class="visual-card{% if item.image %} visual-card--image{% if item.imageMeta %} visual-card--original{% endif %}{% else %} visual-card--text{% endif %}" data-rail-card{% if item.accent and not item.image and variant != "landscape" %} data-card-accent="{{ item.accent }}"{% endif %}{% if item.imageMeta %} data-original-asset="{{ item.imageMeta.id }}" style="--original-image-bg: {{ item.imageMeta.background }}"{% endif %}>
       {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}
         {% if item.image and variant != "landscape" %}
         {% if item.imageMeta %}
@@ -56,9 +60,9 @@
         {% endif %}
         {% endif %}
         <div class="visual-card__copy">
-          <h3>{{ item.title }}</h3>
+          {% if item.icon and not item.image and variant != "landscape" %}{{ functionIcon(item.icon) }}{% endif %}
+          <h3>{% if item.accent %}{{ cardTitle(item.title, item.highlight) }}{% else %}{{ item.title }}{% endif %}</h3>
           <p>{{ item.text }}</p>
-          {% if item.note %}<p class="visual-card__note">{{ item.note }}</p>{% endif %}
         </div>
         {% if variant == "landscape" %}
         <div class="project-media">
@@ -79,7 +83,7 @@
 
 {% macro finalCta(title, text, label="Parliamo del tuo progetto", projectSpacing=true, href="/contattaci") %}
 <div class="final-cta">
-  <h2>{{ title }}</h2>
+  <h2>{% if title is string %}{{ title }}{% else %}{% for line in title %}<span class="statement-line">{{ line }}</span>{% if not loop.last %} {% endif %}{% endfor %}{% endif %}</h2>
   <p>{{ text }}</p>
   <a class="button button--page{% if projectSpacing %} button--project{% endif %}" href="{{ href }}">{{ label }} <span aria-hidden="true">↗</span></a>
 </div>

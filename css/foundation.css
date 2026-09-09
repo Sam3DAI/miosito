@@ -1,9 +1,9 @@
 :root {
   color-scheme: light dark;
   /* The production palette is shared by shell and legacy-owned lead themes. */
-  --sx-bg: light-dark(#fafafa, #000000);
-  --sx-bg-elevated: light-dark(#f5f5f7, #1d1d1f);
-  --sx-bg-soft: light-dark(#f5f5f7, #1d1d1f);
+  --sx-bg: light-dark(#f5f5f7, #000000);
+  --sx-bg-elevated: light-dark(#ffffff, #1d1d1f);
+  --sx-bg-soft: light-dark(#ffffff, #1d1d1f);
   --sx-text: light-dark(#1d1d1f, #f5f5f7);
   --sx-text-strong: var(--sx-text);
   --sx-text-muted: light-dark(#6e6e73, #a1a1a6);
@@ -35,6 +35,16 @@
   --sx-space-7: 4.5rem;
   --sx-space-8: 7rem;
   --sx-container: 75rem;
+  /* One marketing scale per semantic role, shared with the legacy lead pages. */
+  --sx-type-page: clamp(2.3rem, 4.5vw, 4rem);
+  --sx-type-section: clamp(1.875rem, 3.25vw, 3rem);
+  --sx-type-card: 1.25rem;
+  --sx-type-lead: clamp(1.125rem, 1.4vw, 1.25rem);
+  --sx-type-body: 1rem;
+  --sx-type-label: 0.85rem;
+  --sx-type-form: clamp(1.75rem, 2.5vw, 2.25rem);
+  --sx-type-heading-leading: 1.15;
+  --sx-type-heading-tracking: -0.035em;
   --sx-transition: 180ms ease;
   --sx-page-gutter: max(1.5rem, calc((100% - var(--sx-container)) / 2));
   --sx-rail-gutter: max(1.5rem, calc((100% - 66rem) / 2));
@@ -64,7 +74,7 @@ body {
   background: var(--sx-bg);
   color: var(--sx-text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1rem;
+  font-size: var(--sx-type-body);
   line-height: 1.65;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -111,21 +121,23 @@ h2,
 h3 {
   color: var(--sx-text-strong);
   font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  letter-spacing: var(--sx-type-heading-tracking);
+  line-height: var(--sx-type-heading-leading);
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.7rem, 6.3vw, 5.75rem);
+  font-size: var(--sx-type-page);
 }
 
 h2 {
-  font-size: clamp(2rem, 4.2vw, 3.75rem);
+  font-size: var(--sx-type-section);
 }
 
 h3 {
-  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-size: var(--sx-type-card);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
 
 p,

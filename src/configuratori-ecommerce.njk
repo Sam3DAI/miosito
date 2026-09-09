@@ -18,15 +18,15 @@ twitter:
   description: "Configurazione guidata di prodotti personalizzabili, con integrazioni valutate sullo store esistente."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
 
 {% set processItems = [
-  { title: "Catalogo", text: "Varianti, dati e obiettivi di vendita." },
-  { title: "Regole", text: "Vincoli, compatibilità e dipendenze." },
-  { title: "Prototipo", text: "Percorso di scelta prima dello sviluppo." },
-  { title: "Sviluppo", text: "Interfaccia e logiche sul perimetro utile." },
-  { title: "Integrazione", text: "Carrello, ordine e sistemi disponibili." },
-  { title: "Test", text: "Casi prodotto, dispositivi e passaggi critici." }
+  { title: "Catalogo", icon: "documents", accent: "blue", highlight: "Catalogo", text: "Varianti, dati e obiettivi di vendita." },
+  { title: "Regole", icon: "rules", accent: "violet", highlight: "Regole", text: "Vincoli, compatibilità e dipendenze." },
+  { title: "Prototipo", icon: "configuration", accent: "blue", highlight: "Prototipo", text: "Percorso di scelta prima dello sviluppo." },
+  { title: "Sviluppo", icon: "configuration", accent: "blue", highlight: "Sviluppo", text: "Interfaccia e logiche sul perimetro utile." },
+  { title: "Integrazione", icon: "integrations", accent: "magenta", highlight: "Integrazione", text: "Carrello, ordine e sistemi disponibili." },
+  { title: "Test", icon: "revisions", accent: "violet", highlight: "Test", text: "Casi prodotto, dispositivi e passaggi critici." }
 ] %}
 
 {% set faqItems = [
@@ -88,7 +88,7 @@ twitter:
   <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <h1><span class="gradient-text">Configuratori <span class="word-keep">e-commerce</span></span> su misura per prodotti personalizzabili.</h1>
+        <h1><span class="statement-line"><span class="gradient-text">Configuratori <span class="word-keep">e-commerce</span></span> su misura.</span> <span class="statement-line">Per prodotti personalizzabili.</span></h1>
         <div class="hero-introduction">
         <p class="hero-lead">Aiutiamo brand e produttori a rendere più semplice la scelta di varianti, materiali, colori, accessori e configurazioni prima dell’acquisto.</p>
         <div class="cta-group">
@@ -103,11 +103,10 @@ twitter:
   <section class="section section--rail" aria-labelledby="need-title">
     <div class="section-heading rail-heading">
       <span class="section-kicker">Quando serve</span>
-      <h2 id="need-title">Quando scegliere il prodotto richiede più di un elenco di opzioni.</h2>
+      <h2 id="need-title"><span class="statement-line">Quando scegliere il prodotto</span> <span class="statement-line">richiede più di un elenco di opzioni.</span></h2>
       <p>Il configuratore diventa utile quando la personalizzazione influenza compatibilità, prezzo, anteprima o dati che devono arrivare all’ordine.</p>
     </div>
     {{ visualCardRail("ecommerce-needs", "Scenari che richiedono una scelta guidata", needItems) }}
-    <p class="rail-heading original-image-note">Illustrazioni di esempio, non screenshot di progetti realizzati.</p>
   </section>
 
   <section class="section section--tinted" aria-labelledby="guided-title">
@@ -131,16 +130,16 @@ twitter:
   <section class="section container" aria-labelledby="features-title">
     <div class="section-heading" id="funzioni">
       <span class="section-kicker">Funzioni</span>
-      <h2 id="features-title">Le funzioni dipendono dal prodotto e dal flusso di acquisto.</h2>
+      <h2 id="features-title"><span class="statement-line">Le funzioni dipendono dal prodotto.</span> <span class="statement-line">E dal flusso di acquisto.</span></h2>
       <p>Partiamo da regole, dati da raccogliere e informazioni da trasferire all’ordine.</p>
     </div>
     <div class="feature-grid">
-      <article class="card"><span class="card__label">Regole</span><h3>Compatibilità e vincoli</h3><p>Combinazioni consentite, dipendenze e messaggi aiutano a evitare configurazioni non valide.</p></article>
-      <article class="card"><span class="card__label">Listino</span><h3>Prezzo dinamico</h3><p>Il totale può seguire varianti e maggiorazioni quando i dati commerciali sono definiti.</p></article>
-      <article class="card"><span class="card__label">Visuale</span><h3>2D, 3D e AR quando utili</h3><p>La rappresentazione viene scelta per far comprendere meglio prodotto, materiali o ingombri.</p></article>
-      <article class="card"><span class="card__label">Continuità</span><h3>Salvataggio e condivisione</h3><p>Configurazioni e riepiloghi possono essere ripresi o condivisi secondo utenti e accessi previsti.</p></article>
-      <article class="card"><span class="card__label">Vendita</span><h3>Carrello e ordine</h3><p>La configurazione può trasferire codici, opzioni e dati utili al passaggio commerciale.</p></article>
-      <article class="card"><span class="card__label">Piattaforma</span><h3>E-commerce esistente</h3><p>Architettura, catalogo, checkout e API vengono analizzati prima di definire l’integrazione.</p></article>
+      <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Regole</span><h3>Compatibilità e <span class="accent-text">vincoli</span></h3><p>Combinazioni consentite, dipendenze e messaggi aiutano a evitare configurazioni non valide.</p></article>
+      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Listino</span><h3><span class="accent-text">Prezzo</span> dinamico</h3><p>Il totale può seguire varianti e maggiorazioni quando i dati commerciali sono definiti.</p></article>
+      <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Visuale</span><h3><span class="accent-text">2D, 3D e AR</span> quando utili</h3><p>La rappresentazione viene scelta per far comprendere meglio prodotto, materiali o ingombri.</p></article>
+      <article class="card" data-card-accent="green">{{ functionIcon("saves") }}<span class="card__label">Continuità</span><h3><span class="accent-text">Salvataggio</span> e condivisione</h3><p>Configurazioni e riepiloghi possono essere ripresi o condivisi secondo utenti e accessi previsti.</p></article>
+      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Vendita</span><h3>Carrello e <span class="accent-text">ordine</span></h3><p>La configurazione può trasferire codici, opzioni e dati utili al passaggio commerciale.</p></article>
+      <article class="card" data-card-accent="magenta">{{ functionIcon("integrations") }}<span class="card__label">Piattaforma</span><h3><span class="accent-text">E-commerce</span> esistente</h3><p>Architettura, catalogo, checkout e API vengono analizzati prima di definire l’integrazione.</p></article>
     </div>
   </section>
 
@@ -148,7 +147,7 @@ twitter:
     <div class="container split-panel">
       <div class="split-panel__lead">
         <span class="section-kicker">Integrazioni</span>
-        <h2 id="integration-title">WooCommerce, PrestaShop o soluzioni custom: prima si analizza.</h2>
+        <h2 id="integration-title"><span class="statement-line">Shopify, WooCommerce,</span> <span class="statement-line">PrestaShop, ecc.</span> <span class="statement-line">Integrazioni su misura.</span></h2>
       </div>
       <div class="split-panel__body">
         <p>Non esiste un plugin universale adatto a ogni catalogo. La connessione viene valutata su versione, estensioni, modello dati, checkout, disponibilità delle API e responsabilità dei sistemi coinvolti.</p>
@@ -160,7 +159,7 @@ twitter:
   <section class="section container" aria-labelledby="ecommerce-proof-title">
     <div class="section-heading">
       <span class="section-kicker">Tipologia reale, forma anonima</span>
-      <h2 id="ecommerce-proof-title">Configurazione 3D di prodotto.</h2>
+      <h2 id="ecommerce-proof-title"><span class="statement-line">Configurazione 3D di prodotto.</span></h2>
       <p>Un’esperienza web realizzata per selezionare varianti e leggere visivamente la configurazione. L’esempio è descritto in forma anonima.</p>
     </div>
     <div class="card proof-card card--gradient"><span class="card__label">Progetto</span><h3>Dalla scelta alla comprensione visiva.</h3><p>Interazione, opzioni e anteprima raccolte in un percorso coerente con il prodotto.</p></div>
@@ -168,7 +167,7 @@ twitter:
 
   <section class="section section--tinted" aria-labelledby="process-title">
     <div class="container">
-      <div class="section-heading"><span class="section-kicker">Processo</span><h2 id="process-title">Il configuratore nasce dal catalogo, non da un template.</h2><p>Le scelte tecniche seguono regole, dati e passaggi che il negozio deve realmente gestire.</p></div>
+      <div class="section-heading"><span class="section-kicker">Processo</span><h2 id="process-title"><span class="statement-line">Il configuratore nasce dal catalogo.</span> <span class="statement-line">Non da un template.</span></h2><p>Le scelte tecniche seguono regole, dati e passaggi che il negozio deve realmente gestire.</p></div>
       {{ processSteps(processItems) }}
     </div>
   </section>

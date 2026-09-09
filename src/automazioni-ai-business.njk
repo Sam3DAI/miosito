@@ -21,24 +21,24 @@ twitter:
 {% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
 
 {% set processItems = [
-  { title: "Caso d'uso", text: "Un passaggio concreto e misurabile." },
-  { title: "Dati", text: "Fonti, qualità e permessi disponibili." },
-  { title: "Controlli", text: "Regole, eccezioni e responsabilità." },
-  { title: "Prototipo", text: "Output verificato su esempi autorizzati." },
-  { title: "Integrazione", text: "Form, email, CRM o portale." },
-  { title: "Supervisione", text: "Monitoraggio e gestione dei casi critici." }
+  { title: "Caso d'uso", icon: "users", accent: "teal", highlight: "Caso d'uso", text: "Un passaggio concreto e misurabile." },
+  { title: "Dati", icon: "documents", accent: "blue", highlight: "Dati", text: "Fonti, qualità e permessi disponibili." },
+  { title: "Controlli", icon: "rules", accent: "violet", highlight: "Controlli", text: "Regole, eccezioni e responsabilità." },
+  { title: "Prototipo", icon: "configuration", accent: "blue", highlight: "Prototipo", text: "Output verificato su esempi autorizzati." },
+  { title: "Integrazione", icon: "integrations", accent: "magenta", highlight: "Integrazione", text: "Form, email, CRM o portale." },
+  { title: "Supervisione", icon: "revisions", accent: "violet", highlight: "Supervisione", text: "Monitoraggio e gestione dei casi critici." }
 ] %}
 
 {% set useItems = [
-  { label: "Documenti", title: "Estrazione da PDF e listini", text: "Individuare campi e informazioni da sottoporre a controllo prima dell’utilizzo." },
-  { label: "Richieste", title: "Classificazione", text: "Ordinare messaggi o richieste secondo categorie e priorità definite dal processo." },
-  { label: "Preparazione", title: "Documenti e bozze di offerta", text: "Comporre una base da verificare usando dati e modelli autorizzati." },
-  { label: "Rete vendita", title: "Assistenza contestuale", text: "Rendere disponibili informazioni pertinenti mentre l’utente gestisce un’attività commerciale." },
-  { label: "Connessioni", title: "Form, email, CRM e portali", text: "Trasferire dati tra passaggi quando interfacce e responsabilità sono definite." },
-  { label: "Qualità", title: "Controlli sui workflow", text: "Segnalare campi mancanti, incoerenze o casi che richiedono attenzione." },
-  { label: "Conoscenza", title: "Ricerca documentale", text: "Consultare fonti interne autorizzate con risposte legate ai documenti disponibili." },
-  { label: "Operatività", title: "Assistenti interni contestuali", text: "Aiutare il team a trovare informazioni e completare attività con fonti autorizzate." },
-  { label: "Responsabilità", title: "Revisione e approvazione", text: "Inserire passaggi umani prima di azioni con impatto commerciale o documentale." }
+  { label: "Documenti", title: "Estrazione da PDF e listini", icon: "documents", accent: "blue", highlight: "Estrazione", text: "Individuare campi e informazioni da sottoporre a controllo prima dell’utilizzo." },
+  { label: "Richieste", title: "Classificazione", icon: "rules", accent: "violet", highlight: "Classificazione", text: "Ordinare messaggi o richieste secondo categorie e priorità definite dal processo." },
+  { label: "Preparazione", title: "Documenti e bozze di offerta", icon: "documents", accent: "blue", highlight: "Documenti", text: "Comporre una base da verificare usando dati e modelli autorizzati." },
+  { label: "Rete vendita", title: "Assistenza contestuale", icon: "users", accent: "teal", highlight: "contestuale", text: "Rendere disponibili informazioni pertinenti mentre l’utente gestisce un’attività commerciale." },
+  { label: "Connessioni", title: "Form, email, CRM e portali", icon: "integrations", accent: "magenta", highlight: "CRM e portali", text: "Trasferire dati tra passaggi quando interfacce e responsabilità sono definite." },
+  { label: "Qualità", title: "Controlli sui workflow", icon: "rules", accent: "violet", highlight: "Controlli", text: "Segnalare campi mancanti, incoerenze o casi che richiedono attenzione." },
+  { label: "Conoscenza", title: "Ricerca documentale", icon: "documents", accent: "blue", highlight: "documentale", text: "Consultare fonti interne autorizzate con risposte legate ai documenti disponibili." },
+  { label: "Operatività", title: "Assistenti interni contestuali", icon: "users", accent: "teal", highlight: "contestuali", text: "Aiutare il team a trovare informazioni e completare attività con fonti autorizzate." },
+  { label: "Responsabilità", title: "Revisione e approvazione", icon: "revisions", accent: "violet", highlight: "Revisione", text: "Inserire passaggi umani prima di azioni con impatto commerciale o documentale." }
 ] %}
 
 {% set faqItems = [
@@ -90,21 +90,26 @@ twitter:
 
 {% block content %}
 <main id="main-content">
-  <section class="page-hero page-hero--compact">
+  <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
-        <h1><span class="gradient-text">Automazioni AI</span> integrate nei processi commerciali.</h1>
+        <h1><span class="statement-line"><span class="gradient-text">Automazioni AI</span>.</span> <span class="statement-line">Integrate nei processi commerciali.</span></h1>
+        <div class="hero-introduction">
         <p class="hero-lead">L’AI entra in punti precisi di un processo già definito, per leggere informazioni, preparare bozze e collegare strumenti mantenendo controlli e responsabilità umane.</p>
         <div class="cta-group">
           <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
           <a class="button button--page button--secondary" href="#casi-uso">Esplora i casi d’uso <span aria-hidden="true">↓</span></a>
         </div>
+        </div>
       </div>
-      <aside class="hero-editorial-note" aria-label="Principio di automazione supervisionata">
-        <span class="card__label">AI nel flusso</span>
-        <h2>Elaborare dove serve, verificare prima dell’azione.</h2>
-        <p>Input autorizzato, elaborazione circoscritta, controllo umano e output destinato al sistema corretto.</p>
-      </aside>
+    </div>
+  </section>
+
+  <section class="section section--compact container" aria-labelledby="ai-approach-title">
+    <div class="section-heading">
+      <span class="section-kicker">AI nel flusso</span>
+      <h2 id="ai-approach-title"><span class="statement-line">Elaborare dove serve.</span> <span class="statement-line">Verificare prima dell’azione.</span></h2>
+      <p>Input autorizzato, elaborazione circoscritta, controllo umano e output destinato al sistema corretto.</p>
     </div>
   </section>
 
@@ -152,20 +157,20 @@ twitter:
     <div class="container">
       <div class="section-heading section-heading--center"><span class="section-kicker">Come funziona</span><h2 id="ai-flow-title">Dal documento al sistema di lavoro.</h2><p>Il documento viene elaborato e controllato prima che le informazioni passino al CRM, al portale o alla preparazione dell’offerta.</p></div>
       <ul class="function-grid" aria-label="Fasi di un'automazione AI supervisionata">
-        <li>{{ functionIcon("documents") }}<strong>PDF, form o email</strong></li>
-        <li>{{ functionIcon("configuration") }}<strong>Estrazione o classificazione</strong></li>
-        <li>{{ functionIcon("rules") }}<strong>Regole e controlli</strong></li>
-        <li>{{ functionIcon("users") }}<strong>Revisione umana</strong></li>
-        <li>{{ functionIcon("integrations") }}<strong>CRM</strong></li>
-        <li>{{ functionIcon("integrations") }}<strong>Portale</strong></li>
-        <li>{{ functionIcon("documents") }}<strong>Documento</strong></li>
-        <li>{{ functionIcon("revisions") }}<strong>Tracciamento</strong></li>
+        <li class="editorial-card" data-card-accent="blue">{{ functionIcon("documents") }}<strong><span class="accent-text">PDF</span>, form o email</strong></li>
+        <li class="editorial-card" data-card-accent="blue">{{ functionIcon("documents") }}<strong><span class="accent-text">Estrazione</span> o classificazione</strong></li>
+        <li class="editorial-card" data-card-accent="violet">{{ functionIcon("rules") }}<strong>Regole e <span class="accent-text">controlli</span></strong></li>
+        <li class="editorial-card" data-card-accent="violet">{{ functionIcon("revisions") }}<strong><span class="accent-text">Revisione</span> umana</strong></li>
+        <li class="editorial-card" data-card-accent="magenta">{{ functionIcon("integrations") }}<strong><span class="accent-text">CRM</span></strong></li>
+        <li class="editorial-card" data-card-accent="magenta">{{ functionIcon("integrations") }}<strong><span class="accent-text">Portale</span></strong></li>
+        <li class="editorial-card" data-card-accent="blue">{{ functionIcon("documents") }}<strong><span class="accent-text">Documento</span></strong></li>
+        <li class="editorial-card" data-card-accent="violet">{{ functionIcon("revisions") }}<strong><span class="accent-text">Tracciamento</span></strong></li>
       </ul>
     </div>
   </section>
 
   <section class="section container" aria-labelledby="ai-process-title">
-    <div class="section-heading"><span class="section-kicker">Metodo</span><h2 id="ai-process-title">Si parte da un caso circoscritto.</h2><p>Un primo flusso permette di verificare output, controlli e integrazioni prima di ampliare l’automazione.</p></div>
+    <div class="section-heading"><span class="section-kicker">Metodo</span><h2 id="ai-process-title"><span class="statement-line">Si parte da un caso circoscritto.</span></h2><p>Un primo flusso permette di verificare output, controlli e integrazioni prima di ampliare l’automazione.</p></div>
     {{ processSteps(processItems) }}
   </section>
 

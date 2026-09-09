@@ -41,23 +41,23 @@
   },
   "HOME-CAP-01": {
     "id": "HOME-CAP-01",
-    "src": "/assets/images/originals-31/home-cap-01-original-928.webp",
-    "srcset": "/assets/images/originals-31/home-cap-01-original-576.webp 576w, /assets/images/originals-31/home-cap-01-original-928.webp 928w, /assets/images/originals-31/home-cap-01-original-1152.webp 1152w",
-    "sizes": "(max-width: 720px) calc(100vw - 5.5rem), (max-width: 78rem) calc(50vw - 5.25rem), 540px",
+    "src": "/assets/images/originals-31/home-cap-01-full-928.webp",
+    "srcset": "/assets/images/originals-31/home-cap-01-full-576.webp 576w, /assets/images/originals-31/home-cap-01-full-928.webp 928w, /assets/images/originals-31/home-cap-01-full-1152.webp 1152w",
+    "sizes": "(max-width: 480px) calc(100vw - 2.5rem), (max-width: 720px) calc(100vw - 3rem), (max-width: 1248px) calc(50vw - 2.25rem), 588px",
     "width": 928,
-    "height": 580,
+    "height": 1084,
     "alt": "Illustrazione di una poltrona con un’interfaccia di personalizzazione di materiali e componenti.",
-    "background": "#f7f8fb"
+    "background": "#f9fafd"
   },
   "HOME-CAP-02": {
     "id": "HOME-CAP-02",
-    "src": "/assets/images/originals-31/home-cap-02-original-928.webp",
-    "srcset": "/assets/images/originals-31/home-cap-02-original-576.webp 576w, /assets/images/originals-31/home-cap-02-original-928.webp 928w, /assets/images/originals-31/home-cap-02-original-1152.webp 1152w",
-    "sizes": "(max-width: 720px) calc(100vw - 5.5rem), (max-width: 78rem) calc(50vw - 5.25rem), 540px",
+    "src": "/assets/images/originals-31/home-cap-02-full-928.webp",
+    "srcset": "/assets/images/originals-31/home-cap-02-full-576.webp 576w, /assets/images/originals-31/home-cap-02-full-928.webp 928w, /assets/images/originals-31/home-cap-02-full-1152.webp 1152w",
+    "sizes": "(max-width: 480px) calc(100vw - 2.5rem), (max-width: 720px) calc(100vw - 3rem), (max-width: 1248px) calc(50vw - 2.25rem), 588px",
     "width": 928,
-    "height": 580,
+    "height": 1083,
     "alt": "Illustrazione di un flusso AI che elabora richieste e prepara documenti commerciali.",
-    "background": "#fefdfe"
+    "background": "#fefefe"
   },
   "ECOM-01": {
     "id": "ECOM-01",

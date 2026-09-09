@@ -15,15 +15,15 @@ twitter:
   description: "Progettiamo configuratori e strumenti commerciali B2B con responsabilità diretta e collaborazioni specialistiche quando necessarie."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, finalCta %}
+{% from "partials/marketing-components.njk" import processSteps, finalCta, functionIcon %}
 
 {% set methodSteps = [
-  { title: "Contesto", text: "Prodotto, utenti, dati e obiettivi commerciali." },
-  { title: "Perimetro", text: "Priorità, vincoli e responsabilità resi espliciti." },
-  { title: "Prototipo", text: "Flussi e interfaccia verificati prima dello sviluppo." },
-  { title: "Sviluppo", text: "Funzioni costruite per incrementi controllabili." },
-  { title: "Verifica", text: "Casi reali, dispositivi e passaggi critici testati." },
-  { title: "Continuità", text: "Rilascio, passaggio operativo e supporto concordato." }
+  { title: "Contesto", icon: "users", accent: "teal", highlight: "Contesto", text: "Prodotto, utenti, dati e obiettivi commerciali." },
+  { title: "Perimetro", icon: "rules", accent: "violet", highlight: "Perimetro", text: "Priorità, vincoli e responsabilità resi espliciti." },
+  { title: "Prototipo", icon: "configuration", accent: "blue", highlight: "Prototipo", text: "Flussi e interfaccia verificati prima dello sviluppo." },
+  { title: "Sviluppo", icon: "configuration", accent: "blue", highlight: "Sviluppo", text: "Funzioni costruite per incrementi controllabili." },
+  { title: "Verifica", icon: "revisions", accent: "violet", highlight: "Verifica", text: "Casi reali, dispositivi e passaggi critici testati." },
+  { title: "Continuità", icon: "saves", accent: "green", highlight: "Continuità", text: "Rilascio, passaggio operativo e supporto concordato." }
 ] %}
 
 {% block jsonLd %}
@@ -111,9 +111,9 @@ twitter:
         <p>Le responsabilità restano visibili e le competenze vengono coinvolte in modo proporzionato al perimetro.</p>
       </div>
       <div class="feature-grid">
-        <article class="card"><h3>Responsabilità diretta</h3><p>Un referente conosce obiettivi, vincoli e decisioni lungo tutto il percorso.</p></article>
-        <article class="card"><h3>Collaborazioni specialistiche</h3><p>Coinvolgiamo competenze verticali quando una fase richiede esperienza specifica.</p></article>
-        <article class="card"><h3>Struttura snella</h3><p>Meno passaggi organizzativi, più tempo dedicato al problema, alle verifiche e alla soluzione.</p></article>
+        <article class="card" data-card-accent="teal">{{ functionIcon("users") }}<h3><span class="accent-text">Responsabilità</span> diretta</h3><p>Un referente conosce obiettivi, vincoli e decisioni lungo tutto il percorso.</p></article>
+        <article class="card" data-card-accent="magenta">{{ functionIcon("integrations") }}<h3><span class="accent-text">Collaborazioni</span> specialistiche</h3><p>Coinvolgiamo competenze verticali quando una fase richiede esperienza specifica.</p></article>
+        <article class="card" data-card-accent="green">{{ functionIcon("saves") }}<h3>Struttura <span class="accent-text">snella</span></h3><p>Meno passaggi organizzativi, più tempo dedicato al problema, alle verifiche e alla soluzione.</p></article>
       </div>
     </div>
   </section>
@@ -125,9 +125,9 @@ twitter:
       <p>Partiamo dai passaggi che utenti e rete vendita devono davvero completare.</p>
     </div>
     <div class="feature-grid">
-      <article class="card card--quiet"><h3>Configuratori</h3><p>Prodotti, varianti, materiali, compatibilità e visualizzazione 2D o 3D.</p></article>
-      <article class="card card--quiet"><h3>CPQ e portali</h3><p>Listini, sconti, preventivi, utenti, documenti e reti commerciali.</p></article>
-      <article class="card card--quiet"><h3>Planner e automazioni</h3><p>Composizioni, vincoli e AI inserita in workflow commerciali controllati.</p></article>
+      <article class="card card--quiet" data-card-accent="blue">{{ functionIcon("configuration") }}<h3><span class="accent-text">Configuratori</span></h3><p>Prodotti, varianti, materiali, compatibilità e visualizzazione 2D o 3D.</p></article>
+      <article class="card card--quiet" data-card-accent="orange">{{ functionIcon("pricing") }}<h3><span class="accent-text">CPQ</span> e portali</h3><p>Listini, sconti, preventivi, utenti, documenti e reti commerciali.</p></article>
+      <article class="card card--quiet" data-card-accent="violet">{{ functionIcon("rules") }}<h3>Planner e <span class="accent-text">automazioni</span></h3><p>Composizioni, vincoli e AI inserita in workflow commerciali controllati.</p></article>
     </div>
   </section>
 

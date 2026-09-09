@@ -1,0 +1,575 @@
+{
+  "task": "SOLVEX-VISUAL-CONSISTENCY-COPY-32",
+  "date": "2026-09-09",
+  "source": "Testi e a capo della richiesta owner in questa conversazione. Eccezioni esplicite nei singoli record.",
+  "count": 32,
+  "line_break_policy": {
+    "semantic_heading": "Un solo elemento h1/h2 per voce; spazi reali tra i segmenti per accessibilità e textContent.",
+    "desktop": "Righe richieste da verificare geometricamente in viewport 1366×768 e 1440×900, zoom browser 100%. Preferire stessa scala e contenitore più ampio, mai resize specifico per titolo.",
+    "tablet_mobile_zoom": "Rispettare ordine e parole; permettere wrapping addizionale per leggibilità a 320/390/768/820/1024 e ingrandimento 200%. Mai nowrap globale o font minuscoli.",
+    "unlisted_headings": "Nessuna riscrittura automatica; uniformare solo lo stile in base al ruolo."
+  },
+  "headings": [
+    {
+      "id": "home-hero",
+      "route": "/",
+      "target": ".page-hero h1",
+      "level": "h1",
+      "owner_lines": [
+        "Configuratori e software commerciali.",
+        "Su misura."
+      ],
+      "implementation_lines": [
+        "Configuratori e software commerciali.",
+        "Su misura."
+      ],
+      "highlights": [
+        "Configuratori"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "home-complexity",
+      "route": "/",
+      "target": "#complexity-title",
+      "level": "h2",
+      "owner_lines": [
+        "Quando il prodotto è complesso,",
+        "la vendita non deve esserlo."
+      ],
+      "implementation_lines": [
+        "Quando il prodotto è complesso,",
+        "la vendita non deve esserlo."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "home-solutions",
+      "route": "/",
+      "target": "#solutions-title",
+      "level": "h2",
+      "owner_lines": [
+        "Una soluzione.",
+        "Per ogni processo di vendita."
+      ],
+      "implementation_lines": [
+        "Una soluzione.",
+        "Per ogni processo di vendita."
+      ],
+      "highlights": [
+        "soluzione",
+        "di vendita"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "home-capabilities",
+      "route": "/",
+      "target": "#capabilities-title",
+      "level": "h2",
+      "owner_lines": [
+        "Visualizzare quando serve.",
+        "Automatizzare dove crea valore."
+      ],
+      "implementation_lines": [
+        "Visualizzare quando serve.",
+        "Automatizzare dove crea valore."
+      ],
+      "highlights": [
+        "Visualizzare",
+        "Automatizzare"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "home-flow",
+      "route": "/",
+      "target": "#flow-title",
+      "level": "h2",
+      "owner_lines": [
+        "Dal catalogo al preventivo.",
+        "In un unico flusso."
+      ],
+      "implementation_lines": [
+        "Dal catalogo al preventivo.",
+        "In un unico flusso."
+      ],
+      "highlights": [
+        "preventivo",
+        "unico flusso"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "home-projects",
+      "route": "/",
+      "target": "#projects-title",
+      "level": "h2",
+      "owner_lines": [
+        "Alcuni dei nostri progetti"
+      ],
+      "implementation_lines": [
+        "Alcuni dei nostri progetti"
+      ],
+      "highlights": [],
+      "desktop_line_count": 1,
+      "note": "Conservare solo esperienze già documentate. Nessuna illustrazione generata come screenshot cliente."
+    },
+    {
+      "id": "home-method",
+      "route": "/",
+      "target": "#method-title",
+      "level": "h2",
+      "owner_lines": [
+        "Dall’analisi al rilascio."
+      ],
+      "implementation_lines": [
+        "Dall’analisi al rilascio."
+      ],
+      "highlights": [],
+      "desktop_line_count": 1,
+      "note": null
+    },
+    {
+      "id": "home-collaboration",
+      "route": "/",
+      "target": "#direct-title",
+      "level": "h2",
+      "owner_lines": [
+        "Un interlocutore diretto.",
+        "Un flusso snello e veloce."
+      ],
+      "implementation_lines": [
+        "Un interlocutore diretto.",
+        "Un flusso snello e veloce."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "home-custom",
+      "route": "/",
+      "target": "#custom-process-title",
+      "level": "h2",
+      "owner_lines": [
+        "Hai un processo fuori standard?"
+      ],
+      "implementation_lines": [
+        "Hai un processo fuori standard?"
+      ],
+      "highlights": [],
+      "desktop_line_count": 1,
+      "note": null
+    },
+    {
+      "id": "home-faq",
+      "route": "/",
+      "target": "#faq-title",
+      "level": "h2",
+      "owner_lines": [
+        "Domande frequenti",
+        "prima di iniziare."
+      ],
+      "implementation_lines": [
+        "Domande frequenti",
+        "prima di iniziare."
+      ],
+      "highlights": [
+        "Domande frequenti"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "home-final",
+      "route": "/",
+      "target": ".final-cta h2",
+      "level": "h2",
+      "owner_lines": [
+        "Rendiamo più semplice",
+        "un processo commerciale complesso."
+      ],
+      "implementation_lines": [
+        "Rendiamo più semplice",
+        "un processo commerciale complesso."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "hub-sectors",
+      "route": "/configuratori-3d-2d",
+      "target": "#sectors-title",
+      "level": "h2",
+      "owner_lines": [
+        "I contesti in cui fanno la differenza."
+      ],
+      "implementation_lines": [
+        "I contesti in cui fanno la differenza."
+      ],
+      "highlights": [],
+      "desktop_line_count": 1,
+      "note": null
+    },
+    {
+      "id": "hub-benefit",
+      "route": "/configuratori-3d-2d",
+      "target": "#why-title",
+      "level": "h2",
+      "owner_lines": [
+        "Perché dovresti voler",
+        "avere un configuratore?"
+      ],
+      "implementation_lines": [
+        "Perché dovresti voler",
+        "avere un configuratore?"
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "hub-final",
+      "route": "/configuratori-3d-2d",
+      "target": ".final-cta h2",
+      "level": "h2",
+      "owner_lines": [
+        "Un prodotto complesso",
+        "richiede un percorso più chiaro."
+      ],
+      "implementation_lines": [
+        "Un prodotto complesso",
+        "richiede un percorso più chiaro."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "ecom-hero",
+      "route": "/configuratori-ecommerce",
+      "target": ".page-hero h1",
+      "level": "h1",
+      "owner_lines": [
+        "Configuratori e-commerce su misura.",
+        "Per prodotti personalizzabili."
+      ],
+      "implementation_lines": [
+        "Configuratori e-commerce su misura.",
+        "Per prodotti personalizzabili."
+      ],
+      "highlights": [
+        "Configuratori e-commerce"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "ecom-need",
+      "route": "/configuratori-ecommerce",
+      "target": "#need-title",
+      "level": "h2",
+      "owner_lines": [
+        "Quando scegliere il prodotto",
+        "richiede più di un elenco di opzioni."
+      ],
+      "implementation_lines": [
+        "Quando scegliere il prodotto",
+        "richiede più di un elenco di opzioni."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "ecom-features",
+      "route": "/configuratori-ecommerce",
+      "target": "#features-title",
+      "level": "h2",
+      "owner_lines": [
+        "Le funzioni dipendono dal prodotto.",
+        "E dal flusso di acquisto."
+      ],
+      "implementation_lines": [
+        "Le funzioni dipendono dal prodotto.",
+        "E dal flusso di acquisto."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "ecom-integrations",
+      "route": "/configuratori-ecommerce",
+      "target": "#integration-title",
+      "level": "h2",
+      "owner_lines": [
+        "Shopify, WooCommerce,",
+        "PrestaShop, ecc.",
+        "Integriamo ovunque."
+      ],
+      "implementation_lines": [
+        "Shopify, WooCommerce,",
+        "PrestaShop, ecc.",
+        "Integrazioni su misura."
+      ],
+      "highlights": [],
+      "desktop_line_count": 3,
+      "note": "Unica attenuazione commerciale deliberata: non promettere integrazione universale. Mantieni tre righe e specifica nel paragrafo che fattibilità, API e checkout si verificano sul caso reale. Comunicare la differenza in ACCEPTANCE.md."
+    },
+    {
+      "id": "ecom-proof",
+      "route": "/configuratori-ecommerce",
+      "target": "#ecommerce-proof-title",
+      "level": "h2",
+      "owner_lines": [
+        "Configurazione 3D di prodotto."
+      ],
+      "implementation_lines": [
+        "Configurazione 3D di prodotto."
+      ],
+      "highlights": [],
+      "desktop_line_count": 1,
+      "note": null
+    },
+    {
+      "id": "ecom-process",
+      "route": "/configuratori-ecommerce",
+      "target": "#process-title",
+      "level": "h2",
+      "owner_lines": [
+        "Il configuratore nasce dal catalogo.",
+        "Non da un template."
+      ],
+      "implementation_lines": [
+        "Il configuratore nasce dal catalogo.",
+        "Non da un template."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "cpq-hero",
+      "route": "/software-cpq-portali-commerciali",
+      "target": ".page-hero h1",
+      "level": "h1",
+      "owner_lines": [
+        "Software CPQ e portali commerciali.",
+        "Su misura."
+      ],
+      "implementation_lines": [
+        "Software CPQ e portali commerciali.",
+        "Su misura."
+      ],
+      "highlights": [
+        "Software CPQ"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "cpq-rules",
+      "route": "/software-cpq-portali-commerciali",
+      "target": "#control-title",
+      "level": "h2",
+      "owner_lines": [
+        "Regole commerciali accessibili.",
+        "A chi deve vendere."
+      ],
+      "implementation_lines": [
+        "Regole commerciali accessibili.",
+        "A chi deve vendere."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "cpq-modules",
+      "route": "/software-cpq-portali-commerciali",
+      "target": "#modules-title",
+      "level": "h2",
+      "owner_lines": [
+        "Dal preventivo ai documenti.",
+        "Per la rete vendita."
+      ],
+      "implementation_lines": [
+        "Dal preventivo ai documenti.",
+        "Per la rete vendita."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "cpq-fit",
+      "route": "/software-cpq-portali-commerciali",
+      "target": "#adjacent-title",
+      "level": "h2",
+      "owner_lines": [
+        "Non sai se rientri",
+        "correttamente nella",
+        "scelta di un CPQ?"
+      ],
+      "implementation_lines": [
+        "Non sai se rientri",
+        "correttamente nella",
+        "scelta di un CPQ?"
+      ],
+      "highlights": [],
+      "desktop_line_count": 3,
+      "note": null
+    },
+    {
+      "id": "planner-hero",
+      "route": "/planner-configuratori-arredamento",
+      "target": ".page-hero h1",
+      "level": "h1",
+      "owner_lines": [
+        "Planner e configuratori per arredamento.",
+        "Pensati per produttori e rivenditori."
+      ],
+      "implementation_lines": [
+        "Planner e configuratori per arredamento.",
+        "Pensati per produttori e rivenditori."
+      ],
+      "highlights": [
+        "Planner e configuratori"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "planner-functions",
+      "route": "/planner-configuratori-arredamento",
+      "target": "#planner-functions-title",
+      "level": "h2",
+      "owner_lines": [
+        "Dalla composizione..",
+        "Alla proposta commerciale."
+      ],
+      "implementation_lines": [
+        "Dalla composizione.",
+        "Alla proposta commerciale."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": "Solo correzione del doppio punto: documentare, non cambiare altre parole."
+    },
+    {
+      "id": "planner-process",
+      "route": "/planner-configuratori-arredamento",
+      "target": "#planner-process-title",
+      "level": "h2",
+      "owner_lines": [
+        "Catalogo e vincoli.",
+        "Vengono prima della tecnologia visuale."
+      ],
+      "implementation_lines": [
+        "Catalogo e vincoli.",
+        "Vengono prima della tecnologia visuale."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "planner-faq",
+      "route": "/planner-configuratori-arredamento",
+      "target": "#faq-title",
+      "level": "h2",
+      "owner_lines": [
+        "Domande su planner e configuratori",
+        "per arredamento."
+      ],
+      "implementation_lines": [
+        "Domande su planner e configuratori",
+        "per arredamento."
+      ],
+      "highlights": [
+        "Domande"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "ai-hero",
+      "route": "/automazioni-ai-business",
+      "target": ".page-hero h1",
+      "level": "h1",
+      "owner_lines": [
+        "Automazioni AI.",
+        "Integrate nei processi commerciali."
+      ],
+      "implementation_lines": [
+        "Automazioni AI.",
+        "Integrate nei processi commerciali."
+      ],
+      "highlights": [
+        "Automazioni AI"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    },
+    {
+      "id": "ai-approach",
+      "route": "/automazioni-ai-business",
+      "target": "#ai-approach-title",
+      "level": "h2",
+      "owner_lines": [
+        "Elaborare dove serve.",
+        "Verificare prima dell’azione."
+      ],
+      "implementation_lines": [
+        "Elaborare dove serve.",
+        "Verificare prima dell’azione."
+      ],
+      "highlights": [],
+      "desktop_line_count": 2,
+      "note": "Spostare il blocco da aside affiancato a sezione editoriale sotto la hero. Non duplicare titolo o cancellare informazioni utili."
+    },
+    {
+      "id": "ai-method",
+      "route": "/automazioni-ai-business",
+      "target": "#ai-process-title",
+      "level": "h2",
+      "owner_lines": [
+        "Si parte da un caso circoscritto."
+      ],
+      "implementation_lines": [
+        "Si parte da un caso circoscritto."
+      ],
+      "highlights": [],
+      "desktop_line_count": 1,
+      "note": null
+    },
+    {
+      "id": "contact-hero",
+      "route": "/contattaci",
+      "target": ".page-hero h1",
+      "level": "h1",
+      "owner_lines": [
+        "Raccontaci il prodotto.",
+        "O il processo da semplificare."
+      ],
+      "implementation_lines": [
+        "Raccontaci il prodotto.",
+        "O il processo da semplificare."
+      ],
+      "highlights": [
+        "semplificare"
+      ],
+      "desktop_line_count": 2,
+      "note": null
+    }
+  ]
+}

@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.statsChart.updateOptions(window.getChartOptions());
     }
     if (window.__svx_babylon?.scene) {
-      const bg = isDark ? '#000000' : '#FAFAFA';
+      const bg = isDark ? '#000000' : '#F5F5F7';
       const canvas = document.getElementById('renderCanvas');
       if (canvas) canvas.style.backgroundColor = bg;
       const c = BABYLON.Color3.FromHexString(bg);
@@ -357,7 +357,7 @@ const updateActiveFromScroll = () => {
     _3dInitialized = true;
 
     const isDark = body.classList.contains('dark-mode');
-    const bg = isDark ? '#000000' : '#FAFAFA';
+    const bg = isDark ? '#000000' : '#F5F5F7';
     if (canvas) canvas.style.backgroundColor = bg;
 
     // Engine + Scene
