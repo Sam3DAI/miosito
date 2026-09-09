@@ -29,6 +29,7 @@ import {
   canonicalizeRenderedText
 } from "./html-contract.mjs";
 import { verifyRealBinaryOutputs } from "./binary-post-build.mjs";
+import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
@@ -90,7 +91,8 @@ const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
   "css/service-demo-form.css",
   "js/service-demo-form.js",
   "js/netlify-lead-form.js",
-  "sitemap.xml"
+  "sitemap.xml",
+  ...originalFiles
 ]);
 
 const EXPECTED_GENERATED_ROUTES = Object.freeze([
@@ -461,7 +463,7 @@ const expectedRailImages = Object.freeze({
   "index.html": Object.freeze({ "home-problems": 4 }),
   "configuratori-3d-2d.html": Object.freeze({ "configurator-scenarios": 4, "configurator-sectors": 5 }),
   "configuratori-ecommerce.html": Object.freeze({ "ecommerce-needs": 4 }),
-  "software-cpq-portali-commerciali.html": Object.freeze({ "cpq-modules": 2 }),
+  "software-cpq-portali-commerciali.html": Object.freeze({ "cpq-modules": 9 }),
   "planner-configuratori-arredamento.html": Object.freeze({ "planner-scenarios": 4 }),
   "automazioni-ai-business.html": Object.freeze({ "automation-uses": 0 })
 });
@@ -1304,6 +1306,7 @@ function isApprovedLegacyCardVisualUrl(raw) {
 
 function resourceReferences(html, route) {
   const references = new Set();
+  const deferredOriginalImages = new Set();
   const remoteReferences = new Set();
   const frozenVisualUrls = route.profile === "configurator" ? configuratorBaselineVisualUrls() : new Set();
   const exactRemoteScripts = new Set([
@@ -1350,7 +1353,10 @@ function resourceReferences(html, route) {
         }
         assert.doesNotMatch(raw, /^(?:javascript|vbscript):/i, `Generated page contains an executable resource URL: ${raw}`);
         const clean = raw.split(/[?#]/, 1)[0].replace(/^\//, "");
-        if (clean) references.add(clean);
+        if (clean) {
+          references.add(clean);
+          if (isDeferredOriginalImage(tag, clean)) deferredOriginalImages.add(clean);
+        }
       }
     }
   }
@@ -1361,7 +1367,7 @@ function resourceReferences(html, route) {
       registerRemote(urlMatch[1]);
     }
   }
-  return { local: [...references], remote: [...remoteReferences] };
+  return { local: [...references], remote: [...remoteReferences], deferredOriginalImages: [...deferredOriginalImages] };
 }
 
 function compressedTransferSize(relativePath, bytes) {
@@ -1387,7 +1393,9 @@ function assertPerformanceBudget(route, htmlBuffer) {
     const resourcePath = path.join(outputRoot, ...resource.split("/"));
     assert.equal(fs.existsSync(resourcePath), true, `${route.publicUrl}: initial resource missing: ${resource}`);
     const bytes = fs.readFileSync(resourcePath);
-    initialTransfer += compressedTransferSize(resource, bytes);
+    // Every local variant is still checked above. Lazy responsive alternatives
+    // are not 69 simultaneous initial transfers; the browser selects per slot.
+    if (!resources.deferredOriginalImages.includes(resource)) initialTransfer += compressedTransferSize(resource, bytes);
   }
   if (route.profile !== "configurator") {
     assert.ok(initialTransfer <= initialTransferBudget, `${route.publicUrl}: initial transfer exceeds 700 KiB (${initialTransfer})`);
@@ -1396,6 +1404,8 @@ function assertPerformanceBudget(route, htmlBuffer) {
     route: route.publicUrl,
     htmlBytes: htmlBuffer.length,
     initialTransferBytes: initialTransfer,
+    deferredOriginalImageVariants: resources.deferredOriginalImages,
+    initialTransferQualification: "STATIC_EAGER_RESOURCES_NOT_BROWSER_NETWORK_MEASUREMENT",
     remoteDocumentResources: resources.remote,
     standardBudgetApplicable: route.profile !== "configurator"
   };
@@ -1409,7 +1419,7 @@ function assertRouteRegistry() {
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 35, "Only the lead helper may leave the frozen registry");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 10, "Owned inventory: prior seven plus controlled helper, shared form CSS and adapter");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 79, "Owned inventory: ten baseline assets plus 69 exact original-image derivatives");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1548,7 +1558,7 @@ const expectedOutputs = [
   ...EXPECTED_OWNED_STATIC_FILES,
   ...EXPECTED_GENERATED_ROUTES.map((route) => route.destination)
 ];
-assert.equal(expectedOutputs.length, 55, "Expected output count changed unexpectedly");
+assert.equal(expectedOutputs.length, 124, "Expected inventory is 55 baseline outputs plus 69 approved WebP files");
 
 const frozenEvidence = [];
 const ownedEvidence = [];
@@ -1570,6 +1580,7 @@ function verifyBuiltOutput() {
     const htmlBuffer = fs.readFileSync(htmlPath);
     const html = htmlBuffer.toString("utf8");
     assertGeneratedPageContract(route, html);
+    assertOriginalHtml(route, html);
     currentPerformance.push(assertPerformanceBudget(route, htmlBuffer));
 
     const title = stripMarkup(firstMatch(html, /<title>([\s\S]*?)<\/title>/i, `${route.publicUrl} title`));
@@ -1656,6 +1667,7 @@ for (const file of EXPECTED_OWNED_STATIC_FILES) {
   ownedEvidence.push({ file, bytes: source.length, sha256: sha256(source), result: comparison.result });
 }
 
+const originalImageEvidence = assertOriginalSources(root);
 const firstVerification = verifyBuiltOutput();
 
 buildFromAbsentOutput();
@@ -1744,6 +1756,7 @@ const summary = {
   functionalFreezeEvidence,
   legacyReferenceEvidence,
   ownedEvidence,
+  originalImageEvidence,
   inventory: secondVerification.inventoryComparison
 };
 

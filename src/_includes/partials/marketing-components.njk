@@ -46,14 +46,19 @@
   </div>
   <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track{% if anchorHeading %} data-rail-anchor-heading="{{ anchorHeading }}"{% endif %} tabindex="0">
     {% for item in items %}
-    <li class="visual-card{% if item.image %} visual-card--image{% else %} visual-card--text{% endif %}" data-rail-card>
+    <li class="visual-card{% if item.image %} visual-card--image{% if item.imageMeta %} visual-card--original{% endif %}{% else %} visual-card--text{% endif %}" data-rail-card{% if item.imageMeta %} data-original-asset="{{ item.imageMeta.id }}" style="--original-image-bg: {{ item.imageMeta.background }}"{% endif %}>
       {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}
         {% if item.image and variant != "landscape" %}
+        {% if item.imageMeta %}
+        <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.imageMeta.srcset }}" sizes="{{ item.imageMeta.sizes }}" alt="{{ item.alt }}" width="{{ item.imageMeta.width }}" height="{{ item.imageMeta.height }}" loading="lazy" decoding="async">
+        {% else %}
         <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.image | replace('w_900,h_1150', 'w_540,h_690') | replace(',', '%2C') }} 540w, {{ item.image | replace(',', '%2C') }} 900w, {{ item.image | replace('w_900,h_1150', 'w_1200,h_1533') | replace(',', '%2C') }} 1200w" sizes="(max-width: 720px) 300px, 350px" alt="{{ item.alt or '' }}" width="900" height="1150" loading="lazy" decoding="async">
+        {% endif %}
         {% endif %}
         <div class="visual-card__copy">
           <h3>{{ item.title }}</h3>
           <p>{{ item.text }}</p>
+          {% if item.note %}<p class="visual-card__note">{{ item.note }}</p>{% endif %}
         </div>
         {% if variant == "landscape" %}
         <div class="project-media">

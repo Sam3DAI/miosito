@@ -1,0 +1,742 @@
+{
+  "base": "e365982314bde35b4c0df8136f4f6c039e4b79da",
+  "packSha256": "9db6c231c1e3a9deb269b3f00cc94d8321255771e1940278897b3a20c1b03082",
+  "assets": [
+    {
+      "id": "HOME-01",
+      "template": "src/index.njk",
+      "collection": "problemItems",
+      "title": "Molte varianti",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di una poltrona con varianti di rivestimenti, basi e componenti.",
+      "background": "#fdfdfd",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/home-01-original-350.webp",
+          "width": 350,
+          "height": 437,
+          "bytes": 23236,
+          "sha256": "14476dbffd902ee8db4d4360b6ee736a0b12f6f6f9b2440375ab5f38874e9172"
+        },
+        {
+          "file": "assets/images/originals-31/home-01-original-700.webp",
+          "width": 700,
+          "height": 875,
+          "bytes": 84844,
+          "sha256": "5451e2cfbb62da7ea86874a2e08dd1fa8a5c1e405d452af7d56aa08a86d71758"
+        },
+        {
+          "file": "assets/images/originals-31/home-01-original-1050.webp",
+          "width": 1050,
+          "height": 1312,
+          "bytes": 181854,
+          "sha256": "5025e8ebfe2c0bff6b29a6d75fdf180b9a4854b022596c376965268ad5f6a4c5"
+        }
+      ]
+    },
+    {
+      "id": "HOME-02",
+      "template": "src/index.njk",
+      "collection": "problemItems",
+      "title": "Preventivi manuali",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di preventivi e fogli di lavoro accanto a un computer.",
+      "background": "#fbfcfc",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/home-02-original-350.webp",
+          "width": 350,
+          "height": 453,
+          "bytes": 19802,
+          "sha256": "90a6f2e7c7ec44832f7d47402c7fc64f5ebde27cdac2ea3c12d106da64891b17"
+        },
+        {
+          "file": "assets/images/originals-31/home-02-original-700.webp",
+          "width": 700,
+          "height": 906,
+          "bytes": 54846,
+          "sha256": "398d6b3a11d23731fec992e2aecc26bbbfa207f0123b89f90b34c0d8f2b192a2"
+        },
+        {
+          "file": "assets/images/originals-31/home-02-original-1050.webp",
+          "width": 1050,
+          "height": 1360,
+          "bytes": 97798,
+          "sha256": "ff8df53d3d0c060e847acf23f5a490e333620eb177a26ecb263205b4bc9644eb"
+        }
+      ]
+    },
+    {
+      "id": "HOME-03",
+      "template": "src/index.njk",
+      "collection": "problemItems",
+      "title": "Regole e incompatibilità",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di una seduta e di regole di compatibilità tra opzioni di prodotto.",
+      "background": "#fefefd",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/home-03-original-350.webp",
+          "width": 350,
+          "height": 453,
+          "bytes": 15714,
+          "sha256": "11091b7bd2820915efe00789e3a25127f782574dd961c5cfc6f5893d72dd2189"
+        },
+        {
+          "file": "assets/images/originals-31/home-03-original-700.webp",
+          "width": 700,
+          "height": 906,
+          "bytes": 47572,
+          "sha256": "939cb5d3ec702f2829567b678bb6084b3844b1459f594e7db9157c3ea7fbea50"
+        },
+        {
+          "file": "assets/images/originals-31/home-03-original-1050.webp",
+          "width": 1050,
+          "height": 1360,
+          "bytes": 88364,
+          "sha256": "11229886ae8e962cca1ef5660eb57c4efb9085fc6647902ce3f653cf05d00a6f"
+        }
+      ]
+    },
+    {
+      "id": "HOME-04",
+      "template": "src/index.njk",
+      "collection": "problemItems",
+      "title": "Reti disallineate",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di versioni differenti di cataloghi e preventivi della rete vendita.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/home-04-original-350.webp",
+          "width": 350,
+          "height": 410,
+          "bytes": 11744,
+          "sha256": "829e35df4d2a99f7aa97443fedab5f1e82ad9bfc0dc86c4fba1b6e31f1c92d7d"
+        },
+        {
+          "file": "assets/images/originals-31/home-04-original-700.webp",
+          "width": 700,
+          "height": 820,
+          "bytes": 33704,
+          "sha256": "292508935d20c6c582970e6dd77be5edcb6e7cc118f1631627d337a7b47ce97c"
+        },
+        {
+          "file": "assets/images/originals-31/home-04-original-1050.webp",
+          "width": 1050,
+          "height": 1230,
+          "bytes": 60382,
+          "sha256": "6cbd8210ecfecb6bb035c3671ceb7d5345ee07535de2b388a9a70257228fa0ee"
+        }
+      ]
+    },
+    {
+      "id": "HOME-CAP-01",
+      "template": "src/index.njk",
+      "collection": "capability-strip",
+      "title": "Configuratori di prodotto interattivi.",
+      "placement": "home_capability_media",
+      "alt": "Illustrazione di una poltrona con un’interfaccia di personalizzazione di materiali e componenti.",
+      "background": "#f7f8fb",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/home-cap-01-original-576.webp",
+          "width": 576,
+          "height": 360,
+          "bytes": 19434,
+          "sha256": "66d1860bbb13cb901892db8231a81a2633c272eb076e10c81dce08cc254d1c0f"
+        },
+        {
+          "file": "assets/images/originals-31/home-cap-01-original-928.webp",
+          "width": 928,
+          "height": 580,
+          "bytes": 38996,
+          "sha256": "bb20f156553ce5056aded03d233bc92948a186b6e0b192abe045c900d90f1685"
+        },
+        {
+          "file": "assets/images/originals-31/home-cap-01-original-1152.webp",
+          "width": 1152,
+          "height": 720,
+          "bytes": 53330,
+          "sha256": "7b44d71ebd4f2051ea2f853119afaac8628db4c4e07ae5f89242feb6d0acb6c8"
+        }
+      ]
+    },
+    {
+      "id": "HOME-CAP-02",
+      "template": "src/index.njk",
+      "collection": "capability-strip",
+      "title": "Automazioni dentro il processo commerciale.",
+      "placement": "home_capability_media",
+      "alt": "Illustrazione di un flusso AI che elabora richieste e prepara documenti commerciali.",
+      "background": "#fefdfe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/home-cap-02-original-576.webp",
+          "width": 576,
+          "height": 360,
+          "bytes": 22194,
+          "sha256": "ccd11558784925a0c5cc5c5af61a252d5ef28a19e807d84b81b6ac7007e8a562"
+        },
+        {
+          "file": "assets/images/originals-31/home-cap-02-original-928.webp",
+          "width": 928,
+          "height": 580,
+          "bytes": 44030,
+          "sha256": "5863b5d226ed8192702e357e29ba7b3e65b195d22900183c726a6edc17ee1691"
+        },
+        {
+          "file": "assets/images/originals-31/home-cap-02-original-1152.webp",
+          "width": 1152,
+          "height": 720,
+          "bytes": 59334,
+          "sha256": "b6d04ab4b44632995db29f5b32e10c3d172cd2ac4ca5bf3ed95975e0cea2e1bb"
+        }
+      ]
+    },
+    {
+      "id": "ECOM-01",
+      "template": "src/configuratori-ecommerce.njk",
+      "collection": "needItems",
+      "title": "Molte combinazioni",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di borse con opzioni di colore, materiale e componenti.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/ecom-01-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 9864,
+          "sha256": "91e666a884c3238b65beb07eb0bd87ee71a0eea41c5de3311750b7f13aae979d"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-01-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 26702,
+          "sha256": "2d52d2da76da9b521976854f8141b0354abaf3992e32236390d920b8fddc28c6"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-01-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 50074,
+          "sha256": "6ac023f8ede24ba7bb03e343d7154be80cd4c3361223301e429f67451d42d3e9"
+        }
+      ]
+    },
+    {
+      "id": "ECOM-02",
+      "template": "src/configuratori-ecommerce.njk",
+      "collection": "needItems",
+      "title": "Scelte dipendenti",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di una scarpa con opzioni e dipendenze tra componenti.",
+      "background": "#fefdfd",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/ecom-02-original-350.webp",
+          "width": 350,
+          "height": 409,
+          "bytes": 12788,
+          "sha256": "4e4c7d92f122e7eba4dcb1a1104ab0661bacc37be48d42f8ffde7ab55e7b1139"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-02-original-700.webp",
+          "width": 700,
+          "height": 818,
+          "bytes": 37600,
+          "sha256": "c27b763d23a896b1dc55da053ef266b63a024c0e17559a7fd4a0e62972e84cc7"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-02-original-1050.webp",
+          "width": 1050,
+          "height": 1227,
+          "bytes": 73276,
+          "sha256": "2f4f7b79cc8c380f59b767c64a27aa3a44c58f8b984462e70b6e32c16e68e13e"
+        }
+      ]
+    },
+    {
+      "id": "ECOM-03",
+      "template": "src/configuratori-ecommerce.njk",
+      "collection": "needItems",
+      "title": "Prezzo variabile",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di una sedia con opzioni di personalizzazione e riepilogo del prezzo.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/ecom-03-original-350.webp",
+          "width": 350,
+          "height": 409,
+          "bytes": 12092,
+          "sha256": "a8d97529c9697d1e3acf3f98cc3fb7f46a49520c04116802b9ec2c7975364afb"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-03-original-700.webp",
+          "width": 700,
+          "height": 818,
+          "bytes": 34282,
+          "sha256": "f921d6dfadcbcd205d35603f7b7515a7d058e4030bb4914bf0e5972183518eb8"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-03-original-1050.webp",
+          "width": 1050,
+          "height": 1227,
+          "bytes": 68590,
+          "sha256": "e68054830a583bc700236adf25e1b33ad65308bc3c3ce123f0bbd723b6fd3c57"
+        }
+      ]
+    },
+    {
+      "id": "ECOM-04",
+      "template": "src/configuratori-ecommerce.njk",
+      "collection": "needItems",
+      "title": "Ordini completi",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di uno zaino configurabile con accessori e riepilogo dell’ordine.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/ecom-04-original-350.webp",
+          "width": 350,
+          "height": 409,
+          "bytes": 14804,
+          "sha256": "d3ffec25d9c342e8c692e1c42dec51adb4ebdf12735713117f1672f6f7bc5c9b"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-04-original-700.webp",
+          "width": 700,
+          "height": 818,
+          "bytes": 41172,
+          "sha256": "bfdce98420d65ff45973faa08d173f9f9e8243f54b538270fb91f80c4e887c2b"
+        },
+        {
+          "file": "assets/images/originals-31/ecom-04-original-1050.webp",
+          "width": 1050,
+          "height": 1227,
+          "bytes": 76794,
+          "sha256": "5f4a2abfaf3a221fa77b98aae482fd52c2c0ca9c70746fff0482aa9d02020ccb"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-01",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Preventivi e PDF",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un configuratore e di un documento di offerta per una struttura outdoor.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-01-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 16944,
+          "sha256": "61a81ec147d9aae0e7e725a714337df7b2fa0bf607759ee82ea329716a8e52b8"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-01-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 49440,
+          "sha256": "e354352e876345ebddd916d0cb76e7f0472c40210eb0eec606d9a7778b0d430d"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-01-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 92854,
+          "sha256": "6d7bc367f185051e406f74d98d5db5c2727e6408a1a6d464beebd18bd5b33d66"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-02",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Account, ruoli e autorizzazioni",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un portale con profili utente e permessi di accesso.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-02-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 16346,
+          "sha256": "d5312f978016138ecb2bbaa5695d18c941bee44924f69808bac68b9b7879f180"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-02-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 46838,
+          "sha256": "c220174fa9048037530c78d16eb8d85c41f91c68c5007f0eb5f9bebb8d20d577"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-02-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 84382,
+          "sha256": "d120308c900aec4e8424f78b286a438e01ddbcbf1868dadd886796d0da3583be"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-03",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Salvataggi e duplicazioni",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di configurazioni salvate e di comandi per riprenderle o duplicarle.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-03-original-350.webp",
+          "width": 350,
+          "height": 409,
+          "bytes": 15924,
+          "sha256": "8abec9ccd390761d0c6e0770da6959845cc96aefae094eef7d970a8b7ab176dc"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-03-original-700.webp",
+          "width": 700,
+          "height": 818,
+          "bytes": 46874,
+          "sha256": "9e1151a3ae9b0bc4a3c9aaa79aa272f8f219e3204a9d056c48fb393fd2a36eb0"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-03-original-1050.webp",
+          "width": 1050,
+          "height": 1227,
+          "bytes": 86980,
+          "sha256": "0ae4e73078203e4341ec0db83cb55e164a4f6db24e04079f597820cd6e5f11cc"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-04",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Revisioni",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di versioni successive di una configurazione e dei relativi documenti.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-04-original-350.webp",
+          "width": 350,
+          "height": 437,
+          "bytes": 13684,
+          "sha256": "189802730f007e9c93aa2327e16c4bdbdc48ff886b80856cd3f0f34e36f0f4e0"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-04-original-700.webp",
+          "width": 700,
+          "height": 875,
+          "bytes": 35054,
+          "sha256": "72a9bc06c16405a1f0819f7b31a22cff97b93940b99193da3aa437dd5a150a70"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-04-original-1050.webp",
+          "width": 1050,
+          "height": 1312,
+          "bytes": 60652,
+          "sha256": "a2fc999b5b2f18b6c7d42a55b5fa61f43f6de97a34a66069796889136bdab538"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-05",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Agenti, dealer e clienti B2B",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un portale commerciale con utenti, ruoli e attività della rete vendita.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-05-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 15320,
+          "sha256": "06e831018c446dd53c8a84f874f832f6ca8eb968f1710c721e4c1967b54e890e"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-05-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 45006,
+          "sha256": "82109feeca8d90b97f94effb3b47c1ecd2387b12940c351c8a46f4e20e3ef676"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-05-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 82532,
+          "sha256": "7291eebf9a89959dac5fb88b4f3348a441b2552b45caf06f68724654e1559356"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-06",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Importazioni",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un’importazione di cataloghi e dati da file strutturati.",
+      "background": "#fdfefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-06-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 15676,
+          "sha256": "295d741924f5dee33af269c99f170e9291f9130ab0aa40b437d22247dd1feebd"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-06-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 47568,
+          "sha256": "9d8bbb5c898129e8aad1508b66a6332b0d8376379b8da4f68a3b1ee27695f485"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-06-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 88136,
+          "sha256": "9f7c3eba3f1d28a56159fd011d67e58e54e3060c8cd3c1b9104e504edebb8eaa"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-07",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Dashboard",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di una dashboard commerciale con grafici e riepiloghi operativi.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-07-original-350.webp",
+          "width": 350,
+          "height": 409,
+          "bytes": 18558,
+          "sha256": "11ff4c1c1c009abafed8b28e9652abac5625b11c8ab45afdef91c87b8c814731"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-07-original-700.webp",
+          "width": 700,
+          "height": 818,
+          "bytes": 51998,
+          "sha256": "7ed4035aa8144b14e3996655f8871af15091a5b5cd86a24ea6ba1f5b7f7966aa"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-07-original-1050.webp",
+          "width": 1050,
+          "height": 1227,
+          "bytes": 96712,
+          "sha256": "f63dd5e7ae8fd4ad7c5baec772ef597562d0ba738717ff8bee228e16e95bbae7"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-08",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Documenti",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un archivio di documenti commerciali in un portale.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-08-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 17050,
+          "sha256": "1be50c31bca168b3aa7efdfbec19dbaaf224cb6670ffc5ce2365c1165ab7d19d"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-08-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 50106,
+          "sha256": "98ba06f5f2124d78cf79805f8dd74c770b437de3b5cb2b8d32e0d72d814bcabb"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-08-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 92358,
+          "sha256": "15579469829bf093a2780e7484dc1037bfdc1a67e376372aa46580b14d6c4b25"
+        }
+      ]
+    },
+    {
+      "id": "CPQ-09",
+      "template": "src/software-cpq-portali-commerciali.njk",
+      "collection": "moduleItems",
+      "title": "Integrazioni da analizzare",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione concettuale di collegamenti tra un portale e sistemi ERP, CRM ed e-commerce.",
+      "background": "#fefffe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/cpq-09-original-350.webp",
+          "width": 350,
+          "height": 409,
+          "bytes": 16576,
+          "sha256": "69aba4cf8f4eb6762b1c4d561f729f14a1fa6c5da3aa67d27a474a7852a4ca59"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-09-original-700.webp",
+          "width": 700,
+          "height": 818,
+          "bytes": 46880,
+          "sha256": "9b866e1010c964c4ce1cff78dbae1c6f0561f0d5a8b1fba4681b5da0c6d011d5"
+        },
+        {
+          "file": "assets/images/originals-31/cpq-09-original-1050.webp",
+          "width": 1050,
+          "height": 1227,
+          "bytes": 87008,
+          "sha256": "188b47c2b597194f9a01f253655ce498a88eee4ea27bb44c5e9685517e053bed"
+        }
+      ]
+    },
+    {
+      "id": "PLANNER-01",
+      "template": "src/planner-configuratori-arredamento.njk",
+      "collection": "compositionItems",
+      "title": "Composizioni modulari",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un planner di arredo con moduli e configurazione di un ambiente.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/planner-01-original-350.webp",
+          "width": 350,
+          "height": 409,
+          "bytes": 19422,
+          "sha256": "94a82b8c168d484361d6f61e2e72247fe37d5706b942344b0c6b24780e632104"
+        },
+        {
+          "file": "assets/images/originals-31/planner-01-original-700.webp",
+          "width": 700,
+          "height": 818,
+          "bytes": 56112,
+          "sha256": "b25a783595d594954014ab7c5980598baebfa50fe3747f2275488ae0f8d42670"
+        },
+        {
+          "file": "assets/images/originals-31/planner-01-original-1050.webp",
+          "width": 1050,
+          "height": 1227,
+          "bytes": 104612,
+          "sha256": "ac4ac3de664aacc7bcc6ffa079ab090a4daf915c26fc81352876a9058d395669"
+        }
+      ]
+    },
+    {
+      "id": "PLANNER-02",
+      "template": "src/planner-configuratori-arredamento.njk",
+      "collection": "compositionItems",
+      "title": "Misure e vincoli",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un planner con misure e verifiche dimensionali.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/planner-02-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 20078,
+          "sha256": "335ffeb366e0c596560996ee7528d549f48ccf221f31a198a51f8d771cb1cfe9"
+        },
+        {
+          "file": "assets/images/originals-31/planner-02-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 57776,
+          "sha256": "56a9762d0b6a1656ad6fca485480b15d730b524ca52a64871291d94630148227"
+        },
+        {
+          "file": "assets/images/originals-31/planner-02-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 106034,
+          "sha256": "8ba9e57e75b488e6d95d7a42a4a08c2354afe368d1c11fcf15ed97e5b6ee7eea"
+        }
+      ]
+    },
+    {
+      "id": "PLANNER-03",
+      "template": "src/planner-configuratori-arredamento.njk",
+      "collection": "compositionItems",
+      "title": "Cataloghi estesi",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un catalogo di arredo con famiglie, codici e varianti.",
+      "background": "#fefefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/planner-03-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 21396,
+          "sha256": "ea20ed32af7835f89e87b043eb64da59a763543b13dce5c106617d7d3690d92f"
+        },
+        {
+          "file": "assets/images/originals-31/planner-03-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 59226,
+          "sha256": "b4d7b7bdf436907c7eaf692e8a897b9b3b3bb8d8a9ecb8d112f83ac41bcbc221"
+        },
+        {
+          "file": "assets/images/originals-31/planner-03-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 108830,
+          "sha256": "c9eaae5ad229cfaf162da53ddbd3d1e9964c6688edfbc81747924a259b6898e3"
+        }
+      ]
+    },
+    {
+      "id": "PLANNER-04",
+      "template": "src/planner-configuratori-arredamento.njk",
+      "collection": "compositionItems",
+      "title": "Rete commerciale",
+      "placement": "portrait_rail",
+      "alt": "Illustrazione di un portale di arredo per agenti e rivenditori.",
+      "background": "#fdfefe",
+      "variants": [
+        {
+          "file": "assets/images/originals-31/planner-04-original-350.webp",
+          "width": 350,
+          "height": 408,
+          "bytes": 24222,
+          "sha256": "43c53a140cd7253968baac9827bdc9df6e705fae96aa6456d862a2dd2e12d7ea"
+        },
+        {
+          "file": "assets/images/originals-31/planner-04-original-700.webp",
+          "width": 700,
+          "height": 817,
+          "bytes": 72780,
+          "sha256": "c37f1752687ceda6df2a344cf815a38d21faf01630f13ddc2a0c70d59d777f14"
+        },
+        {
+          "file": "assets/images/originals-31/planner-04-original-1050.webp",
+          "width": 1050,
+          "height": 1225,
+          "bytes": 129514,
+          "sha256": "1718ee64069990691ad8df379396f961d4cb6389a10a0cfd4ecf02d98934d281"
+        }
+      ]
+    }
+  ]
+}

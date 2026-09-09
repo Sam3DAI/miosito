@@ -234,6 +234,20 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
 }
 .visual-card--image .visual-card__copy,
 .visual-card--image h3 { color: #fff; }
+/* Only the 21 owner-selected light originals: legacy magenta cards stay white. */
+.visual-card--original .visual-card__inner { background: var(--original-image-bg, #fefefe); }
+.visual-card--original .visual-card__image { object-fit: contain; object-position: 50% 100%; }
+/* This original's document starts higher: retain the full image below the copy. */
+.visual-card--original[data-original-asset="HOME-02"] .visual-card__image { top: auto; height: 85%; }
+.visual-card--original[data-original-asset="PLANNER-04"] .visual-card__image { top: auto; height: 80%; }
+@media (max-width: 720px) {
+  .visual-card--original[data-original-asset="HOME-03"] .visual-card__image { top: auto; height: 90%; }
+}
+.visual-card--original .visual-card__copy,
+.visual-card--original h3 { color: #1d1d1f; }
+.visual-card--original .visual-card__note { margin-top: 0.65rem; font-size: 0.8rem; line-height: 1.35; }
+.original-image-note { margin-top: 0.75rem; font-size: 0.8rem; color: var(--sx-text-muted); }
+
 .visual-card-rail--landscape .visual-card { flex-basis: 35rem; }
 .visual-card-rail--landscape .visual-card__inner { height: auto; min-height: 24rem; border-radius: var(--sx-radius-lg); }
 .visual-card-rail--landscape .visual-card__copy { padding: 1.75rem 1.75rem 1rem; }

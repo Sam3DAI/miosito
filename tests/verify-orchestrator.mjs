@@ -13,6 +13,7 @@ const unitTests = Object.freeze([
   "tests/measurement-mode.test.mjs",
   "tests/lead-form-runtime.test.mjs",
   "tests/site-shell.test.mjs",
+  "tests/original-images-31.test.mjs",
   "tests/verify-orchestration.test.mjs",
   "tests/binary-post-build.test.mjs"
 ]);
