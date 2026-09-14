@@ -30,6 +30,7 @@ import {
 } from "./html-contract.mjs";
 import { verifyRealBinaryOutputs } from "./binary-post-build.mjs";
 import { assertVisual32Html, assertVisual32Sources, assertDisplayOnly32, assertVisualEvidence32 } from "./visual-consistency-32.mjs";
+import { assertPolish33Html, assertPolish33Sources } from "./site-final-polish-33.mjs";
 import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -316,7 +317,7 @@ const expectedFaqQuestions = Object.freeze({
 
 const expectedHeaderLinks = Object.freeze([
   ["/", "SolveX AI3D"],
-  ["/configuratori-3d-2d", "Configuratori 2D/3D"],
+  ["/configuratori-3d-2d", "Configuratori"],
   ["/configuratori-ecommerce", "Configuratori e-commerce"],
   ["/software-cpq-portali-commerciali", "CPQ e software commerciali"],
   ["/planner-configuratori-arredamento", "Planner e arredamento"],
@@ -347,7 +348,7 @@ const allowedFooterHrefs = Object.freeze(new Set([
 
 const expectedFooterLinks = Object.freeze([
   ["/", "SolveX AI3D"],
-  ["/configuratori-3d-2d", "Configuratori 2D/3D"],
+  ["/configuratori-3d-2d", "Configuratori"],
   ["/configuratori-ecommerce", "Configuratori e-commerce"],
   ["/software-cpq-portali-commerciali", "CPQ e software commerciali"],
   ["/planner-configuratori-arredamento", "Planner e arredamento"],
@@ -389,7 +390,7 @@ const requiredContent = Object.freeze({
     "Prima si chiarisce il processo. Poi si costruisce."
   ]),
   "configuratori-3d-2d.html": Object.freeze([
-    "Per e-commerce, rete commerciale, arredamento e molto altro. Sia 2D che 3D con AR.",
+    "Le soluzioni che proponiamo sono sempre progettate attorno al tuo processo reale.",
     "I contesti in cui fanno la differenza.",
     "Demo 3D. Anche in Realtà Aumentata.",
     "Progetti descritti per funzione.",
@@ -1582,6 +1583,7 @@ function verifyBuiltOutput() {
     assertGeneratedPageContract(route, html);
     assertOriginalHtml(route, html);
     assertVisual32Html(route.publicUrl, html);
+    assertPolish33Html(route.publicUrl, html);
     currentPerformance.push(assertPerformanceBudget(route, htmlBuffer));
 
     const title = stripMarkup(firstMatch(html, /<title>([\s\S]*?)<\/title>/i, `${route.publicUrl} title`));
@@ -1670,6 +1672,7 @@ for (const file of EXPECTED_OWNED_STATIC_FILES) {
 
 const originalImageEvidence = assertOriginalSources(root);
 const visual32SourceEvidence = assertVisual32Sources(root);
+const polish33SourceEvidence = assertPolish33Sources(root);
 const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
   : { result: "NOT_RUN_SEPARATE_REAL_BROWSER_GATE", requiredBeforeStaging: true };
@@ -1764,6 +1767,7 @@ const summary = {
   ownedEvidence,
   originalImageEvidence,
   visual32SourceEvidence,
+  polish33SourceEvidence,
   browserVisual32Evidence,
   displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison
