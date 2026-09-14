@@ -18,6 +18,11 @@
   }
 
   function updateThemeControl(theme) {
+    // Keep the browser color hint aligned with an explicit site preference,
+    // including the legacy-owned lead-page path. No second toggle listener.
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
+      meta.setAttribute("content", theme === "dark" ? "#000000" : "#f5f5f7");
+    });
     if (!themeToggle) return;
     const dark = theme === "dark";
     themeToggle.setAttribute("aria-pressed", String(dark));
@@ -103,6 +108,70 @@
     });
     window.requestAnimationFrame(rememberFragment);
   }
+
+  // Progressive editorial motion: default DOM/CSS never hides content.
+  // Only below-the-fold marketing introductions enter, once, as whole groups.
+  (function initEditorialMotion() {
+    if (!["home", "about", "configurators", "ecommerce", "cpq", "planner", "automation"].includes(body.dataset.page)) return;
+    if (!("IntersectionObserver" in window) || !("animate" in Element.prototype)) return;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motionPreference.matches || window.matchMedia("print").matches) return;
+    const groups = [...document.querySelectorAll("main .section-heading, main .split-panel, main .hero-editorial-note")]
+      .filter(group => !group.closest(".page-hero, .mini-form-shell, .service-demo-shell, form") && !group.querySelector("form"));
+    const pending = new Set();
+    const running = new Map();
+    let observer;
+    const show = function (group) {
+      pending.delete(group);
+      observer?.unobserve(group);
+      running.get(group)?.cancel();
+      running.delete(group);
+      group.dataset.editorialMotion = "shown";
+    };
+    const stop = function () {
+      observer?.disconnect();
+      groups.forEach(show);
+    };
+    try {
+      observer = new window.IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          const group = entry.target;
+          if (!entry.isIntersecting || !pending.has(group)) return;
+          const rect = group.getBoundingClientRect();
+          if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+          show(group);
+          if (motionPreference.matches || group.contains(document.activeElement)) return;
+          try {
+            const animation = group.animate([
+              { opacity: 0, transform: "translateY(12px)" },
+              { opacity: 1, transform: "none" }
+            ], { duration: 420, easing: "ease-out", fill: "none" });
+            running.set(group, animation);
+            animation.onfinish = function () { running.delete(group); };
+          } catch (_) { show(group); }
+        });
+      }, { threshold: 0 });
+      groups.forEach(function (group) {
+        const rect = group.getBoundingClientRect();
+        // Includes restored scroll positions; never fade an already visible group.
+        if (rect.top < window.innerHeight || group.contains(document.activeElement)) {
+          show(group);
+        } else {
+          pending.add(group);
+          group.dataset.editorialMotion = "ready";
+          observer.observe(group);
+        }
+      });
+      document.addEventListener("focusin", function (event) {
+        groups.filter(group => group.contains(event.target)).forEach(show);
+      });
+      window.addEventListener("hashchange", stop);
+      window.addEventListener("beforeprint", stop);
+      motionPreference.addEventListener("change", function (event) { if (event.matches) stop(); });
+      // Direct fragment navigation is immediately readable, regardless of layout timing.
+      if (window.location.hash) stop();
+    } catch (_) { stop(); }
+  })();
 
   const siteMenu = document.querySelector("[data-site-menu]");
   if (siteMenu) {

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
+import { beforePolish33 } from "./site-final-polish-33.mjs";
 
 export const BASE_32 = "93262817ac1473f937148d5cc8d2298a5eeb85e9";
 export const headingContract32 = JSON.parse(fs.readFileSync(new URL("./heading-contract-32.json", import.meta.url), "utf8"));
@@ -34,11 +35,11 @@ export function assertVisual32Sources(root) {
   const protectedFiles=["js/netlify-lead-form.js","js/ad-attribution-consent.js","js/service-demo-form.js","js/contattaci.js","js/site-shell.js","css/site-shell.css","src/_data/serviceDemos.json","src/_data/measurement.json","src/_data/navigation.json","src/_includes/partials/service-demo-form.njk","src/_includes/layouts/base.njk"];
   for(const file of protectedFiles) {
     const before=readGitBlobBuffer(BASE_32,file,root).buffer.toString("utf8");
-    assert.equal(normalize(read(root,file)),normalize(before),file+" task32 freeze");
+    assert.equal(beforePolish33(file,read(root,file)),normalize(before),file+" task32 freeze plus exact task33 UI exception");
   }
   const templates=["index","chi-siamo","configuratori-3d-2d","configuratori-ecommerce","software-cpq-portali-commerciali","planner-configuratori-arredamento","automazioni-ai-business","contattaci"];
   for(const name of templates) {
-    const file="src/"+name+".njk", before=normalize(readGitBlobBuffer(BASE_32,file,root).buffer.toString("utf8")),after=normalize(read(root,file));
+    const file="src/"+name+".njk", before=normalize(readGitBlobBuffer(BASE_32,file,root).buffer.toString("utf8")),after=beforePolish33(file,read(root,file));
     assert.equal(after.match(/^---[\s\S]*?\n---/)[0],before.match(/^---[\s\S]*?\n---/)[0],file+" unchanged metadata and ownership");
     assert.deepEqual(after.match(/<form\b[\s\S]*?<\/form>/g),before.match(/<form\b[\s\S]*?<\/form>/g),file+" exact embedded form contract");
     // Every pre-existing paragraph remains, except the explicitly retired working captions.

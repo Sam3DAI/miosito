@@ -310,6 +310,19 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
 .split-panel { align-items: center; }
 .split-panel--statement { grid-template-columns: 1fr; gap: 1.5rem; }
 .split-panel--statement .split-panel__body { max-width: 46rem; margin-left: 25%; }
+/* Home-only composition. Preserve the original mobile title/paragraph/list gaps. */
+.split-panel--home-collaboration { gap: 1rem; align-items: start; }
+.split-panel--home-collaboration .split-panel__lead h2 { margin-bottom: 0; }
+.split-panel--home-collaboration .split-panel__body { margin-left: 0; }
+.split-panel--home-collaboration .split-panel__body > p { color: var(--sx-text); margin-bottom: 1.5rem; }
+@media (min-width: 75rem) {
+  .split-panel--home-collaboration {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+  .split-panel--home-custom .split-panel__lead { text-align: center; }
+  .split-panel--home-custom .split-panel__body { width: 100%; margin-inline: auto; }
+}
 .capability-strip { gap: 1.5rem; }
 .split-panel__body p { color: var(--sx-text-muted); }
 .split-panel__lead h2 { margin-bottom: 1rem; }
