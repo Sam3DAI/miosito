@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
+import { beforeReadiness36 } from "./launch-readiness-36.mjs";
 
 export const BASE_33 = "fb2f1b919f40c0dc50b787b38759bb60080ab3c0";
 const lf = text => text.replace(/\r\n/g, "\n");
@@ -25,7 +26,7 @@ const homeCssPattern = /\/\* Home-only composition\.[\s\S]*?\n\}\n(?=\.capabilit
 // Reconstruct only the owner-authorized task33 changes when applying historical
 // task32 guards. All other text/metadata/menu/rail code must still compare exactly.
 export function beforePolish33(file, input) {
-  let text = lf(input);
+  let text = beforeReadiness36(file, input);
   if (file === "js/site-shell.js") return text.replace(metaSync, "").replace(motionPattern, "");
   if (file === "src/_data/navigation.json") return text.replace('"label": "Configuratori",', '"label": "Configuratori 2D/3D",');
   if (file === "src/configuratori-3d-2d.njk") return text.replace("breadcrumbLabel: Configuratori\n", "breadcrumbLabel: Configuratori 2D/3D\n").replace(newIntro, oldIntro);
@@ -47,7 +48,7 @@ export function assertPolish33Sources(root) {
   expected = baseline(hub).replace("breadcrumbLabel: Configuratori 2D/3D\n", "breadcrumbLabel: Configuratori\n")
     .replace('        <h2>Per e-commerce, rete commerciale, arredamento e molto altro. Sia <span class="gradient-text">2D che 3D con AR</span>.</h2>\n', "")
     .replace(oldIntro, newIntro);
-  assert.equal(read(root, hub), expected, "Hub: exact intro and visible breadcrumb only; SEO, anchors, cards and form untouched");
+  assert.equal(beforeReadiness36(hub, read(root, hub)), expected, "Hub: task33 exact intro plus task36 exact privacy default exception");
   const nav = "src/_data/navigation.json";
   assert.equal(beforePolish33(nav, read(root,nav)), baseline(nav), "Only general-service navigation label changes");
   const seo = "src/_includes/partials/seo-head.njk";

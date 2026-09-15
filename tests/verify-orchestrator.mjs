@@ -11,6 +11,7 @@ const unitTests = Object.freeze([
   "tests/git-binary-reader.test.mjs",
   "tests/html-contract.test.mjs",
   "tests/measurement-mode.test.mjs",
+  "tests/launch-readiness-36.test.mjs",
   "tests/lead-form-runtime.test.mjs",
   "tests/site-shell.test.mjs",
   "tests/site-final-polish-33.test.mjs",

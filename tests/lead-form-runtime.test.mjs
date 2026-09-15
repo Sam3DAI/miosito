@@ -395,7 +395,9 @@ function makeRuntimeForm(document, profile) {
     if (profile.key === "contact") addControl(form, { name: "services[]", type: "checkbox", value, checked: index < 2 });
     else addControl(form, { name: "services[]", type: "hidden", value });
   });
-  addControl(form, { name: "privacy", type: "checkbox", value: "on", checked: true });
+  const privacy = addControl(form, { name: "privacy", type: "checkbox", value: "on", checked: false });
+  // A user's explicit click, distinct from the task36 unchecked HTML default.
+  privacy.checked = true;
   const submitButton = addControl(form, { tag: "button", type: "submit" });
   const statusElement = makeControl(document, { tag: "p", id: `${profile.key}-status` });
   return { form, leadId, clickFields, submitButton, statusElement };
@@ -755,6 +757,14 @@ function setValidConfiguratorFields(page) {
 }
 
 for (const profile of profiles) {
+  test(`${profile.formName}: legacy success query never submits or creates a lead event`, () => {
+    const env = createRuntimeEnvironment(profile, { search: '?success=1&demo=1&email=QUERY_PII_SENTINEL' });
+    env.bind();
+    assert.equal(env.fetchCalls.length, 0);
+    assert.equal(env.window.dataLayer.length, 0);
+    assert.equal(env.successCalls.length, 0);
+  });
+
   test(`${profile.formName}: invalid validation never starts a request`, async () => {
     const env = createRuntimeEnvironment(profile);
     env.bind(() => false);
@@ -826,6 +836,7 @@ for (const profile of profiles) {
     assert.equal(env.form.dataset.deliveryState, "SUCCEEDED");
     assert.equal(env.form.resetCount, 1);
     assert.equal(env.successCalls.length, 1);
+    assert.equal(env.form.querySelector('[name="privacy"]').checked, false, 'reset must not restore consent');
     assert.equal(env.errorCalls.length, 0);
     assert.notEqual(env.leadId.value, submittedLeadId);
     assert.equal(env.hookCalls.clear, 1);

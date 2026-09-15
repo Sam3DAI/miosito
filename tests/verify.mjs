@@ -31,6 +31,7 @@ import {
 import { verifyRealBinaryOutputs } from "./binary-post-build.mjs";
 import { assertVisual32Html, assertVisual32Sources, assertDisplayOnly32, assertVisualEvidence32 } from "./visual-consistency-32.mjs";
 import { assertPolish33Html, assertPolish33Sources } from "./site-final-polish-33.mjs";
+import { assertLaunch36Sources, assertLaunch36Html, beforeLegacyHostGuard36 } from "./launch-readiness-36.mjs";
 import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -832,7 +833,7 @@ function assertLegalContract(route, outputHtml) {
     const outputScript = scripts(outputHtml).find((entry) => entry.inline?.includes(marker));
     const baselineScript = scripts(baselineHtml).find((entry) => entry.inline?.includes(marker));
     assert.ok(outputScript && baselineScript, `${route.publicUrl}: legal measurement script missing (${marker})`);
-    assert.equal(outputScript.inline, baselineScript.inline, `${route.publicUrl}: legal measurement behavior changed (${marker})`);
+    assert.equal(beforeLegacyHostGuard36(outputScript.inline), baselineScript.inline, `${route.publicUrl}: legal measurement unchanged except exact task36 host guards (${marker})`);
   }
 }
 
@@ -1584,6 +1585,7 @@ function verifyBuiltOutput() {
     assertOriginalHtml(route, html);
     assertVisual32Html(route.publicUrl, html);
     assertPolish33Html(route.publicUrl, html);
+    assertLaunch36Html(route.publicUrl, html);
     currentPerformance.push(assertPerformanceBudget(route, htmlBuffer));
 
     const title = stripMarkup(firstMatch(html, /<title>([\s\S]*?)<\/title>/i, `${route.publicUrl} title`));
@@ -1673,6 +1675,7 @@ for (const file of EXPECTED_OWNED_STATIC_FILES) {
 const originalImageEvidence = assertOriginalSources(root);
 const visual32SourceEvidence = assertVisual32Sources(root);
 const polish33SourceEvidence = assertPolish33Sources(root);
+const launch36Evidence = assertLaunch36Sources(root);
 const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
   : { result: "NOT_RUN_SEPARATE_REAL_BROWSER_GATE", requiredBeforeStaging: true };
@@ -1768,6 +1771,7 @@ const summary = {
   originalImageEvidence,
   visual32SourceEvidence,
   polish33SourceEvidence,
+  launch36Evidence,
   browserVisual32Evidence,
   displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison
