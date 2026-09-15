@@ -44,11 +44,13 @@
 
     // === Loader separati per categorie (chiamati dal banner) ===
     window.__loadGA4 = function(){ // Statistiche
+      if (location.hostname !== 'solvex-ai3d.com') return;
       loadGtagOnce();
       const isDev = location.hostname !== 'solvex-ai3d.com';
       gtag('config','{{ measurement.ga4Id }}',{ debug_mode: isDev ? true : undefined });
     };
     window.__loadAds = function(){ // Marketing (solo misurazione conversioni)
+      if (location.hostname !== 'solvex-ai3d.com') return;
       loadGtagOnce();
       gtag('config','{{ measurement.adsId }}',{ allow_enhanced_conversions:true });
     };
