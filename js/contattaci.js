@@ -158,6 +158,24 @@ document.addEventListener('DOMContentLoaded', () => {
       if (privacyError) valid = false;
     }
 
+    if (!valid) {
+      // Follow the visible form order; the disabled native fallback is never a focus target.
+      const firstService = servicesChecked === 0
+        ? Array.from(serviceCheckboxes).find((field) => !field.disabled && field.getClientRects().length)
+        : null;
+      const firstInvalid = [nameInput, emailInput, phoneInput, firstService, messageInput, privacy]
+        .find((field) => field && !field.disabled && field.getClientRects().length
+          && (field === firstService || field.classList.contains('error')));
+      if (firstInvalid) {
+        firstInvalid.focus({ preventScroll: true });
+        const bounds = firstInvalid.getBoundingClientRect();
+        const offset = Math.max(0, header?.getBoundingClientRect().bottom || 0) + 16;
+        if (bounds.top < offset || bounds.bottom > window.innerHeight - 16) {
+          // No animation, including when reduced motion is requested.
+          window.scrollTo({ top: Math.max(0, window.scrollY + bounds.top - offset), behavior: 'instant' });
+        }
+      }
+    }
     return valid;
   };
 

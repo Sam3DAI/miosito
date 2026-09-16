@@ -34,6 +34,7 @@ import { assertPolish33Html, assertPolish33Sources } from "./site-final-polish-3
 import { assertLaunch36Sources, assertLaunch36Html, beforeLegacyHostGuard36 } from "./launch-readiness-36.mjs";
 import { assertQuote38Sources, assertQuote38Html } from "./quote-cta-38.mjs";
 import { assertNonvisual40Sources, assertNonvisual40Html, beforeNonvisual40, beforePrivacy40Html } from "./nonvisual-readiness-40.mjs";
+import { assertNonvisual41Sources } from "./nonvisual-closure-41.mjs";
 import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -1682,6 +1683,7 @@ const polish33SourceEvidence = assertPolish33Sources(root);
 const launch36Evidence = assertLaunch36Sources(root);
 const quote38Evidence = assertQuote38Sources(root);
 const nonvisual40Evidence = assertNonvisual40Sources(root);
+const nonvisual41Evidence = assertNonvisual41Sources(root);
 for (const route of GENERATED_ROUTES) assertNonvisual40Html(route.publicUrl, fs.readFileSync(path.join(outputRoot,route.destination),'utf8'));
 const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
@@ -1699,8 +1701,8 @@ const displayOnly32Evidence = assertDisplayOnly32(root, outputRoot);
 const functionalFreezeEvidence = functionalProtectedFiles.map((file) => {
   if (file === "js/contattaci.js") {
     const source = fs.readFileSync(path.join(root,file),'utf8');
-    assert.equal(beforeNonvisual40(file,source),gitBlob(file).toString('utf8').replace(/\r\n/g,'\n'),'Contact engine unchanged except exact40 privacy error');
-    return {file,result:'PASS_EXACT_PRIVACY_ERROR_ONLY',sourceSha256:sha256(Buffer.from(source))};
+    assert.equal(beforeNonvisual40(file,source),gitBlob(file).toString('utf8').replace(/\r\n/g,'\n'),'Contact engine unchanged except exact40 privacy error and exact41 focus');
+    return {file,result:'PASS_EXACT_40_PRIVACY_AND_41_FOCUS_ONLY',sourceSha256:sha256(Buffer.from(source))};
   }
   const frozen = frozenEvidence.find((entry) => entry.file === file);
   assert.ok(frozen, `Functionally protected file is not frozen passthrough: ${file}`);
@@ -1765,7 +1767,7 @@ const summary = {
   generatedPagesChatbotRuntime: 0,
   legalContentFreeze: "PASS",
   cspHardening: "PASS",
-  configuratorFunctionalFreeze: "PASS_WITH_EXACT_TWO_LITERAL_DISPLAY_ONLY_DELTA",
+  configuratorFunctionalFreeze: "PASS_WITH_EXACT_32_DISPLAY_40_PRIVACY_41_FOCUS_DELTAS",
   contactFunctionalFreeze: "PASS",
   formsDetected: 6,
   sourceAllowlistEvidence,
@@ -1786,6 +1788,7 @@ const summary = {
   launch36Evidence,
   quote38Evidence,
   nonvisual40Evidence,
+  nonvisual41Evidence,
   browserVisual32Evidence,
   displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison

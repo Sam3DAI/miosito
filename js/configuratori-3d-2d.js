@@ -746,7 +746,22 @@ const updateActiveFromScroll = () => {
       const privacyError = privacyI?.checked ? '' : 'Conferma di aver letto l’informativa privacy.';
       setErr(privacyI, document.getElementById('mf_privacy_err'), privacyError);
 
-      return [nameI, emailI, projectTypeI, msgI, privacyI].every((field) => field && !field.classList.contains('error'));
+      const fields = [nameI, emailI, projectTypeI, msgI, privacyI];
+      const valid = fields.every((field) => field && !field.classList.contains('error'));
+      if (!valid) {
+        const firstInvalid = fields.find((field) => field && !field.disabled
+          && field.getClientRects().length && field.classList.contains('error'));
+        if (firstInvalid) {
+          firstInvalid.focus({ preventScroll: true });
+          const bounds = firstInvalid.getBoundingClientRect();
+          const offset = Math.max(0, header?.getBoundingClientRect().bottom || 0) + 16;
+          if (bounds.top < offset || bounds.bottom > window.innerHeight - 16) {
+            // No animation, including when reduced motion is requested.
+            window.scrollTo({ top: Math.max(0, window.scrollY + bounds.top - offset), behavior: 'instant' });
+          }
+        }
+      }
+      return valid;
     };
 
     const modal = document.getElementById('thank-you-modal-mini');
