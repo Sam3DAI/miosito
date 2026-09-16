@@ -4,6 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { readGitBlobBuffer } from './git-binary-reader.mjs';
+import { beforeNonvisual40 } from './nonvisual-readiness-40.mjs';
 import { BASE_38, edits38, expectedQuote38Source, beforeQuote38, assertQuote38Source, assertQuote38Sources, assertQuote38Html, quote38 } from './quote-cta-38.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 test('task38 exact approved nine-file delta; styles, engines and six form contracts frozen',()=>assertQuote38Sources(root));
@@ -12,7 +13,7 @@ test('task38 exact historical exceptions are reversible only at the authorized c
   const baseline=readGitBlobBuffer(BASE_38,file,root).buffer.toString('utf8').replace(/\r\n/g,'\n');
   const current=fs.readFileSync(path.join(root,file),'utf8');
   assert.equal(beforeQuote38(file,current),baseline);
-  assert.equal(expectedQuote38Source(file,baseline),current.replace(/\r\n/g,'\n'));
+  assert.equal(expectedQuote38Source(file,baseline),beforeNonvisual40(file,current));
   assert.throws(()=>assertQuote38Source(file,current+'\nUNAUTHORIZED',baseline));
  }
  assert.equal(beforeQuote38('unrelated.njk','Richiedi un preventivo'),'Richiedi un preventivo');

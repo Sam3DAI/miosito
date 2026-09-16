@@ -4,6 +4,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
 import { beforePolish33 } from "./site-final-polish-33.mjs";
+import { beforeNonvisual40 } from "./nonvisual-readiness-40.mjs";
 
 export const BASE_32 = "93262817ac1473f937148d5cc8d2298a5eeb85e9";
 export const headingContract32 = JSON.parse(fs.readFileSync(new URL("./heading-contract-32.json", import.meta.url), "utf8"));
@@ -16,7 +17,7 @@ export function assertDisplayOnlyText32(source, baseline) {
   const oldLiteral = "const bg = isDark ? '#000000' : '#FAFAFA';";
   const newLiteral = "const bg = isDark ? '#000000' : '#F5F5F7';";
   assert.equal(baseline.split(oldLiteral).length - 1, 2, "Exactly two authorized background callsites in baseline");
-  assert.equal(normalize(source), normalize(baseline).replaceAll(oldLiteral, newLiteral), "No 3D change beyond the two day-background literals");
+  assert.equal(beforeNonvisual40('js/configuratori-3d-2d.js',source), normalize(baseline).replaceAll(oldLiteral, newLiteral), "Only two day-background literals and exact40 privacy error; no 3D logic delta");
 }
 export function assertDisplayOnly32(root, outputRoot) {
   const file = "js/configuratori-3d-2d.js";

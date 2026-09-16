@@ -434,6 +434,8 @@ function createRuntimeEnvironment(profile, { fetchImpl, onLine = true, search = 
       fetchCalls.push({ url: args[0], options: args[1] });
       return (fetchImpl || (async () => ({ ok: true, status: 200 })))(...args);
     },
+    __analyticsConsentGranted: false,
+    __gaConsentGranted: false,
     __adsConsentGranted: false,
     __persistAdParams() { hookCalls.persist += 1; },
     __clearAdParams() { hookCalls.clear += 1; }
@@ -793,8 +795,10 @@ for (const profile of profiles) {
     assert.match(env.statusElement.textContent, /offline/i);
   });
 
-  test(`${profile.formName}: verified 200 emits one four-key PII-free event`, async () => {
+  test(`${profile.formName}: denied statistics/ads still allow one mocked 200 and one four-key PII-free event`, async () => {
     const env = createRuntimeEnvironment(profile);
+    assert.equal(env.window.__analyticsConsentGranted, false);
+    assert.equal(env.window.__adsConsentGranted, false);
     env.bind();
     const submittedLeadId = env.leadId.value;
 
@@ -818,6 +822,7 @@ for (const profile of profiles) {
     });
 
     const body = parseRequestBody(call);
+    for (const key of ['gclid','gbraid','wbraid']) assert.equal(body.get(key), '', 'Denied Marketing: no click ID in synthetic request');
     assert.deepEqual(body.getAll("form-name"), [profile.formName]);
     assert.deepEqual(body.getAll("lead_source"), [profile.leadSource]);
     assert.deepEqual(body.getAll("lead_id"), [submittedLeadId]);

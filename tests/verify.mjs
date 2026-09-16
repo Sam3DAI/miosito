@@ -33,6 +33,7 @@ import { assertVisual32Html, assertVisual32Sources, assertDisplayOnly32, assertV
 import { assertPolish33Html, assertPolish33Sources } from "./site-final-polish-33.mjs";
 import { assertLaunch36Sources, assertLaunch36Html, beforeLegacyHostGuard36 } from "./launch-readiness-36.mjs";
 import { assertQuote38Sources, assertQuote38Html } from "./quote-cta-38.mjs";
+import { assertNonvisual40Sources, assertNonvisual40Html, beforeNonvisual40, beforePrivacy40Html } from "./nonvisual-readiness-40.mjs";
 import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -60,7 +61,6 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
   "css/404.css",
   "css/automazioni-ai-business.css",
   "css/chatbot-ai-intelligenti.css",
-  "css/cookie-banner.css",
   "css/index.css",
   "css/privacy-policy.css",
   "css/siti-web-custom-seo.css",
@@ -71,8 +71,6 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
   "js/ad-attribution-consent.js",
   "js/automazioni-ai-business.js",
   "js/chatbot-ai-intelligenti.js",
-  "js/contattaci.js",
-  "js/cookie-banner.js",
   "js/ga-autotrack.js",
   "js/index.js",
   "js/privacy-policy.js",
@@ -86,6 +84,9 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
 
 const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
   "js/configuratori-3d-2d.js",
+  "css/cookie-banner.css",
+  "js/cookie-banner.js",
+  "js/contattaci.js",
   "css/foundation.css",
   "css/site-shell.css",
   "css/marketing-pages.css",
@@ -198,7 +199,7 @@ const EXPECTED_GENERATED_ROUTES = Object.freeze([
     destination: "privacy-policy.html",
     publicUrl: "/privacy-policy",
     canonical: "https://solvex-ai3d.com/privacy-policy",
-    title: "Privacy Policy | SolveX AI3D - Protezione Dati GDPR",
+    title: "Informativa privacy e cookie | SolveX AI3D",
     h1: "Informativa sulla Privacy",
     schemaTypes: Object.freeze(["WebPage", "BreadcrumbList"]),
     hasFaq: false,
@@ -262,7 +263,7 @@ const expectedDescriptions = Object.freeze({
   "planner-configuratori-arredamento.html": "Planner e configuratori B2B per produttori, rivenditori, showroom e reti vendita: composizioni, misure, finiture, prezzi e preventivi.",
   "automazioni-ai-business.html": "Automazioni AI integrate in form, email, CRM e portali per leggere documenti, classificare richieste e supportare workflow commerciali supervisionati.",
   "contattaci.html": "Condividi con SolveX obiettivi, utenti, dati e complessità di un configuratore, un software CPQ, un portale B2B o un processo commerciale da semplificare.",
-  "privacy-policy.html": "Informativa sulla privacy di SolveX AI3D: come raccogliamo, usiamo e proteggiamo i tuoi dati personali in conformità al GDPR. Dettagli su cookie, Google Analytics (su consenso), Google Ads (su consenso) e chatbot.",
+  "privacy-policy.html": "Informazioni sui dati trattati tramite il sito SolveX AI3D, sui moduli di contatto e demo e sulla gestione delle preferenze statistiche e pubblicitarie.",
   "termini-condizioni.html": "Termini e Condizioni di SolveX AI3D: regole per l'uso del sito e dei servizi digitali come configuratori 3D/2D, automazioni AI, siti custom e chatbot."
 });
 
@@ -816,6 +817,7 @@ function assertHeadingOrder(html, route) {
 }
 
 function assertLegalContract(route, outputHtml) {
+  outputHtml = route.destination.startsWith("privacy") ? beforePrivacy40Html(outputHtml) : beforeNonvisual40('src/termini-condizioni.njk',outputHtml);
   const baselineHtml = gitBlob(route.baseline).toString("utf8");
   const sectionId = route.destination.startsWith("privacy") ? "privacy-content" : "terms-content";
   const outputSection = firstMatch(outputHtml, new RegExp(`<section\\b[^>]*id=["']${sectionId}["'][^>]*>([\\s\\S]*?)<\\/section>`, "i"), `${sectionId} output`);
@@ -1421,8 +1423,8 @@ function assertRouteRegistry() {
   assert.deepEqual(OWNED_STATIC_FILES, EXPECTED_OWNED_STATIC_FILES, "Eleventy owned-static registry differs from the independent expected list");
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
-  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 34, "Only the approved lead helper and display-only 3D file leave the historical frozen registry");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 80, "Eleven owned assets including display-only 3D, plus 69 owner derivatives");
+  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 31, "Task40: only banner JS/CSS and contact error copy leave the frozen registry, protected by exact delta tests");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 83, "Task40: three scoped files join the 80 owned assets");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1679,6 +1681,8 @@ const visual32SourceEvidence = assertVisual32Sources(root);
 const polish33SourceEvidence = assertPolish33Sources(root);
 const launch36Evidence = assertLaunch36Sources(root);
 const quote38Evidence = assertQuote38Sources(root);
+const nonvisual40Evidence = assertNonvisual40Sources(root);
+for (const route of GENERATED_ROUTES) assertNonvisual40Html(route.publicUrl, fs.readFileSync(path.join(outputRoot,route.destination),'utf8'));
 const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
   : { result: "NOT_RUN_SEPARATE_REAL_BROWSER_GATE", requiredBeforeStaging: true };
@@ -1693,6 +1697,11 @@ const binaryPostBuildEvidence = verifyRealBinaryOutputs({ root, outputRoot, base
 
 const displayOnly32Evidence = assertDisplayOnly32(root, outputRoot);
 const functionalFreezeEvidence = functionalProtectedFiles.map((file) => {
+  if (file === "js/contattaci.js") {
+    const source = fs.readFileSync(path.join(root,file),'utf8');
+    assert.equal(beforeNonvisual40(file,source),gitBlob(file).toString('utf8').replace(/\r\n/g,'\n'),'Contact engine unchanged except exact40 privacy error');
+    return {file,result:'PASS_EXACT_PRIVACY_ERROR_ONLY',sourceSha256:sha256(Buffer.from(source))};
+  }
   const frozen = frozenEvidence.find((entry) => entry.file === file);
   assert.ok(frozen, `Functionally protected file is not frozen passthrough: ${file}`);
   const baseObjectId = gitBlobObjectId(file);
@@ -1776,6 +1785,7 @@ const summary = {
   polish33SourceEvidence,
   launch36Evidence,
   quote38Evidence,
+  nonvisual40Evidence,
   browserVisual32Evidence,
   displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison

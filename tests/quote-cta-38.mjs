@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { readGitBlobBuffer } from './git-binary-reader.mjs';
+import { beforeNonvisual40 } from './nonvisual-readiness-40.mjs';
 
 export const BASE_38 = 'e7b54e7cb02b72d34a43d600bdeed6e57481b3dc';
 export const quote38 = Object.freeze({label:'Richiedi un preventivo',href:'/contattaci#contatti'});
@@ -45,11 +46,12 @@ export function expectedQuote38Source(file, baseline) {
 // Historical oracles reconstruct only these exact CTA/context substitutions.
 // This cannot hide a changed title, image, form, event, engine, style or extra link.
 export function beforeQuote38(file,input) {
- let text=lf(input);
+ let text=beforeNonvisual40(file,input);
  for(const [before,after] of edits38[file]||[]) text=text.replace(after,before);
  return text;
 }
 export function assertQuote38Source(file,current,baseline) {
+ current=beforeNonvisual40(file,current);
  assert.equal(lf(current),expectedQuote38Source(file,baseline),file+': exact CTA38 delta only');
  assert.deepEqual(lf(current).match(/<form\b[\s\S]*?<\/form>/g),lf(baseline).match(/<form\b[\s\S]*?<\/form>/g),file+': embedded forms unchanged');
 }
@@ -57,7 +59,7 @@ export function assertQuote38Sources(root) {
  const old=file=>readGitBlobBuffer(BASE_38,file,root).buffer.toString('utf8');
  for(const file of Object.keys(edits38)) assertQuote38Source(file,fs.readFileSync(path.join(root,file),'utf8'),old(file));
  for(const file of ['src/_includes/partials/marketing-components.njk','src/_includes/partials/site-header.njk','src/_includes/partials/site-footer.njk','src/_includes/partials/service-demo-form.njk','src/_includes/partials/measurement-bootstrap.njk','src/_data/serviceDemos.json','src/_data/measurement.json','js/site-shell.js','js/netlify-lead-form.js','js/service-demo-form.js','js/contattaci.js','js/configuratori-3d-2d.js','js/ad-attribution-consent.js','js/ga-autotrack.js','js/cookie-banner.js','css/foundation.css','css/site-shell.css','css/marketing-pages.css','css/contattaci.css','css/configuratori-3d-2d.css']) {
-  assert.equal(lf(fs.readFileSync(path.join(root,file),'utf8')),lf(old(file)),file+': task38 frozen');
+  assert.equal(beforeNonvisual40(file,fs.readFileSync(path.join(root,file),'utf8')),lf(old(file)),file+': task38 frozen except exact40');
  }
  return {result:'PASS',baseline:BASE_38,productFiles:9,demoForms:5,totalForms:6,enginesAndStyles:'UNCHANGED'};
 }

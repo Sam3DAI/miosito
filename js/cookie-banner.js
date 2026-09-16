@@ -2,6 +2,10 @@
 (function () {
   'use strict';
 
+  // Il loader può arrivare dopo DOMContentLoaded o essere incluso nuovamente.
+  if (window.__solvexCookieBannerInitialized) return;
+  window.__solvexCookieBannerInitialized = true;
+
   // Stati globali (usati anche da autotrack e dal form)
   window.__analyticsConsentGranted = false;
   window.__adsConsentGranted = false;
@@ -51,17 +55,17 @@
 
     const msg = el('div', { class: 'cc-message' },
       `<strong>Cookie su questo sito</strong><br>
-       Usiamo cookie essenziali (sempre attivi), <b>Statistiche</b> per analisi aggregate e <b>Marketing</b> per misurare le conversioni delle campagne.
-       Nessuna pubblicità personalizzata. <a href="/privacy-policy" class="cc-link">Scopri di più</a>.`
+       Usiamo strumenti essenziali per il funzionamento del sito. Puoi scegliere separatamente Statistiche e Marketing per la misurazione delle campagne. Le preferenze sono separate dalle richieste inviate tramite i moduli.
+       <a href="/privacy-policy" class="cc-link">Informativa privacy e cookie</a>.`
     );
 
     const btnRow = el('div', { class: 'cc-compliance' });
     const btnDeny  = el('button', { class: 'cc-btn cc-deny',  type: 'button' }, 'Solo essenziali');
-    const btnPrefs = el('button', { class: 'cc-btn cc-prefs', type: 'button' }, 'Preferenze');
+    const btnPrefs = el('button', { class: 'cc-btn cc-prefs', type: 'button', 'aria-expanded': 'false', 'aria-controls': 'cc-preferences' }, 'Preferenze');
     const btnAllow = el('button', { class: 'cc-btn cc-allow', type: 'button' }, 'Accetta tutto');
     btnRow.append(btnDeny, btnPrefs, btnAllow);
 
-    const panel = el('div', { class: 'cc-panel', hidden: '' });
+    const panel = el('div', { class: 'cc-panel', id: 'cc-preferences', hidden: '' });
     panel.innerHTML = `
       <div class="cc-panel-title">Preferenze cookie</div>
 
@@ -73,18 +77,18 @@
             <span class="cc-switch" aria-hidden="true"></span>
           </span>
         </div>
-        <div class="cc-pref-desc">Necessari al funzionamento (sicurezza, preferenze di base). Non raccolgono dati personali.</div>
+        <div class="cc-pref-desc">Servono al funzionamento del sito e a ricordare le preferenze richieste.</div>
       </div>
 
       <div class="cc-pref">
         <div class="cc-pref-head">
           <span class="cc-pref-name">Statistiche (Analytics)</span>
           <label class="cc-pref-switch">
-            <input id="cc-analytics" type="checkbox" aria-label="Abilita statistiche aggregate">
+            <input id="cc-analytics" type="checkbox" aria-label="Abilita statistiche">
             <span class="cc-switch" aria-hidden="true"></span>
           </label>
         </div>
-        <div class="cc-pref-desc">Dati aggregati e anonimi per migliorare contenuti e prestazioni.</div>
+        <div class="cc-pref-desc">Misurazione dell’utilizzo del sito per migliorare contenuti e prestazioni.</div>
       </div>
 
       <div class="cc-pref">
@@ -95,7 +99,7 @@
             <span class="cc-switch" aria-hidden="true"></span>
           </label>
         </div>
-        <div class="cc-pref-desc">Misura delle conversioni delle campagne. <b>Nessuna pubblicità personalizzata</b> (remarketing disabilitato).</div>
+        <div class="cc-pref-desc">Misurazione delle campagne e delle richieste provenienti dagli annunci, secondo le preferenze espresse.</div>
       </div>
 
       <div class="cc-panel-actions">
@@ -106,16 +110,26 @@
 
     const revoke = el('button', { class: 'cc-revoke', type: 'button', 'aria-label': 'Apri preferenze cookie' });
 
-    wrap.append(msg, btnRow, panel);
+    const status = el('p', { class: 'cc-status', role: 'status' });
+    wrap.append(msg, btnRow, panel, status);
     document.body.append(wrap, revoke);
 
     // Lettura preferenze pregresse (back-compat)
     let prefs = null;
-    try { prefs = JSON.parse(localStorage.getItem('cookieconsent_prefs') || 'null'); } catch(_) {}
-    const legacy = localStorage.getItem('cookieconsent_status'); // 'allow'|'deny'
-
-    if (!prefs && legacy === 'allow') prefs = { analytics: true, ads: true };
-    if (!prefs && legacy === 'deny')  prefs = { analytics: false, ads: false };
+    try {
+      const raw = localStorage.getItem('cookieconsent_prefs');
+      if (raw !== null) {
+        const parsed = JSON.parse(raw);
+        if (parsed && !Array.isArray(parsed) && typeof parsed === 'object'
+          && Object.keys(parsed).length === 2
+          && typeof parsed.analytics === 'boolean' && typeof parsed.ads === 'boolean') prefs = parsed;
+      } else {
+        // Mantiene la sola migrazione storica; nessun fallback da dati corrotti.
+        const legacy = localStorage.getItem('cookieconsent_status');
+        if (legacy === 'allow') prefs = { analytics: true, ads: true };
+        if (legacy === 'deny') prefs = { analytics: false, ads: false };
+      }
+    } catch(_) { /* Storage negato o JSON invalido: default senza grant. */ }
 
     if (!prefs) {
       // default tecnico non persistente
@@ -131,16 +145,36 @@
     analyticsChk.checked = !!window.__analyticsConsentGranted;
     adsChk.checked = !!window.__adsConsentGranted;
 
-    function saveAndApply(a, m) {
-      const toSave = { analytics: !!a, ads: !!m };
-      localStorage.setItem('cookieconsent_prefs', JSON.stringify(toSave));
-      // rimuove chiave legacy
-      try { localStorage.removeItem('cookieconsent_status'); } catch(_) {}
-      applyConsent(toSave);
-      wrap.style.display = 'none';
+    let returnFocus = revoke;
+    function openPreferences(trigger) {
+      returnFocus = trigger;
+      analyticsChk.checked = window.__analyticsConsentGranted;
+      adsChk.checked = window.__adsConsentGranted;
+      wrap.style.display = '';
+      panel.hidden = false;
+      btnPrefs.setAttribute('aria-expanded', 'true');
+      analyticsChk.focus();
     }
 
-    btnPrefs.addEventListener('click', () => { panel.hidden = false; });
+    function saveAndApply(a, m) {
+      const toSave = { analytics: !!a, ads: !!m };
+      let saved = false;
+      try {
+        localStorage.setItem('cookieconsent_prefs', JSON.stringify(toSave));
+        saved = true;
+        try { localStorage.removeItem('cookieconsent_status'); } catch(_) {}
+      } catch(_) { /* La scelta rimane valida in memoria per questa pagina. */ }
+      applyConsent(toSave);
+      status.textContent = saved ? '' : 'Preferenze applicate a questa pagina. Il browser non consente di salvarle: alla prossima visita potrebbero essere richieste di nuovo.';
+      if (saved) {
+        wrap.style.display = 'none';
+        panel.hidden = true;
+        btnPrefs.setAttribute('aria-expanded', 'false');
+        if (returnFocus.isConnected) returnFocus.focus();
+      }
+    }
+
+    btnPrefs.addEventListener('click', () => openPreferences(revoke));
     panel.querySelector('.cc-panel-actions .cc-allow').addEventListener('click', () => {
       saveAndApply(analyticsChk.checked, adsChk.checked);
     });
@@ -156,7 +190,19 @@
       analyticsChk.checked = false; adsChk.checked = false;
       saveAndApply(false, false);
     });
-    revoke.addEventListener('click', () => { wrap.style.display = ''; panel.hidden = false; });
+    revoke.addEventListener('click', () => openPreferences(revoke));
+    document.addEventListener('click', (event) => {
+      const trigger = event.target.closest?.('#manage-cookies, [data-cookie-preferences]');
+      if (trigger) { event.preventDefault(); openPreferences(trigger); }
+    });
+    // Pannello non modale: nessun blocco del focus o dello scorrimento della pagina.
+    wrap.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      wrap.style.display = 'none';
+      panel.hidden = true;
+      btnPrefs.setAttribute('aria-expanded', 'false');
+      if (returnFocus.isConnected) returnFocus.focus();
+    });
 
     // Tema dinamico (opzionale)
     function restyle() {
@@ -168,5 +214,6 @@
     new MutationObserver(restyle).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
-  document.addEventListener('DOMContentLoaded', buildBanner);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', buildBanner, { once: true });
+  else buildBanner();
 })();

@@ -63,6 +63,16 @@ body.dark-mode .cc-revoke { background:#000; }
 /* Accessibilità: focus visibile */
 .cc-window :focus { outline: 2px solid #45b6fe; outline-offset: 2px; }
 
+/* Controlli privacy accessibili, senza cambiare palette o struttura del sito. */
+.cc-window { max-height: calc(100dvh - 40px); overflow-y: auto; }
+.cc-switch { pointer-events: none; }
+.cc-pref-switch input:focus-visible + .cc-switch,
+.cc-revoke:focus-visible,
+.cookie-preferences-control:focus-visible { outline: 2px solid #45b6fe; outline-offset: 3px; }
+.cookie-preferences-control { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; text-decoration: underline; cursor: pointer; }
+.cc-status { font-size: 12px; line-height: 1.4; }
+.cc-status:empty { display: none; }
+
 /* Mobile */
 @media (max-width: 769px) {
   .cc-window { max-width: 92%; bottom: 12px; }
