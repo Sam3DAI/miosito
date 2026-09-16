@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { readGitBlobBuffer } from './git-binary-reader.mjs';
+import { beforeQuote38 } from './quote-cta-38.mjs';
 
 export const BASE_36 = '59cdd85307b1dca27c4ab5ab2c82c845d2dddd9a';
 const lf = value => value.replace(/\r\n/g, '\n');
@@ -26,13 +27,13 @@ export function beforeLegacyHostGuard36(input) {
   return text;
 }
 export function beforeReadiness36(file, input) {
-  const text = lf(input), tag = privacyTags[file];
+  const text = beforeQuote38(file, input), tag = privacyTags[file];
   return tag ? text.replace(tag, tag.slice(0, -1) + ' checked>') : text;
 }
 
 export function assertLaunch36Sources(root) {
   const old = file => lf(readGitBlobBuffer(BASE_36, file, root).buffer.toString('utf8'));
-  const read = file => lf(fs.readFileSync(path.join(root, file), 'utf8'));
+  const read = file => beforeQuote38(file, fs.readFileSync(path.join(root, file), 'utf8'));
   for (const [file, tag] of Object.entries(privacyTags)) {
     const checked = tag.slice(0, -1) + ' checked>';
     assert.equal(old(file).split(checked).length, 2, file + ': one baseline checkbox');

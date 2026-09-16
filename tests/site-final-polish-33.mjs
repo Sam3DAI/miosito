@@ -3,10 +3,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
 import { beforeReadiness36 } from "./launch-readiness-36.mjs";
+import { beforeQuote38 } from "./quote-cta-38.mjs";
 
 export const BASE_33 = "fb2f1b919f40c0dc50b787b38759bb60080ab3c0";
 const lf = text => text.replace(/\r\n/g, "\n");
-const read = (root, file) => lf(fs.readFileSync(path.join(root, file), "utf8"));
+const read = (root, file) => beforeQuote38(file, fs.readFileSync(path.join(root, file), "utf8"));
 const oldIntro = "Parti da chi userà il sistema e dal risultato che deve ottenere: personalizzare un acquisto, preparare un’offerta o comporre un ambiente.";
 const newIntro = "Le soluzioni che proponiamo sono sempre progettate attorno al tuo processo reale.";
 const paragraph = "        <p>SolveX mantiene un referente chiaro e la responsabilità diretta delle decisioni dall’analisi al rilascio.</p>\n";
@@ -89,6 +90,6 @@ export function assertPolish33Html(route, html) {
     assert.ok(intro.includes(newIntro));
     assert.match(html,/<h2 id="scenario-title">/);
     assert.match(intro,/href="#demo-form"/);
-    assert.match(intro,/href="#configurator-scenarios"/);
+    assert.match(intro,/href="\/contattaci#contatti"/);
   }
 }

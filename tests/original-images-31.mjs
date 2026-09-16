@@ -4,6 +4,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
+import { beforeQuote38 } from "./quote-cta-38.mjs";
 
 // Independent package oracle; not imported by templates or the build registry.
 export const originalContract = JSON.parse(fs.readFileSync(new URL("./original-images-31-contract.json", import.meta.url), "utf8"));
@@ -68,7 +69,7 @@ export function assertOriginalSources(root = rootDefault) {
   const stripMedia = block => block.replace(/,\s*(?:image|alt|imageMeta): (?:originalImages31\["[^"]+"\](?:\.\w+)?|"[^"]*")/g, "").replace(/, note: "Esempio illustrativo\. Le integrazioni si verificano sul progetto\."/g, "");
   for (const file of new Set(originalContract.assets.map(a => a.template))) {
     const old = readGitBlobBuffer(originalContract.base, file, root).buffer.toString("utf8").replaceAll("\r\n", "\n");
-    const current = fs.readFileSync(path.join(root, file), "utf8").replaceAll("\r\n", "\n");
+    const current = beforeQuote38(file, fs.readFileSync(path.join(root, file), "utf8"));
     const hero = source => source.match(/<section class="page-hero[^"]*"[^>]*>[\s\S]*?<\/section>/)?.[0];
     // Task 32 authorizes only the H1 within these image-bearing heroes. Its exact text is independently checked.
     const withoutHeading = block => block.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, "<h1></h1>");

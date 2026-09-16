@@ -12,7 +12,7 @@
     { "key": "about", "href": "/chi-siamo", "label": "Chi siamo" },
     { "key": "contact", "href": "/contattaci", "label": "Contatti" }
   ],
-  "cta": { "href": "/contattaci", "label": "Parliamo del tuo progetto" },
+  "cta": { "href": "/contattaci#contatti", "label": "Richiedi un preventivo" },
   "social": [
     { "href": "https://www.instagram.com/solvex_ai3d/", "label": "Instagram" },
     { "href": "https://x.com/SolveX_AI3D", "label": "X" },

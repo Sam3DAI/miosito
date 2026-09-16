@@ -32,6 +32,7 @@ import { verifyRealBinaryOutputs } from "./binary-post-build.mjs";
 import { assertVisual32Html, assertVisual32Sources, assertDisplayOnly32, assertVisualEvidence32 } from "./visual-consistency-32.mjs";
 import { assertPolish33Html, assertPolish33Sources } from "./site-final-polish-33.mjs";
 import { assertLaunch36Sources, assertLaunch36Html, beforeLegacyHostGuard36 } from "./launch-readiness-36.mjs";
+import { assertQuote38Sources, assertQuote38Html } from "./quote-cta-38.mjs";
 import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -327,7 +328,7 @@ const expectedHeaderLinks = Object.freeze([
   ["/chi-siamo#metodo", "Metodo"],
   ["/chi-siamo", "Chi siamo"],
   ["/contattaci", "Contatti"],
-  ["/contattaci", "Parliamo del tuo progetto"],
+  ["/contattaci#contatti", "Richiedi un preventivo"],
   ["mailto:info@solvex-ai3d.com", "info@solvex-ai3d.com"],
   ["tel:+393474380837", "+39 3474380837"],
   ["https://www.instagram.com/solvex_ai3d/", "Instagram"],
@@ -916,7 +917,7 @@ function assertGeneratedPageContract(route, html) {
   const secondaryList = firstMatch(header, /(<ul\b[^>]*class=["'][^"']*site-navigation__secondary-links[^"']*["'][^>]*>[\s\S]*?<\/ul>)/i, `${route.publicUrl} secondary menu`);
   assert.equal((secondaryList.match(/<li\b/g) ?? []).length, 4, `${route.publicUrl}: secondary menu must expose four links`);
   assert.doesNotMatch(shell, /brand__name[\s\S]{0,80}<strong\b/i, `${route.publicUrl}: AI3D must not receive separate brand emphasis`);
-  assert.ok(linkPairs(shell).filter((link) => link.href === "/contattaci" && link.text.includes("Parliamo del tuo progetto")).length >= 2, `${route.publicUrl}: global CTA missing from shell`);
+  assert.equal(linkPairs(header).filter((link) => link.href === "/contattaci#contatti" && link.text.includes("Richiedi un preventivo")).length, 2, `${route.publicUrl}: exact header and menu quote CTA`);
   assert.doesNotMatch(html, /<a\b[^>]*href=["'][^"']*\.html(?:[?#][^"']*)?["']/i, `${route.publicUrl}: .html appears in a public link`);
 
   assertHardenedCsp(html, route);
@@ -1586,6 +1587,7 @@ function verifyBuiltOutput() {
     assertVisual32Html(route.publicUrl, html);
     assertPolish33Html(route.publicUrl, html);
     assertLaunch36Html(route.publicUrl, html);
+    assertQuote38Html(route.publicUrl, html);
     currentPerformance.push(assertPerformanceBudget(route, htmlBuffer));
 
     const title = stripMarkup(firstMatch(html, /<title>([\s\S]*?)<\/title>/i, `${route.publicUrl} title`));
@@ -1676,6 +1678,7 @@ const originalImageEvidence = assertOriginalSources(root);
 const visual32SourceEvidence = assertVisual32Sources(root);
 const polish33SourceEvidence = assertPolish33Sources(root);
 const launch36Evidence = assertLaunch36Sources(root);
+const quote38Evidence = assertQuote38Sources(root);
 const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
   : { result: "NOT_RUN_SEPARATE_REAL_BROWSER_GATE", requiredBeforeStaging: true };
@@ -1772,6 +1775,7 @@ const summary = {
   visual32SourceEvidence,
   polish33SourceEvidence,
   launch36Evidence,
+  quote38Evidence,
   browserVisual32Evidence,
   displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison
