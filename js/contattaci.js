@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (servicesChecked === 0) valid = false;
 
     if (privacy) {
-      const privacyError = privacy.checked ? '' : 'Accetta la Privacy Policy.';
+      const privacyError = privacy.checked ? '' : 'Conferma di aver letto l’informativa privacy.';
       privacy.classList.toggle('error', !!privacyError);
       privacy.setAttribute('aria-invalid', privacyError ? 'true' : 'false');
       if (privacyErrEl) {

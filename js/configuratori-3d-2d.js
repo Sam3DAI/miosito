@@ -743,7 +743,7 @@ const updateActiveFromScroll = () => {
       setErr(projectTypeI, document.getElementById('mf_project_type_err'), projectTypeI?.value.trim() ? '' : 'Seleziona una tipologia di configuratore.');
       setErr(msgI, document.getElementById('mf_msg_err'), msgI?.value.trim() ? '' : 'Il messaggio è obbligatorio.');
 
-      const privacyError = privacyI?.checked ? '' : 'Accetta la Privacy Policy.';
+      const privacyError = privacyI?.checked ? '' : 'Conferma di aver letto l’informativa privacy.';
       setErr(privacyI, document.getElementById('mf_privacy_err'), privacyError);
 
       return [nameI, emailI, projectTypeI, msgI, privacyI].every((field) => field && !field.classList.contains('error'));

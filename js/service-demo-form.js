@@ -26,7 +26,7 @@
         email: "Inserisci un indirizzo email valido.",
         website: "Inserisci un URL completo, per esempio https://esempio.it.",
         message: "Descrivi il tuo obiettivo.",
-        privacy: "Per inviare la richiesta, accetta la Privacy Policy."
+        privacy: "Conferma di aver letto l’informativa privacy."
       }[name]
     };
   });

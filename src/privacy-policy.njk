@@ -6,16 +6,16 @@ breadcrumbLabel: Privacy Policy
 stylesheet: privacy-policy.css
 pageScript: privacy-policy.js
 chatbotComment: Chatbot
-title: "Privacy Policy | SolveX AI3D - Protezione Dati GDPR"
-description: "Informativa sulla privacy di SolveX AI3D: come raccogliamo, usiamo e proteggiamo i tuoi dati personali in conformità al GDPR. Dettagli su cookie, Google Analytics (su consenso), Google Ads (su consenso) e chatbot."
+title: "Informativa privacy e cookie | SolveX AI3D"
+description: "Informazioni sui dati trattati tramite il sito SolveX AI3D, sui moduli di contatto e demo e sulla gestione delle preferenze statistiche e pubblicitarie."
 keywords: "privacy policy GDPR, informativa privacy sito web, protezione dati personali, cookie, Google Analytics, chatbot, consenso"
 canonical: "https://solvex-ai3d.com/privacy-policy"
 openGraph:
   title: "Privacy Policy | SolveX AI3D"
-  description: "Scopri come SolveX AI3D gestisce i tuoi dati personali in conformità al GDPR. Analytics e Ads solo previo consenso."
+  description: "Informazioni sui dati trattati tramite il sito SolveX AI3D, sui moduli di contatto e demo e sulla gestione delle preferenze statistiche e pubblicitarie."
 twitter:
   title: "Privacy Policy | SolveX AI3D"
-  description: "Informativa sulla privacy conforme al GDPR."
+  description: "Informazioni sui dati trattati tramite il sito SolveX AI3D, sui moduli di contatto e demo e sulla gestione delle preferenze statistiche e pubblicitarie."
 ---
 {% extends "layouts/base.njk" %}
 
@@ -29,7 +29,7 @@ twitter:
         "@type": "WebPage",
         "@id": "https://solvex-ai3d.com/privacy-policy/#webpage",
         "name": "Privacy Policy | SolveX AI3D",
-        "description": "Informativa sulla privacy conforme al GDPR per SolveX AI3D. Analytics/Ads solo previo consenso.",
+        "description": "Informazioni sui dati trattati tramite il sito SolveX AI3D, sui moduli di contatto e demo e sulla gestione delle preferenze statistiche e pubblicitarie.",
         "url": "https://solvex-ai3d.com/privacy-policy",
         "publisher": {
           "@type": "Organization",
@@ -80,7 +80,7 @@ twitter:
       <h2>2. Tipi di Dati Trattati</h2>
       <ul>
         <li><strong>Dati di navigazione</strong> (es. indirizzo IP troncato/anonimizzato, tipo di browser/dispositivo, pagine visitate) raccolti tramite strumenti di analisi <em>solo previo consenso</em>.</li>
-        <li><strong>Dati forniti volontariamente</strong> (es. nome, email, telefono, contenuto messaggio) tramite form di contatto.</li>
+        <li><strong>Dati forniti volontariamente</strong>: i moduli di contatto e richiesta demo raccolgono nome, email, messaggio e informazioni sul servizio o progetto richiesto. Il modulo Contatti prevede un telefono facoltativo; i moduli demo prevedono un sito web o riferimento facoltativo. Ai sei moduli principali sono associati il nome del modulo, la pagina di provenienza e, quando JavaScript è disponibile, un identificatore della richiesta. È presente un campo tecnico anti-spam. I campi obbligatori sono contrassegnati con un asterisco.</li>
         <li><strong>Interazioni con chatbot</strong>: le conversazioni sono elaborate per fornire assistenza; non conserviamo una cronologia permanente sul sito.</li>
         <li><strong>Cookie e tecnologie simili</strong>: cookie tecnici/essenziali (necessari), cookie di <em>analytics</em> e di <em>marketing</em> (<em>solo se acconsenti</em>).</li>
       </ul>
@@ -98,15 +98,16 @@ twitter:
       <ul>
         <li>Trattamento con misure tecniche e organizzative adeguate (HTTPS, controlli di accesso, log, backup).</li>
         <li><strong>Form contatti</strong>: dati conservati per il tempo necessario a gestire la richiesta e comunque non oltre <strong>24 mesi</strong>, salvo obblighi di legge.</li>
-        <li><strong>Analytics</strong>: conservazione eventi/rapporti tipicamente fino a <strong>14 mesi</strong> (impostazioni GA4), solo se hai dato consenso.</li>
+        <li><strong>Analytics</strong>: la conservazione dei dati a livello di utente ed evento dipende dalle impostazioni GA4. Questa impostazione non determina la durata dei report aggregati standard.</li>
         <li><strong>Chatbot</strong>: nessuna conservazione permanente lato sito; eventuali log temporanei lato fornitore per finalità tecniche.</li>
       </ul>
 
       <h2>5. Comunicazione e Destinatari</h2>
-      <p>I dati possono essere trattati da fornitori che agiscono come responsabili esterni, tra cui:</p>
+      <p>I sei moduli principali utilizzano Netlify Forms per la gestione delle richieste. Il modulo presente nella pagina storica Chatbot AI utilizza invece Formsubmit, finché quel percorso rimane attivo. Alcune immagini e risorse del sito sono distribuite tramite Cloudinary e altri servizi tecnici indicati nell’inventario.</p>
       <ul>
         <li><strong>Google LLC</strong> (Google Analytics/Google Ads)</li>
-        <li><strong>Formsubmit.co</strong> (gestione invio form)</li>
+        <li><strong>Netlify Forms</strong> (sei moduli principali)</li>
+        <li><strong>Formsubmit.co</strong> (modulo della pagina storica Chatbot AI)</li>
         <li><strong>Cloudinary</strong> (CDN immagini)</li>
         <li>fornitore del <strong>chatbot</strong> (<code>chatbot.solvex-chatbot.xyz</code>)</li>
         <li>società di hosting/infrastruttura e manutenzione IT</li>
@@ -119,7 +120,8 @@ twitter:
       <h2>7. Diritti dell’Interessato</h2>
       <p>Hai diritto di accesso, rettifica, cancellazione, limitazione, opposizione, portabilità e di revocare in qualsiasi momento i consensi prestati, senza pregiudicare la liceità del trattamento basata sul consenso prima della revoca. Puoi esercitare i diritti scrivendo a <a href="mailto:info@solvex-ai3d.com">info@solvex-ai3d.com</a>. Hai inoltre diritto a proporre reclamo al Garante per la Protezione dei Dati Personali (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">www.garanteprivacy.it</a>).</p>
 
-      <h2>8. Cookie e Preferenze</h2>
+      <h2 id="cookie-storage">8. Cookie e Preferenze</h2>
+      <p>Il sito utilizza anche la memoria locale del browser per il tema e le preferenze Statistiche e Marketing. I moduli principali impiegano la memoria di sessione per identificatori tecnici delle richieste confermate dal client e, in relazione alla preferenza Marketing, per parametri di attribuzione pubblicitaria. Le preferenze del banner sono separate dall’invio di una richiesta tramite modulo.</p>
       <p>Utilizziamo un banner per gestire i consensi. Le categorie sono:</p>
       <ul>
         <li><strong>Essenziali</strong>: necessari al funzionamento del sito (sempre attivi).</li>
