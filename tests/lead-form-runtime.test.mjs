@@ -207,8 +207,14 @@ class FakeElement {
     return element === this || this.children.some((child) => child.contains?.(element));
   }
 
-  focus() {
+  focus(options) {
+    this.focusCalls ||= [];
+    this.focusCalls.push(options);
     if (this.ownerDocument) this.ownerDocument.activeElement = this;
+  }
+
+  getBoundingClientRect() {
+    return this.rect || (this.tagName === 'HEADER' ? { top: 0, bottom: 77 } : { top: 200, bottom: 240 });
   }
 
   blur() {
@@ -717,6 +723,9 @@ function evaluatePageBinding(kind) {
     matchMedia: () => media,
     addEventListener() {},
     scrollY: 0,
+    innerHeight: 900,
+    scrollCalls: [],
+    scrollTo(options) { this.scrollCalls.push(options); },
     innerWidth: 1440
   };
   window.window = window;
@@ -1048,3 +1057,89 @@ test("contact template keeps the deterministic no-JS fallback and one eight-opti
   assert.doesNotMatch(fallbackOpenTag, /\bdisabled\b/);
   assert.match(template, /<form id="contact-form"[\s\S]*?name="contact-main"[\s\S]*?method="POST"[\s\S]*?data-netlify="true"/);
 });
+
+// Task41: actual page validators coupled to the unchanged lead helper. The
+// transport is an in-memory mock that rejects any non-loopback-relative URL.
+function bindPageToRealHelper41(page, fetchImpl) {
+  const profile = profiles.find(p => p.key === (page.form.id === 'contact-form' ? 'contact' : 'configurator'));
+  addControl(page.form, {name:'form-name',type:'hidden',value:profile.formName});
+  addControl(page.form, {name:'lead_source',type:'hidden',value:profile.leadSource});
+  addControl(page.form, {name:'lead_id',type:'hidden',value:''});
+  page.fetchCalls = [];
+  page.window.crypto = {randomUUID:nextUuidFactory()};
+  page.window.dataLayer = [];
+  page.window.__analyticsConsentGranted = false;
+  page.window.__adsConsentGranted = false;
+  page.window.fetch = (url,options) => {
+    assert.equal(url,'/','Only mock receiver permitted');
+    page.fetchCalls.push({url,options});
+    return (fetchImpl || (async()=>({ok:true,status:200})))(url,options);
+  };
+  page.context.HTMLFormElement = FakeHTMLFormElement;
+  page.context.FormData = FakeFormData;
+  page.context.Uint8Array = Uint8Array;
+  // The initial binding above is only a capture stub, not a submit listener.
+  delete page.form.dataset.solvexLeadBound;
+  vm.runInContext(leadHelperCode,page.context,{filename:'js/netlify-lead-form.js'});
+  page.window.SolveXNetlifyLead.bind(page.bindings[0]);
+  page.window.SolveXNetlifyLead.bind(page.bindings[0]);
+  return page;
+}
+
+for (const kind of ['contact','configurator']) {
+  const valid = kind === 'contact' ? setValidContactFields : setValidConfiguratorFields;
+  const invalidFields = kind === 'contact' ? ['name','email','phone','services','message','privacy'] : ['name','email','projectType','message','privacy'];
+  for (const key of invalidFields) {
+    test(`41 ${kind}: first error ${key}, one focus, values retained, zero mock POST`,async()=>{
+      const page=bindPageToRealHelper41(evaluatePageBinding(kind));
+      valid(page);
+      let target;
+      if(key==='services') {
+        page.serviceCheckboxes.forEach(f=>{f.checked=false;});
+        page.serviceCheckboxes[0].disabled=true;
+        target=page.serviceCheckboxes[1];
+        page.fields.message.value=''; // Services precedes message in the real DOM.
+      } else {
+        target=page.fields[key];
+        if(key==='privacy')target.checked=false;
+        else target.value=key==='phone'?'bad':key==='email'?'invalid':'';
+      }
+      const before=page.form.controls.map(f=>[f.value,f.checked]);
+      await page.form.emit('submit').promise;
+      assert.equal(page.document.activeElement,target);
+      assert.equal(page.form.controls.reduce((n,f)=>n+(f.focusCalls?.length||0),0),1);
+      assert.equal(target.focusCalls[0].preventScroll,true);
+      assert.equal(page.fetchCalls.length,0);
+      assert.deepEqual(page.form.controls.map(f=>[f.value,f.checked]),before);
+      assert.equal(page.form.listeners.get('submit').length,1);
+      if(key==='services')assert.notEqual(target,page.servicesFallbackSelect);
+    });
+  }
+  test(`41 ${kind}: scroll avoids header, instant even with reduced motion, no extra focus`,()=>{
+    const page=evaluatePageBinding(kind);
+    page.window.matchMedia=()=>({matches:true,addEventListener(){}});
+    page.window.scrollY=500;
+    page.document.querySelector('header').rect={top:0,bottom:90};
+    page.fields.name.rect={top:20,bottom:60};
+    assert.equal(page.bindings[0].validate(),false);
+    assert.equal(page.fields.name.focusCalls.length,1);
+    assert.deepEqual(JSON.parse(JSON.stringify(page.window.scrollCalls)),[{top:414,behavior:'instant'}]);
+  });
+  test(`41 ${kind}: valid HTTP error preserves values, deliberate retry succeeds and resets`,async()=>{
+    let calls=0;
+    const page=bindPageToRealHelper41(evaluatePageBinding(kind),async()=>({ok:++calls>1,status:calls===1?503:200}));
+    valid(page);
+    const before=page.form.controls.map(f=>[f.value,f.checked]);
+    await page.form.emit('submit').promise;
+    assert.equal(page.fetchCalls.length,1);
+    assert.equal(page.window.dataLayer.length,0);
+    assert.deepEqual(page.form.controls.map(f=>[f.value,f.checked]),before);
+    assert.equal(page.form.controls.reduce((n,f)=>n+(f.focusCalls?.length||0),0),0);
+    await page.form.emit('submit').promise;
+    assert.equal(page.fetchCalls.length,2,'One additional POST only after explicit second submit');
+    assert.equal(page.window.dataLayer.length,1);
+    assert.equal(page.fields.privacy.checked,false);
+    assert.equal(page.form.listeners.get('submit').length,1);
+    assert.equal(page.window.scrollCalls.length,0);
+  });
+}

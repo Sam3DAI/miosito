@@ -14,6 +14,7 @@ const unitTests = Object.freeze([
   "tests/launch-readiness-36.test.mjs",
   "tests/quote-cta-38.test.mjs",
   "tests/nonvisual-readiness-40.test.mjs",
+  "tests/nonvisual-closure-41.test.mjs",
   "tests/cookie-runtime-40.test.mjs",
   "tests/lead-form-runtime.test.mjs",
   "tests/site-shell.test.mjs",

@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readGitBlobBuffer } from './git-binary-reader.mjs';
+import { beforeNonvisual41 } from './nonvisual-closure-41.mjs';
 
 export const BASE_40 = '608dc77bd70362a250a5d651e050c76966e8798a';
 const root40 = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -112,7 +113,7 @@ export const edits40 = Object.freeze({
 });
 export const changedProduct40 = Object.freeze(['js/cookie-banner.js', ...Object.keys(edits40)]);
 export function beforeNonvisual40(file, input) {
-  let text = lf(input);
+  let text = beforeNonvisual41(file, lf(input));
   if (file === 'js/cookie-banner.js' && hash(text) === banner40Sha256) return lf(readGitBlobBuffer(BASE_40, file, root40).buffer.toString('utf8'));
   for (const [before, after] of edits40[file] || []) text = text.replace(after, before);
   return text;
@@ -127,7 +128,7 @@ export function expectedNonvisual40(file, old) {
 }
 export function assertNonvisual40Sources(root) {
   for (const file of changedProduct40) {
-    const current = lf(fs.readFileSync(path.join(root,file), 'utf8'));
+    const current = beforeNonvisual41(file, lf(fs.readFileSync(path.join(root,file), 'utf8')));
     if (file === 'js/cookie-banner.js') assert.equal(hash(current), banner40Sha256, 'Only reviewed banner40');
     else assert.equal(current, expectedNonvisual40(file, readGitBlobBuffer(BASE_40,file,root).buffer.toString('utf8')), file + ': only exact authorized40 changes');
   }
