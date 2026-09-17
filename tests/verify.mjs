@@ -35,6 +35,7 @@ import { assertLaunch36Sources, assertLaunch36Html, beforeLegacyHostGuard36 } fr
 import { assertQuote38Sources, assertQuote38Html } from "./quote-cta-38.mjs";
 import { assertNonvisual40Sources, assertNonvisual40Html, beforeNonvisual40, beforePrivacy40Html } from "./nonvisual-readiness-40.mjs";
 import { assertNonvisual41Sources } from "./nonvisual-closure-41.mjs";
+import { assertRetirement42Sources, assertRetirement42Output } from "./legacy-retirement-42r1.mjs";
 import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -50,40 +51,29 @@ const initialTransferBudget = 700 * 1024;
 // eleventy.config.js: the verifier must fail if implementation and config drift
 // together.
 const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
-  "404.html",
   "_redirects",
   "assets/iphone_16_pro_configuratore_3d.glb",
-  "chatbot-ai-intelligenti.html",
-  "chatbot/css/main.9ba5c9e2.css",
-  "chatbot/css/main.9ba5c9e2.css.map",
-  "chatbot/js/main.996591d1.js",
-  "chatbot/js/main.996591d1.js.LICENSE.txt",
-  "chatbot/js/main.996591d1.js.map",
   "css/404.css",
   "css/automazioni-ai-business.css",
-  "css/chatbot-ai-intelligenti.css",
   "css/index.css",
   "css/privacy-policy.css",
-  "css/siti-web-custom-seo.css",
   "css/termini-condizioni.css",
   "favicon-32.png",
   "favicon.ico",
   "js/404.js",
   "js/ad-attribution-consent.js",
   "js/automazioni-ai-business.js",
-  "js/chatbot-ai-intelligenti.js",
   "js/ga-autotrack.js",
   "js/index.js",
   "js/privacy-policy.js",
-  "js/siti-web-custom-seo.js",
   "js/termini-condizioni.js",
   "logo-112.png",
   "richiesta-ricevuta.html",
-  "robots.txt",
-  "siti-web-custom-seo.html"
+  "robots.txt"
 ]);
 
 const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
+  "404.html",
   "js/configuratori-3d-2d.js",
   "css/cookie-banner.css",
   "js/cookie-banner.js",
@@ -250,9 +240,7 @@ const exactSitemapUrls = Object.freeze([
   "https://solvex-ai3d.com/automazioni-ai-business",
   "https://solvex-ai3d.com/contattaci",
   "https://solvex-ai3d.com/privacy-policy",
-  "https://solvex-ai3d.com/termini-condizioni",
-  "https://solvex-ai3d.com/chatbot-ai-intelligenti",
-  "https://solvex-ai3d.com/siti-web-custom-seo"
+  "https://solvex-ai3d.com/termini-condizioni"
 ]);
 
 const expectedDescriptions = Object.freeze({
@@ -265,7 +253,7 @@ const expectedDescriptions = Object.freeze({
   "automazioni-ai-business.html": "Automazioni AI integrate in form, email, CRM e portali per leggere documenti, classificare richieste e supportare workflow commerciali supervisionati.",
   "contattaci.html": "Condividi con SolveX obiettivi, utenti, dati e complessità di un configuratore, un software CPQ, un portale B2B o un processo commerciale da semplificare.",
   "privacy-policy.html": "Informazioni sui dati trattati tramite il sito SolveX AI3D, sui moduli di contatto e demo e sulla gestione delle preferenze statistiche e pubblicitarie.",
-  "termini-condizioni.html": "Termini e Condizioni di SolveX AI3D: regole per l'uso del sito e dei servizi digitali come configuratori 3D/2D, automazioni AI, siti custom e chatbot."
+  "termini-condizioni.html": "Termini e Condizioni di SolveX AI3D: regole per l'uso del sito e dei servizi di configurazione di prodotto 2D/3D, configuratori e-commerce, CPQ e portali commerciali, planner per arredamento e automazioni AI."
 });
 
 const expectedFaqQuestions = Object.freeze({
@@ -1424,8 +1412,8 @@ function assertRouteRegistry() {
   assert.deepEqual(OWNED_STATIC_FILES, EXPECTED_OWNED_STATIC_FILES, "Eleventy owned-static registry differs from the independent expected list");
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
-  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 31, "Task40: only banner JS/CSS and contact error copy leave the frozen registry, protected by exact delta tests");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 83, "Task40: three scoped files join the 80 owned assets");
+  assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 84, "42R1: existing 83 assets plus exact root-absolute 404 delta");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1564,7 +1552,7 @@ const expectedOutputs = [
   ...EXPECTED_OWNED_STATIC_FILES,
   ...EXPECTED_GENERATED_ROUTES.map((route) => route.destination)
 ];
-assert.equal(expectedOutputs.length, 124, "Expected inventory is 55 baseline outputs plus 69 approved WebP files");
+assert.equal(expectedOutputs.length, EXPECTED_FROZEN_PASSTHROUGH_FILES.length + EXPECTED_OWNED_STATIC_FILES.length + EXPECTED_GENERATED_ROUTES.length, "Inventory derived from the independent registries");
 
 const frozenEvidence = [];
 const ownedEvidence = [];
@@ -1605,11 +1593,8 @@ function verifyBuiltOutput() {
   }
 
   const missing = missingLinks(expectedOutputs);
-  const expectedKnownMissing = [
-    "siti-web-custom-seo.html|src|placeholder-landing-page.html|placeholder-landing-page.html",
-    "siti-web-custom-seo.html|src|placeholder-landing-page.html|placeholder-landing-page.html"
-  ];
-  assert.deepEqual(missing, expectedKnownMissing, "Local-link defects differ from the two frozen placeholder references");
+  assert.deepEqual(missing, [], "No local-link defects remain in the published artifact");
+  assertRetirement42Output(new Map(builtInventory.rows.map(row => [row.path, fs.readFileSync(path.join(outputRoot,row.path))])));
   assertLocalFragments(expectedOutputs);
 
   const sitemap = fs.readFileSync(path.join(outputRoot, "sitemap.xml"), "utf8");
@@ -1684,6 +1669,7 @@ const launch36Evidence = assertLaunch36Sources(root);
 const quote38Evidence = assertQuote38Sources(root);
 const nonvisual40Evidence = assertNonvisual40Sources(root);
 const nonvisual41Evidence = assertNonvisual41Sources(root);
+const retirement42Evidence = assertRetirement42Sources(root);
 for (const route of GENERATED_ROUTES) assertNonvisual40Html(route.publicUrl, fs.readFileSync(path.join(outputRoot,route.destination),'utf8'));
 const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
@@ -1713,9 +1699,10 @@ const functionalFreezeEvidence = functionalProtectedFiles.map((file) => {
 });
 
 const legacyReferenceEvidence = legacyReferenceFiles.map((file) => {
-  const frozen = frozenEvidence.find((entry) => entry.file === file);
-  assert.ok(frozen, `Legacy reference file is not protected by the frozen passthrough gate: ${file}`);
-  return { file, baseObjectId: frozen.baseObjectId, sha256: frozen.sourceSha256, result: "PASS" };
+  const preserved = retirement42Evidence.sources.find(entry => entry.file === file);
+  assert.ok(preserved, `Retired source is not protected by the Git preservation gate: ${file}`);
+  assert.equal(fs.existsSync(path.join(outputRoot,file)),false,`Retired source published: ${file}`);
+  return { ...preserved, result: "PASS_SOURCE_PRESERVED_OUTPUT_EXCLUDED" };
 });
 assert.equal(fs.existsSync(path.join(root, "placeholder-landing-page.html")), false, "Missing legacy placeholder must not be synthesized in source");
 assert.equal(fs.existsSync(path.join(outputRoot, "placeholder-landing-page.html")), false, "Missing legacy placeholder must not be synthesized in output");
@@ -1753,7 +1740,7 @@ const summary = {
   aggregateSha256: secondVerification.builtInventory.aggregate,
   twoBuildReproducibility: "PASS",
   publishBoundary: "PASS",
-  localLinks: "PASS_WITH_TWO_FROZEN_PLACEHOLDER_REFERENCES",
+  localLinks: "PASS_NO_MISSING_LINKS",
   seoAndSchema: "PASS",
   contentContract: "PASS",
   measurementMode: measurement.mode,
@@ -1789,6 +1776,7 @@ const summary = {
   quote38Evidence,
   nonvisual40Evidence,
   nonvisual41Evidence,
+  retirement42Evidence,
   browserVisual32Evidence,
   displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison

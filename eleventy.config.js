@@ -8,40 +8,29 @@ export const TASK_BASE_COMMIT = "353a9cfa55dde08c8093e4455e821c08d88ab849";
 export const BASE_COMMIT = TASK_BASE_COMMIT;
 
 export const FROZEN_PASSTHROUGH_FILES = Object.freeze([
-  "404.html",
   "_redirects",
   "assets/iphone_16_pro_configuratore_3d.glb",
-  "chatbot-ai-intelligenti.html",
-  "chatbot/css/main.9ba5c9e2.css",
-  "chatbot/css/main.9ba5c9e2.css.map",
-  "chatbot/js/main.996591d1.js",
-  "chatbot/js/main.996591d1.js.LICENSE.txt",
-  "chatbot/js/main.996591d1.js.map",
   "css/404.css",
   "css/automazioni-ai-business.css",
-  "css/chatbot-ai-intelligenti.css",
   "css/index.css",
   "css/privacy-policy.css",
-  "css/siti-web-custom-seo.css",
   "css/termini-condizioni.css",
   "favicon-32.png",
   "favicon.ico",
   "js/404.js",
   "js/ad-attribution-consent.js",
   "js/automazioni-ai-business.js",
-  "js/chatbot-ai-intelligenti.js",
   "js/ga-autotrack.js",
   "js/index.js",
   "js/privacy-policy.js",
-  "js/siti-web-custom-seo.js",
   "js/termini-condizioni.js",
   "logo-112.png",
   "richiesta-ricevuta.html",
-  "robots.txt",
-  "siti-web-custom-seo.html"
+  "robots.txt"
 ]);
 
 export const OWNED_STATIC_FILES = Object.freeze([
+  "404.html",
   "js/configuratori-3d-2d.js",
   "css/cookie-banner.css",
   "js/cookie-banner.js",
