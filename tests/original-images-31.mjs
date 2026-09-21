@@ -5,11 +5,12 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
 import { beforeQuote38 } from "./quote-cta-38.mjs";
+import { contract43, aiItems43, publishedImageFiles43 } from "./clean-images-43.mjs";
 
 // Independent package oracle; not imported by templates or the build registry.
 export const originalContract = JSON.parse(fs.readFileSync(new URL("./original-images-31-contract.json", import.meta.url), "utf8"));
 export const originalFiles = originalContract.assets.flatMap(a => a.variants.map(v => v.file));
-const fileSet = new Set(originalFiles);
+const fileSet = new Set(publishedImageFiles43);
 const rootDefault = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const digest = buffer => crypto.createHash("sha256").update(buffer).digest("hex");
 const attr = (tag, name) => tag.match(new RegExp('\\b' + name + '=["\x27]([^"\x27]*)["\x27]'))?.[1] ?? "";
@@ -49,17 +50,21 @@ export function assertOriginalSources(root = rootDefault) {
   const metadata = JSON.parse(fs.readFileSync(path.join(root, "src/_data/originalImages31.json"), "utf8"));
   assert.equal(originalContract.assets.length, 23);
   assert.equal(originalFiles.length, 69);
-  assert.equal(fileSet.size, 69);
-  assert.deepEqual(Object.keys(metadata), originalContract.assets.map(a => a.id));
+  assert.equal(fileSet.size, 96);
+  assert.deepEqual(Object.keys(metadata), [...originalContract.assets.map(a => a.id), ...aiItems43.map(a => a.id)]);
   assert.deepEqual(fs.readdirSync(path.join(root, "assets/images/originals-31")).sort(), originalFiles.map(f => path.basename(f)).sort(), "Exact local asset directory; no masters, QA or rejected fallbacks");
   for (const a of originalContract.assets) {
     const entry = metadata[a.id], middle = a.variants[1];
     assert.equal(entry.id, a.id);
-    assert.equal(entry.src, "/" + middle.file);
-    assert.equal(entry.srcset, a.variants.map(v => "/" + v.file + " " + v.width + "w").join(", "));
-    assert.deepEqual([entry.width, entry.height], [middle.width, middle.height]);
-    assert.equal(entry.alt, a.alt);
-    assert.equal(entry.background, a.background);
+    // The task43 digest oracle checks replacement metadata independently;
+    // all 69 historical source variants still retain the task31 byte oracle.
+    if (contract43.preserved.includes(a.id)) {
+      assert.equal(entry.src, "/" + middle.file);
+      assert.equal(entry.srcset, a.variants.map(v => "/" + v.file + " " + v.width + "w").join(", "));
+      assert.deepEqual([entry.width, entry.height], [middle.width, middle.height]);
+      assert.equal(entry.alt, a.alt);
+      assert.equal(entry.background, a.background);
+    }
     assert.ok(entry.sizes);
     assert.match(entry.background, /^#[0-9a-f]{6}$/);
     for (const v of a.variants) assertOriginalFile(fs.readFileSync(path.join(root, v.file)), v);
@@ -83,9 +88,10 @@ export function assertOriginalSources(root = rootDefault) {
 }
 
 export function assertOriginalHtml(route, html) {
-  const expected = originalContract.assets.filter(a => a.template === route.source);
+  const aiAssets = aiItems43.map(a => ({...a, template:"src/automazioni-ai-business.njk", placement:"portrait_rail"}));
+  const expected = [...originalContract.assets, ...aiAssets].filter(a => a.template === route.source);
   const ids = [...html.matchAll(/\bdata-original-asset="([^"]+)"/g)].map(m => m[1]);
-  assert.deepEqual(ids, expected.map(a => a.id), route.source + " exact 23-slot placement");
+  assert.deepEqual(ids, expected.map(a => a.id), route.source + " exact 32-slot placement including nine approved AI additions");
   const metadata = JSON.parse(fs.readFileSync(path.join(rootDefault, "src/_data/originalImages31.json"), "utf8"));
   for (const a of expected) {
     let block;

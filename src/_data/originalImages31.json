@@ -11,31 +11,31 @@
   },
   "HOME-02": {
     "id": "HOME-02",
-    "src": "/assets/images/originals-31/home-02-original-700.webp",
-    "srcset": "/assets/images/originals-31/home-02-original-350.webp 350w, /assets/images/originals-31/home-02-original-700.webp 700w, /assets/images/originals-31/home-02-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/home-02-preventivi-manuali-700.webp",
+    "srcset": "/assets/images/cards-43/home-02-preventivi-manuali-350.webp 350w, /assets/images/cards-43/home-02-preventivi-manuali-700.webp 700w, /assets/images/cards-43/home-02-preventivi-manuali-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 906,
     "alt": "Illustrazione di preventivi e fogli di lavoro accanto a un computer.",
-    "background": "#fbfcfc"
+    "background": "#fdfdfe"
   },
   "HOME-03": {
     "id": "HOME-03",
-    "src": "/assets/images/originals-31/home-03-original-700.webp",
-    "srcset": "/assets/images/originals-31/home-03-original-350.webp 350w, /assets/images/originals-31/home-03-original-700.webp 700w, /assets/images/originals-31/home-03-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/home-03-regole-e-incompatibilita-700.webp",
+    "srcset": "/assets/images/cards-43/home-03-regole-e-incompatibilita-350.webp 350w, /assets/images/cards-43/home-03-regole-e-incompatibilita-700.webp 700w, /assets/images/cards-43/home-03-regole-e-incompatibilita-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 906,
     "alt": "Illustrazione di una seduta e di regole di compatibilità tra opzioni di prodotto.",
-    "background": "#fefefd"
+    "background": "#fefefe"
   },
   "HOME-04": {
     "id": "HOME-04",
-    "src": "/assets/images/originals-31/home-04-original-700.webp",
-    "srcset": "/assets/images/originals-31/home-04-original-350.webp 350w, /assets/images/originals-31/home-04-original-700.webp 700w, /assets/images/originals-31/home-04-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/home-04-reti-disallineate-700.webp",
+    "srcset": "/assets/images/cards-43/home-04-reti-disallineate-350.webp 350w, /assets/images/cards-43/home-04-reti-disallineate-700.webp 700w, /assets/images/cards-43/home-04-reti-disallineate-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
-    "height": 820,
+    "height": 818,
     "alt": "Illustrazione di versioni differenti di cataloghi e preventivi della rete vendita.",
     "background": "#fefefe"
   },
@@ -71,48 +71,48 @@
   },
   "ECOM-02": {
     "id": "ECOM-02",
-    "src": "/assets/images/originals-31/ecom-02-original-700.webp",
-    "srcset": "/assets/images/originals-31/ecom-02-original-350.webp 350w, /assets/images/originals-31/ecom-02-original-700.webp 700w, /assets/images/originals-31/ecom-02-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/ecom-02-scelte-dipendenti-700.webp",
+    "srcset": "/assets/images/cards-43/ecom-02-scelte-dipendenti-350.webp 350w, /assets/images/cards-43/ecom-02-scelte-dipendenti-700.webp 700w, /assets/images/cards-43/ecom-02-scelte-dipendenti-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 818,
     "alt": "Illustrazione di una scarpa con opzioni e dipendenze tra componenti.",
-    "background": "#fefdfd"
+    "background": "#fefefe"
   },
   "ECOM-03": {
     "id": "ECOM-03",
-    "src": "/assets/images/originals-31/ecom-03-original-700.webp",
-    "srcset": "/assets/images/originals-31/ecom-03-original-350.webp 350w, /assets/images/originals-31/ecom-03-original-700.webp 700w, /assets/images/originals-31/ecom-03-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/ecom-03-prezzo-variabile-700.webp",
+    "srcset": "/assets/images/cards-43/ecom-03-prezzo-variabile-350.webp 350w, /assets/images/cards-43/ecom-03-prezzo-variabile-700.webp 700w, /assets/images/cards-43/ecom-03-prezzo-variabile-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 818,
     "alt": "Illustrazione di una sedia con opzioni di personalizzazione e riepilogo del prezzo.",
-    "background": "#fefefe"
+    "background": "#fefdfd"
   },
   "ECOM-04": {
     "id": "ECOM-04",
-    "src": "/assets/images/originals-31/ecom-04-original-700.webp",
-    "srcset": "/assets/images/originals-31/ecom-04-original-350.webp 350w, /assets/images/originals-31/ecom-04-original-700.webp 700w, /assets/images/originals-31/ecom-04-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/ecom-04-ordini-completi-700.webp",
+    "srcset": "/assets/images/cards-43/ecom-04-ordini-completi-350.webp 350w, /assets/images/cards-43/ecom-04-ordini-completi-700.webp 700w, /assets/images/cards-43/ecom-04-ordini-completi-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 818,
     "alt": "Illustrazione di uno zaino configurabile con accessori e riepilogo dell’ordine.",
-    "background": "#fefefe"
+    "background": "#fefdfd"
   },
   "CPQ-01": {
     "id": "CPQ-01",
-    "src": "/assets/images/originals-31/cpq-01-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-01-original-350.webp 350w, /assets/images/originals-31/cpq-01-original-700.webp 700w, /assets/images/originals-31/cpq-01-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-01-preventivi-e-pdf-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-01-preventivi-e-pdf-350.webp 350w, /assets/images/cards-43/cpq-01-preventivi-e-pdf-700.webp 700w, /assets/images/cards-43/cpq-01-preventivi-e-pdf-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
-    "height": 817,
+    "height": 818,
     "alt": "Illustrazione di un configuratore e di un documento di offerta per una struttura outdoor.",
-    "background": "#fefefe"
+    "background": "#fefdfd"
   },
   "CPQ-02": {
     "id": "CPQ-02",
-    "src": "/assets/images/originals-31/cpq-02-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-02-original-350.webp 350w, /assets/images/originals-31/cpq-02-original-700.webp 700w, /assets/images/originals-31/cpq-02-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-02-account-ruoli-e-autorizzazioni-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-02-account-ruoli-e-autorizzazioni-350.webp 350w, /assets/images/cards-43/cpq-02-account-ruoli-e-autorizzazioni-700.webp 700w, /assets/images/cards-43/cpq-02-account-ruoli-e-autorizzazioni-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 817,
@@ -121,8 +121,8 @@
   },
   "CPQ-03": {
     "id": "CPQ-03",
-    "src": "/assets/images/originals-31/cpq-03-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-03-original-350.webp 350w, /assets/images/originals-31/cpq-03-original-700.webp 700w, /assets/images/originals-31/cpq-03-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-03-salvataggi-e-duplicazioni-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-03-salvataggi-e-duplicazioni-350.webp 350w, /assets/images/cards-43/cpq-03-salvataggi-e-duplicazioni-700.webp 700w, /assets/images/cards-43/cpq-03-salvataggi-e-duplicazioni-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 818,
@@ -131,18 +131,18 @@
   },
   "CPQ-04": {
     "id": "CPQ-04",
-    "src": "/assets/images/originals-31/cpq-04-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-04-original-350.webp 350w, /assets/images/originals-31/cpq-04-original-700.webp 700w, /assets/images/originals-31/cpq-04-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-04-revisioni-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-04-revisioni-350.webp 350w, /assets/images/cards-43/cpq-04-revisioni-700.webp 700w, /assets/images/cards-43/cpq-04-revisioni-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 875,
     "alt": "Illustrazione di versioni successive di una configurazione e dei relativi documenti.",
-    "background": "#fefefe"
+    "background": "#fefdfd"
   },
   "CPQ-05": {
     "id": "CPQ-05",
-    "src": "/assets/images/originals-31/cpq-05-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-05-original-350.webp 350w, /assets/images/originals-31/cpq-05-original-700.webp 700w, /assets/images/originals-31/cpq-05-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-05-agenti-dealer-e-clienti-b2b-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-05-agenti-dealer-e-clienti-b2b-350.webp 350w, /assets/images/cards-43/cpq-05-agenti-dealer-e-clienti-b2b-700.webp 700w, /assets/images/cards-43/cpq-05-agenti-dealer-e-clienti-b2b-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 817,
@@ -151,18 +151,18 @@
   },
   "CPQ-06": {
     "id": "CPQ-06",
-    "src": "/assets/images/originals-31/cpq-06-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-06-original-350.webp 350w, /assets/images/originals-31/cpq-06-original-700.webp 700w, /assets/images/originals-31/cpq-06-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-06-importazioni-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-06-importazioni-350.webp 350w, /assets/images/cards-43/cpq-06-importazioni-700.webp 700w, /assets/images/cards-43/cpq-06-importazioni-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 817,
     "alt": "Illustrazione di un’importazione di cataloghi e dati da file strutturati.",
-    "background": "#fdfefe"
+    "background": "#fefefe"
   },
   "CPQ-07": {
     "id": "CPQ-07",
-    "src": "/assets/images/originals-31/cpq-07-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-07-original-350.webp 350w, /assets/images/originals-31/cpq-07-original-700.webp 700w, /assets/images/originals-31/cpq-07-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-07-dashboard-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-07-dashboard-350.webp 350w, /assets/images/cards-43/cpq-07-dashboard-700.webp 700w, /assets/images/cards-43/cpq-07-dashboard-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 818,
@@ -171,28 +171,28 @@
   },
   "CPQ-08": {
     "id": "CPQ-08",
-    "src": "/assets/images/originals-31/cpq-08-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-08-original-350.webp 350w, /assets/images/originals-31/cpq-08-original-700.webp 700w, /assets/images/originals-31/cpq-08-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-08-documenti-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-08-documenti-350.webp 350w, /assets/images/cards-43/cpq-08-documenti-700.webp 700w, /assets/images/cards-43/cpq-08-documenti-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 817,
     "alt": "Illustrazione di un archivio di documenti commerciali in un portale.",
-    "background": "#fefefe"
+    "background": "#fefdfd"
   },
   "CPQ-09": {
     "id": "CPQ-09",
-    "src": "/assets/images/originals-31/cpq-09-original-700.webp",
-    "srcset": "/assets/images/originals-31/cpq-09-original-350.webp 350w, /assets/images/originals-31/cpq-09-original-700.webp 700w, /assets/images/originals-31/cpq-09-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/cpq-09-integrazioni-da-analizzare-700.webp",
+    "srcset": "/assets/images/cards-43/cpq-09-integrazioni-da-analizzare-350.webp 350w, /assets/images/cards-43/cpq-09-integrazioni-da-analizzare-700.webp 700w, /assets/images/cards-43/cpq-09-integrazioni-da-analizzare-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 818,
     "alt": "Illustrazione concettuale di collegamenti tra un portale e sistemi ERP, CRM ed e-commerce.",
-    "background": "#fefffe"
+    "background": "#fefefe"
   },
   "PLANNER-01": {
     "id": "PLANNER-01",
-    "src": "/assets/images/originals-31/planner-01-original-700.webp",
-    "srcset": "/assets/images/originals-31/planner-01-original-350.webp 350w, /assets/images/originals-31/planner-01-original-700.webp 700w, /assets/images/originals-31/planner-01-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/planner-01-composizioni-modulari-700.webp",
+    "srcset": "/assets/images/cards-43/planner-01-composizioni-modulari-350.webp 350w, /assets/images/cards-43/planner-01-composizioni-modulari-700.webp 700w, /assets/images/cards-43/planner-01-composizioni-modulari-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 818,
@@ -201,18 +201,18 @@
   },
   "PLANNER-02": {
     "id": "PLANNER-02",
-    "src": "/assets/images/originals-31/planner-02-original-700.webp",
-    "srcset": "/assets/images/originals-31/planner-02-original-350.webp 350w, /assets/images/originals-31/planner-02-original-700.webp 700w, /assets/images/originals-31/planner-02-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/planner-02-misure-e-vincoli-700.webp",
+    "srcset": "/assets/images/cards-43/planner-02-misure-e-vincoli-350.webp 350w, /assets/images/cards-43/planner-02-misure-e-vincoli-700.webp 700w, /assets/images/cards-43/planner-02-misure-e-vincoli-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 817,
     "alt": "Illustrazione di un planner con misure e verifiche dimensionali.",
-    "background": "#fefefe"
+    "background": "#fefefd"
   },
   "PLANNER-03": {
     "id": "PLANNER-03",
-    "src": "/assets/images/originals-31/planner-03-original-700.webp",
-    "srcset": "/assets/images/originals-31/planner-03-original-350.webp 350w, /assets/images/originals-31/planner-03-original-700.webp 700w, /assets/images/originals-31/planner-03-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/planner-03-cataloghi-estesi-700.webp",
+    "srcset": "/assets/images/cards-43/planner-03-cataloghi-estesi-350.webp 350w, /assets/images/cards-43/planner-03-cataloghi-estesi-700.webp 700w, /assets/images/cards-43/planner-03-cataloghi-estesi-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
     "height": 817,
@@ -221,12 +221,102 @@
   },
   "PLANNER-04": {
     "id": "PLANNER-04",
-    "src": "/assets/images/originals-31/planner-04-original-700.webp",
-    "srcset": "/assets/images/originals-31/planner-04-original-350.webp 350w, /assets/images/originals-31/planner-04-original-700.webp 700w, /assets/images/originals-31/planner-04-original-1050.webp 1050w",
+    "src": "/assets/images/cards-43/planner-04-rete-commerciale-700.webp",
+    "srcset": "/assets/images/cards-43/planner-04-rete-commerciale-350.webp 350w, /assets/images/cards-43/planner-04-rete-commerciale-700.webp 700w, /assets/images/cards-43/planner-04-rete-commerciale-1050.webp 1050w",
     "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
     "width": 700,
-    "height": 817,
+    "height": 818,
     "alt": "Illustrazione di un portale di arredo per agenti e rivenditori.",
-    "background": "#fdfefe"
+    "background": "#fefefe"
+  },
+  "AI-01": {
+    "id": "AI-01",
+    "src": "/assets/images/cards-43/ai-01-estrazione-da-pdf-e-listini-700.webp",
+    "srcset": "/assets/images/cards-43/ai-01-estrazione-da-pdf-e-listini-350.webp 350w, /assets/images/cards-43/ai-01-estrazione-da-pdf-e-listini-700.webp 700w, /assets/images/cards-43/ai-01-estrazione-da-pdf-e-listini-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 818,
+    "alt": "Illustrazione di dati estratti da un listino PDF e presentati per la verifica.",
+    "background": "#fefefe"
+  },
+  "AI-02": {
+    "id": "AI-02",
+    "src": "/assets/images/cards-43/ai-02-classificazione-700.webp",
+    "srcset": "/assets/images/cards-43/ai-02-classificazione-350.webp 350w, /assets/images/cards-43/ai-02-classificazione-700.webp 700w, /assets/images/cards-43/ai-02-classificazione-1024.webp 1024w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 1050,
+    "alt": "Illustrazione di richieste organizzate in categorie tramite un passaggio AI.",
+    "background": "#fefefe"
+  },
+  "AI-03": {
+    "id": "AI-03",
+    "src": "/assets/images/cards-43/ai-03-documenti-e-bozze-di-offerta-700.webp",
+    "srcset": "/assets/images/cards-43/ai-03-documenti-e-bozze-di-offerta-350.webp 350w, /assets/images/cards-43/ai-03-documenti-e-bozze-di-offerta-700.webp 700w, /assets/images/cards-43/ai-03-documenti-e-bozze-di-offerta-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 875,
+    "alt": "Illustrazione di documenti e dati che contribuiscono alla preparazione di una bozza di offerta.",
+    "background": "#fefefe"
+  },
+  "AI-04": {
+    "id": "AI-04",
+    "src": "/assets/images/cards-43/ai-04-assistenza-contestuale-700.webp",
+    "srcset": "/assets/images/cards-43/ai-04-assistenza-contestuale-350.webp 350w, /assets/images/cards-43/ai-04-assistenza-contestuale-700.webp 700w, /assets/images/cards-43/ai-04-assistenza-contestuale-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 875,
+    "alt": "Illustrazione di informazioni di supporto affiancate a una configurazione di prodotto.",
+    "background": "#fefdfd"
+  },
+  "AI-05": {
+    "id": "AI-05",
+    "src": "/assets/images/cards-43/ai-05-form-email-crm-e-portali-700.webp",
+    "srcset": "/assets/images/cards-43/ai-05-form-email-crm-e-portali-350.webp 350w, /assets/images/cards-43/ai-05-form-email-crm-e-portali-700.webp 700w, /assets/images/cards-43/ai-05-form-email-crm-e-portali-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 875,
+    "alt": "Illustrazione di una richiesta collegata a email, CRM e portale attraverso un flusso AI.",
+    "background": "#fefefe"
+  },
+  "AI-06": {
+    "id": "AI-06",
+    "src": "/assets/images/cards-43/ai-06-controlli-sui-workflow-700.webp",
+    "srcset": "/assets/images/cards-43/ai-06-controlli-sui-workflow-350.webp 350w, /assets/images/cards-43/ai-06-controlli-sui-workflow-700.webp 700w, /assets/images/cards-43/ai-06-controlli-sui-workflow-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 875,
+    "alt": "Illustrazione di controlli su dati mancanti ed eccezioni in un flusso operativo.",
+    "background": "#fefefe"
+  },
+  "AI-07": {
+    "id": "AI-07",
+    "src": "/assets/images/cards-43/ai-07-ricerca-documentale-700.webp",
+    "srcset": "/assets/images/cards-43/ai-07-ricerca-documentale-350.webp 350w, /assets/images/cards-43/ai-07-ricerca-documentale-700.webp 700w, /assets/images/cards-43/ai-07-ricerca-documentale-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 875,
+    "alt": "Illustrazione di un assistente che consulta documenti e ne richiama le fonti.",
+    "background": "#fefdfe"
+  },
+  "AI-08": {
+    "id": "AI-08",
+    "src": "/assets/images/cards-43/ai-08-assistenti-interni-contestuali-700.webp",
+    "srcset": "/assets/images/cards-43/ai-08-assistenti-interni-contestuali-350.webp 350w, /assets/images/cards-43/ai-08-assistenti-interni-contestuali-700.webp 700w, /assets/images/cards-43/ai-08-assistenti-interni-contestuali-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 875,
+    "alt": "Illustrazione di un assistente interno affiancato a informazioni e attività commerciali.",
+    "background": "#fefefe"
+  },
+  "AI-09": {
+    "id": "AI-09",
+    "src": "/assets/images/cards-43/ai-09-revisione-e-approvazione-700.webp",
+    "srcset": "/assets/images/cards-43/ai-09-revisione-e-approvazione-350.webp 350w, /assets/images/cards-43/ai-09-revisione-e-approvazione-700.webp 700w, /assets/images/cards-43/ai-09-revisione-e-approvazione-1050.webp 1050w",
+    "sizes": "(max-width: 348px) calc(100vw - 3rem), (max-width: 720px) 300px, 350px",
+    "width": 700,
+    "height": 875,
+    "alt": "Illustrazione di un’offerta sottoposta a revisione umana prima dei passaggi successivi.",
+    "background": "#fefefe"
   }
 }

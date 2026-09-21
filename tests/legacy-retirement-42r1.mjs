@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {readGitBlobBuffer,runGitText,hashFileWithGitFilters} from './git-binary-reader.mjs';
+import {BASE_43,assertCleanConfig43,isClean43ProductFile} from './clean-images-43.mjs';
 export const BASE_42='12392f74c007c597394abf864bc4dc31484c8e2f';
 export const retired42=Object.freeze([
   "chatbot-ai-intelligenti.html",
@@ -157,10 +158,16 @@ export function assertExactRetirement42(file,current,old) {
 }
 export function assertRetirement42Sources(root) {
  for(const file of Object.keys(edits42)) {
-  assertExactRetirement42(file,fs.readFileSync(path.join(root,file),'utf8'),readGitBlobBuffer(BASE_42,file,root).buffer.toString('utf8'));
+  let current=fs.readFileSync(path.join(root,file),'utf8');
+  if(file==='eleventy.config.js') {
+   const before43=readGitBlobBuffer(BASE_43,file,root).buffer.toString('utf8');
+   assertCleanConfig43(current,before43);
+   current=before43;
+  }
+  assertExactRetirement42(file,current,readGitBlobBuffer(BASE_42,file,root).buffer.toString('utf8'));
  }
  const changes=runGitText(['diff','--name-only',BASE_42,'--'],root).trim().split('\n').filter(Boolean);
- for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42 product allowlist');
+ for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||isClean43ProductFile(file)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42/43 product allowlist');
  // Header41 separately enforces the sole staging noindex difference.
  const sources=retired42.map(file=>{
   const old=readGitBlobBuffer(BASE_42,file,root);
