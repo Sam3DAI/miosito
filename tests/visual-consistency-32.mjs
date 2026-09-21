@@ -5,6 +5,7 @@ import crypto from "node:crypto";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
 import { beforePolish33 } from "./site-final-polish-33.mjs";
 import { beforeNonvisual40 } from "./nonvisual-readiness-40.mjs";
+import { beforeCleanImages43, aiItems43 } from "./clean-images-43.mjs";
 
 export const BASE_32 = "93262817ac1473f937148d5cc8d2298a5eeb85e9";
 export const headingContract32 = JSON.parse(fs.readFileSync(new URL("./heading-contract-32.json", import.meta.url), "utf8"));
@@ -48,7 +49,7 @@ export function assertVisual32Sources(root) {
     const beforeParagraphs = name === "contattaci" ? before.replace(/<details class="faq-item">[\s\S]*?<\/details>/g, "") : before;
     assert.deepEqual(paras(after),paras(beforeParagraphs),file+" substantive paragraphs preserved");
     const sets = text => (text.match(/{% set (?:methodSteps|processItems|useItems) = \[[\s\S]*?\] %}/g)||[]).map(block=>block.replace(/, (?:icon|accent|highlight): "[^"]*"/g,""));
-    assert.deepEqual(sets(after),sets(before),file+" process and AI use-case text/order");
+    assert.deepEqual(sets(beforeCleanImages43(file,after)),sets(before),file+" process and AI use-case text/order, excluding only literal task43 image bindings");
   }
   const foundation=read(root,"css/foundation.css"), marketing=read(root,"css/marketing-pages.css");
   assert.match(foundation,/--sx-bg:\s*light-dark\(#f5f5f7, #000000\)/);
@@ -81,16 +82,18 @@ export function assertVisual32Html(route,html) {
   assert.doesNotMatch(html,/>[^<]*(?:Visualizzazione illustrativa SolveX|Illustrazioni di esempio, non screenshot di progetti realizzati|Esempio illustrativo\. Le integrazioni)/);
   if(Object.hasOwn(cardCounts32,route)) {
     const tags=[...html.matchAll(/<[^>]+data-card-accent="([^"]+)"[^>]*>/g)];
-    assert.equal(tags.length,cardCounts32[route],route+" complete semantic card inventory");
+    const illustrated43 = route === "/automazioni-ai-business" ? aiItems43.length : 0;
+    assert.equal(tags.length + illustrated43,cardCounts32[route],route+" complete semantic card inventory including nine task43 image cards");
     for(const m of tags) assert.ok(["blue","violet","orange","teal","green","magenta"].includes(m[1]));
-    assert.equal((html.match(/class="accent-text"/g)||[]).length,tags.length,route+" exactly one highlighted portion per functional card");
+    assert.equal((html.match(/class="accent-text"/g)||[]).length,tags.length + illustrated43,route+" exactly one highlighted portion per functional card");
   }
   if(route==="/automazioni-ai-business") {
     assert.match(html,/<section class="page-hero page-hero--compact page-hero--text">/);
     assert.doesNotMatch(html,/<aside class="hero-editorial-note"/);
     const rail=html.match(/<ol[^>]*id="automation-uses"[\s\S]*?<\/ol>/)[0];
     assert.equal((rail.match(/data-rail-card/g)||[]).length,9);
-    assert.doesNotMatch(rail,/<img\b/);
+    assert.equal((rail.match(/<img\b/g)||[]).length,9,'Task43 illustrates exactly the existing nine AI cards');
+    assert.deepEqual([...rail.matchAll(/data-original-asset="([^"]+)"/g)].map(m=>m[1]),aiItems43.map(a=>a.id),'Task43 exact AI image slot order');
     assert.equal((html.match(/Input autorizzato, elaborazione circoscritta, controllo umano e output destinato al sistema corretto\./g)||[]).length,1);
   }
   if(route==="/contattaci") {

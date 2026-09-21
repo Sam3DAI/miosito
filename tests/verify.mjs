@@ -36,7 +36,8 @@ import { assertQuote38Sources, assertQuote38Html } from "./quote-cta-38.mjs";
 import { assertNonvisual40Sources, assertNonvisual40Html, beforeNonvisual40, beforePrivacy40Html } from "./nonvisual-readiness-40.mjs";
 import { assertNonvisual41Sources } from "./nonvisual-closure-41.mjs";
 import { assertRetirement42Sources, assertRetirement42Output } from "./legacy-retirement-42r1.mjs";
-import { originalFiles, assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
+import { assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
+import { publishedImageFiles43, assertCleanSources43, assertCleanOutput43 } from "./clean-images-43.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
@@ -88,7 +89,7 @@ const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
   "js/service-demo-form.js",
   "js/netlify-lead-form.js",
   "sitemap.xml",
-  ...originalFiles
+  ...publishedImageFiles43
 ]);
 
 const EXPECTED_GENERATED_ROUTES = Object.freeze([
@@ -458,7 +459,8 @@ const expectedRailImages = Object.freeze({
   "configuratori-ecommerce.html": Object.freeze({ "ecommerce-needs": 4 }),
   "software-cpq-portali-commerciali.html": Object.freeze({ "cpq-modules": 9 }),
   "planner-configuratori-arredamento.html": Object.freeze({ "planner-scenarios": 4 }),
-  "automazioni-ai-business.html": Object.freeze({ "automation-uses": 0 })
+  // Task43 adds one owner-approved image to each of the nine existing AI cards.
+  "automazioni-ai-business.html": Object.freeze({ "automation-uses": 9 })
 });
 
 const institutionalVoiceDestinations = Object.freeze(new Set([
@@ -1388,7 +1390,7 @@ function assertPerformanceBudget(route, htmlBuffer) {
     assert.equal(fs.existsSync(resourcePath), true, `${route.publicUrl}: initial resource missing: ${resource}`);
     const bytes = fs.readFileSync(resourcePath);
     // Every local variant is still checked above. Lazy responsive alternatives
-    // are not 69 simultaneous initial transfers; the browser selects per slot.
+    // are not simultaneous initial transfers; the browser selects per slot.
     if (!resources.deferredOriginalImages.includes(resource)) initialTransfer += compressedTransferSize(resource, bytes);
   }
   if (route.profile !== "configurator") {
@@ -1413,7 +1415,7 @@ function assertRouteRegistry() {
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 84, "42R1: existing 83 assets plus exact root-absolute 404 delta");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length, "43: preserved non-image assets plus independently pinned active image variants");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1594,7 +1596,9 @@ function verifyBuiltOutput() {
 
   const missing = missingLinks(expectedOutputs);
   assert.deepEqual(missing, [], "No local-link defects remain in the published artifact");
-  assertRetirement42Output(new Map(builtInventory.rows.map(row => [row.path, fs.readFileSync(path.join(outputRoot,row.path))])));
+  const outputFiles = new Map(builtInventory.rows.map(row => [row.path, fs.readFileSync(path.join(outputRoot,row.path))]));
+  assertRetirement42Output(outputFiles);
+  assertCleanOutput43(outputFiles);
   assertLocalFragments(expectedOutputs);
 
   const sitemap = fs.readFileSync(path.join(outputRoot, "sitemap.xml"), "utf8");
@@ -1663,6 +1667,7 @@ for (const file of EXPECTED_OWNED_STATIC_FILES) {
 }
 
 const originalImageEvidence = assertOriginalSources(root);
+const cleanImage43Evidence = assertCleanSources43(root);
 const visual32SourceEvidence = assertVisual32Sources(root);
 const polish33SourceEvidence = assertPolish33Sources(root);
 const launch36Evidence = assertLaunch36Sources(root);
@@ -1770,6 +1775,7 @@ const summary = {
   legacyReferenceEvidence,
   ownedEvidence,
   originalImageEvidence,
+  cleanImage43Evidence,
   visual32SourceEvidence,
   polish33SourceEvidence,
   launch36Evidence,

@@ -247,6 +247,10 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
 /* This original's document starts higher: retain the full image below the copy. */
 .visual-card--original[data-original-asset="HOME-02"] .visual-card__image { top: auto; height: 85%; }
 .visual-card--original[data-original-asset="PLANNER-04"] .visual-card__image { top: auto; height: 80%; }
+/* The taller AI source needs copy clearance; keep the whole 2:3 composition. */
+.visual-card--original[data-original-asset="AI-02"] .visual-card__image { top: auto; height: 85%; }
+/* Keep the high authorization panel below the existing multi-line AI copy. */
+.visual-card--original[data-original-asset="AI-08"] .visual-card__image { top: auto; height: 80%; }
 @media (max-width: 720px) {
   .visual-card--original[data-original-asset="HOME-03"] .visual-card__image { top: auto; height: 90%; }
 }
