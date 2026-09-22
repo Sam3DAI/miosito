@@ -42,10 +42,10 @@
 <div class="visual-card-rail visual-card-rail--{{ variant }}" data-visual-card-rail role="region" aria-label="{{ label }}">
   <div class="visual-card-rail__controls" data-rail-controls hidden>
     <button type="button" data-rail-previous aria-controls="{{ id }}" aria-label="Mostra le card precedenti">
-      <span aria-hidden="true">←</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 5-7 7 7 7"/></svg>
     </button>
     <button type="button" data-rail-next aria-controls="{{ id }}" aria-label="Mostra le card successive">
-      <span aria-hidden="true">→</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 5 7 7-7 7"/></svg>
     </button>
   </div>
   <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track{% if anchorHeading %} data-rail-anchor-heading="{{ anchorHeading }}"{% endif %} tabindex="0">

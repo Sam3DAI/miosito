@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {contract44,productFiles44,beforeProof44,assertProof44File,assertProof44Sources} from './project-proof-ui-44.mjs';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const read=f=>fs.readFileSync(new URL('../'+f,import.meta.url),'utf8');
+const old=f=>readGitBlobBuffer(contract44.base,f,root).buffer.toString('utf8');
+test('44 only full-width geometry, surfaces and chevrons; no fabricated portfolio',()=>assertProof44Sources(root));
+test('44 exact inverse preserves all historical oracles',()=>{for(const f of productFiles44)assert.equal(beforeProof44(f,read(f)),old(f).replace(/\r\n/g,'\n'));});
+test('44 rejects lost width, wrong reserve, shrink workaround and global typography delta',()=>{const f=productFiles44[0],s=read(f);for(const changed of [s.replace('inset: auto 0 0; width: 100%; height: auto;','inset: auto 0 0; width: 85%; height: auto;'),s.replace('350 / 381','350 / 300'),s+'\nbody {font-size:12px}',s+'\n.visual-card__image {height:80%}'])assert.throws(()=>assertProof44File(f,changed,old(f)),/exact bounded44/);});
+test('44 rejects a shaft, hidden control, missing focus hook and altered copy',()=>{const f=productFiles44[1],s=read(f);for(const changed of [s.replace('m14.5 5-7 7 7 7','M5 12h14'),s.replace('data-rail-next','hidden data-rail-next'),s.replace('Mostra le card successive','Vai altrove'),s.replace('{{ item.text }}','Changed')])assert.throws(()=>assertProof44File(f,changed,old(f)),/exact bounded44/);});
+test('44 keeps lead/3D/consent, imagery, data, headings and portfolio source bytes',()=>{for(const f of ['js/site-shell.js','js/configuratori-3d-2d.js','js/netlify-lead-form.js','js/contattaci.js','js/service-demo-form.js','js/cookie-banner.js','js/ad-attribution-consent.js','src/_data/originalImages31.json','src/_data/serviceDemos.json','src/_data/measurement.json','src/index.njk','src/privacy-policy.njk','src/termini-condizioni.njk','eleventy.config.js','package.json','package-lock.json'])assert.equal(read(f).replace(/\r\n/g,'\n'),old(f).replace(/\r\n/g,'\n'),f+' frozen44');});

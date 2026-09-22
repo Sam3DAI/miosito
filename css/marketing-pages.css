@@ -136,7 +136,7 @@
   flex-direction: column;
   text-decoration: none;
 }
-.card, .editorial-card, .function-grid li, .visual-card__inner { transition: transform 200ms ease, box-shadow 200ms ease; }
+.card, .editorial-card, .function-grid li, .visual-card__inner { transition: transform 200ms ease, box-shadow 200ms ease; box-shadow: 0 2px 6px light-dark(#00000006, #00000018), 0 8px 20px light-dark(#0000000e, #00000024); }
 @media (hover: hover) and (pointer: fine) {
   .card:hover, .editorial-card:hover, .function-grid li:hover,
   .visual-card__inner:hover { transform: scale(1.02); box-shadow: 0 2px 10px light-dark(#00000024, #ffffff24); }
@@ -190,7 +190,7 @@
   margin: 0;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  padding: 1.5rem var(--sx-rail-gutter);
+  padding: 2.5rem var(--sx-rail-gutter);
   gap: 1.25rem;
   list-style: none;
   scroll-padding-inline: var(--sx-rail-gutter);
@@ -244,16 +244,18 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
 /* Only the 21 owner-selected light originals: legacy magenta cards stay white. */
 .visual-card--original .visual-card__inner { background: var(--original-image-bg, #fefefe); }
 .visual-card--original .visual-card__image { object-fit: contain; object-position: 50% 100%; }
-/* This original's document starts higher: retain the full image below the copy. */
-.visual-card--original[data-original-asset="HOME-02"] .visual-card__image { top: auto; height: 85%; }
-.visual-card--original[data-original-asset="PLANNER-04"] .visual-card__image { top: auto; height: 80%; }
-/* The taller AI source needs copy clearance; keep the whole 2:3 composition. */
-.visual-card--original[data-original-asset="AI-02"] .visual-card__image { top: auto; height: 85%; }
-/* Keep the high authorization panel below the existing multi-line AI copy. */
-.visual-card--original[data-original-asset="AI-08"] .visual-card__image { top: auto; height: 80%; }
-@media (max-width: 720px) {
-  .visual-card--original[data-original-asset="HOME-03"] .visual-card__image { top: auto; height: 90%; }
-}
+/* 44: intrinsic full-width images. The flex rail shares the tallest content-led
+   height; copy can reflow. Reserve only the measured subject region below copy,
+   keeping the original quiet upper pixels behind text, without scaling down. */
+:is(#home-problems, #automation-uses, #planner-scenarios) .visual-card { display: flex; }
+:is(#home-problems, #automation-uses, #planner-scenarios) .visual-card__inner { width: 100%; height: auto; min-height: 28.125rem; }
+:is(#home-problems, #automation-uses, #planner-scenarios) .visual-card__image { inset: auto 0 0; width: 100%; height: auto; }
+.visual-card--original[data-original-asset="HOME-02"] { --subject-reserve: 350 / 303; }
+.visual-card--original[data-original-asset="HOME-03"] { --subject-reserve: 350 / 285; }
+.visual-card--original[data-original-asset="PLANNER-04"] { --subject-reserve: 350 / 297; }
+.visual-card--original[data-original-asset="AI-02"] { --subject-reserve: 350 / 381; }
+.visual-card--original[data-original-asset="AI-08"] { --subject-reserve: 350 / 359; }
+.visual-card--original:is([data-original-asset="HOME-02"], [data-original-asset="HOME-03"], [data-original-asset="PLANNER-04"], [data-original-asset="AI-02"], [data-original-asset="AI-08"]) .visual-card__inner::after { content: ""; display: block; flex: 0 0 auto; width: 100%; aspect-ratio: var(--subject-reserve); pointer-events: none; }
 .visual-card--original .visual-card__copy,
 .visual-card--original h3 { color: #1d1d1f; }
 
@@ -285,10 +287,11 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
   pointer-events: auto;
   border: 0;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--sx-bg) 90%, transparent);
-  color: var(--sx-text);
-  font-size: 1.55rem;
+  background: light-dark(#e8e8ed, #2c2c2e);
+  color: light-dark(#6e6e73, #e5e5ea);
 }
+.visual-card-rail__controls svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.visual-card-rail__controls button:focus-visible { outline: 3px solid var(--sx-blue-deep); outline-offset: 3px; }
 .visual-card-rail__controls button:hover:not(:disabled) { color: var(--sx-blue-deep); }
 .visual-card-rail__controls button:disabled { opacity: 0.3; cursor: default; }
 .visual-card-rail__indicators {
@@ -517,6 +520,7 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
   .section-heading--center { text-align: left; }
   .visual-card { flex-basis: min(18.75rem, calc(100vw - 3rem)); }
   .visual-card__inner { height: 25rem; }
+  :is(#home-problems, #automation-uses, #planner-scenarios) .visual-card__inner { min-height: 25rem; }
   .visual-card__copy { padding-top: 2rem; }
   .visual-card-rail--landscape .visual-card { flex-basis: min(22rem, calc(100vw - 3rem)); }
   .visual-card-rail--landscape .visual-card__inner { min-height: 0; }

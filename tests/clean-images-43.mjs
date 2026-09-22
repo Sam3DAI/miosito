@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {readGitBlobBuffer, runGitText} from './git-binary-reader.mjs';
+import {beforeProof44,productFiles44,assertProof44Sources} from './project-proof-ui-44.mjs';
 
 // Test-only digest oracle from the owner package, never imported by the site.
 export const contract43 = JSON.parse(fs.readFileSync(new URL('./clean-images-43-contract.json', import.meta.url), 'utf8'));
@@ -39,7 +40,7 @@ export function clean43Binding(id) {
 // Reverse only the nine literal authorized additions; independent source checks
 // below bind each one to its existing card/title and forbid all other edits.
 export function beforeCleanImages43(file, input) {
-  let source = lf(input);
+  let source = beforeProof44(file,input);
   if (file === 'css/marketing-pages.css') return source.replace(classificationCss43, '').replace(internalAssistantCss43, '');
   if (file !== aiFile) return source;
   for (const item of aiItems43) source = source.replace(clean43Binding(item.id), '');
@@ -101,16 +102,20 @@ export function assertCleanConfig43(current, baseline) {
 }
 
 export function isClean43ProductFile(file) {
-  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file);
+  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file) || productFiles44.includes(file);
 }
 
 export function assertClassificationCss43(source,baseline) {
+  source=beforeProof44('css/marketing-pages.css',source);
   assert.equal(lf(source).split(classificationCss43).length,2,'43 unique observed AI-02 clearance fix');
   assert.equal(lf(source).split(internalAssistantCss43).length,2,'43 unique observed AI-08 clearance fix');
   assert.equal(beforeCleanImages43('css/marketing-pages.css',source),lf(baseline),'43 CSS only the exact AI-02/AI-08 positioning deltas');
 }
 
 export function assertCleanSources43(root) {
+  // Owner explicitly approved the literal CSS/SVG adaptation for44. Validate
+  // the entire bounded delta first; all historical43 checks still run below.
+  assertProof44Sources(root);
   const baseline = file => readGitBlobBuffer(BASE_43,file,root).buffer.toString('utf8');
   const metadata = assertMetadata43(JSON.parse(fs.readFileSync(path.join(root,dataFile),'utf8')),JSON.parse(baseline(dataFile)));
   assertAiBindings43(fs.readFileSync(path.join(root,aiFile),'utf8'),baseline(aiFile));

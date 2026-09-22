@@ -5,6 +5,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {assertRetirement42Output} from './legacy-retirement-42r1.mjs';
+import {beforeProof44} from './project-proof-ui-44.mjs';
 import {BASE_43,contract43,aiItems43,cleanFiles43,keptFiles43,unusedFiles43,assertMetadata43,assertAiBindings43,assertCleanFile43,assertImageFiles43,assertCleanSources43,assertCleanOutput43,assertCleanConfig43,clean43Binding,assertClassificationCss43} from './clean-images-43.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -99,7 +100,7 @@ test('43 CSS cannot request the new HTML images a second time',()=>{
   assert.throws(()=>assertCleanOutput43(files),/duplicate CSS image requests/);
 });
 test('43 observed Classificazione and Assistenti interni clearances are the only exact CSS exceptions',()=>{
-  const source=read('css/marketing-pages.css'),old=baseline('css/marketing-pages.css');
+  const source=beforeProof44('css/marketing-pages.css',read('css/marketing-pages.css')),old=baseline('css/marketing-pages.css');
   assertClassificationCss43(source,old);
   assert.throws(()=>assertClassificationCss43(source+'\nbody { color: red; }',old),/only the exact/);
   assert.throws(()=>assertClassificationCss43(source.replace('keep the whole 2:3 composition.','allow crop.'),old),/unique observed/);
