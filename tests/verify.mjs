@@ -38,9 +38,11 @@ import { assertNonvisual41Sources } from "./nonvisual-closure-41.mjs";
 import { assertRetirement42Sources, assertRetirement42Output } from "./legacy-retirement-42r1.mjs";
 import { assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 import { publishedImageFiles43, assertCleanSources43, assertCleanOutput43 } from "./clean-images-43.mjs";
+import { assertProof44Sources } from "./project-proof-ui-44.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
+assertProof44Sources(root);
 const eleventyCli = path.join(root, "node_modules", "@11ty", "eleventy", "cmd.cjs");
 const maxBuffer = 64 * 1024 * 1024;
 const htmlBudget = 65 * 1024;
