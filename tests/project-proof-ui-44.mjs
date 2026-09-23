@@ -2,12 +2,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {beforeGalleries44r2} from './project-galleries-44r2.mjs';
 export const contract44=JSON.parse(fs.readFileSync(new URL('./project-proof-ui-44-contract.json',import.meta.url),'utf8'));
 const lf=s=>s.replace(/\r\n/g,'\n');
 export const productFiles44=Object.keys(contract44.edits);
 // Exact inverse only: an unexpected declaration, selector, SVG or adjacent
 // change stays visible to the historical oracle. Never strip arbitrary CSS.
-export function beforeProof44(file,input){let text=lf(input);for(const edit of contract44.edits[file]||[])text=text.replace(edit.after,edit.before);return text;}
+export function beforeProof44(file,input){let text=beforeGalleries44r2(file,input);for(const edit of contract44.edits[file]||[])text=text.replace(edit.after,edit.before);return text;}
 export function assertProof44File(file,current,baseline){
  let expected=lf(baseline);
  for(const edit of contract44.edits[file]||[]){assert.equal(expected.split(edit.before).length,2,file+': unique44 baseline callsite');expected=expected.replace(edit.before,edit.after);}

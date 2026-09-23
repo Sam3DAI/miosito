@@ -18,6 +18,7 @@ const unitTests = Object.freeze([
   "tests/legacy-retirement-42r1.test.mjs",
   "tests/clean-images-43.test.mjs",
   "tests/project-proof-ui-44.test.mjs",
+  "tests/project-galleries-44r2.test.mjs",
   "tests/cookie-runtime-40.test.mjs",
   "tests/lead-form-runtime.test.mjs",
   "tests/site-shell.test.mjs",
