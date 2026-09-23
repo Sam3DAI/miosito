@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {readGitBlobBuffer, runGitText} from './git-binary-reader.mjs';
 import {beforeProof44,productFiles44,assertProof44Sources} from './project-proof-ui-44.mjs';
+import {beforeGalleries44r2,galleryProductFiles44r2,assertGallerySources44r2} from './project-galleries-44r2.mjs';
 
 // Test-only digest oracle from the owner package, never imported by the site.
 export const contract43 = JSON.parse(fs.readFileSync(new URL('./clean-images-43-contract.json', import.meta.url), 'utf8'));
@@ -94,6 +95,7 @@ export function assertImageFiles43(files) {
 }
 
 export function assertCleanConfig43(current, baseline) {
+  current=beforeGalleries44r2('eleventy.config.js',current);
   const entries = source => [...source.matchAll(/^  "(assets\/images\/(?:originals-31|cards-43)\/[^"\n]+)"[,]?$/gm)].map(m => m[1]);
   assert.deepEqual(entries(lf(current)), publishedImageFiles43, '43 exact 12 retained and 84 new published image files');
   assert.equal(entries(lf(baseline)).length,69, '43 baseline publish image inventory');
@@ -102,7 +104,7 @@ export function assertCleanConfig43(current, baseline) {
 }
 
 export function isClean43ProductFile(file) {
-  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file) || productFiles44.includes(file);
+  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file) || productFiles44.includes(file) || galleryProductFiles44r2.includes(file);
 }
 
 export function assertClassificationCss43(source,baseline) {
@@ -113,6 +115,7 @@ export function assertClassificationCss43(source,baseline) {
 }
 
 export function assertCleanSources43(root) {
+  assertGallerySources44r2(root);
   // Owner explicitly approved the literal CSS/SVG adaptation for44. Validate
   // the entire bounded delta first; all historical43 checks still run below.
   assertProof44Sources(root);

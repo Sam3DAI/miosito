@@ -1,0 +1,34 @@
+[
+  {
+    "id": "biliarditaly",
+    "name": "BiliardItaly",
+    "title": "BiliardItaly — Configuratore 3D",
+    "description": "Un configuratore web per esplorare MODEL X, scegliere materiali e panno e visualizzare la copertura del biliardo.",
+    "views": [
+      { "file": "biliarditaly-model-x", "alt": "BiliardItaly: MODEL X con struttura naturale e panno verde nella UI del configuratore.", "caption": "MODEL X nella vista iniziale del configuratore.", "width": 1280, "height": 720 },
+      { "file": "biliarditaly-materiali", "alt": "BiliardItaly: struttura Laccato Nero e panno Tournament Blue, con palette dei materiali aperta.", "caption": "Scelta del panno Tournament Blue con struttura Laccato Nero.", "width": 1280, "height": 720 },
+      { "file": "biliarditaly-copertura", "alt": "BiliardItaly: copertura in vetro attiva con il relativo controllo selezionato.", "caption": "Visualizzazione della copertura in vetro.", "width": 1280, "height": 720 }
+    ]
+  },
+  {
+    "id": "linea-oro",
+    "name": "Linea Oro",
+    "title": "Linea Oro — Configuratore di set",
+    "description": "Un portale per consultare il catalogo di abbigliamento sportivo e comporre set attraverso preset grafici, categorie e selezione degli articoli.",
+    "views": [
+      { "file": "linea-oro-set-gara", "alt": "Linea Oro: set gara con sei articoli, società di fantasia e valori economici oscurati.", "caption": "Composizione di un set gara con gli articoli del catalogo dimostrativo. Valori economici oscurati.", "width": 1280, "height": 800 },
+      { "file": "linea-oro-catalogo", "alt": "Linea Oro: catalogo con sei prodotti dimostrativi e relative immagini, con prezzi oscurati.", "caption": "Catalogo prodotti con codici, immagini e categorie. Prezzi oscurati.", "width": 1280, "height": 800 }
+    ]
+  },
+  {
+    "id": "pilan",
+    "name": "Pilan",
+    "title": "Pilan — Configuratore di cucine outdoor",
+    "description": "Un configuratore per comporre cucine outdoor modulari, selezionare finiture e aggiungere elementi compatibili nella scena 3D.",
+    "views": [
+      { "file": "pilan-composizione", "alt": "Pilan: due moduli cucina nella scena 3D in finitura Corten, con importi oscurati.", "caption": "Composizione di due moduli con finitura Corten. Importi dimostrativi oscurati.", "width": 1280, "height": 800 },
+      { "file": "pilan-modulo", "alt": "Pilan: primo modulo cucina e punti di aggiunta nella scena 3D, con importi oscurati.", "caption": "Inserimento del primo modulo e punti di aggiunta nella scena. Importi dimostrativi oscurati.", "width": 1280, "height": 800 },
+      { "file": "pilan-fianco", "alt": "Pilan: composizione con fianco terminale e finitura Sabbia, con importi oscurati.", "caption": "Aggiunta del fianco terminale e selezione della finitura Sabbia. Importi dimostrativi oscurati.", "width": 1280, "height": 800 }
+    ]
+  }
+]

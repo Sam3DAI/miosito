@@ -1,0 +1,34 @@
+/* Portfolio only: preserves the UI44 service cards, typography and rail engine. */
+.project-proof-rail .project-media { width: 100%; margin: 0; aspect-ratio: auto; }
+.project-proof-rail .project-media img { display: block; width: 100%; height: auto; border-radius: 0; object-fit: contain; }
+.project-proof-rail .visual-card__inner { overflow: hidden; }
+.project-proof-rail .visual-card__copy h3 { color: var(--sx-text); }
+.project-proof-cta { display: inline-block; margin-top: 1rem; color: var(--sx-blue-deep); font-weight: 600; }
+.project-proof-fallback { margin-block: 2rem; scroll-margin-top: var(--sx-anchor-offset); }
+.proof-gallery {
+  width: min(1120px, calc(100% - 2rem)); max-width: none; max-height: calc(100svh - 2rem);
+  padding: 0; border: 1px solid var(--sx-border); border-radius: var(--sx-radius-md);
+  color: var(--sx-text); background: var(--sx-bg-elevated); box-shadow: var(--sx-shadow-lg);
+  overflow: auto; overscroll-behavior: contain;
+}
+.proof-gallery::backdrop { background: #0009; }
+.proof-gallery__header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: var(--sx-bg-elevated); border-bottom: 1px solid var(--sx-border); }
+.proof-gallery__header h3 { margin: 0; flex: 1; min-width: 0; font-size: var(--sx-type-card); overflow-wrap: anywhere; }
+.proof-gallery__close, .proof-gallery__navigation button { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 1px solid var(--sx-border); border-radius: 50%; color: var(--sx-text); background: var(--sx-bg); cursor: pointer; }
+.proof-gallery__close { font-size: 1.75rem; line-height: 1; }
+.proof-gallery__body { padding: 1rem 1.5rem 1.5rem; }
+.proof-gallery__body > p { margin: 0 0 .75rem; }
+.proof-gallery__note, .proof-gallery figcaption { color: var(--sx-text-muted); font-size: .875rem; }
+.proof-gallery figure { margin: 1rem 0 0; }
+.proof-gallery figure[hidden] { display: none; }
+.proof-gallery figure img { display: block; width: 100%; height: auto; object-fit: contain; border-radius: .5rem; }
+.proof-gallery figcaption { margin-top: .75rem; }
+.proof-gallery__navigation { display: flex; gap: 1rem; align-items: center; justify-content: center; margin: 1.25rem 0; }
+.proof-gallery__navigation svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.proof-gallery__body > .button { display: flex; width: fit-content; max-width: 100%; margin-inline: auto; text-align: center; white-space: normal; }
+@media (max-width: 720px) {
+  .proof-gallery { width: calc(100% - 1rem); max-height: calc(100svh - 1rem); border-radius: var(--sx-radius-sm); }
+  .proof-gallery__header { padding: .75rem; gap: .5rem; }
+  .proof-gallery__body { padding: .75rem; }
+  .proof-gallery__navigation { gap: .75rem; }
+}

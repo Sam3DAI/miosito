@@ -5,6 +5,7 @@ import { readGitBlobBuffer } from "./git-binary-reader.mjs";
 import { beforeReadiness36 } from "./launch-readiness-36.mjs";
 import { beforeQuote38 } from "./quote-cta-38.mjs";
 import { beforeCleanImages43 } from "./clean-images-43.mjs";
+import { beforeGalleries44r2 } from "./project-galleries-44r2.mjs";
 
 export const BASE_33 = "fb2f1b919f40c0dc50b787b38759bb60080ab3c0";
 const lf = text => text.replace(/\r\n/g, "\n");
@@ -28,7 +29,7 @@ const homeCssPattern = /\/\* Home-only composition\.[\s\S]*?\n\}\n(?=\.capabilit
 // Reconstruct only the owner-authorized task33 changes when applying historical
 // task32 guards. All other text/metadata/menu/rail code must still compare exactly.
 export function beforePolish33(file, input) {
-  let text = beforeReadiness36(file, input);
+  let text = beforeReadiness36(file, beforeGalleries44r2(file, input));
   if (file === "js/site-shell.js") return text.replace(metaSync, "").replace(motionPattern, "");
   if (file === "src/_data/navigation.json") return text.replace('"label": "Configuratori",', '"label": "Configuratori 2D/3D",');
   if (file === "src/configuratori-3d-2d.njk") return text.replace("breadcrumbLabel: Configuratori\n", "breadcrumbLabel: Configuratori 2D/3D\n").replace(newIntro, oldIntro);

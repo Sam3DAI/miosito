@@ -162,14 +162,9 @@ twitter:
     <div class="section-heading rail-heading" id="progetti">
       <span class="section-kicker">Esperienza applicata</span>
       <h2 id="projects-title"><span class="statement-line">Alcuni dei nostri progetti</span></h2>
-      <p>Esempi anonimi descritti per funzione, senza esporre nomi, dati o risultati dei clienti.</p>
+      <p>Progetti realizzati per configurare prodotti e supportare il lavoro commerciale.</p>
     </div>
-    {% set projectItems = [
-      { title: "Configurazione 3D di prodotto.", text: "Un’esperienza web per selezionare varianti e leggere visivamente la configurazione.", icon: "configuration", image: "", alt: "" },
-      { title: "Portale preventivi B2B.", text: "Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.", icon: "users", image: "", alt: "" },
-      { title: "Configuratore tecnico con listini e PDF.", text: "Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.", icon: "documents", image: "", alt: "" }
-    ] %}
-    {{ visualCardRail("home-projects", "Progetti anonimi per funzione", projectItems, "landscape") }}
+    {% include "partials/project-proof-galleries.njk" %}
   </section>
 
   <section class="section section--tinted" aria-labelledby="method-title">
@@ -224,4 +219,9 @@ twitter:
     {{ finalCta(["Rendiamo più semplice","un processo commerciale complesso."], "Partiamo da catalogo, utenti e passaggi reali per capire quale soluzione ha senso costruire.", "Richiedi un preventivo", true, "/contattaci#contatti") }}
   </section>
 </main>
+{% endblock %}
+
+{% block headExtras %}
+  <link rel="stylesheet" href="/css/project-proof-galleries.css">
+  <script src="/js/project-proof-galleries.js" defer></script>
 {% endblock %}

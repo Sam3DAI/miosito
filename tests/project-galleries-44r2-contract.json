@@ -1,0 +1,336 @@
+{
+  "base": "1bf8bbd045b2246dba879bb4002f4c5595480e44",
+  "evidence": "Eight authentic browser captures: B01-B03, L01-L02, P01-P03; synthetic data and irreversible economic-value masks. Private provenance is held in the external task dossier.",
+  "edits": {
+    "src/index.njk": [
+      {
+        "before": "      <p>Esempi anonimi descritti per funzione, senza esporre nomi, dati o risultati dei clienti.</p>",
+        "after": "      <p>Progetti realizzati per configurare prodotti e supportare il lavoro commerciale.</p>"
+      },
+      {
+        "before": "    {% set projectItems = [\n      { title: \"Configurazione 3D di prodotto.\", text: \"Un’esperienza web per selezionare varianti e leggere visivamente la configurazione.\", icon: \"configuration\", image: \"\", alt: \"\" },\n      { title: \"Portale preventivi B2B.\", text: \"Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.\", icon: \"users\", image: \"\", alt: \"\" },\n      { title: \"Configuratore tecnico con listini e PDF.\", text: \"Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.\", icon: \"documents\", image: \"\", alt: \"\" }\n    ] %}\n    {{ visualCardRail(\"home-projects\", \"Progetti anonimi per funzione\", projectItems, \"landscape\") }}",
+        "after": "    {% include \"partials/project-proof-galleries.njk\" %}"
+      },
+      {
+        "before": "</main>\n{% endblock %}\n",
+        "after": "</main>\n{% endblock %}\n\n{% block headExtras %}\n  <link rel=\"stylesheet\" href=\"/css/project-proof-galleries.css\">\n  <script src=\"/js/project-proof-galleries.js\" defer></script>\n{% endblock %}\n"
+      }
+    ],
+    "eleventy.config.js": [
+      {
+        "before": "export const OWNED_STATIC_FILES = Object.freeze([\n",
+        "after": "export const OWNED_STATIC_FILES = Object.freeze([\n  \"css/project-proof-galleries.css\",\n  \"js/project-proof-galleries.js\",\n  \"assets/images/projects-44r2/biliarditaly-model-x-480.webp\",\n  \"assets/images/projects-44r2/biliarditaly-model-x-800.webp\",\n  \"assets/images/projects-44r2/biliarditaly-model-x-1280.webp\",\n  \"assets/images/projects-44r2/biliarditaly-materiali-480.webp\",\n  \"assets/images/projects-44r2/biliarditaly-materiali-800.webp\",\n  \"assets/images/projects-44r2/biliarditaly-materiali-1280.webp\",\n  \"assets/images/projects-44r2/biliarditaly-copertura-480.webp\",\n  \"assets/images/projects-44r2/biliarditaly-copertura-800.webp\",\n  \"assets/images/projects-44r2/biliarditaly-copertura-1280.webp\",\n  \"assets/images/projects-44r2/linea-oro-set-gara-480.webp\",\n  \"assets/images/projects-44r2/linea-oro-set-gara-800.webp\",\n  \"assets/images/projects-44r2/linea-oro-set-gara-1280.webp\",\n  \"assets/images/projects-44r2/linea-oro-catalogo-480.webp\",\n  \"assets/images/projects-44r2/linea-oro-catalogo-800.webp\",\n  \"assets/images/projects-44r2/linea-oro-catalogo-1280.webp\",\n  \"assets/images/projects-44r2/pilan-composizione-480.webp\",\n  \"assets/images/projects-44r2/pilan-composizione-800.webp\",\n  \"assets/images/projects-44r2/pilan-composizione-1280.webp\",\n  \"assets/images/projects-44r2/pilan-modulo-480.webp\",\n  \"assets/images/projects-44r2/pilan-modulo-800.webp\",\n  \"assets/images/projects-44r2/pilan-modulo-1280.webp\",\n  \"assets/images/projects-44r2/pilan-fianco-480.webp\",\n  \"assets/images/projects-44r2/pilan-fianco-800.webp\",\n  \"assets/images/projects-44r2/pilan-fianco-1280.webp\",\n"
+      }
+    ]
+  },
+  "sourceHashes": {
+    "css/project-proof-galleries.css": "24af0ed73b168c838f9b806021fcf05a6af2b3ae4a649622abea226dbbca8784",
+    "js/project-proof-galleries.js": "f29c1d69abc4e64090c7dc4a0901c5e680f66fc6a0d3b6f208bd74454603f3aa",
+    "src/_includes/partials/project-proof-galleries.njk": "2895a6c726e71dcd29e9c28e0cd70be2b92db97f77e41bd55c8471f400256fc7",
+    "src/_data/projectProofs.json": "b765c2a3bfa6cc444b4c0f677ef91815eabc235a06c8219ebb571b80d5c7317d"
+  },
+  "projects": [
+    {
+      "id": "biliarditaly",
+      "name": "BiliardItaly",
+      "title": "BiliardItaly — Configuratore 3D",
+      "description": "Un configuratore web per esplorare MODEL X, scegliere materiali e panno e visualizzare la copertura del biliardo.",
+      "views": [
+        {
+          "file": "biliarditaly-model-x",
+          "alt": "BiliardItaly: MODEL X con struttura naturale e panno verde nella UI del configuratore.",
+          "caption": "MODEL X nella vista iniziale del configuratore.",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "file": "biliarditaly-materiali",
+          "alt": "BiliardItaly: struttura Laccato Nero e panno Tournament Blue, con palette dei materiali aperta.",
+          "caption": "Scelta del panno Tournament Blue con struttura Laccato Nero.",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "file": "biliarditaly-copertura",
+          "alt": "BiliardItaly: copertura in vetro attiva con il relativo controllo selezionato.",
+          "caption": "Visualizzazione della copertura in vetro.",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "linea-oro",
+      "name": "Linea Oro",
+      "title": "Linea Oro — Configuratore di set",
+      "description": "Un portale per consultare il catalogo di abbigliamento sportivo e comporre set attraverso preset grafici, categorie e selezione degli articoli.",
+      "views": [
+        {
+          "file": "linea-oro-set-gara",
+          "alt": "Linea Oro: set gara con sei articoli, società di fantasia e valori economici oscurati.",
+          "caption": "Composizione di un set gara con gli articoli del catalogo dimostrativo. Valori economici oscurati.",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "file": "linea-oro-catalogo",
+          "alt": "Linea Oro: catalogo con sei prodotti dimostrativi e relative immagini, con prezzi oscurati.",
+          "caption": "Catalogo prodotti con codici, immagini e categorie. Prezzi oscurati.",
+          "width": 1280,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "id": "pilan",
+      "name": "Pilan",
+      "title": "Pilan — Configuratore di cucine outdoor",
+      "description": "Un configuratore per comporre cucine outdoor modulari, selezionare finiture e aggiungere elementi compatibili nella scena 3D.",
+      "views": [
+        {
+          "file": "pilan-composizione",
+          "alt": "Pilan: due moduli cucina nella scena 3D in finitura Corten, con importi oscurati.",
+          "caption": "Composizione di due moduli con finitura Corten. Importi dimostrativi oscurati.",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "file": "pilan-modulo",
+          "alt": "Pilan: primo modulo cucina e punti di aggiunta nella scena 3D, con importi oscurati.",
+          "caption": "Inserimento del primo modulo e punti di aggiunta nella scena. Importi dimostrativi oscurati.",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "file": "pilan-fianco",
+          "alt": "Pilan: composizione con fianco terminale e finitura Sabbia, con importi oscurati.",
+          "caption": "Aggiunta del fianco terminale e selezione della finitura Sabbia. Importi dimostrativi oscurati.",
+          "width": 1280,
+          "height": 800
+        }
+      ]
+    }
+  ],
+  "publishedStatic": [
+    "css/project-proof-galleries.css",
+    "js/project-proof-galleries.js",
+    "assets/images/projects-44r2/biliarditaly-model-x-480.webp",
+    "assets/images/projects-44r2/biliarditaly-model-x-800.webp",
+    "assets/images/projects-44r2/biliarditaly-model-x-1280.webp",
+    "assets/images/projects-44r2/biliarditaly-materiali-480.webp",
+    "assets/images/projects-44r2/biliarditaly-materiali-800.webp",
+    "assets/images/projects-44r2/biliarditaly-materiali-1280.webp",
+    "assets/images/projects-44r2/biliarditaly-copertura-480.webp",
+    "assets/images/projects-44r2/biliarditaly-copertura-800.webp",
+    "assets/images/projects-44r2/biliarditaly-copertura-1280.webp",
+    "assets/images/projects-44r2/linea-oro-set-gara-480.webp",
+    "assets/images/projects-44r2/linea-oro-set-gara-800.webp",
+    "assets/images/projects-44r2/linea-oro-set-gara-1280.webp",
+    "assets/images/projects-44r2/linea-oro-catalogo-480.webp",
+    "assets/images/projects-44r2/linea-oro-catalogo-800.webp",
+    "assets/images/projects-44r2/linea-oro-catalogo-1280.webp",
+    "assets/images/projects-44r2/pilan-composizione-480.webp",
+    "assets/images/projects-44r2/pilan-composizione-800.webp",
+    "assets/images/projects-44r2/pilan-composizione-1280.webp",
+    "assets/images/projects-44r2/pilan-modulo-480.webp",
+    "assets/images/projects-44r2/pilan-modulo-800.webp",
+    "assets/images/projects-44r2/pilan-modulo-1280.webp",
+    "assets/images/projects-44r2/pilan-fianco-480.webp",
+    "assets/images/projects-44r2/pilan-fianco-800.webp",
+    "assets/images/projects-44r2/pilan-fianco-1280.webp"
+  ],
+  "images": [
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-model-x-480.webp",
+      "width": 480,
+      "height": 270,
+      "bytes": 6460,
+      "sha256": "bfd5c5b50c7b4273cb33d06177d7aa89de7ca51ad2b7287aae7ab6904de30ce9",
+      "capture": "B01"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-model-x-800.webp",
+      "width": 800,
+      "height": 450,
+      "bytes": 13394,
+      "sha256": "afa54b6c57071fddb8fedb26a63b845a36fe93bff0c9c789a1307923b46cef32",
+      "capture": "B01"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-model-x-1280.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 26122,
+      "sha256": "46571bd7c8713cba6f4adf9c2c859b26a7e0e1e48061c55425d446236741fdff",
+      "capture": "B01"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-materiali-480.webp",
+      "width": 480,
+      "height": 270,
+      "bytes": 7684,
+      "sha256": "00ba08f3c099402ac5425c79620cf79187ec4bc396c93119fd34ed81e0a61f73",
+      "capture": "B02"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-materiali-800.webp",
+      "width": 800,
+      "height": 450,
+      "bytes": 14938,
+      "sha256": "bf0c99d2b627fcd2aa52267ffd218be0a0a324bd6e3c5764d3e2ebc2b980eddc",
+      "capture": "B02"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-materiali-1280.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 34048,
+      "sha256": "87bb704fd7429dcbd930aa1d9955c70ae0822a745819ed23f4329597be38d206",
+      "capture": "B02"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-copertura-480.webp",
+      "width": 480,
+      "height": 270,
+      "bytes": 6012,
+      "sha256": "deef51d128a9c580dcb6b1b08845e7d7e22f60981ecb615aff0eed1ca69b13bf",
+      "capture": "B03"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-copertura-800.webp",
+      "width": 800,
+      "height": 450,
+      "bytes": 12462,
+      "sha256": "fa2318e6d3939467f6cd42aead9ec6abf39a56c5a7e392387fbabcacfbb53a93",
+      "capture": "B03"
+    },
+    {
+      "file": "assets/images/projects-44r2/biliarditaly-copertura-1280.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 26644,
+      "sha256": "6168b49ddc4184e4442722cf9d1546f7ebb50ac17909007939c35ecc2cc46f05",
+      "capture": "B03"
+    },
+    {
+      "file": "assets/images/projects-44r2/linea-oro-catalogo-480.webp",
+      "width": 480,
+      "height": 300,
+      "bytes": 7990,
+      "sha256": "9b2f207e964e936ac8176162cfd28b88d75df7a60c056205da441c40b00c0dca",
+      "capture": "L01"
+    },
+    {
+      "file": "assets/images/projects-44r2/linea-oro-catalogo-800.webp",
+      "width": 800,
+      "height": 500,
+      "bytes": 16368,
+      "sha256": "99725cd46d68869ef95fa066450eedebd9b19ab9b9eae7ed565395785d31df47",
+      "capture": "L01"
+    },
+    {
+      "file": "assets/images/projects-44r2/linea-oro-catalogo-1280.webp",
+      "width": 1280,
+      "height": 800,
+      "bytes": 32974,
+      "sha256": "05d4bf4f255370b0f0a54a375ae963d40d15b409f98aece117b0c23fa43bc352",
+      "capture": "L01"
+    },
+    {
+      "file": "assets/images/projects-44r2/linea-oro-set-gara-480.webp",
+      "width": 480,
+      "height": 300,
+      "bytes": 9014,
+      "sha256": "7e9e5cdb7562eaf667a8dcef81715a2a4f1f3df4fdc5f35c10c67ef88aa24e4d",
+      "capture": "L02"
+    },
+    {
+      "file": "assets/images/projects-44r2/linea-oro-set-gara-800.webp",
+      "width": 800,
+      "height": 500,
+      "bytes": 17888,
+      "sha256": "17a69588b09d442e00998475e1814c0611da8fbe1732f5865fae5f545b13c026",
+      "capture": "L02"
+    },
+    {
+      "file": "assets/images/projects-44r2/linea-oro-set-gara-1280.webp",
+      "width": 1280,
+      "height": 800,
+      "bytes": 34722,
+      "sha256": "443313331f7366a60da63e33cb00c5d7de8055c2e22cf2073c91cbb8886217a8",
+      "capture": "L02"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-modulo-480.webp",
+      "width": 480,
+      "height": 300,
+      "bytes": 12950,
+      "sha256": "9291da975b73ea0f3d8b46601d1dc36eb855ef679ffd5f7a137faafc75a9c2bc",
+      "capture": "P01"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-modulo-800.webp",
+      "width": 800,
+      "height": 500,
+      "bytes": 26884,
+      "sha256": "9b564eb51630161e4491f394401cd1ca10ce8fc8b96bd398372f071ab40cd5d6",
+      "capture": "P01"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-modulo-1280.webp",
+      "width": 1280,
+      "height": 800,
+      "bytes": 51652,
+      "sha256": "ec54e04e3842965f0c89c72f2baf0d0e1e54ee354d03fe4cb554eac0ca9f0226",
+      "capture": "P01"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-composizione-480.webp",
+      "width": 480,
+      "height": 300,
+      "bytes": 13874,
+      "sha256": "1bd70f77397b0d0420a2c21e16317a3bb09397dc2355c55feeebad21c3aabc98",
+      "capture": "P02"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-composizione-800.webp",
+      "width": 800,
+      "height": 500,
+      "bytes": 29466,
+      "sha256": "9ec3989914f61dfe5bf7a119528b40ee7cf39bc065360f0185c35df2d54cd174",
+      "capture": "P02"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-composizione-1280.webp",
+      "width": 1280,
+      "height": 800,
+      "bytes": 57104,
+      "sha256": "dd0ea0a3149b5cdedea494ceb2961b4f8de7ee2cfaa59e21f60951e96c000ddd",
+      "capture": "P02"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-fianco-480.webp",
+      "width": 480,
+      "height": 300,
+      "bytes": 13996,
+      "sha256": "c490e5a1fc1bc87d6bf8b89a36ceddf2df4d9f8ba9b5abb356980752543d13d6",
+      "capture": "P03"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-fianco-800.webp",
+      "width": 800,
+      "height": 500,
+      "bytes": 29180,
+      "sha256": "32013adc267d625150937c25e4e58569f2bd130f95d8366dbc5895304a296824",
+      "capture": "P03"
+    },
+    {
+      "file": "assets/images/projects-44r2/pilan-fianco-1280.webp",
+      "width": 1280,
+      "height": 800,
+      "bytes": 56560,
+      "sha256": "34ffb9087fa34ef700121e0ef6bbfa2d8c867d49a8bcbda1e982790bf6777b25",
+      "capture": "P03"
+    }
+  ]
+}

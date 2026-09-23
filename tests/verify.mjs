@@ -39,10 +39,12 @@ import { assertRetirement42Sources, assertRetirement42Output } from "./legacy-re
 import { assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 import { publishedImageFiles43, assertCleanSources43, assertCleanOutput43 } from "./clean-images-43.mjs";
 import { assertProof44Sources } from "./project-proof-ui-44.mjs";
+import { galleryStatic44r2, assertGallerySources44r2, assertGalleryHtml44r2, isDeferredGallery44r2 } from "./project-galleries-44r2.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
 assertProof44Sources(root);
+assertGallerySources44r2(root);
 const eleventyCli = path.join(root, "node_modules", "@11ty", "eleventy", "cmd.cjs");
 const maxBuffer = 64 * 1024 * 1024;
 const htmlBudget = 65 * 1024;
@@ -76,6 +78,7 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
 ]);
 
 const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
+  ...galleryStatic44r2,
   "404.html",
   "js/configuratori-3d-2d.js",
   "css/cookie-banner.css",
@@ -369,9 +372,9 @@ const requiredContent = Object.freeze({
     "Una soluzione. Per ogni processo di vendita.",
     "Dal catalogo al preventivo. In un unico flusso.",
     "Alcuni dei nostri progetti",
-    "Configurazione 3D di prodotto.",
-    "Portale preventivi B2B.",
-    "Configuratore tecnico con listini e PDF.",
+    "BiliardItaly",
+    "Linea Oro",
+    "Pilan",
     "Un interlocutore diretto. Un flusso snello e veloce.",
     "Hai un processo fuori standard?",
     "Raccontaci il tuo processo"
@@ -456,7 +459,7 @@ const expectedRails = Object.freeze({
 });
 
 const expectedRailImages = Object.freeze({
-  "index.html": Object.freeze({ "home-problems": 4 }),
+  "index.html": Object.freeze({ "home-problems": 4, "home-projects": 3 }),
   "configuratori-3d-2d.html": Object.freeze({ "configurator-scenarios": 4, "configurator-sectors": 5 }),
   "configuratori-ecommerce.html": Object.freeze({ "ecommerce-needs": 4 }),
   "software-cpq-portali-commerciali.html": Object.freeze({ "cpq-modules": 9 }),
@@ -1353,7 +1356,7 @@ function resourceReferences(html, route) {
         const clean = raw.split(/[?#]/, 1)[0].replace(/^\//, "");
         if (clean) {
           references.add(clean);
-          if (isDeferredOriginalImage(tag, clean)) deferredOriginalImages.add(clean);
+          if (isDeferredOriginalImage(tag, clean) || isDeferredGallery44r2(tag, clean)) deferredOriginalImages.add(clean);
         }
       }
     }
@@ -1417,7 +1420,7 @@ function assertRouteRegistry() {
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length, "43: preserved non-image assets plus independently pinned active image variants");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26, "43 preserved assets plus exactly 24 authentic44R2 image variants and two gallery files");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1580,6 +1583,7 @@ function verifyBuiltOutput() {
     assertGeneratedPageContract(route, html);
     assertOriginalHtml(route, html);
     assertVisual32Html(route.publicUrl, html);
+    if (route.publicUrl === '/') assertGalleryHtml44r2(html);
     assertPolish33Html(route.publicUrl, html);
     assertLaunch36Html(route.publicUrl, html);
     assertQuote38Html(route.publicUrl, html);
