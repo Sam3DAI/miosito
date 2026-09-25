@@ -294,7 +294,10 @@ test("shared legacy submit and menu border declarations remain exactly one CSS p
   const css = read("css/foundation.css");
   assert.match(css, /\.button--menu\s*\{\s*border-width:\s*1px\s*;/);
   assert.match(css, /\.button--submit\s*\{[^}]*padding:\s*13px 22px;[^}]*border:\s*1px solid var\(--sx-blue\);[^}]*border-radius:\s*25px;[^}]*font-weight:\s*600;/s);
-  assert.match(css, /\.button--submit:hover\s*\{[^}]*background:\s*var\(--sx-gradient\);[^}]*color:\s*#fff;[^}]*translateY\(-1px\)/s);
+  const quoteHover = css.match(/\.button\.button--quote:not\(:disabled\):hover\s*\{([^}]+)\}/)?.[1];
+  assert.ok(quoteHover, "Task47 submits and menu use the explicit quote family");
+  assert.match(quoteHover, /background:\s*var\(--sx-gradient\) border-box;\s*color:\s*#1d1d1f;/);
+  assert.doesNotMatch(quoteHover, /transform|translate|padding|border-width|width:|height:/, "Task47 fill does not move or resize the target");
   for (const file of ["css/site-shell.css", "css/marketing-pages.css", "css/configuratori-3d-2d.css", "css/contattaci.css", "css/service-demo-form.css"]) {
     assert.doesNotMatch(read(file), /(?:\.button--(?:menu|submit)|\.header-cta|\.site-navigation__cta|\.form-submit)[^{}]*\{[^}]*border(?:-width)?:/s, file + ": no page override of the shared border");
   }

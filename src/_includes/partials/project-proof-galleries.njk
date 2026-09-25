@@ -8,7 +8,7 @@
     {% set cover = project.views[0] %}
     <li class="visual-card visual-card--image" data-rail-card>
       <a class="visual-card__inner" href="#progetto-{{ project.id }}" data-project-trigger="{{ project.id }}" aria-label="Esplora il progetto {{ project.name | escape }}">
-        <div class="visual-card__copy"><h3>{{ project.name | escape }}</h3><p>{{ project.description | escape }}</p><span class="project-proof-cta">Esplora il progetto <span aria-hidden="true">↗</span></span></div>
+        <div class="visual-card__copy"><h3>{{ project.name | escape }}</h3><p>{{ project.description | escape }}</p><span class="project-proof-cta" aria-hidden="true"><span class="card-detail__plus"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12h14M12 5v14"/></svg></span></span></div>
         <div class="project-media"><img src="{{ cover.thumb }}" srcset="{{ cover.cardSrcset }}" sizes="(max-width: 720px) calc(100vw - 3rem), 560px" width="{{ cover.width }}" height="{{ cover.height }}" alt="{{ cover.alt | escape }}" loading="lazy" decoding="async"></div>
       </a>
     </li>
@@ -23,10 +23,10 @@
   <p>{{ project.detail | escape }}</p>
   {% if project.privacyNote %}<p>{{ project.privacyNote | escape }}</p>{% endif %}
   <ol>{% for view in project.views %}<li><a href="{{ view.large }}">{{ view.caption | escape }}</a></li>{% endfor %}</ol>
-  <a class="button button--page button--quote" href="/contattaci#contatti">Richiedi un preventivo</a>
+  <a class="button button--page button--quote" data-cta-role="quote" href="/contattaci#contatti">Richiedi un preventivo</a>
 </section>
 <dialog class="proof-gallery" data-project-dialog="{{ project.id }}" aria-labelledby="gallery-title-{{ project.id }}" aria-describedby="gallery-description-{{ project.id }}">
-  <header class="proof-gallery__header"><h3 id="gallery-title-{{ project.id }}">{{ project.name | escape }}</h3><button type="button" class="proof-gallery__close" data-gallery-close aria-label="Chiudi la galleria {{ project.name | escape }}" autofocus><span aria-hidden="true">×</span></button></header>
+  <header class="proof-gallery__header"><h3 id="gallery-title-{{ project.id }}">{{ project.name | escape }}</h3><button type="button" class="proof-gallery__close" data-gallery-close aria-label="Chiudi la galleria {{ project.name | escape }}" autofocus><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header>
   <div class="proof-gallery__body proof-gallery__body--project">
     <div class="proof-gallery__stage">
       {% for view in project.views %}
@@ -40,7 +40,6 @@
       <p class="proof-gallery__subtitle">{{ project.title | escape }}</p>
       <p id="gallery-description-{{ project.id }}">{{ project.detail | escape }}</p>
       {% if project.privacyNote %}<p class="proof-gallery__note">{{ project.privacyNote | escape }}</p>{% endif %}
-      <a class="button button--page button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
     </div>
   </div>
   <footer class="proof-gallery__footer">
@@ -51,5 +50,6 @@
     </nav>
     <a class="proof-gallery__large" data-gallery-large-link href="{{ project.views[0].large }}" target="_blank" rel="noopener">Apri immagine in grande <span class="visually-hidden">(nuova scheda)</span><span aria-hidden="true">↗</span></a>
   </footer>
+  <div class="proof-gallery__cta"><a class="button button--page button--quote" data-cta-role="quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a></div>
 </dialog>
 {% endfor %}

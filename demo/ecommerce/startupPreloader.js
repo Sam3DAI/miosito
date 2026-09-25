@@ -14,6 +14,7 @@
   function collectMapIdsForCurrentSelection(modelsJson, modelDef, selected, options = {}) {
     const includeNoPatchVariant = options.includeNoPatchVariant !== false;
     const noBrandLogoPatch = options.noBrandLogoPatch === true;
+    const patchSlotKey = modelDef?.ui?.patchSlotKey || "borderColor";
 
     const normalIds = new Set();
     const roughnessIds = new Set();
@@ -60,12 +61,12 @@
       const roughnessId = pickMapIdByColor(roughnessMapByColor, colorKey);
 
       if(!normalId||!modelNormalLib[normalId])throw Error('Mappa normale non definita: '+slotKey+'/'+finishKey);
-      const selectedNormal=includeNoPatchVariant&&slotKey==='borderColor'&&noBrandLogoPatch?normalId+'_no_patch':normalId;
+      const selectedNormal=includeNoPatchVariant&&slotKey===patchSlotKey&&noBrandLogoPatch?normalId+'_no_patch':normalId;
       if(!modelNormalLib[selectedNormal])throw Error('Variante normale non definita: '+selectedNormal);
       normalIds.add(selectedNormal);
 
       if(!roughnessId||!modelRoughLib[roughnessId])throw Error('Mappa roughness non definita: '+slotKey+'/'+finishKey);
-      const selectedRough=includeNoPatchVariant&&slotKey==='borderColor'&&noBrandLogoPatch?roughnessId+'_no_patch':roughnessId;
+      const selectedRough=includeNoPatchVariant&&slotKey===patchSlotKey&&noBrandLogoPatch?roughnessId+'_no_patch':roughnessId;
       if(!modelRoughLib[selectedRough])throw Error('Variante roughness non definita: '+selectedRough);
       roughnessIds.add(selectedRough);
     });

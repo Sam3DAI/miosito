@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {beforeUi46Literals} from './site-ui-46-literals.mjs';
 import {beforeWd46} from './site-wd-delta-46.mjs';
+import {beforeUi47Literals,assertUi47Literals} from './site-ui-47-literals.mjs';
 
 // Both reviewed oracles remain: old sanitized derivatives are retained byte-identically;
 // current galleries use the 20 owner captures and their 60 independently checked derivatives.
@@ -22,9 +23,10 @@ const before46=(file,input)=>beforeUi46Literals(file,beforeWd46(file,input));
 // remain visible. Active CSS, JS, data and rendered behavior have direct current oracles.
 export function beforeGalleries44r2(file,input){let result=before46(file,input);for(const e of galleryContract44r2.edits[file]||[])result=result.replace(e.after,e.before);return result;}
 export function assertGalleryDelta44r2(file,current,baseline){let expected=lf(baseline);for(const e of galleryContract44r2.edits[file]||[]){assert.equal(expected.split(e.before).length,2,file+': unique44R2 callsite');expected=expected.replace(e.before,e.after);}assert.equal(before46(file,current),expected,file+': exact bounded44R2 delta with authorized46 callsites');assert.equal(beforeGalleries44r2(file,current),lf(baseline),file+': reversible44R2');}
-export function assertGallerySource44r2(file,text){assert.equal(sha(Buffer.from(lf(text))),galleryContract46.sourceHashes[file],file+': reviewed46 current gallery source');}
+export function assertGallerySource44r2(file,text){assert.equal(sha(Buffer.from(beforeUi47Literals(file,text))),galleryContract46.sourceHashes[file],file+': reviewed46 gallery source with only exact authorized47 UI changes');}
 export function assertGalleryAsset44r2(bytes,record){assert.equal(bytes.length,record.bytes,record.file+': byte count');assert.equal(sha(bytes),record.sha256,record.file+': authentic sanitized pixels');assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');assert.equal(bytes.readUInt32LE(4)+8,bytes.length);let dimensions;for(let p=12;p+8<=bytes.length;){const length=bytes.readUInt32LE(p+4),start=p+8,kind=bytes.toString('ascii',p,p+4);assert.ok(start+length<=bytes.length);assert.ok(!['EXIF','XMP ','ICCP'].includes(kind),'No private metadata');if(kind==='VP8 ')dimensions=[bytes.readUInt16LE(start+6)&0x3fff,bytes.readUInt16LE(start+8)&0x3fff];if(kind==='VP8X')dimensions=[bytes.readUIntLE(start+4,3)+1,bytes.readUIntLE(start+7,3)+1];if(kind==='VP8L'){assert.equal(bytes[start],0x2f);const packed=bytes.readUInt32LE(start+1);dimensions=[(packed&0x3fff)+1,((packed>>>14)&0x3fff)+1];}p=start+length+(length%2);}assert.deepEqual(dimensions,[record.width,record.height]);}
 export function assertGallerySources44r2(root){
+ assertUi47Literals(root); // Current47 is mandatory before any historical reconstruction.
  for(const f of Object.keys(galleryContract44r2.edits))assertGalleryDelta44r2(f,fs.readFileSync(path.join(root,f),'utf8'),readGitBlobBuffer(galleryContract44r2.base,f,root).buffer.toString('utf8'));
  for(const f of Object.keys(galleryContract46.sourceHashes))assertGallerySource44r2(f,fs.readFileSync(path.join(root,f),'utf8'));
  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root,'src/_data/projectProofs.json'))),galleryContract46.projects);

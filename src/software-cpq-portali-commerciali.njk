@@ -89,7 +89,7 @@ twitter:
 {% endblock %}
 
 {% block content %}
-<main id="main-content">
+{% set mainBeforeFormWhitespace47 %}<main id="main-content">
   <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
@@ -97,8 +97,8 @@ twitter:
         <div class="hero-introduction">
         <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
         <div class="cta-group">
-          <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
-          <a class="button button--page button--secondary button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--quote" data-cta-role="quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--explore" data-cta-role="explore" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       </div>
@@ -155,7 +155,7 @@ twitter:
       </div>
       <div class="split-panel__body">
         <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web dedicato. Partiamo dall’attività da organizzare e dai sistemi già utilizzati.</p>
-        <a class="button button--page" href="/contattaci#contatti">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
+        <a class="button button--page button--quote" data-cta-role="quote" href="/contattaci#contatti">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -167,10 +167,10 @@ twitter:
     </div>
   </section>
 
-  {% include "partials/service-demo-form.njk" %}
+  {% endset %}{{ mainBeforeFormWhitespace47 | replace(r/>[ \t\r\n]*\n[ \t\r\n]*</g, '>\n<') | safe }}{% include "partials/service-demo-form.njk" %}{% set mainAfterFormWhitespace47 %}
 
   <section class="section section--compact container">
     {{ finalCta("Il processo commerciale vive ancora tra fogli e passaggi manuali?", "Partiamo da utenti, regole, listini e documenti per definire il primo flusso che vale la pena strutturare.", "Richiedi un preventivo", false, "/contattaci#contatti") }}
   </section>
-</main>
+</main>{% endset %}{{ mainAfterFormWhitespace47 | replace(r/>[ \t\r\n]*\n[ \t\r\n]*</g, '>\n<') | safe }}
 {% endblock %}

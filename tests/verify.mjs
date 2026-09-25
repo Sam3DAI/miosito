@@ -41,9 +41,11 @@ import { publishedImageFiles43, assertCleanSources43, assertCleanOutput43 } from
 import { assertProof44Sources } from "./project-proof-ui-44.mjs";
 import { galleryStatic44r2, galleryStatic46, assertGallerySources44r2, assertGalleryHtml44r2, isDeferredGallery44r2 } from "./project-galleries-44r2.mjs";
 import { wdStaticFiles46, assertWd46Sources, assertWd46Output } from "./wd-static-46.mjs";
+import { orderWdOwnedStaticFiles47 } from "./wd-owned-registry47.mjs";
 import { assertDetailInventory46, assertUi46Html } from "./site-ui-46.mjs";
 import { beforeWd46 } from "./site-wd-delta-46.mjs";
 import { siteFooter46 } from "./site-footer-46.mjs";
+import { UTILITY_CTA47_FROZEN_FILES, assertUtilityCta47Sources, assertUtilityCta47Output, beforeUtilityCta47 } from "./utility-cta47.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
@@ -89,7 +91,7 @@ const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
   ...galleryStatic46,
   "css/wd-ecommerce-embed.css",
   "js/wd-ecommerce-embed.js",
-  ...wdStaticFiles46(root),
+  ...orderWdOwnedStaticFiles47(wdStaticFiles46(root)),
   ...galleryStatic44r2,
   "404.html",
   "js/configuratori-3d-2d.js",
@@ -1429,12 +1431,13 @@ function assertPerformanceBudget(route, htmlBuffer) {
 function assertRouteRegistry() {
   assert.equal(BASE_COMMIT, TASK_BASE_COMMIT);
   assert.equal(BASE_COMMIT, "353a9cfa55dde08c8093e4455e821c08d88ab849");
+  assert.deepEqual(UTILITY_CTA47_FROZEN_FILES, ["css/404.css", "richiesta-ricevuta.html"], "Only two frozen passthrough CTA files receive the exact T47-15 delta");
   assert.deepEqual(FROZEN_PASSTHROUGH_FILES, EXPECTED_FROZEN_PASSTHROUGH_FILES, "Eleventy frozen passthrough registry differs from the independent expected list");
   assert.deepEqual(OWNED_STATIC_FILES, EXPECTED_OWNED_STATIC_FILES, "Eleventy owned-static registry differs from the independent expected list");
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 68, "Historical assets retained; exactly 60 owner46 derivatives, two embed files and 68 reviewed WD outputs added");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 67, "Historical assets retained; exactly 60 owner46 derivatives, two embed files and 67 reviewed WD47 outputs added");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1533,8 +1536,8 @@ for (const marker of ["Escape", "event.key !== \"Tab\"", "summary.focus({ preven
   assert.ok(siteShellSource.includes(marker), `site-shell.js interaction contract missing: ${marker}`);
 }
 const foundationCssSource = fs.readFileSync(path.join(root, "css", "foundation.css"), "utf8");
-assert.match(foundationCssSource, /\.button\s*\{[^}]*border:\s*2px solid var\(--sx-blue\)/s, "Page buttons must inherit the production blue outline at rest");
-assert.match(foundationCssSource, /\.button--secondary\s*\{[^}]*border-width:\s*1px/s, "Secondary action retains its lighter outlined hierarchy");
+assert.match(foundationCssSource, /\.button\.button--quote\s*\{[^}]*border:\s*1px solid transparent/s, "Task47 quote actions have one CSS pixel and the approved gradient border");
+assert.match(foundationCssSource, /\.button\.button--explore\s*\{[^}]*border:\s*1px solid var\(--sx-pink\)/s, "Task47 exploration actions have one CSS pixel and a magenta outline");
 assert.match(foundationCssSource, /--sx-bg:\s*light-dark\(#f5f5f7, #000000\)/, "Production light/dark backgrounds required");
 assert.match(foundationCssSource, /--sx-gradient:\s*linear-gradient\(90deg, #45b6fe, #d95bc5\)/, "Canonical two-stop production brand gradient required");
 assert.match(foundationCssSource, /scrollbar-gutter:\s*stable/, "Scrollbar space must remain stable for the persistent control");
@@ -1580,6 +1583,7 @@ const ownedEvidence = [];
 const performanceEvidence = [];
 
 function verifyBuiltOutput() {
+  const utilityCta47OutputEvidence = assertUtilityCta47Output(root, outputRoot);
   const builtInventory = inventory();
   const inventoryComparison = compareInventories(expectedOutputs, builtInventory.rows.map((row) => row.path));
   assert.deepEqual(inventoryComparison.missing, [], "Published output has missing paths");
@@ -1655,10 +1659,15 @@ function verifyBuiltOutput() {
   assert.equal(netlifyForms.length, 6, "Published output must expose exactly the six deliberate Netlify forms");
   assert.deepEqual(netlifyForms.map((entry) => attribute(entry.tag, "name")).sort(), ["contact-main", "demo-automazioni-ai", "demo-configuratori-ecommerce", "demo-cpq-portali", "demo-planner-arredamento", "mini-demo-configuratori"], "Netlify form identities changed");
 
-  return { builtInventory, inventoryComparison, currentPerformance };
+  return { builtInventory, inventoryComparison, currentPerformance, utilityCta47OutputEvidence };
 }
 
-run("git", ["-c", `safe.directory=${root}`, "diff", "--quiet", "--no-ext-diff", BASE_COMMIT, "--", ...EXPECTED_FROZEN_PASSTHROUGH_FILES]);
+// T47-15 validates current utility CTA bytes before narrowing only the obsolete
+// Git-identity comparison. RAW source-to-output copying remains mandatory.
+const utilityCta47Evidence = assertUtilityCta47Sources(root);
+const unchangedFrozenFiles47 = EXPECTED_FROZEN_PASSTHROUGH_FILES.filter(file => !UTILITY_CTA47_FROZEN_FILES.includes(file));
+assert.equal(unchangedFrozenFiles47.length, 17, "All other frozen passthrough files retain their original identity gate");
+run("git", ["-c", `safe.directory=${root}`, "diff", "--quiet", "--no-ext-diff", BASE_COMMIT, "--", ...unchangedFrozenFiles47]);
 
 buildFromAbsentOutput();
 
@@ -1669,8 +1678,13 @@ for (const file of EXPECTED_FROZEN_PASSTHROUGH_FILES) {
   const sourceObjectId = cleanFilteredObjectId(file, file);
   const outputObjectId = cleanFilteredObjectId(file, path.join("_site", ...file.split("/")));
   const rawCopy = compareRawBuffers(source, output, `Frozen passthrough ${file}`);
-  assert.equal(sourceObjectId, baseline.objectId, `Frozen source differs from Git base: ${file}`);
-  assert.equal(outputObjectId, baseline.objectId, `Frozen output differs from Git base: ${file}`);
+  if (UTILITY_CTA47_FROZEN_FILES.includes(file)) {
+    assert.equal(beforeUtilityCta47(file, source), baseline.buffer.toString("utf8").replace(/\r\n/g, "\n"), `Frozen ${file}: only exact T47-15 CTA literals may differ from the original base`);
+    assert.equal(outputObjectId, sourceObjectId, `T47-15 filtered source/output identity differs: ${file}`);
+  } else {
+    assert.equal(sourceObjectId, baseline.objectId, `Frozen source differs from Git base: ${file}`);
+    assert.equal(outputObjectId, baseline.objectId, `Frozen output differs from Git base: ${file}`);
+  }
   frozenEvidence.push({
     file,
     baseObjectId: baseline.objectId,
@@ -1678,7 +1692,8 @@ for (const file of EXPECTED_FROZEN_PASSTHROUGH_FILES) {
     outputObjectId,
     sourceSha256: sha256(source),
     outputSha256: sha256(output),
-    result: rawCopy.result
+    result: rawCopy.result,
+    authorizedDelta: UTILITY_CTA47_FROZEN_FILES.includes(file) ? "EXACT_T47_15_CTA_LITERALS" : "NONE"
   });
 }
 
@@ -1808,6 +1823,8 @@ const summary = {
   nonvisual40Evidence,
   nonvisual41Evidence,
   retirement42Evidence,
+  utilityCta47Evidence,
+  utilityCta47OutputEvidence: [firstVerification.utilityCta47OutputEvidence, secondVerification.utilityCta47OutputEvidence],
   wd46Evidence,
   detail46Evidence,
   browserVisual32Evidence,

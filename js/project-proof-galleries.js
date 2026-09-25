@@ -11,6 +11,28 @@
   function modifiedClick(event) {
     return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || (event.button != null && event.button !== 0);
   }
+  // Observe gestures without cancelling pointerdown: text selection and native
+  // touch/rail scrolling remain available. A drag must never become an opening.
+  function pointerIntent(surface) {
+    const track = surface.closest("[data-rail-track]");
+    let press = null, dragged = false;
+    surface.addEventListener("pointerdown", function (event) {
+      if (event.isPrimary === false || event.button > 0) return;
+      press = { x: event.clientX, y: event.clientY, rail: track?.scrollLeft || 0, pageY: window.scrollY };
+      dragged = false;
+    }, { passive: true });
+    surface.addEventListener("pointermove", function (event) {
+      if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) dragged = true;
+    }, { passive: true });
+    surface.addEventListener("pointercancel", function () { dragged = true; press = null; }, { passive: true });
+    surface.addEventListener("dragstart", function () { dragged = true; });
+    return function (event) {
+      if (event.detail === 0) return false; // Native keyboard/programmatic click.
+      const scrolled = press && (Math.abs((track?.scrollLeft || 0) - press.rail) > 5 || Math.abs(window.scrollY - press.pageY) > 5);
+      press = null;
+      return dragged || scrolled || Boolean(window.getSelection()?.toString().trim());
+    };
+  }
   function revealDialogFocus(dialog, control) {
     const viewport = dialog.getBoundingClientRect();
     const bounds = control.getBoundingClientRect();
@@ -101,9 +123,11 @@
       large.href = views[index].dataset.galleryLarge;
       status.textContent = "Immagine " + (index + 1) + " di " + views.length;
     }
+    const dragged = pointerIntent(trigger);
     trigger.setAttribute("aria-haspopup", "dialog");
     trigger.addEventListener("click", function (event) {
       if (modifiedClick(event)) return;
+      if (dragged(event)) { event.preventDefault(); return; }
       if (open(trigger, function () { show(0); })) event.preventDefault();
       else fallback.hidden = false;
     });
@@ -111,6 +135,7 @@
     next.addEventListener("click", function () { show(index + 1); });
     dialog.addEventListener("keydown", function (event) {
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
       event.preventDefault();
       show(index + (event.key === "ArrowRight" ? 1 : -1));
     });
@@ -128,20 +153,38 @@
     const title = fallback.querySelector("[data-detail-title]");
     if (!/^detail-[a-z0-9-]+$/.test(fallback.id) || document.querySelectorAll('[id="' + fallback.id + '"]').length !== 1 ||
         !trigger || !content || !title?.textContent.trim()) return;
+    const card = fallback.closest(".visual-card__inner, .card, .editorial-card, .hero-editorial-note");
+    if (!card || card.closest("a[href], [data-card-navigation]") || card.querySelectorAll("details[data-card-detail]").length !== 1 ||
+        [...card.querySelectorAll("a[href], button, input, select, textarea, summary, [tabindex]")].some(function (element) { return !fallback.contains(element); })) return;
+    const dragged = pointerIntent(card);
+    function openFromCard() {
+      const nextSibling = content.nextSibling;
+      return openDetail(trigger, function () {
+        detailTitle.textContent = title.textContent;
+        detailBody.append(content);
+      }, function () { fallback.insertBefore(content, nextSibling); });
+    }
+    trigger.setAttribute("role", "button");
     trigger.setAttribute("aria-haspopup", "dialog");
     trigger.setAttribute("aria-controls", detailDialog.id);
     trigger.addEventListener("click", function (event) {
       if (modifiedClick(event)) return;
-      const nextSibling = content.nextSibling;
-      const opened = openDetail(trigger, function () {
-        detailTitle.textContent = title.textContent;
-        detailBody.append(content);
-      }, function () {
-        fallback.insertBefore(content, nextSibling);
-      });
-      if (opened) event.preventDefault();
-      // Without enhancement, or while another surface is open, native details
-      // remains usable. No HTML parsing, clone, global click interception or form.
+      if (dragged(event)) { event.preventDefault(); return; }
+      if (openFromCard()) event.preventDefault();
+      // A failure to show the native dialog leaves the readable details fallback.
     });
+    trigger.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      if (event.repeat || modifiedClick(event)) return;
+      if (!openFromCard() && !anotherSurfaceOpen(detailDialog)) fallback.open = !fallback.open;
+    });
+    card.addEventListener("click", function (event) {
+      if (fallback.contains(event.target) || modifiedClick(event) || dragged(event) || anotherSurfaceOpen(detailDialog)) return;
+      if (event.target.closest('a[href], button, input, select, textarea, summary, [contenteditable="true"]')) return;
+      if (!openFromCard()) fallback.open = true;
+    });
+    // Only advertise a full interactive surface after all bindings succeed.
+    card.setAttribute("data-card-interactive", "detail");
   });
 })();

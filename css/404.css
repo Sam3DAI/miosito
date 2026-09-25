@@ -69,17 +69,28 @@ main.error-404 {
 }
 body.dark-mode .error-404 p { color: #a1a1a6; }
 
-.btn-home {
+.btn-home.button--explore {
+  --explore-text: #993588;
+  --explore-focus: #006eac;
   margin-top: 25px;
-  padding: 12px 28px;
+  padding: 11px 27px;
+  border: 1px solid #d95bc5;
   border-radius: 40px;
-  background-color: #45b6fe;
-  color: #fff;
+  background-color: transparent;
+  color: var(--explore-text);
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
-.btn-home:hover { background-color: #5ec2fe; }
+body.dark-mode .btn-home.button--explore { --explore-text: #d95bc5; --explore-focus: #45b6fe; }
+.btn-home.button--explore:focus-visible { outline: 3px solid var(--explore-focus); outline-offset: 3px; }
+.btn-home.button--explore:active { background-color: #d95bc5; color: #fff; }
+@media (hover: hover) and (pointer: fine) {
+  .btn-home.button--explore:hover { background-color: #d95bc5; color: #fff; }
+}
+@media (forced-colors: active) {
+  .btn-home.button--explore, .btn-home.button--explore:is(:hover, :active, :focus-visible) { border-color: ButtonText; background-color: ButtonFace; color: ButtonText; }
+}
 
 footer {
   padding: 20px;

@@ -310,7 +310,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_similpelle_roughness": {
@@ -318,7 +318,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_prisma_roughness": {
@@ -326,7 +326,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_carbon_roughness": {
@@ -334,7 +334,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_replica_nero_roughness": {
@@ -342,7 +342,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_azzurro_tm_replica_roughness": {
@@ -350,7 +350,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_sphere_roughness": {
@@ -358,7 +358,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_grip_roughness_no_patch": {
@@ -366,7 +366,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_similpelle_roughness_no_patch": {
@@ -374,7 +374,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_prisma_roughness_no_patch": {
@@ -382,7 +382,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_carbon_roughness_no_patch": {
@@ -390,7 +390,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_replica_nero_roughness_no_patch": {
@@ -398,7 +398,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_azzurro_tm_replica_roughness_no_patch": {
@@ -406,7 +406,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     },
     "zip_sphere_roughness_no_patch": {
@@ -414,7 +414,7 @@
       "level": 2,
       "uScale": 1,
       "vScale": 1,
-      "invertY": false,
+      "invertY": true,
       "invertX": false
     }
   }

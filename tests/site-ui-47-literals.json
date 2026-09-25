@@ -1,0 +1,336 @@
+{
+  "scope": "UI47 only: exact reviewed CTA/card/dialog callsites. Historical source reconstruction, never a browser oracle. No form-contract, image, WD or budget exceptions.",
+  "baseline": "887198eb0e7f9bd956ebc32010057d6d03706c4b",
+  "edits": {
+    "css/foundation.css": [
+      {
+        "before": "/* White hover/display gradients are the scoped owner-requested exception.\n   Ordinary text, form controls and focus retain their readable variants. */\n.button--page:focus-visible,\n.button--menu:focus-visible {\n  background: var(--sx-gradient);\n  color: #fff;\n}\n.button--page.button--secondary:focus-visible { background: var(--sx-pink); }\n.button--submit:focus-visible { background: var(--sx-gradient); color: #fff; }\n\n@media (hover: hover) and (pointer: fine) {\n  .button--page:hover {\n    background: var(--sx-gradient);\n    color: #fff;\n    transform: translateY(-1px);\n    box-shadow: 0 14px 30px rgb(69 182 254 / 25%);\n  }\n  .button--page.button--secondary:hover { background: var(--sx-pink); }\n  .button--menu:hover { background: var(--sx-gradient); color: #fff; }\n  .button--submit:hover { background: var(--sx-gradient); color: #fff; transform: translateY(-1px); box-shadow: 0 14px 30px rgb(69 182 254 / 25%); }\n}\n\n/* UI46 quote-only border: one CSS pixel, readable dark text on the brand fill. */\n",
+        "after": "/*47: semantic roles are explicit in the templates, never inferred from copy.\n  Fill changes do not change the border, dimensions or pointer geometry. */\n"
+      },
+      {
+        "before": "  color: var(--sx-text);\n}\n",
+        "after": "  color: var(--sx-text);\n}\n.button--submit.button--quote { --quote-surface: var(--sx-bg-elevated); }\n.button.button--explore {\n  border: 1px solid var(--sx-pink);\n  background: transparent;\n  color: var(--sx-text-pink);\n  font-weight: 500;\n}\n"
+      },
+      {
+        "before": ".button.button--quote.button--secondary:focus-visible {\n  background: var(--sx-gradient) border-box;\n  color: #1d1d1f;\n",
+        "after": ".button.button--explore:focus-visible {\n"
+      },
+      {
+        "before": "  outline-offset: 3px;\n}\n",
+        "after": "  outline-offset: 3px;\n}\n.button.button--quote:not(:disabled):active { background: var(--sx-gradient) border-box; color: #1d1d1f; }\n.button.button--explore:not(:disabled):active { background: var(--sx-pink); color: #fff; }\n"
+      },
+      {
+        "before": "  .button.button--quote:hover,\n  .button.button--quote.button--secondary:hover { background: var(--sx-gradient) border-box; color: #1d1d1f; }\n",
+        "after": "  .button.button--quote:not(:disabled):hover { background: var(--sx-gradient) border-box; color: #1d1d1f; }\n  .button.button--explore:not(:disabled):hover { background: var(--sx-pink); color: #fff; }\n  .button:is(.button--quote, .button--explore):not(:disabled):hover { box-shadow: 0 14px 30px rgb(69 182 254 / 25%); }\n"
+      },
+      {
+        "before": "  .button.button--quote:is(:hover, :focus-visible),\n  .button.button--quote.button--secondary:is(:hover, :focus-visible) { border-color: ButtonText; background: ButtonFace; color: ButtonText; }\n",
+        "after": "  .button.button--explore,\n  .button:is(.button--quote, .button--explore):is(:hover, :active, :focus-visible) { border-color: ButtonText; background: ButtonFace; color: ButtonText; }\n"
+      }
+    ],
+    "css/project-proof-galleries.css": [
+      {
+        "before": "/* UI46: shared native dialogs and owner galleries; no second modal library. */\n",
+        "after": "/*47: one action per card and one native dialog lifecycle. Owner images intact. */\n.visual-card__inner, .card:has(> .card-detail), .editorial-card:has(> .card-detail) { border-radius: var(--sx-radius-lg); }\n.card:has(> .card-detail), .editorial-card:has(> .card-detail) { display: flex; flex-direction: column; }\n[data-card-interactive=\"detail\"] { cursor: pointer; }\n[data-card-navigation] { color: inherit; text-decoration: none; }\n"
+      },
+      {
+        "before": ".project-proof-cta { display: inline-block; margin-top: auto; padding-top: 1rem; color: var(--sx-blue-deep); font-weight: 600; }\n",
+        "after": ".project-proof-cta { display: inline-flex; margin-top: auto; padding-top: 1rem; align-self: flex-start; }\n"
+      },
+      {
+        "before": "  padding: 0; border: 1px solid var(--sx-border); border-radius: var(--sx-radius-md);\n",
+        "after": "  padding: 0; border: 1px solid var(--sx-border); border-radius: var(--sx-radius-lg);\n"
+      },
+      {
+        "before": ".proof-gallery::backdrop { background: #0009; }\n.proof-gallery__header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 1rem; padding: .75rem 1.25rem; background: var(--sx-bg-elevated); border-bottom: 1px solid var(--sx-border); }\n.proof-gallery__header h3 { margin: 0; flex: 1; min-width: 0; font-size: var(--sx-type-card); overflow-wrap: anywhere; }\n",
+        "after": ".proof-gallery::backdrop { background: #000a; }\n@supports (backdrop-filter: blur(8px)) {\n  .proof-gallery::backdrop { background: #0006; backdrop-filter: blur(8px); }\n}\n.proof-gallery__header { position: sticky; top: 0; z-index: 2; display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem .75rem; background: var(--sx-bg-elevated); }\n.proof-gallery__header h3 { margin: 0; flex: 1; min-width: 0; font-size: clamp(1.6rem, 2.5vw, 2.5rem); line-height: 1.15; letter-spacing: -.035em; overflow-wrap: anywhere; }\n"
+      },
+      {
+        "before": ".proof-gallery__close { font-size: 1.75rem; line-height: 1; }\n",
+        "after": ".proof-gallery__close svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }\n"
+      },
+      {
+        "before": ".proof-gallery__information > .button { max-width: 100%; margin-top: .25rem; text-align: center; white-space: normal; }\n.card__main-link { display: block; text-decoration: none; color: inherit; }\n",
+        "after": ".proof-gallery__cta, .card-detail__cta { display: flex; justify-content: center; text-align: center; }\n.proof-gallery__cta { padding: .25rem 1.5rem 1.5rem; }\n.proof-gallery__cta > .button, .card-detail__cta > .button { max-width: 100%; white-space: normal; }\n.card__main-link { text-decoration: none; color: inherit; }\n"
+      },
+      {
+        "before": ".card-detail { margin-top: 1rem; min-width: 0; }\n.card-detail > summary { display: inline-flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 44px; padding: .25rem 0; color: var(--sx-blue-deep); font-size: .9375rem; font-weight: 600; line-height: 1.3; cursor: pointer; list-style: none; text-decoration: underline; text-underline-offset: .22em; }\n",
+        "after": ".card-detail { min-width: 0; padding-top: 1rem; margin-top: auto; align-self: flex-end; }\n.card-detail > summary { display: grid; place-items: center; width: 44px; min-height: 44px; padding: 0; border-radius: 50%; cursor: pointer; list-style: none; }\n"
+      },
+      {
+        "before": ".card-detail > summary > span { font-size: 1.1rem; text-decoration: none; }\n",
+        "after": ".card-detail__plus { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: light-dark(#e8e8ed, #38383b); color: light-dark(#6e6e73, #d2d2d7); }\n.card-detail__plus svg { display: block; width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2.25; stroke-linecap: round; }\n.card-detail[open] { width: 100%; align-self: stretch; }\n"
+      },
+      {
+        "before": ".card-detail__content > p { margin: 0 0 1.25rem; color: var(--sx-text); }\n.card-detail__content > .button { white-space: normal; }\n.card-detail-dialog { width: min(640px, calc(100% - 2rem)); }\n.card-detail-dialog .proof-gallery__body { padding: 1.25rem 1.5rem; }\n",
+        "after": ".card-detail__content > p { margin: 0 0 1.65em; color: var(--sx-text); }\n.card-detail__cta { margin-top: 1.5rem; }\n.card-detail-dialog { width: min(800px, calc(100% - 2rem)); }\n.card-detail-dialog .proof-gallery__header { padding: 2rem 2rem .75rem; }\n.card-detail-dialog .proof-gallery__body { padding: .75rem 2rem 2rem; }\n"
+      },
+      {
+        "before": ".visual-card__service-link { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; margin-top: .75rem; font-weight: 600; }\n.visual-card__copy .card-detail { margin-top: .25rem; }\n.visual-card--image:not(.visual-card--original) .card-detail > summary { color: #fff; }\n.visual-card--original .card-detail > summary, .capability-card .card-detail > summary { color: #006eac; }\n",
+        "after": ".visual-card__copy .card-detail { margin-top: 0; align-self: flex-start; }\n.visual-card--text .visual-card__copy { display: flex; flex: 1; flex-direction: column; }\n.visual-card--text .card-detail { margin-top: auto; align-self: flex-end; }\n.visual-card--original .card-detail__plus { background: #e8e8ed; color: #6e6e73; }\n"
+      },
+      {
+        "before": ".proof-gallery :is(button, a):focus-visible, .card-detail > summary:focus-visible, .card__main-link:focus-visible, .visual-card__service-link:focus-visible { outline: 3px solid var(--sx-blue-deep); outline-offset: 3px; }\n.visual-card--image:not(.visual-card--original) :is(summary, .visual-card__service-link):focus-visible { outline-color: #fff; }\n",
+        "after": ".proof-gallery :is(button, a):focus-visible, .card-detail > summary:focus-visible, [data-card-navigation]:focus-visible { outline: 3px solid var(--sx-blue-deep); outline-offset: 3px; }\n.visual-card--image:not(.visual-card--original) summary:focus-visible { outline-color: #fff; }\n"
+      },
+      {
+        "before": "  .proof-gallery__subtitle { grid-column: 1 / -1; }\n  .proof-gallery__information > .button { grid-column: 2; grid-row: 2 / 4; max-width: 12rem; }\n",
+        "after": "  .proof-gallery__subtitle { grid-column: 1 / -1; }\n"
+      },
+      {
+        "before": "  .proof-gallery { width: calc(100% - 1rem); max-height: calc(100svh - 1rem); border-radius: var(--sx-radius-sm); }\n  .proof-gallery__header { padding: .75rem; gap: .5rem; }\n  .proof-gallery__body, .card-detail-dialog .proof-gallery__body { padding: .75rem; }\n",
+        "after": "  .visual-card__inner, .card[data-card-navigation], .card:has(> .card-detail), .editorial-card:has(> .card-detail), .visual-card-rail--landscape .visual-card__inner { border-radius: 1.5rem; }\n  .proof-gallery { width: calc(100% - 1rem); max-height: calc(100svh - 1rem); border-radius: 1.5rem; }\n  .proof-gallery__header, .card-detail-dialog .proof-gallery__header { padding: 1.25rem 1rem .75rem; gap: .75rem; }\n  .proof-gallery__body, .card-detail-dialog .proof-gallery__body { padding: .75rem 1rem 1.25rem; }\n"
+      },
+      {
+        "before": "  .proof-gallery__information > .button { max-width: 100%; }\n",
+        "after": "  .proof-gallery__cta { padding: .25rem 1rem 1.25rem; }\n"
+      }
+    ],
+    "js/project-proof-galleries.js": [
+      {
+        "before": "    return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || (event.button != null && event.button !== 0);\n  }\n",
+        "after": "    return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || (event.button != null && event.button !== 0);\n  }\n  // Observe gestures without cancelling pointerdown: text selection and native\n  // touch/rail scrolling remain available. A drag must never become an opening.\n  function pointerIntent(surface) {\n    const track = surface.closest(\"[data-rail-track]\");\n    let press = null, dragged = false;\n    surface.addEventListener(\"pointerdown\", function (event) {\n      if (event.isPrimary === false || event.button > 0) return;\n      press = { x: event.clientX, y: event.clientY, rail: track?.scrollLeft || 0, pageY: window.scrollY };\n      dragged = false;\n    }, { passive: true });\n    surface.addEventListener(\"pointermove\", function (event) {\n      if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) dragged = true;\n    }, { passive: true });\n    surface.addEventListener(\"pointercancel\", function () { dragged = true; press = null; }, { passive: true });\n    surface.addEventListener(\"dragstart\", function () { dragged = true; });\n    return function (event) {\n      if (event.detail === 0) return false; // Native keyboard/programmatic click.\n      const scrolled = press && (Math.abs((track?.scrollLeft || 0) - press.rail) > 5 || Math.abs(window.scrollY - press.pageY) > 5);\n      press = null;\n      return dragged || scrolled || Boolean(window.getSelection()?.toString().trim());\n    };\n  }\n"
+      },
+      {
+        "before": "      status.textContent = \"Immagine \" + (index + 1) + \" di \" + views.length;\n    }\n",
+        "after": "      status.textContent = \"Immagine \" + (index + 1) + \" di \" + views.length;\n    }\n    const dragged = pointerIntent(trigger);\n"
+      },
+      {
+        "before": "    trigger.setAttribute(\"aria-haspopup\", \"dialog\");\n    trigger.addEventListener(\"click\", function (event) {\n      if (modifiedClick(event)) return;\n",
+        "after": "    trigger.setAttribute(\"aria-haspopup\", \"dialog\");\n    trigger.addEventListener(\"click\", function (event) {\n      if (modifiedClick(event)) return;\n      if (dragged(event)) { event.preventDefault(); return; }\n"
+      },
+      {
+        "before": "      if (event.key !== \"ArrowLeft\" && event.key !== \"ArrowRight\") return;\n",
+        "after": "      if (event.key !== \"ArrowLeft\" && event.key !== \"ArrowRight\") return;\n      if (event.target.closest('input, textarea, select, [contenteditable=\"true\"]')) return;\n"
+      },
+      {
+        "before": "        !trigger || !content || !title?.textContent.trim()) return;\n",
+        "after": "        !trigger || !content || !title?.textContent.trim()) return;\n    const card = fallback.closest(\".visual-card__inner, .card, .editorial-card, .hero-editorial-note\");\n    if (!card || card.closest(\"a[href], [data-card-navigation]\") || card.querySelectorAll(\"details[data-card-detail]\").length !== 1 ||\n        [...card.querySelectorAll(\"a[href], button, input, select, textarea, summary, [tabindex]\")].some(function (element) { return !fallback.contains(element); })) return;\n    const dragged = pointerIntent(card);\n    function openFromCard() {\n      const nextSibling = content.nextSibling;\n      return openDetail(trigger, function () {\n        detailTitle.textContent = title.textContent;\n        detailBody.append(content);\n      }, function () { fallback.insertBefore(content, nextSibling); });\n    }\n    trigger.setAttribute(\"role\", \"button\");\n"
+      },
+      {
+        "before": "      const nextSibling = content.nextSibling;\n      const opened = openDetail(trigger, function () {\n        detailTitle.textContent = title.textContent;\n        detailBody.append(content);\n      }, function () {\n        fallback.insertBefore(content, nextSibling);\n      });\n      if (opened) event.preventDefault();\n      // Without enhancement, or while another surface is open, native details\n      // remains usable. No HTML parsing, clone, global click interception or form.\n    });\n",
+        "after": "      if (dragged(event)) { event.preventDefault(); return; }\n      if (openFromCard()) event.preventDefault();\n      // A failure to show the native dialog leaves the readable details fallback.\n    });\n    trigger.addEventListener(\"keydown\", function (event) {\n      if (event.key !== \"Enter\" && event.key !== \" \") return;\n      event.preventDefault();\n      if (event.repeat || modifiedClick(event)) return;\n      if (!openFromCard() && !anotherSurfaceOpen(detailDialog)) fallback.open = !fallback.open;\n    });\n    card.addEventListener(\"click\", function (event) {\n      if (fallback.contains(event.target) || modifiedClick(event) || dragged(event) || anotherSurfaceOpen(detailDialog)) return;\n      if (event.target.closest('a[href], button, input, select, textarea, summary, [contenteditable=\"true\"]')) return;\n      if (!openFromCard()) fallback.open = true;\n    });\n    // Only advertise a full interactive surface after all bindings succeed.\n    card.setAttribute(\"data-card-interactive\", \"detail\");\n"
+      }
+    ],
+    "src/_includes/layouts/base.njk": [
+      {
+        "before": "    <header class=\"proof-gallery__header\"><h3 id=\"card-detail-dialog-title\"></h3><button type=\"button\" class=\"proof-gallery__close\" data-gallery-close aria-label=\"Chiudi i dettagli\" autofocus><span aria-hidden=\"true\">×</span></button></header>\n",
+        "after": "    <header class=\"proof-gallery__header\"><h3 id=\"card-detail-dialog-title\"></h3><button type=\"button\" class=\"proof-gallery__close\" data-gallery-close aria-label=\"Chiudi i dettagli\" autofocus><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></header>\n"
+      }
+    ],
+    "src/_includes/partials/marketing-components.njk": [
+      {
+        "before": "{% if entry %}<details class=\"card-detail\" data-card-detail=\"{{ entry.key | escape }}\" id=\"{{ entry.domId | escape }}\"><summary data-detail-trigger aria-label=\"Dettagli: {{ entry.title | escape }}\">Dettagli <span aria-hidden=\"true\">+</span></summary><div class=\"card-detail__content\" data-detail-content><p>{{ entry.text | escape }}</p><a class=\"button button--page button--quote\" href=\"{{ entry.href | escape }}\">{{ entry.cta | escape }} <span aria-hidden=\"true\">↗</span></a></div><span data-detail-title hidden>{{ entry.title | escape }}</span></details>{% endif %}\n",
+        "after": "{% if entry and entry.action != \"navigate\" %}<details class=\"card-detail\" data-card-detail=\"{{ entry.key | escape }}\" id=\"{{ entry.domId | escape }}\"><summary data-detail-trigger aria-label=\"Approfondisci: {{ entry.title | escape }}\"><span class=\"card-detail__plus\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" focusable=\"false\"><path d=\"M5 12h14M12 5v14\"/></svg></span></summary><div class=\"card-detail__content\" data-detail-content>{% for paragraph in entry.paragraphs %}<p>{{ paragraph | escape }}</p>{% else %}<p>{{ entry.text | escape }}</p>{% endfor %}<div class=\"card-detail__cta\"><a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"{{ entry.href | escape }}\">{{ entry.cta | escape }} <span aria-hidden=\"true\">↗</span></a></div></div><span data-detail-title hidden>{{ entry.title | escape }}</span></details>{% endif %}\n"
+      },
+      {
+        "before": "      <article class=\"visual-card__inner\">\n",
+        "after": "      {% if item.href %}<a class=\"visual-card__inner\" data-card-navigation href=\"{{ item.href | escape }}\">{% else %}<article class=\"visual-card__inner\">{% endif %}\n"
+      },
+      {
+        "before": "          {% if item.href %}<a class=\"visual-card__service-link\" href=\"{{ item.href }}\">Esplora il servizio <span aria-hidden=\"true\">↗</span></a>{% endif %}\n          {{ cardDetail(cardDetails46.pages[pageKey][id][loop.index0]) }}\n",
+        "after": "          {% if not item.href %}{{ cardDetail(cardDetails46.pages[pageKey][id][loop.index0]) }}{% endif %}\n"
+      },
+      {
+        "before": "      </article>\n",
+        "after": "      {% if item.href %}</a>{% else %}</article>{% endif %}\n"
+      },
+      {
+        "before": "{% macro finalCta(title, text, label=\"Parliamo del tuo progetto\", projectSpacing=true, href=\"/contattaci\") %}\n",
+        "after": "{% macro finalCta(title, text, label=\"Parliamo del tuo progetto\", projectSpacing=true, href=\"/contattaci\", ctaRole=\"quote\") %}\n"
+      },
+      {
+        "before": "  <a class=\"button button--page{% if projectSpacing %} button--project{% endif %}{% if label == 'Richiedi un preventivo' %} button--quote{% endif %}\" href=\"{{ href }}\">{{ label }} <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "  <a class=\"button button--page{% if projectSpacing %} button--project{% endif %} button--{{ ctaRole }}\" data-cta-role=\"{{ ctaRole }}\" href=\"{{ href }}\">{{ label }} <span aria-hidden=\"true\">↗</span></a>\n"
+      }
+    ],
+    "src/_includes/partials/project-proof-galleries.njk": [
+      {
+        "before": "        <div class=\"visual-card__copy\"><h3>{{ project.name | escape }}</h3><p>{{ project.description | escape }}</p><span class=\"project-proof-cta\">Esplora il progetto <span aria-hidden=\"true\">↗</span></span></div>\n",
+        "after": "        <div class=\"visual-card__copy\"><h3>{{ project.name | escape }}</h3><p>{{ project.description | escape }}</p><span class=\"project-proof-cta\" aria-hidden=\"true\"><span class=\"card-detail__plus\"><svg viewBox=\"0 0 24 24\" focusable=\"false\"><path d=\"M5 12h14M12 5v14\"/></svg></span></span></div>\n"
+      },
+      {
+        "before": "  <a class=\"button button--page button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo</a>\n",
+        "after": "  <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo</a>\n"
+      },
+      {
+        "before": "  <header class=\"proof-gallery__header\"><h3 id=\"gallery-title-{{ project.id }}\">{{ project.name | escape }}</h3><button type=\"button\" class=\"proof-gallery__close\" data-gallery-close aria-label=\"Chiudi la galleria {{ project.name | escape }}\" autofocus><span aria-hidden=\"true\">×</span></button></header>\n",
+        "after": "  <header class=\"proof-gallery__header\"><h3 id=\"gallery-title-{{ project.id }}\">{{ project.name | escape }}</h3><button type=\"button\" class=\"proof-gallery__close\" data-gallery-close aria-label=\"Chiudi la galleria {{ project.name | escape }}\" autofocus><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></header>\n"
+      },
+      {
+        "before": "      {% if project.privacyNote %}<p class=\"proof-gallery__note\">{{ project.privacyNote | escape }}</p>{% endif %}\n      <a class=\"button button--page button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "      {% if project.privacyNote %}<p class=\"proof-gallery__note\">{{ project.privacyNote | escape }}</p>{% endif %}\n"
+      },
+      {
+        "before": "  </footer>\n",
+        "after": "  </footer>\n  <div class=\"proof-gallery__cta\"><a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a></div>\n"
+      }
+    ],
+    "src/_includes/partials/service-demo-form.njk": [
+      {
+        "before": "      <button type=\"submit\" class=\"button button--submit\">Invia richiesta</button>\n",
+        "after": "      <button type=\"submit\" class=\"button button--submit button--quote\" data-cta-role=\"quote\">Invia richiesta</button>\n"
+      }
+    ],
+    "src/_includes/partials/site-header.njk": [
+      {
+        "before": "{% from \"partials/social-icon.njk\" import socialIcon %}\n  <header class=\"site-header\" data-site-header>",
+        "after": "{% from \"partials/social-icon.njk\" import socialIcon %}\n{% set headerWhitespace47 %}  <header class=\"site-header\" data-site-header>",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "  </header>\n",
+        "after": "  </header>{% endset %}{{ headerWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}\n",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "        <a class=\"button button--compact button--menu button--project button--quote header-cta\" href=\"{{ navigation.cta.href }}\">{{ navigation.cta.label }}</a>\n",
+        "after": "        <a class=\"button button--compact button--menu button--project button--quote header-cta\" data-cta-role=\"quote\" href=\"{{ navigation.cta.href }}\">{{ navigation.cta.label }}</a>\n"
+      },
+      {
+        "before": "                <a class=\"button button--menu button--project button--quote site-navigation__cta\" href=\"{{ navigation.cta.href }}\">{{ navigation.cta.label }} <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "                <a class=\"button button--menu button--project button--quote site-navigation__cta\" data-cta-role=\"quote\" href=\"{{ navigation.cta.href }}\">{{ navigation.cta.label }} <span aria-hidden=\"true\">↗</span></a>\n"
+      }
+    ],
+    "src/automazioni-ai-business.njk": [
+      {
+        "before": "{% block content %}\n<main id=\"main-content\">",
+        "after": "{% block content %}\n{% set mainBeforeFormWhitespace47 %}<main id=\"main-content\">",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "  {% include \"partials/service-demo-form.njk\" %}",
+        "after": "  {% endset %}{{ mainBeforeFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}{% include \"partials/service-demo-form.njk\" %}{% set mainAfterFormWhitespace47 %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "</main>\n{% endblock %}",
+        "after": "</main>{% endset %}{{ mainAfterFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}\n{% endblock %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "          <a class=\"button button--page\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "          <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--explore\" data-cta-role=\"explore\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n"
+      }
+    ],
+    "src/chi-siamo.njk": [
+      {
+        "before": "          <a class=\"button button--page button--project\" href=\"/contattaci\">Parliamo del tuo progetto <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary\" href=\"#metodo\">Scopri il metodo <span aria-hidden=\"true\">↓</span></a>\n",
+        "after": "          <a class=\"button button--page button--project button--quote\" data-cta-role=\"quote\" href=\"/contattaci\">Parliamo del tuo progetto <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary button--explore\" data-cta-role=\"explore\" href=\"#metodo\">Scopri il metodo <span aria-hidden=\"true\">↓</span></a>\n"
+      }
+    ],
+    "src/configuratori-3d-2d.njk": [
+      {
+        "before": "          <a class=\"button button--page\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n          <a class=\"button button--page button--secondary button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "          <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--explore\" data-cta-role=\"explore\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n"
+      },
+      {
+        "before": "  <section class=\"section section--compact container configurator-cta-bridge\" aria-label=\"Richiesta di confronto\">\n    <a class=\"button button--page\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n",
+        "after": "  <section class=\"section section--compact container configurator-cta-bridge\" aria-label=\"Richiesta di confronto\">\n    <a class=\"button button--page button--explore\" data-cta-role=\"explore\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n"
+      },
+      {
+        "before": "        <button type=\"submit\" class=\"button button--submit\">Invia richiesta</button>\n",
+        "after": "        <button type=\"submit\" class=\"button button--submit button--quote\" data-cta-role=\"quote\">Invia richiesta</button>\n"
+      }
+    ],
+    "src/configuratori-ecommerce.njk": [
+      {
+        "before": "{% block content %}\n<main id=\"main-content\">",
+        "after": "{% block content %}\n{% set mainBeforeFormWhitespace47 %}<main id=\"main-content\">",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "  {% include \"partials/service-demo-form.njk\" %}",
+        "after": "  {% endset %}{{ mainBeforeFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}{% include \"partials/service-demo-form.njk\" %}{% set mainAfterFormWhitespace47 %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "</main>\n{% endblock %}",
+        "after": "</main>{% endset %}{{ mainAfterFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}\n{% endblock %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "          <a class=\"button button--page\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "          <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--explore\" data-cta-role=\"explore\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n"
+      }
+    ],
+    "src/contattaci.njk": [
+      {
+        "before": "          <button type=\"submit\" class=\"button button--submit form-submit\">Invia richiesta</button>\n",
+        "after": "          <button type=\"submit\" class=\"button button--submit button--quote form-submit\" data-cta-role=\"quote\">Invia richiesta</button>\n"
+      }
+    ],
+    "src/index.njk": [
+      {
+        "before": "          <a class=\"button button--page button--project button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary\" href=\"#soluzioni\">Esplora le soluzioni <span aria-hidden=\"true\">↓</span></a>\n",
+        "after": "          <a class=\"button button--page button--project button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary button--explore\" data-cta-role=\"explore\" href=\"#soluzioni\">Esplora le soluzioni <span aria-hidden=\"true\">↓</span></a>\n"
+      },
+      {
+        "before": "        <article class=\"card card--link\" data-card-accent=\"blue\"><a class=\"card__main-link\" href=\"/configuratori-ecommerce\">{{ functionIcon(\"configuration\") }}<span class=\"card__label\">E-commerce</span><h3>Guidare la <span class=\"accent-text\">personalizzazione</span> prima dell’acquisto.</h3><p>Varianti, compatibilità, prezzo e passaggio al carrello dentro un’esperienza coerente.</p><span class=\"card__arrow\">Scopri i configuratori e-commerce <span aria-hidden=\"true\">→</span></span></a>{{ cardDetail(cardDetails46.pages[pageKey].solutions[0]) }}</article>\n        <article class=\"card card--link\" data-card-accent=\"orange\"><a class=\"card__main-link\" href=\"/software-cpq-portali-commerciali\">{{ functionIcon(\"pricing\") }}<span class=\"card__label\">B2B</span><h3>Governare regole, listini e <span class=\"accent-text\">preventivi</span>.</h3><p>Strumenti per agenti, dealer e clienti con ruoli, revisioni e documenti.</p><span class=\"card__arrow\">Scopri CPQ e portali <span aria-hidden=\"true\">→</span></span></a>{{ cardDetail(cardDetails46.pages[pageKey].solutions[1]) }}</article>\n        <article class=\"card card--link\" data-card-accent=\"teal\"><a class=\"card__main-link\" href=\"/planner-configuratori-arredamento\">{{ functionIcon(\"users\") }}<span class=\"card__label\">Arredamento</span><h3>Comporre <span class=\"accent-text\">spazi</span> e prodotti modulari.</h3><p>Misure, finiture, vincoli e offerte per produttori, showroom e rivenditori.</p><span class=\"card__arrow\">Scopri planner e configuratori <span aria-hidden=\"true\">→</span></span></a>{{ cardDetail(cardDetails46.pages[pageKey].solutions[2]) }}</article>\n",
+        "after": "        <a class=\"card card--link card__main-link\" data-card-accent=\"blue\" data-card-navigation href=\"/configuratori-ecommerce\">{{ functionIcon(\"configuration\") }}<span class=\"card__label\">E-commerce</span><h3>Guidare la <span class=\"accent-text\">personalizzazione</span> prima dell’acquisto.</h3><p>Varianti, compatibilità, prezzo e passaggio al carrello dentro un’esperienza coerente.</p><span class=\"card__arrow\">Scopri i configuratori e-commerce <span aria-hidden=\"true\">→</span></span></a>\n        <a class=\"card card--link card__main-link\" data-card-accent=\"orange\" data-card-navigation href=\"/software-cpq-portali-commerciali\">{{ functionIcon(\"pricing\") }}<span class=\"card__label\">B2B</span><h3>Governare regole, listini e <span class=\"accent-text\">preventivi</span>.</h3><p>Strumenti per agenti, dealer e clienti con ruoli, revisioni e documenti.</p><span class=\"card__arrow\">Scopri CPQ e portali <span aria-hidden=\"true\">→</span></span></a>\n        <a class=\"card card--link card__main-link\" data-card-accent=\"teal\" data-card-navigation href=\"/planner-configuratori-arredamento\">{{ functionIcon(\"users\") }}<span class=\"card__label\">Arredamento</span><h3>Comporre <span class=\"accent-text\">spazi</span> e prodotti modulari.</h3><p>Misure, finiture, vincoli e offerte per produttori, showroom e rivenditori.</p><span class=\"card__arrow\">Scopri planner e configuratori <span aria-hidden=\"true\">→</span></span></a>\n"
+      },
+      {
+        "before": "      <article class=\"card card--link capability-card\" style=\"--original-image-bg: {{ originalImages31[\"HOME-CAP-01\"].background }}\">\n        <div class=\"capability-card__copy\"><a class=\"card__main-link\" href=\"/configuratori-3d-2d\"><span class=\"card__label\">Configurazione prodotto</span><h3>Configuratori di prodotto interattivi.</h3><p>La componente visiva aiuta a comprendere varianti, materiali e risultato della configurazione.</p><span class=\"card__arrow\">Esplora i configuratori <span aria-hidden=\"true\">→</span></span></a>{{ cardDetail(cardDetails46.pages[pageKey].capabilities[0]) }}</div>\n",
+        "after": "      <a class=\"card card--link capability-card\" data-card-navigation href=\"/configuratori-3d-2d\" style=\"--original-image-bg: {{ originalImages31[\"HOME-CAP-01\"].background }}\">\n        <div class=\"capability-card__copy\"><span class=\"card__label\">Configurazione prodotto</span><h3>Configuratori di prodotto interattivi.</h3><p>La componente visiva aiuta a comprendere varianti, materiali e risultato della configurazione.</p><span class=\"card__arrow\">Esplora i configuratori <span aria-hidden=\"true\">→</span></span></div>\n"
+      },
+      {
+        "before": "      </article>\n      <article class=\"card card--link capability-card\" style=\"--original-image-bg: {{ originalImages31[\"HOME-CAP-02\"].background }}\">\n        <div class=\"capability-card__copy\"><a class=\"card__main-link\" href=\"/automazioni-ai-business\"><span class=\"card__label\">AI integrata</span><h3>Automazioni dentro il processo commerciale.</h3><p>L’AI supporta documenti, richieste e workflow definiti, mantenendo controllo e supervisione.</p><span class=\"card__arrow\">Esplora le automazioni AI <span aria-hidden=\"true\">→</span></span></a>{{ cardDetail(cardDetails46.pages[pageKey].capabilities[1]) }}</div>\n",
+        "after": "      </a>\n      <a class=\"card card--link capability-card\" data-card-navigation href=\"/automazioni-ai-business\" style=\"--original-image-bg: {{ originalImages31[\"HOME-CAP-02\"].background }}\">\n        <div class=\"capability-card__copy\"><span class=\"card__label\">AI integrata</span><h3>Automazioni dentro il processo commerciale.</h3><p>L’AI supporta documenti, richieste e workflow definiti, mantenendo controllo e supervisione.</p><span class=\"card__arrow\">Esplora le automazioni AI <span aria-hidden=\"true\">→</span></span></div>\n"
+      },
+      {
+        "before": "        <img class=\"capability-card__image\" data-original-asset=\"HOME-CAP-02\" src=\"{{ originalImages31[\"HOME-CAP-02\"].src }}\" srcset=\"{{ originalImages31[\"HOME-CAP-02\"].srcset }}\" sizes=\"{{ originalImages31[\"HOME-CAP-02\"].sizes }}\" width=\"{{ originalImages31[\"HOME-CAP-02\"].width }}\" height=\"{{ originalImages31[\"HOME-CAP-02\"].height }}\" alt=\"{{ originalImages31[\"HOME-CAP-02\"].alt }}\" loading=\"lazy\" decoding=\"async\">\n      </article>\n",
+        "after": "        <img class=\"capability-card__image\" data-original-asset=\"HOME-CAP-02\" src=\"{{ originalImages31[\"HOME-CAP-02\"].src }}\" srcset=\"{{ originalImages31[\"HOME-CAP-02\"].srcset }}\" sizes=\"{{ originalImages31[\"HOME-CAP-02\"].sizes }}\" width=\"{{ originalImages31[\"HOME-CAP-02\"].width }}\" height=\"{{ originalImages31[\"HOME-CAP-02\"].height }}\" alt=\"{{ originalImages31[\"HOME-CAP-02\"].alt }}\" loading=\"lazy\" decoding=\"async\">\n      </a>\n"
+      },
+      {
+        "before": "        <a class=\"button button--page\" href=\"/contattaci#contatti\">Raccontaci il tuo processo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "        <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Raccontaci il tuo processo <span aria-hidden=\"true\">↗</span></a>\n"
+      }
+    ],
+    "src/planner-configuratori-arredamento.njk": [
+      {
+        "before": "{% block content %}\n<main id=\"main-content\">",
+        "after": "{% block content %}\n{% set mainBeforeFormWhitespace47 %}<main id=\"main-content\">",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "  {% include \"partials/service-demo-form.njk\" %}",
+        "after": "  {% endset %}{{ mainBeforeFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}{% include \"partials/service-demo-form.njk\" %}{% set mainAfterFormWhitespace47 %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "</main>\n{% endblock %}",
+        "after": "</main>{% endset %}{{ mainAfterFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}\n{% endblock %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "          <a class=\"button button--page\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "          <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--explore\" data-cta-role=\"explore\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n"
+      }
+    ],
+    "src/software-cpq-portali-commerciali.njk": [
+      {
+        "before": "{% block content %}\n<main id=\"main-content\">",
+        "after": "{% block content %}\n{% set mainBeforeFormWhitespace47 %}<main id=\"main-content\">",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "  {% include \"partials/service-demo-form.njk\" %}",
+        "after": "  {% endset %}{{ mainBeforeFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}{% include \"partials/service-demo-form.njk\" %}{% set mainAfterFormWhitespace47 %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "</main>\n{% endblock %}",
+        "after": "</main>{% endset %}{{ mainAfterFormWhitespace47 | replace(r/>[ \\t\\r\\n]*\\n[ \\t\\r\\n]*</g, '>\\n<') | safe }}\n{% endblock %}",
+        "changeId": "T47-14"
+      },
+      {
+        "before": "          <a class=\"button button--page\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--secondary button--quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "          <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Richiedi un preventivo <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"button button--page button--explore\" data-cta-role=\"explore\" href=\"#demo-form\">Richiedi una Demo gratuita <span aria-hidden=\"true\">↓</span></a>\n"
+      },
+      {
+        "before": "        <a class=\"button button--page\" href=\"/contattaci#contatti\">Raccontaci il tuo processo <span aria-hidden=\"true\">↗</span></a>\n",
+        "after": "        <a class=\"button button--page button--quote\" data-cta-role=\"quote\" href=\"/contattaci#contatti\">Raccontaci il tuo processo <span aria-hidden=\"true\">↗</span></a>\n"
+      }
+    ]
+  }
+}

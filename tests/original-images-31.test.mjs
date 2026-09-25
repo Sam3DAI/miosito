@@ -26,7 +26,7 @@ test("only explicitly lazy original IMG variants are excluded from initial trans
   assert.equal(isDeferredOriginalImage('<img loading="lazy">', "js/site-shell.js"), false);
 });
 
-test("current UI46 HTML preserves all 32 original/clean image slots, metadata and capability service links", () => {
+test("current UI47 HTML preserves all 32 original/clean image slots, metadata and whole-card capability service links", () => {
   let slots = 0;
   for (const pageKey of Object.keys(detailCounts46)) {
     const file = pageKey === "home" ? "index" : details46.routes[pageKey].slice(1);
@@ -38,13 +38,15 @@ test("current UI46 HTML preserves all 32 original/clean image slots, metadata an
 test("capability HTML rejects altered image metadata, loading policy, title, wrapper or original service destination", () => {
   const html = renderRoute46("home"), route = {source:"src/index.njk"};
   for (const id of ["HOME-CAP-01", "HOME-CAP-02"]) {
-    const block = [...html.matchAll(/<article class="card card--link capability-card"[^>]*>[\s\S]*?<\/article>/g)].find(m => m[0].includes(`data-original-asset="${id}"`))[0];
+    const block = [...html.matchAll(/<a class="card card--link capability-card"[^>]*\bdata-card-navigation\b[^>]*>[\s\S]*?<\/a>/g)].find(m => m[0].includes(`data-original-asset="${id}"`))[0];
     const image = block.match(/<img\b[^>]*>/)[0];
     const mutations = [
-      block.replace('<article class="card card--link capability-card"', '<article class="card renamed-capability"'),
+      block.replace('<a class="card card--link capability-card"', '<a class="card renamed-capability"'),
       block.replace(/<h3>[\s\S]*?<\/h3>/, '<h3>Unauthorized title.</h3>'),
-      block.replace(/(<a class="card__main-link" href=")[^"]+/, '$1/wrong-service'),
-      block.replace('class="card__main-link"', 'class="changed-main-link"'),
+      block.replace(/(data-card-navigation href=")[^"]+/, '$1/wrong-service'),
+      block.replace('data-card-navigation', 'removed-navigation'),
+      block.replace('<a class=', '<article class=').replace('</a>', '</article>'),
+      block.replace('</a>', '<button>Dettagli</button></a>'),
       block.replace(image, image + image),
       block.replace(image, '<figure>' + image + '</figure>'),
       block.replace(image, image.replace('data-original-asset="' + id + '"', 'data-original-asset="UNKNOWN"')),

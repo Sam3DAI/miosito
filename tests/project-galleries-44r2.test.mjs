@@ -19,9 +19,9 @@ test('44R2 refuses image shrinking, cropping, unreadable cover titles and change
 test('44R2/46 refuses missing modal safeguards, restoration or unsolicited autoplay',()=>{const f='js/project-proof-galleries.js',s=read(f);for(const changed of [s.replace('dialog.showModal()','dialog.show()'),s.replace('trigger.focus({ preventScroll: true });',''),s.replace('if (anotherSurfaceOpen(dialog)) return false;','if (false) return false;'),s+'\nsetInterval(()=>{},1000)']){assert.notEqual(changed,s);assert.throws(()=>assertGallerySource44r2(f,changed));}});
 test('44R2 explicit Tab loop wraps both ends and preserves native middle navigation',()=>{
  const fixture=dialogFixture46(),document=fixture.document;
- const controls=[fixture.close,fixture.previous,fixture.next,fixture.large];
+ const controls=[fixture.close,fixture.previous,fixture.next,fixture.large,fixture.galleryCta];
  fixture.click(fixture.galleryTrigger);
- for(const [from,shiftKey,to,prevented] of [[3,false,0,true],[0,true,3,true],[1,false,1,false],[2,true,2,false]]){
+ for(const [from,shiftKey,to,prevented] of [[4,false,0,true],[0,true,4,true],[1,false,1,false],[2,true,2,false],[3,false,3,false]]){
   document.activeElement=controls[from];const event=fixture.gallery.emit('keydown',{key:'Tab',shiftKey});
   assert.equal(document.activeElement,controls[to]);assert.equal(event.prevented,prevented);
  }

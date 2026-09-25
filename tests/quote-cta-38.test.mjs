@@ -47,8 +47,12 @@ test('task38 HTML oracle rejects a third hero CTA, wrong quote URL, tracking par
   html.replace('#soluzioni','#wrong')
  ]) assert.throws(()=>assertQuote38Html('/',changed));
 });
-test('task38 HTML oracle keeps demo primary and one form while quote is secondary and final',()=>{
- const html=fixture(link('Richiedi una Demo gratuita','#demo-form')+q).replace('</main>','<div id="demo-form"><span class="section-kicker">Richiesta demo</span><form name="demo-configuratori-ecommerce"></form></div></main>');
+test('task38 destinations and one form persist; task47 puts quote before demo in the DOM',()=>{
+ const demo=link('Richiedi una Demo gratuita','#demo-form');
+ const html=fixture(q+demo).replace('</main>','<div id="demo-form"><span class="section-kicker">Richiesta demo</span><form name="demo-configuratori-ecommerce"></form></div></main>');
  assertQuote38Html('/configuratori-ecommerce',html);
- for(const changed of [html.replace('href="#demo-form"','href="/contattaci#contatti"'),html.replace('id="demo-form"','id="removed"'),html.replace('</main>','<form></form></main>')]) assert.throws(()=>assertQuote38Html('/configuratori-ecommerce',changed));
+ for(const changed of [html.replace('href="#demo-form"','href="/contattaci#contatti"'),html.replace('id="demo-form"','id="removed"'),html.replace('</main>','<form></form></main>'),html.replace('<div class="cta-group">'+q+demo,'<div class="cta-group">'+demo+q)]) {
+  assert.notEqual(changed,html,'Negative fixture must actually change the current HTML');
+  assert.throws(()=>assertQuote38Html('/configuratori-ecommerce',changed));
+ }
 });

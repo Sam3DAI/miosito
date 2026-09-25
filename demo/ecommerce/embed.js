@@ -5,7 +5,15 @@
   function setTheme(theme){document.documentElement.dataset.theme=theme;}
   const requested=params.get('theme');setTheme(requested==='dark'?'dark':'light');
   document.documentElement.dataset.embedded=String(embedded);
+  document.addEventListener('DOMContentLoaded',()=>{
+    // The parent owns the single note and launch/fullscreen toolbar when embedded.
+    if(embedded)document.querySelector('#standaloneDemoNote')?.remove();
+  });
   function notify(type){if(embedded&&window.parent!==window)window.parent.postMessage({type},location.origin);}
+  document.addEventListener('keydown',event=>{
+    // Let the browser handle native fullscreen; the parent may close its CSS fallback.
+    if(event.key==='Escape')notify('solvex-wd47-exit-expanded');
+  });
   window.addEventListener('message',event=>{
     if(!embedded||event.source!==window.parent||event.origin!==location.origin)return;
     const value=event.data;

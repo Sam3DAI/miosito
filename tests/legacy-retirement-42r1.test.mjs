@@ -5,8 +5,13 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {BASE_42,edits42,retired42,expectedRetirement42,beforeRetirement42,assertExactRetirement42,assertRetirement42Sources,assertRetirement42Output,assertRetiredResponse42} from './legacy-retirement-42r1.mjs';
+import {retainedWd46PosterFiles47} from './wd46-retained-posters47.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-test('42R1 exact source delta and preservation of retired Git blobs',()=>assertRetirement42Sources(root));
+test('42R1 exact source delta and preservation of retired Git blobs',()=>{
+ const result=assertRetirement42Sources(root);
+ assert.equal(result.sources.length,retired42.length);
+ assert.equal(result.retainedWd46Posters,2);
+});
 test('42R1 legal reverse oracle cannot hide unauthorized clauses',()=>{
  for(const file of ['src/privacy-policy.njk','src/termini-condizioni.njk']){
   const old=readGitBlobBuffer(BASE_42,file,root).buffer.toString('utf8').replace(/\r\n/g,'\n');
@@ -22,6 +27,15 @@ const fixture=()=>new Map([
  ['sitemap.xml','<urlset>'+Array.from({length:10},(_,i)=>'<loc>/core-'+i+'</loc>').join('')+'</urlset>']
 ]);
 test('42R1 clean synthetic output is accepted',()=>assertRetirement42Output(fixture()));
+
+test('42R1/47 retained WD46 source posters are forbidden in output and public references',()=>{
+ for(const asset of retainedWd46PosterFiles47) {
+  const files=fixture();files.set(asset,fs.readFileSync(path.join(root,asset)));
+  assert.throws(()=>assertRetirement42Output(files),/historical WD46 poster must not publish/);
+  const linked=fixture();linked.set('alias.html','<img src="/'+asset+'">');
+  assert.throws(()=>assertRetirement42Output(linked),/historical WD46 poster reference forbidden/);
+ }
+});
 test('42R1 rendered escaped description reverses only the exact approved metadata',()=>{
  const [old,next]=edits42['src/termini-condizioni.njk'][0];
  const tag=text=>'<meta name="description" content="'+text.replaceAll("'",'&#39;')+'">';
