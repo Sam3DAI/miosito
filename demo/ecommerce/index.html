@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo configuratore e-commerce WDRacing | SolveX</title>
+  <meta name="description" content="Due modelli originali, materiali 3D e prezzi esemplificativi. Nessun ordine viene inviato.">
+  <meta name="robots" content="noindex,follow">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./embed.js"></script>
+</head>
+<body>
+  <header class="demo-banner"><span>Demo con prezzi esemplificativi. Nessun ordine viene inviato.</span><button id="demoReset" type="button">Azzera demo</button><button id="demoRetry" type="button" hidden>Riprova caricamento</button></header>
+  <p id="demoStatus" role="status" class="demo-status">Caricamento RESTYLE 3D…</p>
+  <div class="app-shell">
+    <main class="studio-layout">
+      <section class="viewer-column">
+        <div class="hero-block">
+          <h1 id="heroTitle" class="hero-block__title">
+  <span class="hero-block__accent">Configura</span> il Tuo modello di<br>Sella preferito.
+</h1>
+        </div>
+
+        <div id="viewerArea" class="viewer-shell">
+          <canvas id="seatCanvas" tabindex="0" aria-label="Vista 3D della sella. Trascina per ruotare; usa i comandi sotto per zoom e rotazione da tastiera."></canvas>
+          <div id="viewerNotice" class="viewer-notice" hidden></div>
+          <div class="camera-tools" role="group" aria-label="Controlli della vista 3D">
+            <button type="button" data-camera="left" aria-label="Ruota a sinistra">←</button>
+            <button type="button" data-camera="right" aria-label="Ruota a destra">→</button>
+            <button type="button" data-camera="in" aria-label="Avvicina">+</button>
+            <button type="button" data-camera="out" aria-label="Allontana">−</button>
+            <button type="button" data-camera="reset">Inquadratura iniziale</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="studio-panel">
+        <div class="studio-panel__top">
+          <div class="stepper">
+            <button type="button" class="stepper__item" data-step="1">
+              <strong>Modello</strong>
+            </button>
+            <button type="button" class="stepper__item" data-step="2">
+              <strong>Brand</strong>
+            </button>
+            <button type="button" class="stepper__item" data-step="3">
+              <strong>Materiali</strong>
+            </button>
+            <button type="button" class="stepper__item" data-step="4">
+              <strong>Riepilogo</strong>
+            </button>
+          </div>
+
+          <div class="quick-strip">
+            <div class="quick-strip__cell">
+              <span>Veicolo</span>
+              <strong id="quickVehicle">—</strong>
+            </div>
+            <div class="quick-strip__cell">
+              <span>Modello</span>
+              <strong id="quickProduct">—</strong>
+            </div>
+            <div class="quick-strip__cell quick-strip__cell--total">
+              <span>Totale</span>
+              <strong id="quickTotal">€ 0,00</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-panel__body">
+          <!-- STEP 1 -->
+          <section class="step-panel" data-step-panel="1">
+            <div class="panel-head">
+              <h2>Seleziona il modello</h2>
+            </div>
+
+            <div id="modelCards" class="model-grid"></div>
+            <p id="modelChangeStatus" class="demo-rule" role="status"></p>
+
+            <div class="selection-box">
+              <span>Selezionato</span>
+              <strong id="selectedModelName">—</strong>
+              <p id="selectedModelNote">—</p>
+            </div>
+          </section>
+
+          <!-- STEP 2 -->
+          <section class="step-panel" data-step-panel="2" hidden>
+            <div class="panel-head">
+              <h2>Brand e compatibilità</h2>
+            </div>
+
+            <div class="selector-block">
+              <div class="selector-head">
+                <span>Marchio</span>
+                <strong id="brandCurrent">—</strong>
+              </div>
+              <div id="brandOptions" class="choice-grid"></div>
+            </div>
+
+            <div class="selector-block">
+              <div class="selector-head">
+                <span>Modello</span>
+                <strong id="bikeModelCurrent">—</strong>
+              </div>
+              <div id="bikeModelOptions" class="choice-grid"></div>
+            </div>
+
+            <div class="selector-block">
+              <div class="selector-head">
+                <span>Anno</span>
+                <strong id="bikeYearCurrent">—</strong>
+              </div>
+              <div id="bikeYearOptions" class="choice-grid"></div>
+            </div>
+          </section>
+
+          <!-- STEP 3 -->
+          <section class="step-panel" data-step-panel="3" hidden>
+            <div class="panel-head">
+              <h2>Materiali e dettagli</h2>
+            </div>
+
+            <div id="customNav" class="custom-nav"></div>
+            <div id="customStage" class="custom-stage"></div>
+          </section>
+
+          <!-- STEP 4 -->
+          <section class="step-panel" data-step-panel="4" hidden>
+            <div class="panel-head">
+              <h2>Riepilogo Configurazione</h2>
+            </div>
+
+            <div class="summary-stack">
+              <article class="summary-card">
+                <span class="summary-card__label">Veicolo</span>
+                <ul id="summaryVehicle" class="summary-list"></ul>
+              </article>
+
+              <article class="summary-card">
+                <span class="summary-card__label">Modello</span>
+                <ul id="summaryDesign" class="summary-list"></ul>
+              </article>
+
+              <article class="summary-card">
+                <span class="summary-card__label">Personalizzazione</span>
+                <ul id="summaryFinish" class="summary-list"></ul>
+              </article>
+
+              <article class="summary-card">
+                <span class="summary-card__label">Loghi e Brand</span>
+                <ul id="summaryText" class="summary-list"></ul>
+              </article>
+
+              <article class="summary-card">
+                <span class="summary-card__label">Totale</span>
+                <div class="price-box">
+                  <div class="price-box__row"><span>Base</span><strong id="summaryBasePrice">€ 0,00</strong></div>
+                  <div class="price-box__row"><span>Extra</span><strong id="summaryExtras">€ 0,00</strong></div>
+                  <div class="price-box__row price-box__row--total"><span>Totale</span><strong id="summaryTotal">€ 0,00</strong></div>
+                </div>
+              </article>
+            </div>
+            <p id="demoPriceDetails" class="demo-rule"></p>
+            <p id="demoPriceTable" class="demo-rule"></p>
+            <button id="addToCartBtn" class="add-to-cart-btn" type="button" disabled>
+  Aggiungi alla selezione demo
+</button>
+            <h3>La tua selezione locale</h3><ul id="demoSelection"></ul>
+          </section>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="./vendor/babylon.js"></script>
+  <script src="./vendor/babylonjs.loaders.min.js"></script>
+
+  <script src="./babylonFx.js"></script>
+  <script src="./babylonScene.js"></script>
+  <script src="./materialResolver.js"></script>
+  <script src="./modelCatalogLoader.js"></script>
+  <script src="./startupPreloader.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

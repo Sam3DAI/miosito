@@ -18,7 +18,7 @@ twitter:
   description: "Strumenti B2B su misura per comporre prodotti, verificare vincoli e preparare offerte."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon, cardDetail with context %}
 
 {% set processItems = [
   { title: "Catalogo", icon: "documents", accent: "blue", highlight: "Catalogo", text: "Moduli, misure, finiture e codici." },
@@ -94,7 +94,7 @@ twitter:
         <p class="hero-lead">Composizioni, misure e finiture in uno strumento B2B che aiuta showroom e reti vendita a preparare offerte coerenti con il catalogo.</p>
         <div class="cta-group">
           <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
-          <a class="button button--page button--secondary" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--secondary button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       </div>
@@ -118,15 +118,15 @@ twitter:
         <p>Ogni funzione viene dimensionata su catalogo, utenti e risultato che il processo deve produrre.</p>
       </div>
       <div class="feature-grid">
-        <article class="card" data-card-accent="blue">{{ functionIcon("documents") }}<span class="card__label">Catalogo</span><h3>Moduli e <span class="accent-text">collezioni</span></h3><p>Prodotti, componenti e famiglie organizzati per costruire composizioni coerenti.</p></article>
-        <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Tecnica</span><h3>Misure e <span class="accent-text">vincoli</span></h3><p>Controlli su dimensioni, adiacenze e incompatibilità quando le regole sono definibili.</p></article>
-        <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Materiali</span><h3>Finiture e <span class="accent-text">varianti</span></h3><p>Colori e materiali associati ai prodotti secondo disponibilità e combinazioni ammesse.</p></article>
-        <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Visuale</span><h3>Vista <span class="accent-text">2D o 3D</span></h3><p>La rappresentazione viene scelta in base a ciò che utente e cliente devono comprendere.</p></article>
-        <article class="card" data-card-accent="teal">{{ functionIcon("users") }}<span class="card__label">Spazio</span><h3><span class="accent-text">Ambienti</span></h3><p>Dimensioni e contesto possono guidare il posizionamento quando fanno parte del caso d’uso.</p></article>
-        <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Commerciale</span><h3><span class="accent-text">Prezzi</span> e preventivi</h3><p>Composizione, listini e regole possono alimentare riepiloghi e documenti di offerta.</p></article>
-        <article class="card" data-card-accent="teal">{{ functionIcon("users") }}<span class="card__label">Utenti</span><h3><span class="accent-text">Dealer e agenti</span></h3><p>Ruoli e visibilità supportano i diversi attori della rete commerciale.</p></article>
-        <article class="card" data-card-accent="green">{{ functionIcon("saves") }}<span class="card__label">Continuità</span><h3><span class="accent-text">Salvataggio</span> e condivisione</h3><p>Le composizioni possono essere riprese, condivise o trasformate in una richiesta.</p></article>
-        <article class="card" data-card-accent="magenta">{{ functionIcon("integrations") }}<span class="card__label">Sistemi</span><h3><span class="accent-text">Integrazioni</span></h3><p>Cataloghi, listini, CRM o altri strumenti vengono collegati solo dopo analisi delle interfacce.</p></article>
+        <article class="card" data-card-accent="blue">{{ functionIcon("documents") }}<span class="card__label">Catalogo</span><h3>Moduli e <span class="accent-text">collezioni</span></h3><p>Prodotti, componenti e famiglie organizzati per costruire composizioni coerenti.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[0]) }}</article>
+        <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Tecnica</span><h3>Misure e <span class="accent-text">vincoli</span></h3><p>Controlli su dimensioni, adiacenze e incompatibilità quando le regole sono definibili.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[1]) }}</article>
+        <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Materiali</span><h3>Finiture e <span class="accent-text">varianti</span></h3><p>Colori e materiali associati ai prodotti secondo disponibilità e combinazioni ammesse.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[2]) }}</article>
+        <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Visuale</span><h3>Vista <span class="accent-text">2D o 3D</span></h3><p>La rappresentazione viene scelta in base a ciò che utente e cliente devono comprendere.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[3]) }}</article>
+        <article class="card" data-card-accent="teal">{{ functionIcon("users") }}<span class="card__label">Spazio</span><h3><span class="accent-text">Ambienti</span></h3><p>Dimensioni e contesto possono guidare il posizionamento quando fanno parte del caso d’uso.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[4]) }}</article>
+        <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Commerciale</span><h3><span class="accent-text">Prezzi</span> e preventivi</h3><p>Composizione, listini e regole possono alimentare riepiloghi e documenti di offerta.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[5]) }}</article>
+        <article class="card" data-card-accent="teal">{{ functionIcon("users") }}<span class="card__label">Utenti</span><h3><span class="accent-text">Dealer e agenti</span></h3><p>Ruoli e visibilità supportano i diversi attori della rete commerciale.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[6]) }}</article>
+        <article class="card" data-card-accent="green">{{ functionIcon("saves") }}<span class="card__label">Continuità</span><h3><span class="accent-text">Salvataggio</span> e condivisione</h3><p>Le composizioni possono essere riprese, condivise o trasformate in una richiesta.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[7]) }}</article>
+        <article class="card" data-card-accent="magenta">{{ functionIcon("integrations") }}<span class="card__label">Sistemi</span><h3><span class="accent-text">Integrazioni</span></h3><p>Cataloghi, listini, CRM o altri strumenti vengono collegati solo dopo analisi delle interfacce.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[8]) }}</article>
       </div>
     </div>
   </section>

@@ -19,7 +19,7 @@ twitter:
   description: "Configuratori di prodotto per e-commerce, CPQ, reti commerciali e arredamento."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import faq, visualCardRail, finalCta %}
+{% from "partials/marketing-components.njk" import faq, visualCardRail, finalCta, cardDetail with context %}
 
 {% set scenarioItems = [
   { label: "E-commerce", title: "Configuratore per e-commerce", text: "Personalizzazione del prodotto con varianti, materiali e accessori prima del carrello.", href: "/configuratori-ecommerce", image: "https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg", alt: "Configuratore e-commerce con anteprima prodotto e opzioni di personalizzazione" },
@@ -106,7 +106,7 @@ twitter:
         <p>Le soluzioni che proponiamo sono sempre progettate attorno al tuo processo reale.</p>
         <div class="cta-group">
           <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↓</span></a>
-          <a class="button button--page button--secondary" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--secondary button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </div>
@@ -151,7 +151,7 @@ twitter:
 
       <div class="configurator-options">
         <div class="configurator-description" id="configuratore">
-          <h2 id="demo-title"><span class="gradient-text">Demo</span> 3D.<br> Anche in <span class="gradient-text">Realtà Aumentata</span>.</h2>
+          <h2 id="demo-title"><span class="statement-line"><span class="gradient-text">Demo</span> 3D.</span> <span class="statement-line">Anche in <span class="gradient-text">Realtà Aumentata</span>.</span></h2>
           <p>Personalizza colori, sfondo e accessori. Esplora il modello in 3D e, sui dispositivi compatibili, visualizzalo nel tuo ambiente con la realtà aumentata.</p>
         </div>
         <div class="configurator-controls">
@@ -200,9 +200,9 @@ twitter:
         <p>Tre esempi anonimi: dall’anteprima di prodotto alla preparazione dell’offerta.</p>
       </div>
       <div class="proof-grid">
-        <article class="card proof-card"><span class="card__label">Visuale</span><h3>Configurazione 3D di prodotto.</h3><p>Varianti e anteprima raccolte in un'esperienza web interattiva.</p></article>
-        <article class="card proof-card"><span class="card__label">Commerciale</span><h3>Portale preventivi B2B.</h3><p>Configurazioni, dati commerciali e documenti organizzati in un flusso riservato.</p></article>
-        <article class="card proof-card"><span class="card__label">Tecnico</span><h3>Configuratore con listini e PDF.</h3><p>Regole, opzioni e prezzi collegati alla preparazione del preventivo.</p></article>
+        <article class="card proof-card"><span class="card__label">Visuale</span><h3>Configurazione 3D di prodotto.</h3><p>Varianti e anteprima raccolte in un'esperienza web interattiva.</p>{{ cardDetail(cardDetails46.pages[pageKey].proof[0]) }}</article>
+        <article class="card proof-card"><span class="card__label">Commerciale</span><h3>Portale preventivi B2B.</h3><p>Configurazioni, dati commerciali e documenti organizzati in un flusso riservato.</p>{{ cardDetail(cardDetails46.pages[pageKey].proof[1]) }}</article>
+        <article class="card proof-card"><span class="card__label">Tecnico</span><h3>Configuratore con listini e PDF.</h3><p>Regole, opzioni e prezzi collegati alla preparazione del preventivo.</p>{{ cardDetail(cardDetails46.pages[pageKey].proof[2]) }}</article>
       </div>
     </div>
   </section>

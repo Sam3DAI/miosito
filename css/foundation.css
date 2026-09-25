@@ -290,6 +290,29 @@ li {
   .button--submit:hover { background: var(--sx-gradient); color: #fff; transform: translateY(-1px); box-shadow: 0 14px 30px rgb(69 182 254 / 25%); }
 }
 
+/* UI46 quote-only border: one CSS pixel, readable dark text on the brand fill. */
+.button.button--quote {
+  border: 1px solid transparent;
+  background: linear-gradient(var(--quote-surface, var(--sx-bg)), var(--quote-surface, var(--sx-bg))) padding-box, var(--sx-gradient) border-box;
+  color: var(--sx-text);
+}
+.button.button--quote:focus-visible,
+.button.button--quote.button--secondary:focus-visible {
+  background: var(--sx-gradient) border-box;
+  color: #1d1d1f;
+  outline: 3px solid var(--sx-blue-deep);
+  outline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .button.button--quote:hover,
+  .button.button--quote.button--secondary:hover { background: var(--sx-gradient) border-box; color: #1d1d1f; }
+}
+@media (forced-colors: active) {
+  .button.button--quote,
+  .button.button--quote:is(:hover, :focus-visible),
+  .button.button--quote.button--secondary:is(:hover, :focus-visible) { border-color: ButtonText; background: ButtonFace; color: ButtonText; }
+}
+
 /* One native fragment offset; functional form/rail IDs are not renamed. */
 [id] { scroll-margin-top: var(--sx-anchor-offset); }
 

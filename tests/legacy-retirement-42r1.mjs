@@ -167,7 +167,7 @@ export function assertRetirement42Sources(root) {
   assertExactRetirement42(file,current,readGitBlobBuffer(BASE_42,file,root).buffer.toString('utf8'));
  }
  const changes=runGitText(['diff','--name-only',BASE_42,'--'],root).trim().split('\n').filter(Boolean);
- for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||isClean43ProductFile(file)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42/43 product allowlist');
+ for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||isClean43ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42/43/44/46 exact product allowlist');
  // Header41 separately enforces the sole staging noindex difference.
  const sources=retired42.map(file=>{
   const old=readGitBlobBuffer(BASE_42,file,root);

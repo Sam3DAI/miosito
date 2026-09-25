@@ -1,0 +1,866 @@
+{
+  "base": "7333947d46bf1ef2216bf383faed80b744558529",
+  "sourceHashes": {
+    "css/project-proof-galleries.css": "5f183d54246c5f1a5ec2a4616474cba7c44e14436b246db6b34690af24ca9343",
+    "js/project-proof-galleries.js": "52cf762189bb5075bedb9481a02dbe9f9048abb0eff1c7aa1b80afd1e2f77edd",
+    "src/_includes/partials/project-proof-galleries.njk": "4ffd040088dd0223d6b813704e24553a3c6b549314f1bf4b50f23a1ac69f7134",
+    "src/_data/projectProofs.json": "3e2f8433ffc4dbe4dbe1c3ff4510c6b5832304fe6f4bd6932497b933301b26cf"
+  },
+  "projects": [
+    {
+      "id": "biliarditaly",
+      "name": "BiliardItaly",
+      "title": "Configurazione 3D di prodotto.",
+      "description": "Materiali, panni, gambe e coperture: il prodotto prende forma attraverso le scelte dell’utente.",
+      "detail": "Il configuratore permette di esplorare il biliardo in 3D e confrontare le finiture delle sue parti. Le schermate mostrano selezione dei materiali, personalizzazione del panno, gambe e coperture, fino all’anteprima della configurazione.",
+      "privacyNote": "",
+      "views": [
+        {
+          "id": "biliarditaly-01",
+          "file": "/assets/images/projects-46/biliarditaly-01",
+          "alt": "BiliardItaly: vista del prodotto configurato.",
+          "caption": "Vista del prodotto configurato.",
+          "width": 3838,
+          "height": 2026,
+          "cover": true,
+          "thumb": "/assets/images/projects-46/biliarditaly-01-768.webp",
+          "src": "/assets/images/projects-46/biliarditaly-01-1440.webp",
+          "srcset": "/assets/images/projects-46/biliarditaly-01-768.webp 768w, /assets/images/projects-46/biliarditaly-01-1440.webp 1440w, /assets/images/projects-46/biliarditaly-01-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/biliarditaly-01-768.webp 768w, /assets/images/projects-46/biliarditaly-01-1440.webp 1440w",
+          "large": "/assets/images/projects-46/biliarditaly-01-2560.webp"
+        },
+        {
+          "id": "biliarditaly-02",
+          "file": "/assets/images/projects-46/biliarditaly-02",
+          "alt": "BiliardItaly: scelta delle finiture della struttura.",
+          "caption": "Scelta delle finiture della struttura.",
+          "width": 3838,
+          "height": 2028,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/biliarditaly-02-768.webp",
+          "src": "/assets/images/projects-46/biliarditaly-02-1440.webp",
+          "srcset": "/assets/images/projects-46/biliarditaly-02-768.webp 768w, /assets/images/projects-46/biliarditaly-02-1440.webp 1440w, /assets/images/projects-46/biliarditaly-02-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/biliarditaly-02-768.webp 768w, /assets/images/projects-46/biliarditaly-02-1440.webp 1440w",
+          "large": "/assets/images/projects-46/biliarditaly-02-2560.webp"
+        },
+        {
+          "id": "biliarditaly-03",
+          "file": "/assets/images/projects-46/biliarditaly-03",
+          "alt": "BiliardItaly: personalizzazione del panno.",
+          "caption": "Personalizzazione del panno.",
+          "width": 3838,
+          "height": 2026,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/biliarditaly-03-768.webp",
+          "src": "/assets/images/projects-46/biliarditaly-03-1440.webp",
+          "srcset": "/assets/images/projects-46/biliarditaly-03-768.webp 768w, /assets/images/projects-46/biliarditaly-03-1440.webp 1440w, /assets/images/projects-46/biliarditaly-03-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/biliarditaly-03-768.webp 768w, /assets/images/projects-46/biliarditaly-03-1440.webp 1440w",
+          "large": "/assets/images/projects-46/biliarditaly-03-2560.webp"
+        },
+        {
+          "id": "biliarditaly-04",
+          "file": "/assets/images/projects-46/biliarditaly-04",
+          "alt": "BiliardItaly: finiture delle gambe.",
+          "caption": "Finiture delle gambe.",
+          "width": 3838,
+          "height": 2025,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/biliarditaly-04-768.webp",
+          "src": "/assets/images/projects-46/biliarditaly-04-1440.webp",
+          "srcset": "/assets/images/projects-46/biliarditaly-04-768.webp 768w, /assets/images/projects-46/biliarditaly-04-1440.webp 1440w, /assets/images/projects-46/biliarditaly-04-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/biliarditaly-04-768.webp 768w, /assets/images/projects-46/biliarditaly-04-1440.webp 1440w",
+          "large": "/assets/images/projects-46/biliarditaly-04-2560.webp"
+        },
+        {
+          "id": "biliarditaly-05",
+          "file": "/assets/images/projects-46/biliarditaly-05",
+          "alt": "BiliardItaly: selezione della copertura.",
+          "caption": "Selezione della copertura.",
+          "width": 3838,
+          "height": 2023,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/biliarditaly-05-768.webp",
+          "src": "/assets/images/projects-46/biliarditaly-05-1440.webp",
+          "srcset": "/assets/images/projects-46/biliarditaly-05-768.webp 768w, /assets/images/projects-46/biliarditaly-05-1440.webp 1440w, /assets/images/projects-46/biliarditaly-05-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/biliarditaly-05-768.webp 768w, /assets/images/projects-46/biliarditaly-05-1440.webp 1440w",
+          "large": "/assets/images/projects-46/biliarditaly-05-2560.webp"
+        },
+        {
+          "id": "biliarditaly-06",
+          "file": "/assets/images/projects-46/biliarditaly-06",
+          "alt": "BiliardItaly: anteprima della configurazione.",
+          "caption": "Anteprima della configurazione.",
+          "width": 3838,
+          "height": 2026,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/biliarditaly-06-768.webp",
+          "src": "/assets/images/projects-46/biliarditaly-06-1440.webp",
+          "srcset": "/assets/images/projects-46/biliarditaly-06-768.webp 768w, /assets/images/projects-46/biliarditaly-06-1440.webp 1440w, /assets/images/projects-46/biliarditaly-06-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/biliarditaly-06-768.webp 768w, /assets/images/projects-46/biliarditaly-06-1440.webp 1440w",
+          "large": "/assets/images/projects-46/biliarditaly-06-2560.webp"
+        }
+      ]
+    },
+    {
+      "id": "linea-oro",
+      "name": "Linea Oro",
+      "title": "Catalogo, offerte e rete vendita.",
+      "description": "Prodotti, composizione delle proposte, utenti e archivio in un’unica interfaccia commerciale.",
+      "detail": "Il portale riunisce il catalogo degli articoli e la preparazione delle proposte attraverso preset grafici e selezione dei prodotti. Le viste documentano la configurazione delle slide, l’archivio e le sezioni amministrative per prodotti e utenti.",
+      "privacyNote": "Dati riservati oscurati.",
+      "views": [
+        {
+          "id": "linea-oro-01",
+          "file": "/assets/images/projects-46/linea-oro-01",
+          "alt": "Linea Oro: proposta visuale composta con gli articoli selezionati.",
+          "caption": "Proposta visuale composta con gli articoli selezionati.",
+          "width": 2844,
+          "height": 1554,
+          "cover": true,
+          "thumb": "/assets/images/projects-46/linea-oro-01-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-01-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-01-768.webp 768w, /assets/images/projects-46/linea-oro-01-1440.webp 1440w, /assets/images/projects-46/linea-oro-01-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-01-768.webp 768w, /assets/images/projects-46/linea-oro-01-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-01-2560.webp"
+        },
+        {
+          "id": "linea-oro-02",
+          "file": "/assets/images/projects-46/linea-oro-02",
+          "alt": "Linea Oro: dati della proposta e selezione degli articoli.",
+          "caption": "Dati della proposta e selezione degli articoli.",
+          "width": 2842,
+          "height": 1460,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/linea-oro-02-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-02-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-02-768.webp 768w, /assets/images/projects-46/linea-oro-02-1440.webp 1440w, /assets/images/projects-46/linea-oro-02-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-02-768.webp 768w, /assets/images/projects-46/linea-oro-02-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-02-2560.webp"
+        },
+        {
+          "id": "linea-oro-03",
+          "file": "/assets/images/projects-46/linea-oro-03",
+          "alt": "Linea Oro: catalogo e importazione di dati e immagini.",
+          "caption": "Catalogo e importazione di dati e immagini.",
+          "width": 2844,
+          "height": 1538,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/linea-oro-03-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-03-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-03-768.webp 768w, /assets/images/projects-46/linea-oro-03-1440.webp 1440w, /assets/images/projects-46/linea-oro-03-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-03-768.webp 768w, /assets/images/projects-46/linea-oro-03-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-03-2560.webp"
+        },
+        {
+          "id": "linea-oro-04",
+          "file": "/assets/images/projects-46/linea-oro-04",
+          "alt": "Linea Oro: archivio delle configurazioni.",
+          "caption": "Archivio delle configurazioni.",
+          "width": 2844,
+          "height": 1540,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/linea-oro-04-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-04-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-04-768.webp 768w, /assets/images/projects-46/linea-oro-04-1440.webp 1440w, /assets/images/projects-46/linea-oro-04-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-04-768.webp 768w, /assets/images/projects-46/linea-oro-04-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-04-2560.webp"
+        },
+        {
+          "id": "linea-oro-05",
+          "file": "/assets/images/projects-46/linea-oro-05",
+          "alt": "Linea Oro: accesso alle aree operative.",
+          "caption": "Accesso alle aree operative.",
+          "width": 2880,
+          "height": 1556,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/linea-oro-05-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-05-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-05-768.webp 768w, /assets/images/projects-46/linea-oro-05-1440.webp 1440w, /assets/images/projects-46/linea-oro-05-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-05-768.webp 768w, /assets/images/projects-46/linea-oro-05-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-05-2560.webp"
+        },
+        {
+          "id": "linea-oro-06",
+          "file": "/assets/images/projects-46/linea-oro-06",
+          "alt": "Linea Oro: gestione degli utenti e dei ruoli.",
+          "caption": "Gestione degli utenti e dei ruoli.",
+          "width": 2846,
+          "height": 1554,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/linea-oro-06-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-06-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-06-768.webp 768w, /assets/images/projects-46/linea-oro-06-1440.webp 1440w, /assets/images/projects-46/linea-oro-06-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-06-768.webp 768w, /assets/images/projects-46/linea-oro-06-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-06-2560.webp"
+        },
+        {
+          "id": "linea-oro-07",
+          "file": "/assets/images/projects-46/linea-oro-07",
+          "alt": "Linea Oro: creazione di un utente.",
+          "caption": "Creazione di un utente.",
+          "width": 2842,
+          "height": 1548,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/linea-oro-07-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-07-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-07-768.webp 768w, /assets/images/projects-46/linea-oro-07-1440.webp 1440w, /assets/images/projects-46/linea-oro-07-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-07-768.webp 768w, /assets/images/projects-46/linea-oro-07-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-07-2560.webp"
+        },
+        {
+          "id": "linea-oro-08",
+          "file": "/assets/images/projects-46/linea-oro-08",
+          "alt": "Linea Oro: accesso al portale.",
+          "caption": "Accesso al portale.",
+          "width": 2880,
+          "height": 1554,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/linea-oro-08-768.webp",
+          "src": "/assets/images/projects-46/linea-oro-08-1440.webp",
+          "srcset": "/assets/images/projects-46/linea-oro-08-768.webp 768w, /assets/images/projects-46/linea-oro-08-1440.webp 1440w, /assets/images/projects-46/linea-oro-08-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/linea-oro-08-768.webp 768w, /assets/images/projects-46/linea-oro-08-1440.webp 1440w",
+          "large": "/assets/images/projects-46/linea-oro-08-2560.webp"
+        }
+      ]
+    },
+    {
+      "id": "pilan",
+      "name": "Pilan",
+      "title": "Cucine outdoor da configurare.",
+      "description": "Composizione, finiture e accessori collegati al riepilogo e all’archivio delle configurazioni.",
+      "detail": "Il software collega la composizione visuale della cucina agli articoli e alle opzioni del catalogo. Le schermate mostrano il configuratore, le finiture, il riepilogo e le aree di gestione delle configurazioni e del catalogo.",
+      "privacyNote": "Dati riservati oscurati.",
+      "views": [
+        {
+          "id": "pilan-01",
+          "file": "/assets/images/projects-46/pilan-01",
+          "alt": "Pilan: configurazione della cucina, finiture e riepilogo.",
+          "caption": "Configurazione della cucina, finiture e riepilogo.",
+          "width": 3838,
+          "height": 2025,
+          "cover": true,
+          "thumb": "/assets/images/projects-46/pilan-01-768.webp",
+          "src": "/assets/images/projects-46/pilan-01-1440.webp",
+          "srcset": "/assets/images/projects-46/pilan-01-768.webp 768w, /assets/images/projects-46/pilan-01-1440.webp 1440w, /assets/images/projects-46/pilan-01-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/pilan-01-768.webp 768w, /assets/images/projects-46/pilan-01-1440.webp 1440w",
+          "large": "/assets/images/projects-46/pilan-01-2560.webp"
+        },
+        {
+          "id": "pilan-02",
+          "file": "/assets/images/projects-46/pilan-02",
+          "alt": "Pilan: archivio e gestione delle configurazioni.",
+          "caption": "Archivio e gestione delle configurazioni.",
+          "width": 3813,
+          "height": 2023,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/pilan-02-768.webp",
+          "src": "/assets/images/projects-46/pilan-02-1440.webp",
+          "srcset": "/assets/images/projects-46/pilan-02-768.webp 768w, /assets/images/projects-46/pilan-02-1440.webp 1440w, /assets/images/projects-46/pilan-02-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/pilan-02-768.webp 768w, /assets/images/projects-46/pilan-02-1440.webp 1440w",
+          "large": "/assets/images/projects-46/pilan-02-2560.webp"
+        },
+        {
+          "id": "pilan-03",
+          "file": "/assets/images/projects-46/pilan-03",
+          "alt": "Pilan: catalogo degli articoli e dei relativi asset.",
+          "caption": "Catalogo degli articoli e dei relativi asset.",
+          "width": 3814,
+          "height": 2022,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/pilan-03-768.webp",
+          "src": "/assets/images/projects-46/pilan-03-1440.webp",
+          "srcset": "/assets/images/projects-46/pilan-03-768.webp 768w, /assets/images/projects-46/pilan-03-1440.webp 1440w, /assets/images/projects-46/pilan-03-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/pilan-03-768.webp 768w, /assets/images/projects-46/pilan-03-1440.webp 1440w",
+          "large": "/assets/images/projects-46/pilan-03-2560.webp"
+        },
+        {
+          "id": "pilan-04",
+          "file": "/assets/images/projects-46/pilan-04",
+          "alt": "Pilan: area operativa e accesso alle funzioni.",
+          "caption": "Area operativa e accesso alle funzioni.",
+          "width": 3838,
+          "height": 2023,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/pilan-04-768.webp",
+          "src": "/assets/images/projects-46/pilan-04-1440.webp",
+          "srcset": "/assets/images/projects-46/pilan-04-768.webp 768w, /assets/images/projects-46/pilan-04-1440.webp 1440w, /assets/images/projects-46/pilan-04-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/pilan-04-768.webp 768w, /assets/images/projects-46/pilan-04-1440.webp 1440w",
+          "large": "/assets/images/projects-46/pilan-04-2560.webp"
+        },
+        {
+          "id": "pilan-05",
+          "file": "/assets/images/projects-46/pilan-05",
+          "alt": "Pilan: account e utenti presenti nel software.",
+          "caption": "Account e utenti presenti nel software.",
+          "width": 3838,
+          "height": 2023,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/pilan-05-768.webp",
+          "src": "/assets/images/projects-46/pilan-05-1440.webp",
+          "srcset": "/assets/images/projects-46/pilan-05-768.webp 768w, /assets/images/projects-46/pilan-05-1440.webp 1440w, /assets/images/projects-46/pilan-05-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/pilan-05-768.webp 768w, /assets/images/projects-46/pilan-05-1440.webp 1440w",
+          "large": "/assets/images/projects-46/pilan-05-2560.webp"
+        },
+        {
+          "id": "pilan-06",
+          "file": "/assets/images/projects-46/pilan-06",
+          "alt": "Pilan: accesso al configuratore commerciale.",
+          "caption": "Accesso al configuratore commerciale.",
+          "width": 3838,
+          "height": 2023,
+          "cover": false,
+          "thumb": "/assets/images/projects-46/pilan-06-768.webp",
+          "src": "/assets/images/projects-46/pilan-06-1440.webp",
+          "srcset": "/assets/images/projects-46/pilan-06-768.webp 768w, /assets/images/projects-46/pilan-06-1440.webp 1440w, /assets/images/projects-46/pilan-06-2560.webp 2560w",
+          "cardSrcset": "/assets/images/projects-46/pilan-06-768.webp 768w, /assets/images/projects-46/pilan-06-1440.webp 1440w",
+          "large": "/assets/images/projects-46/pilan-06-2560.webp"
+        }
+      ]
+    }
+  ],
+  "images": [
+    {
+      "id": "biliarditaly-01",
+      "file": "assets/images/projects-46/biliarditaly-01-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 33908,
+      "sha256": "60ae8ebb32fca27a7f96e0442eaf3f3b3f89b7d660adf4bfb7631ffedbb70993"
+    },
+    {
+      "id": "biliarditaly-01",
+      "file": "assets/images/projects-46/biliarditaly-01-1440.webp",
+      "width": 1440,
+      "height": 760,
+      "bytes": 80794,
+      "sha256": "532d57c24eb1d081bc779ac9f9f000c073ad2751b1257dff008ff62d301f5c36"
+    },
+    {
+      "id": "biliarditaly-01",
+      "file": "assets/images/projects-46/biliarditaly-01-2560.webp",
+      "width": 2560,
+      "height": 1351,
+      "bytes": 176956,
+      "sha256": "4d0d89661ed4c1e380a6377a99511e0431eea7e41a908883b55c523955bec27b"
+    },
+    {
+      "id": "biliarditaly-02",
+      "file": "assets/images/projects-46/biliarditaly-02-768.webp",
+      "width": 768,
+      "height": 406,
+      "bytes": 66874,
+      "sha256": "cd17446288899f702872c1b77ef97b487c8a5a3d9fd7a3b453edbcca6c4b2d3a"
+    },
+    {
+      "id": "biliarditaly-02",
+      "file": "assets/images/projects-46/biliarditaly-02-1440.webp",
+      "width": 1440,
+      "height": 761,
+      "bytes": 203784,
+      "sha256": "4a2605afbe02f84a401051b674006ce335121e3ec90256970f619071b0c2b747"
+    },
+    {
+      "id": "biliarditaly-02",
+      "file": "assets/images/projects-46/biliarditaly-02-2560.webp",
+      "width": 2560,
+      "height": 1353,
+      "bytes": 578328,
+      "sha256": "2cea958623c19c44fabc2b8d0bfda47fd209ae5306d594ceafb2ef4ac6f458ec"
+    },
+    {
+      "id": "biliarditaly-03",
+      "file": "assets/images/projects-46/biliarditaly-03-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 79322,
+      "sha256": "8d9ae7bb22177ee2be0fa639c3b97393219b63f6d1b6cd44eb6767f26f868cf1"
+    },
+    {
+      "id": "biliarditaly-03",
+      "file": "assets/images/projects-46/biliarditaly-03-1440.webp",
+      "width": 1440,
+      "height": 760,
+      "bytes": 251750,
+      "sha256": "6fbcb684df4c85a9861eaeed738b1e4c16f7387aecb1e37e1040f2e89300bc4e"
+    },
+    {
+      "id": "biliarditaly-03",
+      "file": "assets/images/projects-46/biliarditaly-03-2560.webp",
+      "width": 2560,
+      "height": 1351,
+      "bytes": 766186,
+      "sha256": "d1b45c082c468d20c0cf6b073a8d9bfaabc3f239b7000a84ffb03279062f707e"
+    },
+    {
+      "id": "biliarditaly-04",
+      "file": "assets/images/projects-46/biliarditaly-04-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 30002,
+      "sha256": "c131dc25d8e9bb05d75644486f8ec0eabe6d0a66d423efc45cd7c2a88f17e9b6"
+    },
+    {
+      "id": "biliarditaly-04",
+      "file": "assets/images/projects-46/biliarditaly-04-1440.webp",
+      "width": 1440,
+      "height": 760,
+      "bytes": 70898,
+      "sha256": "4f4e8f8c99ae052b605efebdd1fdbb3e4618d918c58a3ba78f9d7838e164c34c"
+    },
+    {
+      "id": "biliarditaly-04",
+      "file": "assets/images/projects-46/biliarditaly-04-2560.webp",
+      "width": 2560,
+      "height": 1351,
+      "bytes": 158938,
+      "sha256": "f8ea70ac339e17348b41b57e34103ea98c37f954b1e1dadb5c11b96fb843db98"
+    },
+    {
+      "id": "biliarditaly-05",
+      "file": "assets/images/projects-46/biliarditaly-05-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 43808,
+      "sha256": "1c422e4b94a257adc2ad45c7fbf5930b026136e911a498922602d58bcce20a75"
+    },
+    {
+      "id": "biliarditaly-05",
+      "file": "assets/images/projects-46/biliarditaly-05-1440.webp",
+      "width": 1440,
+      "height": 759,
+      "bytes": 103604,
+      "sha256": "490802cdba1fcc8e82efbb9f2cfae500391d82439db176191d678a8735319c5b"
+    },
+    {
+      "id": "biliarditaly-05",
+      "file": "assets/images/projects-46/biliarditaly-05-2560.webp",
+      "width": 2560,
+      "height": 1349,
+      "bytes": 233416,
+      "sha256": "2432cdd92545435b8667c0176f7314809b826ad0b31e8af832aacd3bed389985"
+    },
+    {
+      "id": "biliarditaly-06",
+      "file": "assets/images/projects-46/biliarditaly-06-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 29182,
+      "sha256": "313f798eaf2eb77af824ef028f87fb725b85689fc64c6b05f2da447c8b1e87b7"
+    },
+    {
+      "id": "biliarditaly-06",
+      "file": "assets/images/projects-46/biliarditaly-06-1440.webp",
+      "width": 1440,
+      "height": 760,
+      "bytes": 68584,
+      "sha256": "2d43eae96ce6b657b19bd96410904a621be8ecaa5a17236743435c3638f0cee2"
+    },
+    {
+      "id": "biliarditaly-06",
+      "file": "assets/images/projects-46/biliarditaly-06-2560.webp",
+      "width": 2560,
+      "height": 1351,
+      "bytes": 144570,
+      "sha256": "147c3a26e38e7bb2898be02ba83cbd65dbe483ed120aa91306885ca81efd83aa"
+    },
+    {
+      "id": "linea-oro-01",
+      "file": "assets/images/projects-46/linea-oro-01-768.webp",
+      "width": 768,
+      "height": 420,
+      "bytes": 52620,
+      "sha256": "4a64b2221cdd339d5bd243f35ff335a30c2faaa53df684ede4c1bf78c48aaaa9"
+    },
+    {
+      "id": "linea-oro-01",
+      "file": "assets/images/projects-46/linea-oro-01-1440.webp",
+      "width": 1440,
+      "height": 787,
+      "bytes": 149710,
+      "sha256": "2d58e297a088885f98c39d550bcfb1a02e09f7243efaad7983a67cb5773cdc15"
+    },
+    {
+      "id": "linea-oro-01",
+      "file": "assets/images/projects-46/linea-oro-01-2560.webp",
+      "width": 2560,
+      "height": 1399,
+      "bytes": 383558,
+      "sha256": "837ffb6b43a0a794d4e5e038a0c9d78b5813f5ab464212ff8fed7fb2ac00a0c4"
+    },
+    {
+      "id": "linea-oro-02",
+      "file": "assets/images/projects-46/linea-oro-02-768.webp",
+      "width": 768,
+      "height": 395,
+      "bytes": 48378,
+      "sha256": "4a156a8b2b5a14c1611fd2fc0008fea680d0af5c9227b3087a75fe6536bfbf87"
+    },
+    {
+      "id": "linea-oro-02",
+      "file": "assets/images/projects-46/linea-oro-02-1440.webp",
+      "width": 1440,
+      "height": 740,
+      "bytes": 123232,
+      "sha256": "173d83461ce7f361ab6cde6629906f3f8bd2281e9f871fae523404ba05acf7b0"
+    },
+    {
+      "id": "linea-oro-02",
+      "file": "assets/images/projects-46/linea-oro-02-2560.webp",
+      "width": 2560,
+      "height": 1315,
+      "bytes": 275824,
+      "sha256": "8d9b59b2b0ef633e82e4d63c83e958d7a9f8829fa1ff437e94007ed3d3e99bfe"
+    },
+    {
+      "id": "linea-oro-03",
+      "file": "assets/images/projects-46/linea-oro-03-768.webp",
+      "width": 768,
+      "height": 415,
+      "bytes": 71012,
+      "sha256": "25f56d95ffff501f2922951c00617f63883497cc37b8ec4690d4bcac3eab10ae"
+    },
+    {
+      "id": "linea-oro-03",
+      "file": "assets/images/projects-46/linea-oro-03-1440.webp",
+      "width": 1440,
+      "height": 779,
+      "bytes": 183992,
+      "sha256": "c2a79b110eac6baf852b90682ad9537bd3d8dea819c2e25e23283d7cde834d4e"
+    },
+    {
+      "id": "linea-oro-03",
+      "file": "assets/images/projects-46/linea-oro-03-2560.webp",
+      "width": 2560,
+      "height": 1384,
+      "bytes": 441984,
+      "sha256": "0d7736b62c3f9fdce8d61d6dc9732f0d4eec26072451afe0d983b1181c80bb06"
+    },
+    {
+      "id": "linea-oro-04",
+      "file": "assets/images/projects-46/linea-oro-04-768.webp",
+      "width": 768,
+      "height": 416,
+      "bytes": 82672,
+      "sha256": "8b6e39f18535888ddca3144574df3ce9b55d70e8e5fdc774d17fbee9f852e684"
+    },
+    {
+      "id": "linea-oro-04",
+      "file": "assets/images/projects-46/linea-oro-04-1440.webp",
+      "width": 1440,
+      "height": 780,
+      "bytes": 208122,
+      "sha256": "9d1d84c2efcf74aa9070bd9b503cc5b5a81a2c30aa6e513bd28f819dcd14c39f"
+    },
+    {
+      "id": "linea-oro-04",
+      "file": "assets/images/projects-46/linea-oro-04-2560.webp",
+      "width": 2560,
+      "height": 1386,
+      "bytes": 484546,
+      "sha256": "1dc3e843f4a827147f351a509d47679020391db0cd897293bf6e922c1336940a"
+    },
+    {
+      "id": "linea-oro-05",
+      "file": "assets/images/projects-46/linea-oro-05-768.webp",
+      "width": 768,
+      "height": 415,
+      "bytes": 92488,
+      "sha256": "d09db1490ca1c6183b3524096ce9d2cda1cb6a5b8e6667a3871e5c505710130e"
+    },
+    {
+      "id": "linea-oro-05",
+      "file": "assets/images/projects-46/linea-oro-05-1440.webp",
+      "width": 1440,
+      "height": 778,
+      "bytes": 221730,
+      "sha256": "e9202c1581b3c1ac56dae319f2d5deec1ce01bc5f13313bcee24312ce6f8776b"
+    },
+    {
+      "id": "linea-oro-05",
+      "file": "assets/images/projects-46/linea-oro-05-2560.webp",
+      "width": 2560,
+      "height": 1383,
+      "bytes": 611758,
+      "sha256": "9dd6fba6aadc641e91d658115df5b84503d8ab3f545c9e504c856c6602e68df1"
+    },
+    {
+      "id": "linea-oro-06",
+      "file": "assets/images/projects-46/linea-oro-06-768.webp",
+      "width": 768,
+      "height": 419,
+      "bytes": 47146,
+      "sha256": "d3e980c134cdc56be8293d71d10cad0ae528db7587427afe8573248f3a8045fc"
+    },
+    {
+      "id": "linea-oro-06",
+      "file": "assets/images/projects-46/linea-oro-06-1440.webp",
+      "width": 1440,
+      "height": 786,
+      "bytes": 112604,
+      "sha256": "7aaf9a410c140c217e72677a405bcde49e24db414640e3eb710849f325314e03"
+    },
+    {
+      "id": "linea-oro-06",
+      "file": "assets/images/projects-46/linea-oro-06-2560.webp",
+      "width": 2560,
+      "height": 1398,
+      "bytes": 291120,
+      "sha256": "670da208696dc674f5ffd4fe35a0baf593fdfa17af413e7f046e1afbbd96edda"
+    },
+    {
+      "id": "linea-oro-07",
+      "file": "assets/images/projects-46/linea-oro-07-768.webp",
+      "width": 768,
+      "height": 418,
+      "bytes": 64382,
+      "sha256": "599b1e01f8494bbc7571b5f1df54b11a12eb52242d89286403a8ece80741513c"
+    },
+    {
+      "id": "linea-oro-07",
+      "file": "assets/images/projects-46/linea-oro-07-1440.webp",
+      "width": 1440,
+      "height": 784,
+      "bytes": 159452,
+      "sha256": "f919ce965a345cfbea3a29ba6ba65ed57c2c1d5443cced97bb48c209d5d02f83"
+    },
+    {
+      "id": "linea-oro-07",
+      "file": "assets/images/projects-46/linea-oro-07-2560.webp",
+      "width": 2560,
+      "height": 1394,
+      "bytes": 429904,
+      "sha256": "3d9232b12689e1d84af11de679104c7a28be0caf50cb1e25576e5b92e248bb02"
+    },
+    {
+      "id": "linea-oro-08",
+      "file": "assets/images/projects-46/linea-oro-08-768.webp",
+      "width": 768,
+      "height": 414,
+      "bytes": 35986,
+      "sha256": "e6db24b4f26042a4778754af3f828092e942095f3ea6a257a6e9151553a7ee38"
+    },
+    {
+      "id": "linea-oro-08",
+      "file": "assets/images/projects-46/linea-oro-08-1440.webp",
+      "width": 1440,
+      "height": 777,
+      "bytes": 85636,
+      "sha256": "19370979873579ad29b92239b5b7424f092a695dc5444619c80fb529178e5d0a"
+    },
+    {
+      "id": "linea-oro-08",
+      "file": "assets/images/projects-46/linea-oro-08-2560.webp",
+      "width": 2560,
+      "height": 1381,
+      "bytes": 215256,
+      "sha256": "904cdf17800a8ea5c482c0c0a42db92aa38d5fcebb46e0e082fe96be9b292e93"
+    },
+    {
+      "id": "pilan-01",
+      "file": "assets/images/projects-46/pilan-01-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 78156,
+      "sha256": "6d451e230b2920f3964d8703c6801749fb7c1b3531b53b30549977d087dde737"
+    },
+    {
+      "id": "pilan-01",
+      "file": "assets/images/projects-46/pilan-01-1440.webp",
+      "width": 1440,
+      "height": 760,
+      "bytes": 223164,
+      "sha256": "3d74a2ff0f542c7cab29f0ff1124e9a88c73df80f68addc248d8b1230db4be9e"
+    },
+    {
+      "id": "pilan-01",
+      "file": "assets/images/projects-46/pilan-01-2560.webp",
+      "width": 2560,
+      "height": 1351,
+      "bytes": 596630,
+      "sha256": "01c0acfe45045817e404e9814cf87e37c90d8dc6be04adea4ad9af6a7da9d331"
+    },
+    {
+      "id": "pilan-02",
+      "file": "assets/images/projects-46/pilan-02-768.webp",
+      "width": 768,
+      "height": 407,
+      "bytes": 81140,
+      "sha256": "88d805a104c293813c4eee3bf058ce1e000581da8a6de80ffe4b19fd5af59343"
+    },
+    {
+      "id": "pilan-02",
+      "file": "assets/images/projects-46/pilan-02-1440.webp",
+      "width": 1440,
+      "height": 764,
+      "bytes": 220956,
+      "sha256": "c4bea473c93375adbad8a196e99df0b35ed8e2c17237d378b1fa2dfe54aa19a1"
+    },
+    {
+      "id": "pilan-02",
+      "file": "assets/images/projects-46/pilan-02-2560.webp",
+      "width": 2560,
+      "height": 1358,
+      "bytes": 697548,
+      "sha256": "5a8b505651646c83cabe643a6696bf181d3f0ddbd9d21ab5b1b19f995175b463"
+    },
+    {
+      "id": "pilan-03",
+      "file": "assets/images/projects-46/pilan-03-768.webp",
+      "width": 768,
+      "height": 407,
+      "bytes": 71142,
+      "sha256": "153650a33a3f554f32f1aeae4ea490644ab92bdeb5eb417d3dce5f6eadc1eec2"
+    },
+    {
+      "id": "pilan-03",
+      "file": "assets/images/projects-46/pilan-03-1440.webp",
+      "width": 1440,
+      "height": 763,
+      "bytes": 195188,
+      "sha256": "b4b799b87e06c9d8557799a89508091a61858245f645ccc6b94bc6c6beb700d6"
+    },
+    {
+      "id": "pilan-03",
+      "file": "assets/images/projects-46/pilan-03-2560.webp",
+      "width": 2560,
+      "height": 1357,
+      "bytes": 556330,
+      "sha256": "5b85d34414694d81a3e37c33f2884e3dbbb58cf08b7d9b85ada83a835214f7ae"
+    },
+    {
+      "id": "pilan-04",
+      "file": "assets/images/projects-46/pilan-04-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 57688,
+      "sha256": "52118fad8eac40b52bcd664f95aedebf9d8bec9159ff5a94cad84241201fa4ca"
+    },
+    {
+      "id": "pilan-04",
+      "file": "assets/images/projects-46/pilan-04-1440.webp",
+      "width": 1440,
+      "height": 759,
+      "bytes": 140862,
+      "sha256": "a171afb28bb686f464d6ffa346db607d374f937de8bc9a6d54ecb0a1d0530085"
+    },
+    {
+      "id": "pilan-04",
+      "file": "assets/images/projects-46/pilan-04-2560.webp",
+      "width": 2560,
+      "height": 1349,
+      "bytes": 358118,
+      "sha256": "adff3c117553b138795681bb5c841cd9e132b62514c8b5b50bb667c19b7971d6"
+    },
+    {
+      "id": "pilan-05",
+      "file": "assets/images/projects-46/pilan-05-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 50964,
+      "sha256": "7e206251945d295a0c519d2a25609f2d628cc57a5cb09d262479b583e8827c06"
+    },
+    {
+      "id": "pilan-05",
+      "file": "assets/images/projects-46/pilan-05-1440.webp",
+      "width": 1440,
+      "height": 759,
+      "bytes": 127806,
+      "sha256": "48e4da495d639bfdb66450c180c1b9ff09b67b7e46bb00a898a3ab03e954b3a4"
+    },
+    {
+      "id": "pilan-05",
+      "file": "assets/images/projects-46/pilan-05-2560.webp",
+      "width": 2560,
+      "height": 1349,
+      "bytes": 371266,
+      "sha256": "e7713c49ca8ab8d5f1bf55221ba131185d0e215768e06574999d24df66c79f4e"
+    },
+    {
+      "id": "pilan-06",
+      "file": "assets/images/projects-46/pilan-06-768.webp",
+      "width": 768,
+      "height": 405,
+      "bytes": 100872,
+      "sha256": "961ee299c901440ed8abfb230838153ea4b97bad178f136ccd00bbfee9c742da"
+    },
+    {
+      "id": "pilan-06",
+      "file": "assets/images/projects-46/pilan-06-1440.webp",
+      "width": 1440,
+      "height": 759,
+      "bytes": 206572,
+      "sha256": "9ff9336fca1d5a1b572d9cd68a85b857587387a1f02a68a64f24a98ce7720631"
+    },
+    {
+      "id": "pilan-06",
+      "file": "assets/images/projects-46/pilan-06-2560.webp",
+      "width": 2560,
+      "height": 1349,
+      "bytes": 686372,
+      "sha256": "795e4a03308889c779ed459726b59ec9acedb8a2f2b0882a6f6fb192ee115e29"
+    }
+  ],
+  "publishedStatic": [
+    "assets/images/projects-46/biliarditaly-01-768.webp",
+    "assets/images/projects-46/biliarditaly-01-1440.webp",
+    "assets/images/projects-46/biliarditaly-01-2560.webp",
+    "assets/images/projects-46/biliarditaly-02-768.webp",
+    "assets/images/projects-46/biliarditaly-02-1440.webp",
+    "assets/images/projects-46/biliarditaly-02-2560.webp",
+    "assets/images/projects-46/biliarditaly-03-768.webp",
+    "assets/images/projects-46/biliarditaly-03-1440.webp",
+    "assets/images/projects-46/biliarditaly-03-2560.webp",
+    "assets/images/projects-46/biliarditaly-04-768.webp",
+    "assets/images/projects-46/biliarditaly-04-1440.webp",
+    "assets/images/projects-46/biliarditaly-04-2560.webp",
+    "assets/images/projects-46/biliarditaly-05-768.webp",
+    "assets/images/projects-46/biliarditaly-05-1440.webp",
+    "assets/images/projects-46/biliarditaly-05-2560.webp",
+    "assets/images/projects-46/biliarditaly-06-768.webp",
+    "assets/images/projects-46/biliarditaly-06-1440.webp",
+    "assets/images/projects-46/biliarditaly-06-2560.webp",
+    "assets/images/projects-46/linea-oro-01-768.webp",
+    "assets/images/projects-46/linea-oro-01-1440.webp",
+    "assets/images/projects-46/linea-oro-01-2560.webp",
+    "assets/images/projects-46/linea-oro-02-768.webp",
+    "assets/images/projects-46/linea-oro-02-1440.webp",
+    "assets/images/projects-46/linea-oro-02-2560.webp",
+    "assets/images/projects-46/linea-oro-03-768.webp",
+    "assets/images/projects-46/linea-oro-03-1440.webp",
+    "assets/images/projects-46/linea-oro-03-2560.webp",
+    "assets/images/projects-46/linea-oro-04-768.webp",
+    "assets/images/projects-46/linea-oro-04-1440.webp",
+    "assets/images/projects-46/linea-oro-04-2560.webp",
+    "assets/images/projects-46/linea-oro-05-768.webp",
+    "assets/images/projects-46/linea-oro-05-1440.webp",
+    "assets/images/projects-46/linea-oro-05-2560.webp",
+    "assets/images/projects-46/linea-oro-06-768.webp",
+    "assets/images/projects-46/linea-oro-06-1440.webp",
+    "assets/images/projects-46/linea-oro-06-2560.webp",
+    "assets/images/projects-46/linea-oro-07-768.webp",
+    "assets/images/projects-46/linea-oro-07-1440.webp",
+    "assets/images/projects-46/linea-oro-07-2560.webp",
+    "assets/images/projects-46/linea-oro-08-768.webp",
+    "assets/images/projects-46/linea-oro-08-1440.webp",
+    "assets/images/projects-46/linea-oro-08-2560.webp",
+    "assets/images/projects-46/pilan-01-768.webp",
+    "assets/images/projects-46/pilan-01-1440.webp",
+    "assets/images/projects-46/pilan-01-2560.webp",
+    "assets/images/projects-46/pilan-02-768.webp",
+    "assets/images/projects-46/pilan-02-1440.webp",
+    "assets/images/projects-46/pilan-02-2560.webp",
+    "assets/images/projects-46/pilan-03-768.webp",
+    "assets/images/projects-46/pilan-03-1440.webp",
+    "assets/images/projects-46/pilan-03-2560.webp",
+    "assets/images/projects-46/pilan-04-768.webp",
+    "assets/images/projects-46/pilan-04-1440.webp",
+    "assets/images/projects-46/pilan-04-2560.webp",
+    "assets/images/projects-46/pilan-05-768.webp",
+    "assets/images/projects-46/pilan-05-1440.webp",
+    "assets/images/projects-46/pilan-05-2560.webp",
+    "assets/images/projects-46/pilan-06-768.webp",
+    "assets/images/projects-46/pilan-06-1440.webp",
+    "assets/images/projects-46/pilan-06-2560.webp"
+  ],
+  "privacy": "Opaque lossless public copies reviewed; source originals untouched; legal privacy decisions remain separate"
+}

@@ -19,7 +19,7 @@ twitter:
   description: "Descrivi il prodotto o il processo commerciale da semplificare."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import faq %}
+{% from "partials/marketing-components.njk" import faq, cardDetail with context %}
 {% set faqItems = [
   {
     "question": "Serve già un capitolato?",
@@ -183,11 +183,13 @@ twitter:
             <li>Dati, listini o sistemi già disponibili.</li>
             <li>Passaggio che oggi genera più attrito.</li>
           </ul>
+          {{ cardDetail(cardDetails46.pages[pageKey].information[0]) }}
         </section>
         <section class="card">
           <span class="card__label">Primo confronto</span>
           <h2>Tempi proporzionati al contesto.</h2>
           <p>Leggiamo la richiesta e proponiamo il prossimo approfondimento. Una stima richiede obiettivi e funzioni minime condivise.</p>
+          {{ cardDetail(cardDetails46.pages[pageKey].information[1]) }}
         </section>
         <section class="card direct-contact">
           <span class="card__label">Contatti diretti</span>
