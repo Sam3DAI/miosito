@@ -102,18 +102,16 @@ export function assertOriginalHtml(route, html) {
       assert.match(block, /style="--original-image-bg: #[0-9a-f]{6}"/);
       assert.equal(text(block.match(/<h3>([\s\S]*?)<\/h3>/)[1]), a.title);
     } else {
-      // UI46 separates the original service link from the native detail control.
-      // The article still owns exactly the same full-card image and title.
-      block = [...html.matchAll(/<article class="card card--link capability-card"[^>]*>[\s\S]*?<\/article>/g)].find(m => m[0].includes('data-original-asset="' + a.id + '"'))?.[0];
+      // Task47 makes the existing service destination the whole native card.
+      // Its original image/title remain inside that same anchor, with no detail.
+      block = [...html.matchAll(/<a class="card card--link capability-card"[^>]*\bdata-card-navigation\b[^>]*>[\s\S]*?<\/a>/g)].find(m => m[0].includes('data-original-asset="' + a.id + '"'))?.[0];
       assert.ok(block, a.id + " capability missing");
       assert.equal(text(block.match(/<h3>([\s\S]*?)<\/h3>/)[1]), a.title);
       assert.doesNotMatch(block, /<figure|<figcaption|capability-card__media/);
       assert.match(block, /class="capability-card__image"/);
-      const links = [...block.matchAll(/<a class="card__main-link"[^>]*>[\s\S]*?<\/a>/g)];
-      assert.equal(links.length, 1, a.id + " one independent service link");
-      assert.equal(attr(links[0][0].split(">")[0], "href"), {"HOME-CAP-01":"/configuratori-3d-2d", "HOME-CAP-02":"/automazioni-ai-business"}[a.id], a.id + " original service destination");
-      assert.equal(text(links[0][0].match(/<h3>([\s\S]*?)<\/h3>/)[1]), a.title, a.id + " service link retains the original title");
-      assert.doesNotMatch(links[0][0], /<details\b/, a.id + " detail is outside the service link");
+      assert.equal((block.match(/<a\b/g) || []).length, 1, a.id + " one whole-card service link, no nested anchor");
+      assert.equal(attr(block.split(">")[0], "href"), {"HOME-CAP-01":"/configuratori-3d-2d", "HOME-CAP-02":"/automazioni-ai-business"}[a.id], a.id + " original service destination");
+      assert.doesNotMatch(block, /<(?:button|summary|details)\b|data-card-detail|card-detail__plus|\bonclick\s*=/, a.id + " native navigation has no competing detail control");
       assert.equal((block.match(/<img\b/g) ?? []).length, 1, a.id + " one original full-card image");
     }
     const image = block.match(/<img\b[^>]*>/)[0], entry = metadata[a.id];

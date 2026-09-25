@@ -10,27 +10,16 @@
   <script src="./embed.js"></script>
 </head>
 <body>
-  <header class="demo-banner"><span>Demo con prezzi esemplificativi. Nessun ordine viene inviato.</span><button id="demoReset" type="button">Azzera demo</button><button id="demoRetry" type="button" hidden>Riprova caricamento</button></header>
+  <header class="demo-banner"><span id="standaloneDemoNote">Demo con prezzi esemplificativi.</span><button id="demoRetry" type="button" hidden>Riprova caricamento</button></header>
   <p id="demoStatus" role="status" class="demo-status">Caricamento RESTYLE 3D…</p>
   <div class="app-shell">
     <main class="studio-layout">
       <section class="viewer-column">
-        <div class="hero-block">
-          <h1 id="heroTitle" class="hero-block__title">
-  <span class="hero-block__accent">Configura</span> il Tuo modello di<br>Sella preferito.
-</h1>
-        </div>
-
         <div id="viewerArea" class="viewer-shell">
-          <canvas id="seatCanvas" tabindex="0" aria-label="Vista 3D della sella. Trascina per ruotare; usa i comandi sotto per zoom e rotazione da tastiera."></canvas>
+          <span id="viewerKeyboardIndicator" class="viewer-keyboard-indicator" aria-hidden="true">Controllo tastiera 3D</span>
+          <canvas id="seatCanvas" tabindex="0" aria-label="Vista 3D della sella" aria-describedby="viewerKeyboardHelp" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown + -"></canvas>
+          <p id="viewerKeyboardHelp" class="sr-only">Trascina per ruotare e usa la rotella per lo zoom. Da tastiera usa le frecce per ruotare, più e meno per lo zoom; Tab passa ai controlli di configurazione.</p>
           <div id="viewerNotice" class="viewer-notice" hidden></div>
-          <div class="camera-tools" role="group" aria-label="Controlli della vista 3D">
-            <button type="button" data-camera="left" aria-label="Ruota a sinistra">←</button>
-            <button type="button" data-camera="right" aria-label="Ruota a destra">→</button>
-            <button type="button" data-camera="in" aria-label="Avvicina">+</button>
-            <button type="button" data-camera="out" aria-label="Allontana">−</button>
-            <button type="button" data-camera="reset">Inquadratura iniziale</button>
-          </div>
         </div>
       </section>
 
@@ -161,10 +150,8 @@
                 </div>
               </article>
             </div>
-            <p id="demoPriceDetails" class="demo-rule"></p>
-            <p id="demoPriceTable" class="demo-rule"></p>
             <button id="addToCartBtn" class="add-to-cart-btn" type="button" disabled>
-  Aggiungi alla selezione demo
+  Aggiungi al carrello
 </button>
             <h3>La tua selezione locale</h3><ul id="demoSelection"></ul>
           </section>
@@ -177,6 +164,7 @@
   <script src="./vendor/babylonjs.loaders.min.js"></script>
 
   <script src="./babylonFx.js"></script>
+  <script src="./camera-controller.js"></script>
   <script src="./babylonScene.js"></script>
   <script src="./materialResolver.js"></script>
   <script src="./modelCatalogLoader.js"></script>

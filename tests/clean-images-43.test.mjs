@@ -8,6 +8,7 @@ import {assertRetirement42Output} from './legacy-retirement-42r1.mjs';
 import {beforeProof44} from './project-proof-ui-44.mjs';
 import {BASE_43,contract43,aiItems43,cleanFiles43,keptFiles43,unusedFiles43,assertMetadata43,assertAiBindings43,assertCleanFile43,assertImageFiles43,assertCleanSources43,assertCleanOutput43,assertCleanConfig43,clean43Binding,assertClassificationCss43,isClean43ProductFile} from './clean-images-43.mjs';
 import {wdStaticFiles46} from './wd-static-46.mjs';
+import {WD46_POSTER_BASE47,retainedWd46Posters47,retainedWd46PosterFiles47,assertRetainedWd46PosterBytes47} from './wd46-retained-posters47.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
@@ -23,14 +24,42 @@ const outputFixture=()=>new Map([
   ['index.html',['contact-main','demo-automazioni-ai','demo-configuratori-ecommerce','demo-cpq-portali','demo-planner-arredamento','mini-demo-configuratori'].map(name=>'<form name="'+name+'" data-netlify="true"></form>').join('')]
 ]);
 test('43/46 product allowlist accepts exact reviewed additions, never private data or arbitrary demo files',()=>{
- for(const file of ['css/configuratori-3d-2d.css','src/_data/cardDetails46.js','assets/images/projects-46/pilan-06-2560.webp','src/_includes/partials/wd-ecommerce-demo.njk',...wdStaticFiles46(root)])assert.equal(isClean43ProductFile(file,root),true,file);
- for(const file of ['src/_data/customer-private.json','demo/ecommerce/backend.js','demo/ecommerce/data/orders.json','demo/ecommerce/unknown.glb','assets/images/projects-46/raw-owner.png','assets/images/projects-46/pilan-07-2560.webp','css/unapproved.css'])assert.equal(isClean43ProductFile(file,root),false,file);
+ for(const file of ['css/configuratori-3d-2d.css','src/_data/cardDetails46.js','assets/images/projects-46/pilan-06-2560.webp','src/_includes/partials/wd-ecommerce-demo.njk',...wdStaticFiles46(root),...retainedWd46PosterFiles47])assert.equal(isClean43ProductFile(file,root),true,file);
+ for(const file of ['src/_data/customer-private.json','demo/ecommerce/backend.js','demo/ecommerce/data/orders.json','demo/ecommerce/unknown.glb','assets/images/projects-46/raw-owner.png','assets/images/projects-46/pilan-07-2560.webp','css/unapproved.css','assets/images/wd46-poster-2560.webp','assets/images/wd46-poster-768.png','assets/images/wd46-poster-1440-copy.webp'])assert.equal(isClean43ProductFile(file,root),false,file);
+});
+
+const retainedPosterFiles=()=>new Map(retainedWd46PosterFiles47.map(file=>[file,fs.readFileSync(path.join(root,file))]));
+test('43/47 two historical WD46 posters remain raw-identical to the independent reviewed46 Git baseline',()=>{
+  const current=retainedPosterFiles();
+  const historical=new Map(retainedWd46PosterFiles47.map(file=>[file,readGitBlobBuffer(WD46_POSTER_BASE47,file,root).buffer]));
+  assert.equal(assertRetainedWd46PosterBytes47(current).files,2);
+  assert.equal(assertRetainedWd46PosterBytes47(historical).mode,'RAW_BINARY');
+  for(const file of retainedWd46PosterFiles47) assert.deepEqual(current.get(file),historical.get(file));
+});
+
+test('43/47 historical poster guard rejects mutation, truncation, missing bytes, text coercion and extra paths',()=>{
+  for(const record of retainedWd46Posters47) {
+    const files=retainedPosterFiles(),changed=Buffer.from(files.get(record.file));changed[changed.length-1]^=1;
+    assert.notDeepEqual(changed,files.get(record.file));files.set(record.file,changed);
+    assert.throws(()=>assertRetainedWd46PosterBytes47(files),/baseline46 SHA256/);
+    const truncated=retainedPosterFiles();truncated.set(record.file,truncated.get(record.file).subarray(0,-1));
+    assert.throws(()=>assertRetainedWd46PosterBytes47(truncated),/raw length/);
+    const missing=retainedPosterFiles();missing.delete(record.file);
+    assert.throws(()=>assertRetainedWd46PosterBytes47(missing),/exactly the two historical paths/);
+    const textual=retainedPosterFiles();textual.set(record.file,textual.get(record.file).toString('latin1'));
+    assert.throws(()=>assertRetainedWd46PosterBytes47(textual),/raw bytes/);
+  }
+  const extra=retainedPosterFiles();extra.set('assets/images/wd46-poster-2560.webp',Buffer.from('unapproved'));
+  assert.throws(()=>assertRetainedWd46PosterBytes47(extra),/exactly the two historical paths/);
+  const swapped=retainedPosterFiles();swapped.set(retainedWd46PosterFiles47[0],swapped.get(retainedWd46PosterFiles47[1]));
+  assert.throws(()=>assertRetainedWd46PosterBytes47(swapped),/raw length/);
 });
 
 test('43 source scope, 19 replacements, nine additions and four retained metadata records',()=>{
   const result=assertCleanSources43(root);
   assert.equal(result.mapped,28);assert.equal(result.retained,4);assert.equal(result.total,32);
   assert.equal(result.files,84);assert.equal(result.publishedImages,96);assert.equal(result.unusedVariantsExcluded,57);
+  assert.equal(result.retainedWd46Posters,2);
 });
 test('43 partial patch cannot remove a preserved record or replace the entire registry',()=>{
   const current=metadata(),old=oldMetadata();
@@ -89,6 +118,22 @@ test('43 clean output preserves retirement42R1 and all kept files',()=>{
   const files=outputFixture();
   assert.equal(assertCleanOutput43(files).retainedFiles,12);
   assert.equal(assertRetirement42Output(files).forms,6);
+});
+
+test('43/47 retained WD46 posters cannot publish or survive as HTML/CSS/JS/JSON references',()=>{
+  for(const file of retainedWd46PosterFiles47) {
+    const output=outputFixture();output.set(file,fs.readFileSync(path.join(root,file)));
+    assert.throws(()=>assertCleanOutput43(output),/historical WD46 poster must not publish/);
+    for(const [name,text] of [
+      ['extra.html','<img src="/'+file+'">'],
+      ['css/extra.css','aside{background:url(/'+file+')}'],
+      ['js/extra.js','const oldPoster="/'+file+'";'],
+      ['extra.json',JSON.stringify({poster:'/'+file})],
+    ]) {
+      const referenced=outputFixture();referenced.set(name,Buffer.from(text));
+      assert.throws(()=>assertCleanOutput43(referenced),/historical WD46 poster reference forbidden/);
+    }
+  }
 });
 test('43 reintroduced legacy resource is rejected despite correct new images',()=>{
   const files=outputFixture();files.set('chatbot/js/main.996591d1.js','legacy');

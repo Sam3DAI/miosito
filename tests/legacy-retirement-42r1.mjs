@@ -4,6 +4,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {readGitBlobBuffer,runGitText,hashFileWithGitFilters} from './git-binary-reader.mjs';
 import {BASE_43,assertCleanConfig43,isClean43ProductFile} from './clean-images-43.mjs';
+import {assertRetainedWd46PosterSources47,assertRetainedWd46PostersExcluded47} from './wd46-retained-posters47.mjs';
+import {assertUtilityCta47Source,beforeUtilityCta47} from './utility-cta47.mjs';
 export const BASE_42='12392f74c007c597394abf864bc4dc31484c8e2f';
 export const retired42=Object.freeze([
   "chatbot-ai-intelligenti.html",
@@ -157,8 +159,13 @@ export function assertExactRetirement42(file,current,old) {
  assert.equal(lf(current),expectedRetirement42(file,old),file+': only authorized42 edits');
 }
 export function assertRetirement42Sources(root) {
+ const retainedWd46=assertRetainedWd46PosterSources47(root);
  for(const file of Object.keys(edits42)) {
   let current=fs.readFileSync(path.join(root,file),'utf8');
+  if(file==='404.html') {
+   assertUtilityCta47Source(root,file);
+   current=beforeUtilityCta47(file,current);
+  }
   if(file==='eleventy.config.js') {
    const before43=readGitBlobBuffer(BASE_43,file,root).buffer.toString('utf8');
    assertCleanConfig43(current,before43);
@@ -174,11 +181,12 @@ export function assertRetirement42Sources(root) {
   assert.equal(hashFileWithGitFilters(file,file,root),old.objectId,file+': retired source Git blob preserved');
   return {file,blob:old.objectId,gitBytes:old.buffer.length,gitSha256:sha(old.buffer),worktreeSha256:sha(fs.readFileSync(path.join(root,file))),publish:'EXCLUDED'};
  });
- return {result:'PASS',baseline:BASE_42,sources,coreLead3D:'UNCHANGED',formCount:6};
+ return {result:'PASS',baseline:BASE_42,sources,coreLead3D:'UNCHANGED',formCount:6,retainedWd46Posters:retainedWd46.files};
 }
 const retiredSlugs=['chatbot-ai-intelligenti','siti-web-custom-seo'];
 export function assertRetirement42Output(files) {
  assert.ok(files instanceof Map,'Output must be a path/content map');
+ assertRetainedWd46PostersExcluded47(files);
  for(const name of retired42) assert.equal(files.has(name),false,name+': retired output');
  for(const [name,buffer] of files) {
   assert.doesNotMatch(name,/(?:^|\/)(?:src|tests|node_modules|\.git|reference|reports?|_site)(?:\/|$)|\.(?:zip|njk)$/i,name+': publish boundary');

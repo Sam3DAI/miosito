@@ -1,10 +1,21 @@
 .wd46-embed { margin-block: 1.5rem; border: 1px solid var(--sx-border); border-radius: 1.5rem; background: var(--sx-bg-elevated); overflow: clip; }
 .wd46-embed__poster { margin: 0; }
-.wd46-embed__poster img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: contain; }
+.wd46-embed__poster img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: contain; }
 .wd46-embed__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; padding: 1.25rem; }
-.wd46-embed__controls p { flex: 1 1 18rem; margin: 0; }
+.wd46-embed__controls p { margin: 0; }
+.wd46-embed__note { flex: 1 1 16rem; }
+.wd46-embed__status { flex-basis: 100%; }
+.wd46-embed__status:empty { display: none; }
+.wd46-embed__controls svg { flex: none; }
 .wd46-embed__stage iframe { display: block; width: 100%; height: min(760px, 85vh); min-height: 620px; border: 0; color-scheme: light dark; }
 .wd46-embed [hidden] { display: none !important; }
 .wd46-embed[data-state="loading"] [data-wd46-stage] { opacity: .75; }
+.wd46-embed:is(:fullscreen, [data-expanded="fallback"]) { display: flex; flex-direction: column; width: 100%; height: 100dvh; margin: 0; border-radius: 0; background: var(--sx-bg-elevated); }
+.wd46-embed:fullscreen::backdrop { background: var(--sx-bg); }
+.wd46-embed[data-expanded="fallback"] { position: fixed; inset: 0; z-index: 11000; }
+.wd46-embed:is(:fullscreen, [data-expanded="fallback"]) .wd46-embed__controls { flex: 0 0 auto; }
+.wd46-embed:is(:fullscreen, [data-expanded="fallback"]) .wd46-embed__stage { flex: 1 1 auto; min-height: 0; }
+.wd46-embed:is(:fullscreen, [data-expanded="fallback"]) .wd46-embed__stage iframe { height: 100%; min-height: 0; }
+.wd46-embed:is(:fullscreen, [data-expanded="fallback"]) .wd46-embed__poster { min-height: 0; overflow: auto; }
 @media (max-width: 700px) { .wd46-embed__stage iframe { height: 820px; min-height: 0; } .wd46-embed__controls { align-items: flex-start; } }
 @media (forced-colors: active) { .wd46-embed { border-color: CanvasText; } }

@@ -1,5 +1,6 @@
 // Exact, bounded expectation adapters for superseded pre-46 source freezes.
 // Current product assertions and negative cases still run separately; no whole-file replacement.
+import { beforeWd47 } from './site-wd-delta-47.mjs';
 export const wd46Edits = {
   "eleventy.config.js": [
     {
@@ -31,7 +32,7 @@ export const wd46Edits = {
   ]
 };
 export function beforeWd46(file,input) {
-  let text = input.replace(/\r\n/g,'\n');
+  let text = beforeWd47(file,input);
   for (const edit of wd46Edits[file] || []) {
     if (text.split(edit.after).length === 2) text = text.replace(edit.after,edit.before);
   }

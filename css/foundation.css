@@ -268,49 +268,36 @@ li {
 }
 .button--menu { border-width: 1px; }
 
-/* White hover/display gradients are the scoped owner-requested exception.
-   Ordinary text, form controls and focus retain their readable variants. */
-.button--page:focus-visible,
-.button--menu:focus-visible {
-  background: var(--sx-gradient);
-  color: #fff;
-}
-.button--page.button--secondary:focus-visible { background: var(--sx-pink); }
-.button--submit:focus-visible { background: var(--sx-gradient); color: #fff; }
-
-@media (hover: hover) and (pointer: fine) {
-  .button--page:hover {
-    background: var(--sx-gradient);
-    color: #fff;
-    transform: translateY(-1px);
-    box-shadow: 0 14px 30px rgb(69 182 254 / 25%);
-  }
-  .button--page.button--secondary:hover { background: var(--sx-pink); }
-  .button--menu:hover { background: var(--sx-gradient); color: #fff; }
-  .button--submit:hover { background: var(--sx-gradient); color: #fff; transform: translateY(-1px); box-shadow: 0 14px 30px rgb(69 182 254 / 25%); }
-}
-
-/* UI46 quote-only border: one CSS pixel, readable dark text on the brand fill. */
+/*47: semantic roles are explicit in the templates, never inferred from copy.
+  Fill changes do not change the border, dimensions or pointer geometry. */
 .button.button--quote {
   border: 1px solid transparent;
   background: linear-gradient(var(--quote-surface, var(--sx-bg)), var(--quote-surface, var(--sx-bg))) padding-box, var(--sx-gradient) border-box;
   color: var(--sx-text);
 }
+.button--submit.button--quote { --quote-surface: var(--sx-bg-elevated); }
+.button.button--explore {
+  border: 1px solid var(--sx-pink);
+  background: transparent;
+  color: var(--sx-text-pink);
+  font-weight: 500;
+}
 .button.button--quote:focus-visible,
-.button.button--quote.button--secondary:focus-visible {
-  background: var(--sx-gradient) border-box;
-  color: #1d1d1f;
+.button.button--explore:focus-visible {
   outline: 3px solid var(--sx-blue-deep);
   outline-offset: 3px;
 }
+.button.button--quote:not(:disabled):active { background: var(--sx-gradient) border-box; color: #1d1d1f; }
+.button.button--explore:not(:disabled):active { background: var(--sx-pink); color: #fff; }
 @media (hover: hover) and (pointer: fine) {
-  .button.button--quote:hover,
-  .button.button--quote.button--secondary:hover { background: var(--sx-gradient) border-box; color: #1d1d1f; }
+  .button.button--quote:not(:disabled):hover { background: var(--sx-gradient) border-box; color: #1d1d1f; }
+  .button.button--explore:not(:disabled):hover { background: var(--sx-pink); color: #fff; }
+  .button:is(.button--quote, .button--explore):not(:disabled):hover { box-shadow: 0 14px 30px rgb(69 182 254 / 25%); }
 }
 @media (forced-colors: active) {
   .button.button--quote,
-  .button.button--quote:is(:hover, :focus-visible),
-  .button.button--quote.button--secondary:is(:hover, :focus-visible) { border-color: ButtonText; background: ButtonFace; color: ButtonText; }
+  .button.button--explore,
+  .button:is(.button--quote, .button--explore):is(:hover, :active, :focus-visible) { border-color: ButtonText; background: ButtonFace; color: ButtonText; }
 }
 
 /* One native fragment offset; functional form/rail IDs are not renamed. */

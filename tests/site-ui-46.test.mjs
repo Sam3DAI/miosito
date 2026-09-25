@@ -7,7 +7,26 @@ import data from "../src/_data/cardDetails46.js";
 import { root46, detailCounts46, assertDetailInventory46, renderRoute46, assertUi46Html, assertUi46Css } from "./site-ui-46.mjs";
 import { dialogFixture46 } from "./dialog-ui-46-fixture.mjs";
 import { uiLiterals46, beforeUi46Literals, assertUi46Literals } from "./site-ui-46-literals.mjs";
+import { uiLiterals47, beforeUi47Literals, assertUi47Delta, assertUi47Literals } from "./site-ui-47-literals.mjs";
+import { readGitBlobBuffer } from "./git-binary-reader.mjs";
 const read = file => fs.readFileSync(path.join(root46, file), "utf8");
+
+test("UI47 exact current source has71 reviewed callsites across16 files before historical checks", () => assert.deepEqual(assertUi47Literals(root46), { files: 16, literalPairs: 71, unknownDeltas: "NOT_REMOVED", current47: "REQUIRED" }));
+test("UI47 literal gates reject old47-predecessor UI, mutations, duplicates and unrelated changes", () => {
+  for (const [file, edits] of Object.entries(uiLiterals47.edits)) {
+    const old = readGitBlobBuffer(uiLiterals47.baseline, file, root46).buffer.toString("utf8").replace(/\r\n/g, "\n");
+    const current = read(file).replace(/\r\n/g, "\n");
+    assert.throws(() => assertUi47Delta(file, old, old), file + ": the old UI cannot satisfy current47");
+    assert.throws(() => assertUi47Delta(file, current + "\nUNAUTHORIZED47\n", old));
+    assert.equal(beforeUi47Literals(file, current + "\nUNAUTHORIZED47\n"), old + "\nUNAUTHORIZED47\n");
+    for (const edit of edits) {
+      const changed = current.replace(edit.after, edit.after + "UNAUTHORIZED47\n");
+      assert.notEqual(changed, current);
+      assert.throws(() => assertUi47Delta(file, changed, old));
+      assert.throws(() => assertUi47Delta(file, current.replace(edit.after, edit.after + edit.after), old));
+    }
+  }
+});
 
 test("UI46 historical adapters have exactly48 unique reviewed callsites across15 files", () => assert.deepEqual(assertUi46Literals(root46), { files: 15, literalPairs: 48, unknownDeltas: "NOT_REMOVED" }));
 test("UI46 historical adapters retain unknown changes and refuse to match altered authorized fragments", () => {
@@ -20,9 +39,9 @@ test("UI46 historical adapters retain unknown changes and refuse to match altere
   }
 });
 
-test("UI46 all 129 occurrences have stable route/group/id and bounded useful copy", () => assert.equal(assertDetailInventory46().occurrences, 129));
+test("UI46 catalog keeps all 129 stable entries; UI47 renders120 informative details and9 native navigation cards", () => assert.equal(assertDetailInventory46().occurrences, 129));
 test("UI46 refuses a missing family, unknown occurrence, duplicated id or invented markup", () => {
-  for (const mutate of [d => d.pages.home.process.pop(), d => d.pages.home.process[0].key = "/wrong", d => d.pages.home.process[1].id = "analisi", d => d.pages.home.process[0].text = "<b>Guaranteed</b>", d => d.pages.home.process[0].href = "/new-form"]) {
+  for (const mutate of [d => d.pages.home.process.pop(), d => d.pages.home.process[0].key = "/wrong", d => d.pages.home.process[1].id = "analisi", d => d.pages.home.process[0].text = "<b>Guaranteed</b>", d => d.pages.home.process[0].href = "/new-form", d => d.pages.home.solutions[0].action = "detail", d => d.pages.home.solutions[0].destination = "/invented-service", d => d.pages.home.process[0].paragraphs.pop()]) {
     const changed = structuredClone(data); mutate(changed); assert.throws(() => assertDetailInventory46(changed));
   }
 });
@@ -40,7 +59,11 @@ test("UI46 renderer escapes editorial title/body/attributes without arbitrary HT
 test("UI46 quote contrast, exact border and accessible responsive gallery CSS", () => assertUi46Css());
 test("UI46 CSS negatives reject crop, unequal cards, clipped low-screen dialog and lost quote contrast", () => {
   const css = { gallery: read("css/project-proof-galleries.css"), foundation: read("css/foundation.css") };
-  for (const changed of [{ gallery: css.gallery.replace("object-fit: contain", "object-fit: cover") }, { gallery: css.gallery.replace("height: 100%; min-height: 0", "height: auto; min-height: 0") }, { gallery: css.gallery.replace("overflow: auto;", "overflow: hidden;") }, { foundation: css.foundation.replace("border: 1px solid transparent", "border: 2px solid transparent") }, { foundation: css.foundation.replace("color: #1d1d1f;\n  outline", "color: #fff;\n  outline") }]) assert.throws(() => assertUi46Css(changed));
+  for (const changed of [{ gallery: css.gallery.replace("object-fit: contain", "object-fit: cover") }, { gallery: css.gallery.replace("height: 100%; min-height: 0", "height: auto; min-height: 0") }, { gallery: css.gallery.replace("overflow: auto;", "overflow: hidden;") }, { foundation: css.foundation.replace("border: 1px solid transparent", "border: 2px solid transparent") }, { foundation: css.foundation.replace(".button.button--quote:not(:disabled):active { background: var(--sx-gradient) border-box; color: #1d1d1f; }", ".button.button--quote:not(:disabled):active { background: var(--sx-gradient) border-box; color: #fff; }") }]) {
+    const field = Object.keys(changed)[0];
+    assert.notEqual(changed[field], css[field], "Negative fixture must mutate a current declaration, independently of CRLF/LF");
+    assert.throws(() => assertUi46Css(changed));
+  }
 });
 test("UI46 gallery activates one verified image, reaches every slide and wraps", () => {
   for (const count of [6, 8]) {
@@ -71,7 +94,7 @@ test("UI46 detail uses existing HTML once and returns it without losing its sour
 });
 test("UI46 focus loop wraps both ends and preserves normal middle navigation", () => {
   const f = dialogFixture46(); f.click(f.galleryTrigger);
-  for (const [from, shiftKey, to, prevented] of [[f.large, false, f.close, true], [f.close, true, f.large, true], [f.previous, false, f.previous, false]]) {
+  for (const [from, shiftKey, to, prevented] of [[f.galleryCta, false, f.close, true], [f.close, true, f.galleryCta, true], [f.previous, false, f.previous, false]]) {
     f.document.activeElement = from; const event = f.gallery.emit("keydown", { key: "Tab", shiftKey }); assert.equal(event.prevented, prevented); assert.equal(f.document.activeElement, to);
   }
 });
@@ -79,10 +102,10 @@ test("UI46 low-height Tab trap reveals the control by scrolling only the dialog 
   const f = dialogFixture46({ dialogGeometry: { clientHeight: 367, scrollHeight: 640, lastTop: 597 } });
   f.click(f.galleryTrigger);
   const event = f.gallery.emit("keydown", { key: "Tab", shiftKey: true });
-  assert.equal(event.prevented, true); assert.equal(f.document.activeElement, f.large);
+  assert.equal(event.prevented, true); assert.equal(f.document.activeElement, f.galleryCta);
   assert.equal(f.gallery.scrollTop, 253);
   assert.deepEqual(f.gallery.scrolls, [{ top: 253, behavior: "instant" }]);
-  assert.ok(f.large.getBoundingClientRect().bottom <= 16 + f.gallery.clientTop + f.gallery.clientHeight - 8);
+  assert.ok(f.galleryCta.getBoundingClientRect().bottom <= 16 + f.gallery.clientTop + f.gallery.clientHeight - 8);
   assert.equal(f.scrolls.length, 0); assert.equal(f.window.scrollY, 930); assert.equal(f.track.scrollLeft, 170);
   f.gallery.emit("keydown", { key: "Tab", shiftKey: false });
   assert.equal(f.document.activeElement, f.close); assert.equal(f.gallery.scrolls.length, 1, "sticky close was already visible");
@@ -98,7 +121,7 @@ test("UI46 internal focus visibility scrolls upward only when needed, including 
   assert.deepEqual(f.detailDialog.scrolls, [{ top: 92, behavior: "instant" }]); assert.equal(f.scrolls.length, 0);
   const visible = dialogFixture46(); visible.click(visible.galleryTrigger);
   visible.gallery.emit("keydown", { key: "Tab", shiftKey: true });
-  assert.equal(visible.document.activeElement, visible.large); assert.equal(visible.gallery.scrolls.length, 0); assert.equal(visible.scrolls.length, 0);
+  assert.equal(visible.document.activeElement, visible.galleryCta); assert.equal(visible.gallery.scrolls.length, 0); assert.equal(visible.scrolls.length, 0);
 });
 test("UI46 negative retains the low-height focus failure if the internal visibility correction is removed", () => {
   const source = read("js/project-proof-galleries.js");
@@ -106,8 +129,8 @@ test("UI46 negative retains the low-height focus failure if the internal visibil
   assert.notEqual(broken, source);
   const f = dialogFixture46({ code: broken, dialogGeometry: { clientHeight: 367, scrollHeight: 640, lastTop: 597 } });
   f.click(f.galleryTrigger); f.gallery.emit("keydown", { key: "Tab", shiftKey: true });
-  assert.equal(f.document.activeElement, f.large); assert.equal(f.gallery.scrollTop, 0);
-  assert.throws(() => assert.ok(f.large.getBoundingClientRect().bottom <= 16 + f.gallery.clientTop + f.gallery.clientHeight));
+  assert.equal(f.document.activeElement, f.galleryCta); assert.equal(f.gallery.scrollTop, 0);
+  assert.throws(() => assert.ok(f.galleryCta.getBoundingClientRect().bottom <= 16 + f.gallery.clientTop + f.gallery.clientHeight));
   assert.equal(f.scrolls.length, 0);
 });
 test("UI46 never stacks a dialog over menu, consent or an already open dialog", () => {

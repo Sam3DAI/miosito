@@ -84,7 +84,7 @@ export function assertQuote38Html(route,html) {
  for(const link of ctaLinks38(html).filter(l=>l.label===quote38.label)) assert.deepEqual(link,quote38,'Single quote destination, no query/PII/UTM');
  if(route==='/') assert.deepEqual(row.opening,[quote38,{label:'Esplora le soluzioni',href:'#soluzioni'}]);
  if(serviceRoutes38.includes(route)) {
-  assert.deepEqual(row.opening,[{label:'Richiedi una Demo gratuita',href:'#demo-form'},quote38],route+': two opening choices');
+  assert.deepEqual(row.opening,[quote38,{label:'Richiedi una Demo gratuita',href:'#demo-form'}],route+': task47 quote first, then the unchanged on-page demo');
   assert.equal((html.match(/id="demo-form"/g)||[]).length,1);
   assert.equal((html.match(/<form\b/g)||[]).length,1,route+': only existing demo form');
   assert.match(html,/class="section-kicker">Richiesta demo<\/span>/);

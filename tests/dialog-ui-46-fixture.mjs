@@ -8,9 +8,9 @@ export function dialogFixture46(options = {}) {
   const document = { activeElement: null, body: { style: { overflow: "auto" } } };
   function element(extra = {}) {
     const listeners = new Map();
-    return Object.assign({ listeners, attrs: {}, getClientRects: () => [{}], getBoundingClientRect: () => ({ top: 30, bottom: 62 }),
+    return Object.assign({ listeners, attrs: {}, closest: () => null, getClientRects: () => [{}], getBoundingClientRect: () => ({ top: 30, bottom: 62 }),
       addEventListener(name, callback) { if (!listeners.has(name)) listeners.set(name, []); listeners.get(name).push(callback); },
-      emit(name, values = {}) { const event = { prevented: false, preventDefault() { this.prevented = true; }, ...values }; for (const fn of listeners.get(name) || []) fn(event); return event; },
+      emit(name, values = {}) { const event = { target: this, detail: 1, prevented: false, preventDefault() { this.prevented = true; }, ...values }; for (const fn of listeners.get(name) || []) fn(event); return event; },
       setAttribute(name, value) { this.attrs[name] = value; }, getAttribute(name) { return this.attrs[name]; },
       focus() { document.activeElement = this; }
     }, extra);
@@ -19,7 +19,7 @@ export function dialogFixture46(options = {}) {
   const galleryTrigger = element({ closest: () => track });
   const galleryFallback = {};
   const galleryTitle = element({ textContent: "Progetto verificato" });
-  const close = element(), previous = element(), next = element(), large = element(), status = element();
+  const close = element(), previous = element(), next = element(), large = element(), galleryCta = element(), status = element();
   const views = Array.from({ length: options.views || 6 }, (_, index) => {
     const stem = "/assets/images/projects-46/biliarditaly-0" + (index + 1);
     const image = { alt: "Vista " + (index + 1), dataset: { gallerySrc: stem + "-1440.webp", gallerySrcset: [768, 1440, 2560].map(w => stem + "-" + w + ".webp " + w + "w").join(", ") }, hasAttribute(key) { return Object.hasOwn(this, key); } };
@@ -28,7 +28,7 @@ export function dialogFixture46(options = {}) {
   if (options.invalidImage) views[0].image.dataset.gallerySrc = "https://not-authorized.invalid/private.png";
   if (options.missingTexture) views[0].image.dataset.gallerySrcset = "";
   const gallery = element({ dataset: { projectDialog: "fixture" }, open: false,
-    getAttribute: () => "gallery-title", querySelectorAll: selector => selector === "[data-gallery-view]" ? views : selector === "h3" ? [galleryTitle] : [close, previous, next, large],
+    getAttribute: () => "gallery-title", querySelectorAll: selector => selector === "[data-gallery-view]" ? views : selector === "h3" ? [galleryTitle] : [close, previous, next, large, galleryCta],
     querySelector: selector => ({ "[data-gallery-close]": options.missingClose ? null : close, "[data-gallery-status]": status, "[data-gallery-previous]": previous, "[data-gallery-next]": next, "[data-gallery-large-link]": large })[selector]
   });
   const detailClose = element(), detailCta = element(), detailTitle = element({ textContent: "" });
@@ -36,9 +36,17 @@ export function dialogFixture46(options = {}) {
   const marker = {};
   const content = { nextSibling: marker, parent: "fallback" };
   const detailBody = { append(node) { node.parent = "dialog"; } };
-  const summary = element({ closest: () => null });
+  const summary = element({ closest: selector => selector === "[data-rail-track]" ? track : null });
+  const cardText = element(), extraCardControl = element();
+  const card = element({
+    closest: selector => selector === "[data-rail-track]" ? track : options.navigationCard ? card : null,
+    querySelectorAll: selector => selector === "details[data-card-detail]" ? (options.duplicateCardDetail ? [detailFallback, detailFallback] : [detailFallback]) : [summary, detailCta, ...(options.extraCardControl ? [extraCardControl] : [])]
+  });
   const detailFallback = {
+    open: false,
     id: options.invalidDetailId ? 'detail-unknown"bad' : "detail-home-problems-varianti",
+    closest: () => options.missingCard ? null : card,
+    contains: target => [detailFallback, summary, content, hiddenTitle, detailCta].includes(target),
     querySelector: selector => ({ "summary[data-detail-trigger]": summary, "[data-detail-content]": content, "[data-detail-title]": options.missingDetailTitle ? null : hiddenTitle })[selector],
     insertBefore(node, sibling) { if (sibling !== marker) throw Error("Lost source location"); node.parent = "fallback"; }
   };
@@ -55,15 +63,16 @@ export function dialogFixture46(options = {}) {
     dialog.scrollHeight = geometry.scrollHeight || 640;
     dialog.scrollTop = 0;
     dialog.scrolls = [];
+    dialog.showCalls = 0;
     dialog.getBoundingClientRect = () => ({ top: 16, bottom: 18 + dialog.clientHeight });
     dialog.scrollTo = function (value) {
       this.scrolls.push({ ...value });
       this.scrollTop = Math.max(0, Math.min(this.scrollHeight - this.clientHeight, value.top));
     };
-    dialog.showModal = function () { if (options.showThrows) throw Error("Native dialog failure"); this.open = true; };
+    dialog.showModal = function () { this.showCalls++; if (options.showThrows) throw Error("Native dialog failure"); this.open = true; };
     dialog.close = function () { this.open = false; this.emit("close"); };
   }
-  large.getBoundingClientRect = () => ({ top: (options.dialogGeometry?.lastTop || 500) - gallery.scrollTop, bottom: (options.dialogGeometry?.lastTop || 500) + 32 - gallery.scrollTop });
+  galleryCta.getBoundingClientRect = () => ({ top: (options.dialogGeometry?.lastTop || 500) - gallery.scrollTop, bottom: (options.dialogGeometry?.lastTop || 500) + 32 - gallery.scrollTop });
   detailCta.getBoundingClientRect = () => ({ top: (options.dialogGeometry?.lastTop || 500) - detailDialog.scrollTop, bottom: (options.dialogGeometry?.lastTop || 500) + 32 - detailDialog.scrollTop });
   document.getElementById = id => id === "gallery-title" ? (options.missingTitle ? null : galleryTitle) : id === "detail-title" ? detailTitle : null;
   document.querySelector = selector => {
@@ -83,9 +92,17 @@ export function dialogFixture46(options = {}) {
   function HTMLDialogElement() {}
   HTMLDialogElement.prototype.showModal = function () {};
   const scrolls = [];
-  const window = { scrollX: 0, scrollY: 930, scrollTo(value) { scrolls.push(value); } };
+  let selectionText = options.selectionText || "";
+  const window = { scrollX: 0, scrollY: 930, scrollTo(value) { scrolls.push(value); }, getSelection: () => ({ toString: () => selectionText }), setSelectionText(value) { selectionText = String(value); } };
   if (!options.noNative) window.HTMLDialogElement = HTMLDialogElement;
   vm.runInNewContext(options.code || fs.readFileSync(path.join(root46, "js/project-proof-galleries.js"), "utf8"), { window, document, HTMLDialogElement });
-  return { document, window, menu, gallery, detailDialog, galleryTrigger, galleryFallback, views, close, previous, next, large, status, summary, content, detailTitle, detailClose, detailCta, track, scrolls,
-    click(target, values) { document.activeElement = target; return target.emit("click", values); } };
+  return { document, window, menu, gallery, detailDialog, galleryTrigger, galleryFallback, views, close, previous, next, large, galleryCta, status, summary, card, cardText, detailFallback, extraCardControl, content, detailTitle, detailClose, detailCta, track, scrolls,
+    click(target, values) {
+      document.activeElement = target;
+      const event = target.emit("click", values);
+      // The same event bubbles once: the root guard must not open a second
+      // dialog when the original target was the native summary inside details.
+      if (target === summary || target === cardText) for (const callback of card.listeners.get("click") || []) callback(event);
+      return event;
+    } };
 }

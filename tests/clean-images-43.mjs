@@ -7,7 +7,10 @@ import {readGitBlobBuffer, runGitText} from './git-binary-reader.mjs';
 import {beforeProof44,productFiles44,assertProof44Sources} from './project-proof-ui-44.mjs';
 import {beforeGalleries44r2,galleryProductFiles44r2,galleryStatic46,assertGallerySources44r2} from './project-galleries-44r2.mjs';
 import {uiLiterals46} from './site-ui-46-literals.mjs';
+import {uiLiterals47} from './site-ui-47-literals.mjs';
 import {wdStaticFiles46} from './wd-static-46.mjs';
+import {retainedWd46PosterFiles47,assertRetainedWd46PosterSources47,assertRetainedWd46PostersExcluded47} from './wd46-retained-posters47.mjs';
+import {isUtilityCta47ProductFile} from './utility-cta47.mjs';
 
 // Test-only digest oracle from the owner package, never imported by the site.
 export const contract43 = JSON.parse(fs.readFileSync(new URL('./clean-images-43-contract.json', import.meta.url), 'utf8'));
@@ -107,11 +110,12 @@ export function assertCleanConfig43(current, baseline) {
 }
 
 export function isClean43ProductFile(file,root=fileURLToPath(new URL('../',import.meta.url))) {
+  if (isUtilityCta47ProductFile(file,root)) return true; // Exact three-file content guard, never a wildcard.
   // Later owner-authorized tasks extend the exact file set; no directory wildcard.
   // Their current-content/pixel/runtime oracles remain mandatory in full verification.
-  const ui46=Object.keys(uiLiterals46.edits).includes(file)||file==='src/_data/cardDetails46.js'||galleryStatic46.includes(file);
+  const ui46=Object.keys(uiLiterals46.edits).includes(file)||Object.keys(uiLiterals47.edits).includes(file)||file==='src/_data/cardDetails46.js'||galleryStatic46.includes(file);
   const wd46=['css/wd-ecommerce-embed.css','js/wd-ecommerce-embed.js','src/_includes/partials/wd-ecommerce-demo.njk',...wdStaticFiles46(root)].includes(file);
-  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file) || productFiles44.includes(file) || galleryProductFiles44r2.includes(file) || ui46 || wd46;
+  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file) || productFiles44.includes(file) || galleryProductFiles44r2.includes(file) || ui46 || wd46 || retainedWd46PosterFiles47.includes(file);
 }
 
 export function assertClassificationCss43(source,baseline) {
@@ -122,6 +126,7 @@ export function assertClassificationCss43(source,baseline) {
 }
 
 export function assertCleanSources43(root) {
+  const retainedWd46=assertRetainedWd46PosterSources47(root);
   assertGallerySources44r2(root);
   // Owner explicitly approved the literal CSS/SVG adaptation for44. Validate
   // the entire bounded delta first; all historical43 checks still run below.
@@ -136,10 +141,11 @@ export function assertCleanSources43(root) {
   for(const file of runGitText(['diff','--name-only',BASE_43,'--'],root).trim().split('\n').filter(Boolean)) {
     assert.ok(isClean43ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside43/44/46 exact allowlist');
   }
-  return {...metadata,...images,baseline:BASE_43,publishedImages:publishedImageFiles43.length,unusedVariantsExcluded:unusedFiles43.length};
+  return {...metadata,...images,baseline:BASE_43,publishedImages:publishedImageFiles43.length,unusedVariantsExcluded:unusedFiles43.length,retainedWd46Posters:retainedWd46.files};
 }
 
 export function assertCleanOutput43(files) {
+  assertRetainedWd46PostersExcluded47(files);
   const images=assertImageFiles43(files);
   for(const file of unusedFiles43) assert.equal(files.has(file),false,file+': unused superseded variant must not publish');
   for(const asset of keptAssets43) for(const variant of asset.variants) assertCleanFile43(files.get(variant.file),variant);

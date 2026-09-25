@@ -85,7 +85,7 @@ twitter:
 {% endblock %}
 
 {% block content %}
-<main id="main-content">
+{% set mainBeforeFormWhitespace47 %}<main id="main-content">
   <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
@@ -93,8 +93,8 @@ twitter:
         <div class="hero-introduction">
         <p class="hero-lead">Composizioni, misure e finiture in uno strumento B2B che aiuta showroom e reti vendita a preparare offerte coerenti con il catalogo.</p>
         <div class="cta-group">
-          <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
-          <a class="button button--page button--secondary button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--quote" data-cta-role="quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--explore" data-cta-role="explore" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       </div>
@@ -156,10 +156,10 @@ twitter:
     {{ faq(faqItems) }}
   </section>
 
-  {% include "partials/service-demo-form.njk" %}
+  {% endset %}{{ mainBeforeFormWhitespace47 | replace(r/>[ \t\r\n]*\n[ \t\r\n]*</g, '>\n<') | safe }}{% include "partials/service-demo-form.njk" %}{% set mainAfterFormWhitespace47 %}
 
   <section class="section section--compact container">
     {{ finalCta("Il tuo catalogo richiede composizioni, vincoli e offerte?", "Descrivi prodotti, utenti e passaggi commerciali: valutiamo moduli, misure e documenti necessari alla tua rete vendita.", "Richiedi un preventivo", false, "/contattaci#contatti") }}
   </section>
-</main>
+</main>{% endset %}{{ mainAfterFormWhitespace47 | replace(r/>[ \t\r\n]*\n[ \t\r\n]*</g, '>\n<') | safe }}
 {% endblock %}

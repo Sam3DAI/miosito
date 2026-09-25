@@ -1,4 +1,4 @@
-import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelectionStore,transitionModel} from './demo-state.mjs';
+import {initialSelection,assertSelection,priceSelection,createSelectionStore,transitionModel} from './demo-state.mjs';
 (() => {
   const selectionDemo=createSelectionStore();
   const $ = (s) => document.querySelector(s);
@@ -58,7 +58,7 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
     style: "Style.png",
     grip: "Grip.png",
     double: "Double.png",
-    zip: "Zip.webp"
+    zip: "Zip.png"
   };
 
   const state = {
@@ -569,43 +569,19 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
 
  function syncViewerModeByStep(forceRefocus = false) {
   if (!state.viewerReady || !state.scene || !state.camera) return;
-
-  const step = state.ui.activeStep;
-
-  let area = "model";
-  if (step === 2) area = "brand";
-  if (step === 3) area = "materials";
-  if (step === 4) area = "summary";
-
-  // Changing panel never moves the camera selected by the user.
-
-  // STEP 1 = MODELLO
-  if (step === 1) {
-    window.WDScene.setAutoRotateEnabled(state.scene, false);
-    window.WDScene.setUserInteractionEnabled(state.camera, dom.viewerCanvas, true);
-    return;
-  }
-
-  // STEP 2 = BRAND
-  if (step === 2) {
-    window.WDScene.setAutoRotateEnabled(state.scene, false);
-    window.WDScene.setUserInteractionEnabled(state.camera, dom.viewerCanvas, true);
-    return;
-  }
-
-  // STEP 3 = MATERIALI
-  if (step === 3) {
-    window.WDScene.setAutoRotateEnabled(state.scene, false);
-    window.WDScene.setUserInteractionEnabled(state.camera, dom.viewerCanvas, true);
-    return;
-  }
-
-  // STEP 4 = RIEPILOGO
-  if (step === 4) {
-    window.WDScene.setAutoRotateEnabled(state.scene, false);
-    window.WDScene.setUserInteractionEnabled(state.camera, dom.viewerCanvas, true);
-  }
+  const area = ['model', 'brand', 'materials', 'summary'][state.ui.activeStep - 1];
+  window.WDScene.setAutoRotateEnabled(state.scene, false);
+  window.WDScene.setUserInteractionEnabled(state.camera, dom.viewerCanvas, true);
+  if (forceRefocus) window.WDScene.focusCameraToArea(state.scene, state.camera, area, {durationFrames: 26, fps: 60});
 }
+
+  function focusCustomizationGroup(group) {
+    if (!state.viewerReady || !state.modelReady || state.ui.activeStep !== 3) return;
+    const model = getActiveModel();
+    const slot = getGroupRepresentativeSlot(group);
+    const names = group.id === '__logos__' ? getBrandLogoMeshNames(model) : (group.slots || []).flatMap(key => model.meshSlots[key] || []);
+    window.WDScene.focusCameraToMeshes(state.scene, state.camera, state.loaded.meshesByName, names, group.id === '__logos__' || slot === 'borderColor' ? 'brand' : 'materials');
+  }
 
   function renderSwatches(container, colors, selectedColor, onPick) {
     container.innerHTML = "";
@@ -686,6 +662,7 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
   state.ui.activeCustomizationGroupId = group.id;
   renderCustomizationNav();
   renderCustomizationStage();
+  focusCustomizationGroup(group);
 });
 
       dom.customNav.appendChild(btn);
@@ -1082,8 +1059,6 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
       state.pricing.extras.brandLogo + state.pricing.extras.individualCustomization
     );
     dom.summaryTotal.textContent = formatCurrency(state.pricing.total);
-    const detail=priceSelection(state.selected);
-    document.querySelector('#demoPriceDetails').textContent='Base '+formatCurrency(detail.baseCents/100)+'; logo '+formatCurrency(detail.logoCents/100)+'; '+detail.materials.map(x=>getSlotLabel(x.key)+' '+formatCurrency(x.cents/100)).join('; ')+'.';
 
     renderQuickStrip();
   }
@@ -1100,9 +1075,10 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
   }
 
   function goToStep(step) {
+  const previous = state.ui.activeStep;
   state.ui.activeStep = Math.max(1, Math.min(4, Number(step) || 1));
   updateStepUI();
-  syncViewerModeByStep(false);
+  syncViewerModeByStep(previous !== state.ui.activeStep);
 }
 
   async function refreshViewerSafe() {
@@ -1111,6 +1087,7 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
     const request=++state.materialRequest, model=getActiveModel(), snapshot=structuredClone(state.selected);
     state.materialInFlight++;
     state.modelReady=false;
+    dom.viewerCanvas.dataset.materialsReady='false';
     document.querySelector('#addToCartBtn').disabled=true;
     document.querySelector('#demoStatus').textContent='Applicazione materiali selezionati…';
     try {
@@ -1118,9 +1095,13 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
       if(request!==state.materialRequest||model.id!==state.loadedModelId||model.id!==state.selected.seatModelId)return;
       applySelectionToViewer();
       state.modelReady=true;
+      dom.viewerCanvas.dataset.materialsReady='true';
+      dom.viewerCanvas.dataset.modelId=model.id;
+      dom.viewerCanvas.dataset.materialBindings=JSON.stringify([...state.loaded.meshesByName].filter(([name,mesh])=>mesh.material?.bumpTexture).map(([name,mesh])=>({mesh:name,normal:mesh.material.bumpTexture.name,roughness:mesh.material.metallicTexture?.name,normalInvertY:mesh.material.bumpTexture.invertY,roughnessInvertY:mesh.material.metallicTexture?.invertY,roughnessGreen:mesh.material.useRoughnessFromMetallicTextureGreen,roughnessAlpha:mesh.material.useRoughnessFromMetallicTextureAlpha,metallicBlue:mesh.material.useMetallnessFromMetallicTextureBlue})));
       document.querySelector('#addToCartBtn').disabled=false;
+      document.querySelector('#demoRetry').hidden=true;
       window.WD46Display?.ready();
-      document.querySelector('#demoStatus').textContent='Materiali applicati. Trascina, usa la rotella o i comandi del viewer in tutti i passi.';
+      document.querySelector('#demoStatus').textContent='';
       hideViewerNotice();
     } catch (error) {
       if(request!==state.materialRequest)return;
@@ -1178,8 +1159,10 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
   const model = getActiveModel();
   if (!model) return;
   const request=++state.modelRequest;
+  state.scene.__wdCamera47.stop('model-change');
   ++state.materialRequest;
   state.modelReady=false;
+  dom.viewerCanvas.dataset.materialsReady='false';
   state.loadedModelId=null;
   document.querySelector('#addToCartBtn').disabled=true;
   document.querySelector('#demoRetry').hidden=true;
@@ -1220,8 +1203,6 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
 }
 
   function bindEvents() {
-    document.querySelector('#demoPriceTable').textContent='Basi demo: '+Object.entries(PRICE_TABLE.models).map(([id,cents])=>id.toUpperCase()+' '+formatCurrency(cents/100)).join(', ')+'; logo '+formatCurrency(PRICE_TABLE.brandLogo/100)+'; maggiorazione per ciascuna zona: '+Object.entries(PRICE_TABLE.finishes).map(([finish,cents])=>getFinishLabel(finish)+' '+formatCurrency(cents/100)).join(', ')+'. Veicoli fittizi, nessuna promessa di compatibilità reale.';
-    for(const button of document.querySelectorAll('[data-camera]'))button.addEventListener('click',()=>window.WDScene.moveCamera(state.scene,state.camera,button.dataset.camera));
     dom.stepperItems.forEach((btn) => {
       btn.addEventListener("click", () => goToStep(btn.dataset.step));
     });
@@ -1229,13 +1210,7 @@ import {PRICE_TABLE,initialSelection,assertSelection,priceSelection,createSelect
       if(!state.modelReady)return;
       const added=selectionDemo.add(state.selected,state.catalog,getActiveModel());
       renderDemoSelection();
-      document.querySelector('#demoStatus').textContent=added.id+' aggiunto solo alla selezione demo. Nessun ordine inviato.';
-    });
-    document.querySelector('#demoReset').addEventListener('click',async()=>{
-      state.selected=initialSelection();state.ui.splitGroups={};state.ui.activeCustomizationGroupId='seatColor';selectionDemo.reset();
-      renderVehicleSelectors();renderModelCards();renderSelectedModelHeadline();renderCustomization();renderSummary();renderDemoSelection();goToStep(1);
-      document.querySelector('#modelChangeStatus').textContent='Preset iniziale RESTYLE ripristinato. Selezione demo svuotata.';
-      await loadActiveModelIntoViewer();
+      document.querySelector('#demoStatus').textContent=added.id+' aggiunto al carrello.';
     });
   }
 

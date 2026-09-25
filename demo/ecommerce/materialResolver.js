@@ -73,9 +73,9 @@
     let mapId = pickMapIdByColor(profile[mapField], colorKey);
     if (!mapId) return null;
 
-    // Caso patch laterale: se il brand logo non c'è,
-    // proviamo automaticamente la variante _no_patch
-    if (slotKey === "borderColor" && !hasBrandLogoPatch) {
+    // Same per-model patch rule as the complete local client source.
+    const patchSlotKey = modelDef?.ui?.patchSlotKey || "borderColor";
+    if (slotKey === patchSlotKey && !hasBrandLogoPatch) {
       const noPatchId = `${mapId}_no_patch`;
       if (library?.[noPatchId]) {
         return noPatchId;

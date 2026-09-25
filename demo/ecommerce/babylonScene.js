@@ -35,6 +35,8 @@ window.WDScene = (function () {
   };
 
   const textureCache = new Map();
+  const textureSceneIds = new WeakMap();
+  let nextTextureSceneId = 0;
 
   function createEngine(canvas) {
     const engine = new BABYLON.Engine(canvas, true, {
@@ -93,6 +95,8 @@ window.WDScene = (function () {
 };
 
     registerViewerInteraction(scene, camera, canvas);
+    scene.__wdCamera47 = window.WDCamera47.create({scene, camera, canvas, engine});
+    scene.onAfterRenderObservable.add(() => scene.__wdCamera47.publish());
 
     window.WDFx.applyStudioEnvironment(scene, opts.environment || {});
     window.WDFx.createStudioLights(scene, opts.lights || {});
@@ -110,11 +114,21 @@ window.WDScene = (function () {
     const render=()=>{if(!document.hidden&&inView&&window.WD46Display?.isVisible()!==false)scene.render();};
     engine.runRenderLoop(render);
     scene.onDisposeObservable.addOnce(()=>observer.disconnect());
-    window.addEventListener("resize", () => {
-      engine.resize();
+    let resizeFrame = null;
+    const onResize = () => {
+      if (resizeFrame !== null) cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {resizeFrame = null; scene.__wdCamera47.resize();});
+    };
+    window.addEventListener('resize', onResize);
+    document.addEventListener('fullscreenchange', onResize);
+    const resizeObserver = new ResizeObserver(onResize); resizeObserver.observe(canvas);
+    scene.onDisposeObservable.addOnce(() => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', onResize);
+      document.removeEventListener('fullscreenchange', onResize);
+      if (resizeFrame !== null) cancelAnimationFrame(resizeFrame);
+      scene.__wdCamera47.dispose();
     });
-    const resizeObserver=new ResizeObserver(()=>engine.resize());resizeObserver.observe(canvas);
-    scene.onDisposeObservable.addOnce(()=>resizeObserver.disconnect());
 
     return { scene, camera };
   }
@@ -161,18 +175,17 @@ window.WDScene = (function () {
 
   function setUserInteractionEnabled(camera, canvas, enabled) {
   if (!camera || !canvas) return;
-  // All four demo steps keep the same attached camera. No detach/refocus on panel updates.
-  if (!enabled) throw Error('Demo46 camera must remain interactive');
+  // Guidance is cancellable; camera controls stay attached in every step.
+  if (!enabled) throw Error('Demo47 camera must remain interactive');
 }
 
   function moveCamera(scene,camera,action){
     if(!scene||!camera)return;
-    scene.stopAnimation(camera);
+    scene.__wdCamera47?.stop('user');
     if(action==='left')camera.alpha-=0.22;
     else if(action==='right')camera.alpha+=0.22;
     else if(action==='in')camera.radius=Math.max(camera.lowerRadiusLimit,camera.radius*0.88);
     else if(action==='out')camera.radius=Math.min(camera.upperRadiusLimit,camera.radius/0.88);
-    else if(action==='reset')focusCameraToArea(scene,camera,'model',{immediate:true});
     else throw Error('Unknown camera action');
   }
 
@@ -316,128 +329,7 @@ window.WDScene = (function () {
 }
 
 function focusCameraSmooth(scene, camera, config, options = {}) {
-  if (!scene || !camera || !config) return;
-
-  const durationFrames = Number(options.durationFrames || 24);
-  const fps = Number(options.fps || 60);
-  const immediate = options.immediate === true;
-
-  // stop completo di ogni movimento residuo
-  camera.inertialAlphaOffset = 0;
-  camera.inertialBetaOffset = 0;
-  camera.inertialRadiusOffset = 0;
-
-  if ("inertialPanningX" in camera) camera.inertialPanningX = 0;
-  if ("inertialPanningY" in camera) camera.inertialPanningY = 0;
-
-  // stop eventuali animazioni vecchie sulla camera
-  scene.stopAnimation(camera);
-
-  const target = config.target?.clone ? config.target.clone() : config.target;
-
-  // applicazione istantanea
-  if (immediate) {
-    camera.lowerRadiusLimit = null;
-    camera.upperRadiusLimit = null;
-
-    if (target) camera.setTarget(target);
-    if (typeof config.alpha === "number") camera.alpha = config.alpha;
-    if (typeof config.beta === "number") camera.beta = config.beta;
-
-    if (typeof config.radius === "number") {
-      camera.radius = config.radius;
-      camera.lowerRadiusLimit = 1.15;
-      camera.upperRadiusLimit = Math.max(7,config.radius*1.8);
-    }
-
-    camera.inertialAlphaOffset = 0;
-    camera.inertialBetaOffset = 0;
-    camera.inertialRadiusOffset = 0;
-
-    if ("inertialPanningX" in camera) camera.inertialPanningX = 0;
-    if ("inertialPanningY" in camera) camera.inertialPanningY = 0;
-
-    return;
-  }
-
-  // sblocca temporaneamente il radius per consentire l'animazione
-  camera.lowerRadiusLimit = null;
-  camera.upperRadiusLimit = null;
-
-  const easing = new BABYLON.CubicEase();
-  easing.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
-
-  if (typeof config.alpha === "number") {
-    BABYLON.Animation.CreateAndStartAnimation(
-      "wdCamAlpha",
-      camera,
-      "alpha",
-      fps,
-      durationFrames,
-      camera.alpha,
-      config.alpha,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-      easing
-    );
-  }
-
-  if (typeof config.beta === "number") {
-    BABYLON.Animation.CreateAndStartAnimation(
-      "wdCamBeta",
-      camera,
-      "beta",
-      fps,
-      durationFrames,
-      camera.beta,
-      config.beta,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-      easing
-    );
-  }
-
-  if (typeof config.radius === "number") {
-    BABYLON.Animation.CreateAndStartAnimation(
-      "wdCamRadius",
-      camera,
-      "radius",
-      fps,
-      durationFrames,
-      camera.radius,
-      config.radius,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-      easing
-    );
-  }
-
-  if (target) {
-    BABYLON.Animation.CreateAndStartAnimation(
-      "wdCamTarget",
-      camera,
-      "target",
-      fps,
-      durationFrames,
-      camera.target.clone(),
-      target,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
-      easing
-    );
-  }
-
-  // a fine animazione riblocca il radius e pulisce i residui
-  setTimeout(() => {
-    if (typeof config.radius === "number") {
-      camera.radius = config.radius;
-      camera.lowerRadiusLimit = 1.15;
-      camera.upperRadiusLimit = Math.max(7,config.radius*1.8);
-    }
-
-    camera.inertialAlphaOffset = 0;
-    camera.inertialBetaOffset = 0;
-    camera.inertialRadiusOffset = 0;
-
-    if ("inertialPanningX" in camera) camera.inertialPanningX = 0;
-    if ("inertialPanningY" in camera) camera.inertialPanningY = 0;
-  }, (durationFrames / fps) * 1000 + 30);
+  scene.__wdCamera47?.focus(config, options);
 }
 
 function getFocusTarget(area, bounds) {
@@ -512,16 +404,21 @@ function getFocusTarget(area, bounds) {
 
  function focusCameraToArea(scene, camera, area, options = {}) {
   if (!scene || !camera) return;
-
-  const bounds = scene.__wdCurrentBounds;
-  const focus = getFocusTarget(area, bounds);
-  scene.__wdActiveArea=area;
-  // Demo-only responsive framing: retain the source angles; avoid clipping on narrow canvases.
-  const engine=scene.getEngine(),aspect=engine.getRenderWidth()/Math.max(1,engine.getRenderHeight());
-  if(aspect<1.3){focus.radius*=1.3/Math.max(aspect,.5);if(bounds?.center)focus.target.x=bounds.center.x;}
-
-  focusCameraSmooth(scene, camera, focus, options);
+  scene.__wdActiveArea = area;
+  focusCameraSmooth(scene, camera, getFocusTarget(area, scene.__wdCurrentBounds), options);
 }
+
+  function focusCameraToMeshes(scene, camera, meshesByName, meshNames, area = 'materials') {
+    if (!scene || !camera) return;
+    const meshes = (meshNames || []).map(name => meshesByName.get(name)).filter(Boolean);
+    if (!meshes.length) return;
+    const selectedBounds = computeBoundsFromMeshes(meshes);
+    const focus = getFocusTarget(area, scene.__wdCurrentBounds);
+    focus.target = selectedBounds.center.clone();
+    if (area === 'materials') focus.beta = 0.85;
+    scene.__wdActiveArea = area;
+    focusCameraSmooth(scene, camera, focus);
+  }
 
   async function loadGLB(scene, camera, modelState, glbUrl, opts = {}) {
     const url = new URL(glbUrl, window.location.href).href;
@@ -700,10 +597,16 @@ focusCameraToArea(scene, camera, "model",{immediate:true});
 
     const url = new URL(mapDef.file, window.location.href).href;
     const invertY = mapDef.invertY === true;
-    const uScale = Number(mapDef.uScale || 1);
-    const vScale = Number(mapDef.vScale || 1);
-    const level = Number(mapDef.level || 1);
-    const cacheKey = `${url}__invertY_${invertY}__u_${uScale}__v_${vScale}__lvl_${level}`;
+    const uScale = Number(mapDef.uScale ?? 1);
+    const vScale = Number(mapDef.vScale ?? 1);
+    const uOffset = Number(mapDef.uOffset ?? 0);
+    const vOffset = Number(mapDef.vOffset ?? 0);
+    const coordinatesIndex = Number(mapDef.coordinatesIndex ?? 0);
+    const level = Number(mapDef.level ?? 1);
+    if (![uScale,vScale,uOffset,vOffset,coordinatesIndex,level].every(Number.isFinite) || uScale === 0 || vScale === 0 || !Number.isInteger(coordinatesIndex) || coordinatesIndex < 0) throw Error('Parametri mappa non validi');
+    if (!textureSceneIds.has(scene)) textureSceneIds.set(scene, ++nextTextureSceneId);
+    const sceneId = textureSceneIds.get(scene);
+    const cacheKey = JSON.stringify([sceneId,url,invertY,uScale,vScale,uOffset,vOffset,coordinatesIndex,level]);
 
     if (textureCache.has(cacheKey)) {
       return textureCache.get(cacheKey);
@@ -721,6 +624,9 @@ focusCameraToArea(scene, camera, "model",{immediate:true});
     tex.wrapV = BABYLON.Texture.WRAP_ADDRESSMODE;
     tex.uScale = uScale;
     tex.vScale = vScale;
+    tex.uOffset = uOffset;
+    tex.vOffset = vOffset;
+    tex.coordinatesIndex = coordinatesIndex;
     tex.level = level;
     // Both normal and roughness are linear data maps, never sRGB color images.
     tex.gammaSpace = false;
@@ -900,6 +806,7 @@ focusCameraToArea(scene, camera, "model",{immediate:true});
     createScene,
     loadGLB,
     focusCameraToArea,
+    focusCameraToMeshes,
     moveCamera,
     setUserInteractionEnabled,
     setAutoRotateEnabled,

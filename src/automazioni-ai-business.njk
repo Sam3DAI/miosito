@@ -89,7 +89,7 @@ twitter:
 {% endblock %}
 
 {% block content %}
-<main id="main-content">
+{% set mainBeforeFormWhitespace47 %}<main id="main-content">
   <section class="page-hero page-hero--compact page-hero--text">
     <div class="page-hero__layout container">
       <div class="page-hero__copy">
@@ -97,8 +97,8 @@ twitter:
         <div class="hero-introduction">
         <p class="hero-lead">L’AI entra in punti precisi di un processo già definito, per leggere informazioni, preparare bozze e collegare strumenti mantenendo controlli e responsabilità umane.</p>
         <div class="cta-group">
-          <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
-          <a class="button button--page button--secondary button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--quote" data-cta-role="quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--explore" data-cta-role="explore" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↓</span></a>
         </div>
         </div>
       </div>
@@ -181,10 +181,10 @@ twitter:
     </div>
   </section>
 
-  {% include "partials/service-demo-form.njk" %}
+  {% endset %}{{ mainBeforeFormWhitespace47 | replace(r/>[ \t\r\n]*\n[ \t\r\n]*</g, '>\n<') | safe }}{% include "partials/service-demo-form.njk" %}{% set mainAfterFormWhitespace47 %}
 
   <section class="section section--compact container">
     {{ finalCta("C'è un passaggio ripetitivo che rallenta il processo?", "Descrivi input, output e controllo attuale: valuteremo se l’AI è utile e dove inserirla.", "Richiedi un preventivo", false, "/contattaci#contatti") }}
   </section>
-</main>
+</main>{% endset %}{{ mainAfterFormWhitespace47 | replace(r/>[ \t\r\n]*\n[ \t\r\n]*</g, '>\n<') | safe }}
 {% endblock %}

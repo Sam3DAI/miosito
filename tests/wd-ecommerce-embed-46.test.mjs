@@ -81,6 +81,8 @@ function fixture({ theme = 'light', origin = ORIGIN, noIntersection = false, mis
     start.textContent = 'Avvia la demo';
     const nodes = { start, poster, status, stage };
     host.querySelector = selector => {
+      // New47 toolbar is absent in this historical bridge fixture; fullscreen has its own tests.
+      if (/^\[data-wd47-fullscreen(?:-label)?\]$/.test(selector)) return null;
       const match = /^\[data-wd46-(start|poster|status|stage)\]$/.exec(selector);
       assert.ok(match, `Unexpected selector: ${selector}`);
       return match[1] === missing ? null : nodes[match[1]];
@@ -243,11 +245,11 @@ test('WD46 authenticated ready clears timeout, restores busy state and moves foc
   f.message(READY);
   assert.equal(f.hosts[0].host.dataset.state, 'ready');
   assert.equal(f.hosts[0].host.getAttribute('aria-busy'), 'false');
-  assert.equal(f.hosts[0].start.hidden, true);
-  assert.equal(f.hosts[0].start.disabled, false);
+  assert.equal(f.hosts[0].start.hidden, false);
+  assert.equal(f.hosts[0].start.disabled, true);
   assert.equal(f.document.activeElement, frame);
   assert.equal(frame.focusCount, 1);
-  assert.match(f.hosts[0].status.textContent, /nessun ordine viene inviato/);
+  assert.equal(f.hosts[0].status.textContent, '');
   assert.equal(f.timers.size, 0);
   f.advance(90000);
   assert.equal(f.hosts[0].host.dataset.state, 'ready');
@@ -378,7 +380,7 @@ test('WD46 frame errors and validated error messages expose a working retry', ()
     assert.equal(f.hosts[0].start.hidden, false);
     assert.equal(f.hosts[0].start.disabled, false);
     assert.match(f.hosts[0].start.textContent, /Riprova/);
-    assert.match(f.hosts[0].status.textContent, /pagina dedicata/);
+    assert.match(f.hosts[0].status.textContent, /Riprova ad avviarla/);
     assert.equal(f.timers.size, 0);
     f.setTheme('dark');
     const second = f.activate();
