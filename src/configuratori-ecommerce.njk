@@ -18,7 +18,12 @@ twitter:
   description: "Configurazione guidata di prodotti personalizzabili, con integrazioni valutate sullo store esistente."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon, cardDetail with context %}
+
+{% block headExtras %}
+  <link rel="stylesheet" href="/css/wd-ecommerce-embed.css">
+  <script src="/js/wd-ecommerce-embed.js" defer></script>
+{% endblock %}
 
 {% set processItems = [
   { title: "Catalogo", icon: "documents", accent: "blue", highlight: "Catalogo", text: "Varianti, dati e obiettivi di vendita." },
@@ -93,7 +98,7 @@ twitter:
         <p class="hero-lead">Aiutiamo brand e produttori a rendere più semplice la scelta di varianti, materiali, colori, accessori e configurazioni prima dell’acquisto.</p>
         <div class="cta-group">
           <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
-          <a class="button button--page button--secondary" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--secondary button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       </div>
@@ -134,12 +139,12 @@ twitter:
       <p>Partiamo da regole, dati da raccogliere e informazioni da trasferire all’ordine.</p>
     </div>
     <div class="feature-grid">
-      <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Regole</span><h3>Compatibilità e <span class="accent-text">vincoli</span></h3><p>Combinazioni consentite, dipendenze e messaggi aiutano a evitare configurazioni non valide.</p></article>
-      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Listino</span><h3><span class="accent-text">Prezzo</span> dinamico</h3><p>Il totale può seguire varianti e maggiorazioni quando i dati commerciali sono definiti.</p></article>
-      <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Visuale</span><h3><span class="accent-text">2D, 3D e AR</span> quando utili</h3><p>La rappresentazione viene scelta per far comprendere meglio prodotto, materiali o ingombri.</p></article>
-      <article class="card" data-card-accent="green">{{ functionIcon("saves") }}<span class="card__label">Continuità</span><h3><span class="accent-text">Salvataggio</span> e condivisione</h3><p>Configurazioni e riepiloghi possono essere ripresi o condivisi secondo utenti e accessi previsti.</p></article>
-      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Vendita</span><h3>Carrello e <span class="accent-text">ordine</span></h3><p>La configurazione può trasferire codici, opzioni e dati utili al passaggio commerciale.</p></article>
-      <article class="card" data-card-accent="magenta">{{ functionIcon("integrations") }}<span class="card__label">Piattaforma</span><h3><span class="accent-text">E-commerce</span> esistente</h3><p>Architettura, catalogo, checkout e API vengono analizzati prima di definire l’integrazione.</p></article>
+      <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Regole</span><h3>Compatibilità e <span class="accent-text">vincoli</span></h3><p>Combinazioni consentite, dipendenze e messaggi aiutano a evitare configurazioni non valide.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[0]) }}</article>
+      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Listino</span><h3><span class="accent-text">Prezzo</span> dinamico</h3><p>Il totale può seguire varianti e maggiorazioni quando i dati commerciali sono definiti.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[1]) }}</article>
+      <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Visuale</span><h3><span class="accent-text">2D, 3D e AR</span> quando utili</h3><p>La rappresentazione viene scelta per far comprendere meglio prodotto, materiali o ingombri.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[2]) }}</article>
+      <article class="card" data-card-accent="green">{{ functionIcon("saves") }}<span class="card__label">Continuità</span><h3><span class="accent-text">Salvataggio</span> e condivisione</h3><p>Configurazioni e riepiloghi possono essere ripresi o condivisi secondo utenti e accessi previsti.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[3]) }}</article>
+      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Vendita</span><h3>Carrello e <span class="accent-text">ordine</span></h3><p>La configurazione può trasferire codici, opzioni e dati utili al passaggio commerciale.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[4]) }}</article>
+      <article class="card" data-card-accent="magenta">{{ functionIcon("integrations") }}<span class="card__label">Piattaforma</span><h3><span class="accent-text">E-commerce</span> esistente</h3><p>Architettura, catalogo, checkout e API vengono analizzati prima di definire l’integrazione.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[5]) }}</article>
     </div>
   </section>
 
@@ -156,14 +161,7 @@ twitter:
     </div>
   </section>
 
-  <section class="section container" aria-labelledby="ecommerce-proof-title">
-    <div class="section-heading">
-      <span class="section-kicker">Tipologia reale, forma anonima</span>
-      <h2 id="ecommerce-proof-title"><span class="statement-line">Configurazione 3D di prodotto.</span></h2>
-      <p>Un’esperienza web realizzata per selezionare varianti e leggere visivamente la configurazione. L’esempio è descritto in forma anonima.</p>
-    </div>
-    <div class="card proof-card card--gradient"><span class="card__label">Progetto</span><h3>Dalla scelta alla comprensione visiva.</h3><p>Interazione, opzioni e anteprima raccolte in un percorso coerente con il prodotto.</p></div>
-  </section>
+  {% include "partials/wd-ecommerce-demo.njk" %}
 
   <section class="section section--tinted" aria-labelledby="process-title">
     <div class="container">

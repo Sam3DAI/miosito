@@ -39,7 +39,11 @@ import { assertRetirement42Sources, assertRetirement42Output } from "./legacy-re
 import { assertOriginalSources, assertOriginalHtml, isDeferredOriginalImage } from "./original-images-31.mjs";
 import { publishedImageFiles43, assertCleanSources43, assertCleanOutput43 } from "./clean-images-43.mjs";
 import { assertProof44Sources } from "./project-proof-ui-44.mjs";
-import { galleryStatic44r2, assertGallerySources44r2, assertGalleryHtml44r2, isDeferredGallery44r2 } from "./project-galleries-44r2.mjs";
+import { galleryStatic44r2, galleryStatic46, assertGallerySources44r2, assertGalleryHtml44r2, isDeferredGallery44r2 } from "./project-galleries-44r2.mjs";
+import { wdStaticFiles46, assertWd46Sources, assertWd46Output } from "./wd-static-46.mjs";
+import { assertDetailInventory46, assertUi46Html } from "./site-ui-46.mjs";
+import { beforeWd46 } from "./site-wd-delta-46.mjs";
+import { siteFooter46 } from "./site-footer-46.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
@@ -48,6 +52,10 @@ assertGallerySources44r2(root);
 const eleventyCli = path.join(root, "node_modules", "@11ty", "eleventy", "cmd.cjs");
 const maxBuffer = 64 * 1024 * 1024;
 const htmlBudget = 65 * 1024;
+// Exact routes enlarged by the approved, readable no-JS details and 20-view gallery.
+// Other routes retain 65 KiB; gzip and initial-transfer gates remain independent.
+const htmlBudgets46 = Object.freeze({ "/": 100 * 1024, "/software-cpq-portali-commerciali": 72 * 1024, "/automazioni-ai-business": 76 * 1024 });
+const htmlGzipBudget46 = 22 * 1024;
 const sharedCssGzipBudget = 14 * 1024;
 const shellJsGzipBudget = 5 * 1024;
 const initialTransferBudget = 700 * 1024;
@@ -78,6 +86,10 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
 ]);
 
 const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
+  ...galleryStatic46,
+  "css/wd-ecommerce-embed.css",
+  "js/wd-ecommerce-embed.js",
+  ...wdStaticFiles46(root),
   ...galleryStatic44r2,
   "404.html",
   "js/configuratori-3d-2d.js",
@@ -706,7 +718,7 @@ function assertHardenedCsp(html, route) {
         "script-src": sourceList("'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com"),
         "style-src": sourceList("'self' 'unsafe-inline'"),
         "font-src": sourceList("'self' data:"),
-        "frame-src": sourceList("https://www.googletagmanager.com"),
+        "frame-src": sourceList((route.publicUrl === "/configuratori-ecommerce" ? "'self' " : "") + "https://www.googletagmanager.com"),
         "connect-src": sourceList("'self' https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://region1.analytics.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://google.com https://www.googleadservices.com https://googleadservices.com")
       };
   assert.deepEqual(directives, expected, `${label}: CSP differs from the exact route profile allowlist`);
@@ -838,7 +850,7 @@ function assertLegalContract(route, outputHtml) {
 
 function shellMarkup(html, route) {
   const header = firstMatch(html, /(<header\b[\s\S]*?<\/header>)/i, `${route.publicUrl} header`);
-  const footer = firstMatch(html, /(<footer\b[\s\S]*?<\/footer>)/i, `${route.publicUrl} footer`);
+  const footer = siteFooter46(html, route.publicUrl);
   return `${header}\n${footer}`;
 }
 
@@ -891,7 +903,7 @@ function assertGeneratedPageContract(route, html) {
 
   const shell = shellMarkup(html, route);
   const header = firstMatch(html, /(<header\b[\s\S]*?<\/header>)/i, `${route.publicUrl} header`);
-  const footer = firstMatch(html, /(<footer\b[\s\S]*?<\/footer>)/i, `${route.publicUrl} footer`);
+  const footer = siteFooter46(html, route.publicUrl);
   const headerPairs = linkPairs(header);
   const footerPairs = linkPairs(footer);
   for (const [href, label] of expectedHeaderLinks) {
@@ -1377,7 +1389,9 @@ function compressedTransferSize(relativePath, bytes) {
 
 function assertPerformanceBudget(route, htmlBuffer) {
   if (route.profile !== "configurator") {
-    assert.ok(htmlBuffer.length <= htmlBudget, `${route.publicUrl}: HTML exceeds 65 KiB (${htmlBuffer.length})`);
+    const limit = htmlBudgets46[route.publicUrl] ?? htmlBudget;
+    assert.ok(htmlBuffer.length <= limit, `${route.publicUrl}: HTML exceeds bounded route budget ${limit} (${htmlBuffer.length})`);
+    assert.ok(zlib.gzipSync(htmlBuffer).length <= htmlGzipBudget46, `${route.publicUrl}: HTML exceeds 22 KiB gzip`);
   }
   const html = htmlBuffer.toString("utf8");
   const imageTags = tags(html, "img");
@@ -1420,7 +1434,7 @@ function assertRouteRegistry() {
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26, "43 preserved assets plus exactly 24 authentic44R2 image variants and two gallery files");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 68, "Historical assets retained; exactly 60 owner46 derivatives, two embed files and 68 reviewed WD outputs added");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1471,7 +1485,7 @@ function assertRuntimeAndPublishContract() {
   const verifyTarget = process.env.SOLVEX_VERIFY_TARGET ?? "candidate";
   assert.ok(["candidate", "staging"].includes(verifyTarget), `Unknown SOLVEX_VERIFY_TARGET: ${verifyTarget}`);
   if (verifyTarget === "candidate") {
-    assert.doesNotMatch(netlify, /X-Robots-Tag|noindex/i, "Production candidate must not contain staging noindex policy");
+    assert.doesNotMatch(beforeWd46("netlify.toml", netlify), /X-Robots-Tag|noindex/i, "Candidate must not contain global staging noindex; the independently verified demo-only noindex is deliberate");
   } else {
     assert.equal((netlify.match(/X-Robots-Tag\s*=\s*["']noindex, nofollow, noarchive, nosnippet["']/g) ?? []).length, 1, "Staging must contain the exact global noindex policy once");
     assert.match(netlify, /\[\[headers\]\][\s\S]*?for\s*=\s*["']\/\*["'][\s\S]*?\[headers\.values\]/, "Staging noindex policy must apply globally");
@@ -1581,6 +1595,8 @@ function verifyBuiltOutput() {
     const htmlBuffer = fs.readFileSync(htmlPath);
     const html = htmlBuffer.toString("utf8");
     assertGeneratedPageContract(route, html);
+    const key46 = ({"/":"home","/chi-siamo":"about","/configuratori-3d-2d":"configurators","/configuratori-ecommerce":"ecommerce","/software-cpq-portali-commerciali":"cpq","/planner-configuratori-arredamento":"planner","/automazioni-ai-business":"automation","/contattaci":"contact"})[route.publicUrl];
+    if (key46) assertUi46Html(key46, html);
     assertOriginalHtml(route, html);
     assertVisual32Html(route.publicUrl, html);
     if (route.publicUrl === '/') assertGalleryHtml44r2(html);
@@ -1605,6 +1621,7 @@ function verifyBuiltOutput() {
   const outputFiles = new Map(builtInventory.rows.map(row => [row.path, fs.readFileSync(path.join(outputRoot,row.path))]));
   assertRetirement42Output(outputFiles);
   assertCleanOutput43(outputFiles);
+  assertWd46Output(root, outputRoot);
   assertLocalFragments(expectedOutputs);
 
   const sitemap = fs.readFileSync(path.join(outputRoot, "sitemap.xml"), "utf8");
@@ -1681,6 +1698,8 @@ const quote38Evidence = assertQuote38Sources(root);
 const nonvisual40Evidence = assertNonvisual40Sources(root);
 const nonvisual41Evidence = assertNonvisual41Sources(root);
 const retirement42Evidence = assertRetirement42Sources(root);
+const wd46Evidence = assertWd46Sources(root);
+const detail46Evidence = assertDetailInventory46();
 for (const route of GENERATED_ROUTES) assertNonvisual40Html(route.publicUrl, fs.readFileSync(path.join(outputRoot,route.destination),'utf8'));
 const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
@@ -1789,6 +1808,8 @@ const summary = {
   nonvisual40Evidence,
   nonvisual41Evidence,
   retirement42Evidence,
+  wd46Evidence,
+  detail46Evidence,
   browserVisual32Evidence,
   displayOnly32Evidence,
   inventory: secondVerification.inventoryComparison

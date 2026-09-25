@@ -8,3 +8,11 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
+
+# Static demonstration only: no forms, customer endpoints or analytics.
+[[headers]]
+  for = "/demo/ecommerce/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, follow"
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'"
+    Referrer-Policy = "no-referrer"

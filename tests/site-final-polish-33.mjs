@@ -79,8 +79,9 @@ export function assertPolish33Html(route, html) {
   assert.match(html,/<meta name="theme-color" content="#f5f5f7" media="\(prefers-color-scheme: light\)">/);
   if(route === "/") {
     const section=html.match(/<section[^>]*aria-labelledby="direct-title"[\s\S]*?<\/section>/)[0];
-    assert.doesNotMatch(section.match(/<div class="split-panel__lead">[\s\S]*?<\/div>/)[0],/<p>/);
-    assert.match(section,/<div class="split-panel__body">\s*<p>SolveX mantiene[\s\S]*?<ul class="check-list">/);
+    assert.match(section.match(/<div class="split-panel__lead">[\s\S]*?<\/div>/)[0],/<\/h2>\s*<p>SolveX mantiene/);
+    assert.match(section,/<div class="split-panel__body">\s*<ul class="check-list">/);
+    assert.equal((section.match(/SolveX mantiene/g)||[]).length,1,"UI46 moves the paragraph, never duplicates it");
     assert.match(html,/>Configurazione prodotto<\/span>/);
     assert.match(html,/Esplora i configuratori <span aria-hidden="true">/);
   }

@@ -1,4 +1,3 @@
-{% set imageRoot = "/assets/images/projects-44r2/" %}
 <div class="visual-card-rail visual-card-rail--landscape project-proof-rail" data-visual-card-rail role="region" aria-label="Progetti realizzati">
   <div class="visual-card-rail__controls" data-rail-controls hidden>
     <button type="button" data-rail-previous aria-controls="home-projects" aria-label="Mostra le card precedenti"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 5-7 7 7 7"/></svg></button>
@@ -8,9 +7,9 @@
     {% for project in projectProofs %}
     {% set cover = project.views[0] %}
     <li class="visual-card visual-card--image" data-rail-card>
-      <a class="visual-card__inner" href="#progetto-{{ project.id }}" data-project-trigger="{{ project.id }}" aria-label="Esplora il progetto {{ project.name }}">
-        <div class="visual-card__copy"><h3>{{ project.name }}</h3><p>{{ project.description }}</p><span class="project-proof-cta">Esplora il progetto <span aria-hidden="true">↗</span></span></div>
-        <div class="project-media"><img src="{{ imageRoot }}{{ cover.file }}-800.webp" srcset="{{ imageRoot }}{{ cover.file }}-480.webp 480w, {{ imageRoot }}{{ cover.file }}-800.webp 800w" sizes="(max-width: 720px) calc(100vw - 3rem), 560px" width="{{ cover.width }}" height="{{ cover.height }}" alt="{{ cover.alt }}" loading="lazy" decoding="async"></div>
+      <a class="visual-card__inner" href="#progetto-{{ project.id }}" data-project-trigger="{{ project.id }}" aria-label="Esplora il progetto {{ project.name | escape }}">
+        <div class="visual-card__copy"><h3>{{ project.name | escape }}</h3><p>{{ project.description | escape }}</p><span class="project-proof-cta">Esplora il progetto <span aria-hidden="true">↗</span></span></div>
+        <div class="project-media"><img src="{{ cover.thumb }}" srcset="{{ cover.cardSrcset }}" sizes="(max-width: 720px) calc(100vw - 3rem), 560px" width="{{ cover.width }}" height="{{ cover.height }}" alt="{{ cover.alt | escape }}" loading="lazy" decoding="async"></div>
       </a>
     </li>
     {% endfor %}
@@ -20,29 +19,37 @@
 </div>
 {% for project in projectProofs %}
 <section id="progetto-{{ project.id }}" class="project-proof-fallback container" data-project-fallback="{{ project.id }}" aria-labelledby="fallback-title-{{ project.id }}">
-  <h3 id="fallback-title-{{ project.id }}">{{ project.title }}</h3>
-  <p>{{ project.description }}</p>
-  <p>Interfaccia del progetto con dati dimostrativi.</p>
-  <ol>{% for view in project.views %}<li><a href="{{ imageRoot }}{{ view.file }}-1280.webp">{{ view.caption }}</a></li>{% endfor %}</ol>
-  <a href="/contattaci#contatti">Richiedi una soluzione simile</a>
+  <h3 id="fallback-title-{{ project.id }}">{{ project.name | escape }} — {{ project.title | escape }}</h3>
+  <p>{{ project.detail | escape }}</p>
+  {% if project.privacyNote %}<p>{{ project.privacyNote | escape }}</p>{% endif %}
+  <ol>{% for view in project.views %}<li><a href="{{ view.large }}">{{ view.caption | escape }}</a></li>{% endfor %}</ol>
+  <a class="button button--page button--quote" href="/contattaci#contatti">Richiedi un preventivo</a>
 </section>
 <dialog class="proof-gallery" data-project-dialog="{{ project.id }}" aria-labelledby="gallery-title-{{ project.id }}" aria-describedby="gallery-description-{{ project.id }}">
-  <header class="proof-gallery__header"><h3 id="gallery-title-{{ project.id }}">{{ project.title }}</h3><button type="button" class="proof-gallery__close" data-gallery-close aria-label="Chiudi la galleria {{ project.name }}" autofocus><span aria-hidden="true">×</span></button></header>
-  <div class="proof-gallery__body">
-    <p id="gallery-description-{{ project.id }}">{{ project.description }}</p>
-    <p class="proof-gallery__note">Interfaccia del progetto con dati dimostrativi.</p>
-    {% for view in project.views %}
-    <figure data-gallery-view{% if not loop.first %} hidden{% endif %}>
-      <img data-gallery-src="{{ imageRoot }}{{ view.file }}-1280.webp" data-gallery-srcset="{{ imageRoot }}{{ view.file }}-480.webp 480w, {{ imageRoot }}{{ view.file }}-800.webp 800w, {{ imageRoot }}{{ view.file }}-1280.webp 1280w" sizes="(max-width: 720px) calc(100vw - 3rem), (max-width: 1120px) calc(100vw - 5rem), 1040px" width="{{ view.width }}" height="{{ view.height }}" alt="{{ view.alt }}" decoding="async">
-      <figcaption>{{ view.caption }}</figcaption>
-    </figure>
-    {% endfor %}
-    <nav class="proof-gallery__navigation" aria-label="Immagini del progetto {{ project.name }}">
+  <header class="proof-gallery__header"><h3 id="gallery-title-{{ project.id }}">{{ project.name | escape }}</h3><button type="button" class="proof-gallery__close" data-gallery-close aria-label="Chiudi la galleria {{ project.name | escape }}" autofocus><span aria-hidden="true">×</span></button></header>
+  <div class="proof-gallery__body proof-gallery__body--project">
+    <div class="proof-gallery__stage">
+      {% for view in project.views %}
+      <figure data-gallery-view data-gallery-large="{{ view.large }}"{% if not loop.first %} hidden{% endif %}>
+        <div class="proof-gallery__media"><img data-gallery-src="{{ view.src }}" data-gallery-srcset="{{ view.srcset }}" sizes="(max-width: 820px) calc(100vw - 3rem), (max-width: 1120px) calc(100vw - 22rem), 790px" width="{{ view.width }}" height="{{ view.height }}" alt="{{ view.alt | escape }}" decoding="async"></div>
+        <figcaption>{{ view.caption | escape }}</figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+    <div class="proof-gallery__information">
+      <p class="proof-gallery__subtitle">{{ project.title | escape }}</p>
+      <p id="gallery-description-{{ project.id }}">{{ project.detail | escape }}</p>
+      {% if project.privacyNote %}<p class="proof-gallery__note">{{ project.privacyNote | escape }}</p>{% endif %}
+      <a class="button button--page button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <footer class="proof-gallery__footer">
+    <nav class="proof-gallery__navigation" aria-label="Immagini del progetto {{ project.name | escape }}">
       <button type="button" data-gallery-previous aria-label="Immagine precedente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 5-7 7 7 7"/></svg></button>
       <span data-gallery-status role="status" aria-live="polite">Immagine 1 di {{ project.views | length }}</span>
       <button type="button" data-gallery-next aria-label="Immagine successiva"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 5 7 7-7 7"/></svg></button>
     </nav>
-    <a class="button button--page" href="/contattaci#contatti">Richiedi una soluzione simile <span aria-hidden="true">↗</span></a>
-  </div>
+    <a class="proof-gallery__large" data-gallery-large-link href="{{ project.views[0].large }}" target="_blank" rel="noopener">Apri immagine in grande <span class="visually-hidden">(nuova scheda)</span><span aria-hidden="true">↗</span></a>
+  </footer>
 </dialog>
 {% endfor %}

@@ -1,0 +1,421 @@
+{
+  "id": "zip",
+  "name": "ZIP",
+  "glb": "./assets/models/zip/zip.glb",
+  "meshSlots": {
+    "seatColor": [
+      "seat_top"
+    ],
+    "borderColor": [
+      "seat_base"
+    ],
+    "stripesColor": [
+      "x_borders",
+      "x_borders_1",
+      "x_borders_2",
+      "x_borders_3",
+      "x_borders_4",
+      "x_borders_5"
+    ],
+    "wdColor": [
+      "wd_logo"
+    ]
+  },
+  "finishSlots": {
+    "seatColor": {
+      "enabled": true,
+      "allowedFinishes": [
+        "similpelle",
+        "grip",
+        "prisma",
+        "carbon",
+        "replica",
+        "sphere"
+      ],
+      "default": "grip"
+    },
+    "borderColor": {
+      "enabled": true,
+      "allowedFinishes": [
+        "similpelle",
+        "grip",
+        "prisma",
+        "carbon",
+        "replica",
+        "sphere"
+      ],
+      "default": "grip"
+    },
+    "stripesColor": {
+      "enabled": true,
+      "allowedFinishes": [
+        "similpelle",
+        "grip",
+        "prisma",
+        "carbon",
+        "replica",
+        "sphere"
+      ],
+      "default": "grip"
+    }
+  },
+  "brandLogo": {
+    "enabled": true,
+    "byBrand": {
+      "Honda": [
+        "logo_honda"
+      ],
+      "Yamaha": [
+        "logo_yamaha"
+      ],
+      "TM": [
+        "logo_tm"
+      ],
+      "Fantic": [
+        "logo_fantic"
+      ],
+      "GasGas": [
+        "logo_gasgas"
+      ],
+      "Husqvarna": [
+        "logo_husqvarna"
+      ],
+      "Beta": [
+        "logo_beta"
+      ],
+      "Suzuki": [
+        "logo_suzuki"
+      ],
+      "Kawasaki": [
+        "logo_kawasaki"
+      ],
+      "KTM": [
+        "logo_ktm"
+      ],
+      "HM": [
+        "logo_hm"
+      ]
+    }
+  },
+  "ui": {
+    "slotOrder": [
+      "seatColor",
+      "borderColor",
+      "stripesColor"
+    ],
+    "slotLabels": {
+      "seatColor": "Centrale",
+      "borderColor": "Laterale",
+      "stripesColor": "Linee"
+    },
+    "controlGroups": [
+      {
+        "id": "seat_main",
+        "label": "Centrale",
+        "slots": [
+          "seatColor"
+        ],
+        "mode": "single"
+      },
+      {
+        "id": "seat_border",
+        "label": "Laterale",
+        "slots": [
+          "borderColor"
+        ],
+        "mode": "single"
+      },
+      {
+        "id": "seat_stripes",
+        "label": "Linee",
+        "slots": [
+          "stripesColor"
+        ],
+        "mode": "aggregate"
+      }
+    ]
+  },
+  "materialProfiles": {
+    "default": {
+      "similpelle": {
+        "normalMapByColor": {
+          "*": "zip_similpelle"
+        },
+        "roughnessMapByColor": {
+          "*": "zip_similpelle_roughness"
+        }
+      },
+      "grip": {
+        "normalMapByColor": {
+          "*": "zip_grip"
+        },
+        "roughnessMapByColor": {
+          "*": "zip_grip_roughness"
+        }
+      },
+      "prisma": {
+        "normalMapByColor": {
+          "*": "zip_prisma"
+        },
+        "roughnessMapByColor": {
+          "*": "zip_prisma_roughness"
+        }
+      },
+      "carbon": {
+        "normalMapByColor": {
+          "*": "zip_carbon"
+        },
+        "roughnessMapByColor": {
+          "*": "zip_carbon_roughness"
+        }
+      },
+      "replica": {
+        "normalMapByColor": {
+          "nero": "zip_replica_nero",
+          "azzurro_tm": "zip_azzurro_tm_replica"
+        },
+        "roughnessMapByColor": {
+          "nero": "zip_replica_nero_roughness",
+          "azzurro_tm": "zip_azzurro_tm_replica_roughness"
+        }
+      },
+      "sphere": {
+        "normalMapByColor": {
+          "*": "zip_sphere"
+        },
+        "roughnessMapByColor": {
+          "*": "zip_sphere_roughness"
+        }
+      }
+    },
+    "bySlot": {}
+  },
+  "normalMapLibrary": {
+    "zip_grip": {
+      "file": "./assets/maps/cdde4c8e481c6282014e3fd6038e6c584684e5d105be60a9052dac0442c76afc.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_similpelle": {
+      "file": "./assets/maps/c78d8f6c792000acd7d8b58fa37c8ea5a321ac73ac6631353050a6e0f9aa6da2.jpg",
+      "level": 5,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_prisma": {
+      "file": "./assets/maps/3466d4023c3d5b40000c82f9b9be7b424d144034dd495fc86a85b605a0f4a494.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_carbon": {
+      "file": "./assets/maps/42401518c718df85349e9ecdc97272cc9fec2b88f0d9af2cf61e10ef2bac864b.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_replica_nero": {
+      "file": "./assets/maps/fdd16c4413d91c2b991f04f5587312e9461dc8b41b08778f5f4f0ee0dca3a7cf.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_azzurro_tm_replica": {
+      "file": "./assets/maps/fdd16c4413d91c2b991f04f5587312e9461dc8b41b08778f5f4f0ee0dca3a7cf.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_sphere": {
+      "file": "./assets/maps/240d4f54d26e61987ff5a136eaa37bf6b8949e327ecfcb2e886288618d6ccb3b.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_grip_no_patch": {
+      "file": "./assets/maps/3707cffb489193958f469e48a81669c7bf0255244f7c49f8e506e28876e69f40.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_similpelle_no_patch": {
+      "file": "./assets/maps/8b1615ffa59d5e99d7a8ea5f09ea9b487afc9e8e35fcf0916c21ac0a7c3258b9.jpg",
+      "level": 5,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_prisma_no_patch": {
+      "file": "./assets/maps/19e5f27a435eed28d4aaf14fdff7be5d4fae95a47ecc38a244f72f2ee3e05446.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_carbon_no_patch": {
+      "file": "./assets/maps/96b23b767caf6e74672983b038a87b67b1a80cb48ae61a63ff531e757e999a23.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_replica_nero_no_patch": {
+      "file": "./assets/maps/66fd637ec808f41e297561e867e2d220a746db505636ba23c17a3a8ecdb490f0.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_azzurro_tm_replica_no_patch": {
+      "file": "./assets/maps/66fd637ec808f41e297561e867e2d220a746db505636ba23c17a3a8ecdb490f0.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    },
+    "zip_sphere_no_patch": {
+      "file": "./assets/maps/e0ba39f5f74d1dddee98aaeb8b0da64ed0e23bbf2fbe96d96139b48d74ba91f1.jpg",
+      "level": 3,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": true,
+      "invertX": true
+    }
+  },
+  "roughnessMapLibrary": {
+    "zip_grip_roughness": {
+      "file": "./assets/maps/9dedc9bf1cde03681eeb0dcbd0d391efb5d6faeabaecffe9ca0fabc88d55cc5a.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_similpelle_roughness": {
+      "file": "./assets/maps/72ae5294dba5db961bb5082f8c0e55d61b1cf56b325149da981f2d12a93be8d0.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_prisma_roughness": {
+      "file": "./assets/maps/9dedc9bf1cde03681eeb0dcbd0d391efb5d6faeabaecffe9ca0fabc88d55cc5a.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_carbon_roughness": {
+      "file": "./assets/maps/9d5b42582e927b6b17fd724aa1fe3e87278bcbb9b723d212faeee6fc7c994c05.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_replica_nero_roughness": {
+      "file": "./assets/maps/eacae23325875202c5a2a9bd9f09fa2d7cdaf0d7c949d478f7cf858cdd5a6106.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_azzurro_tm_replica_roughness": {
+      "file": "./assets/maps/eacae23325875202c5a2a9bd9f09fa2d7cdaf0d7c949d478f7cf858cdd5a6106.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_sphere_roughness": {
+      "file": "./assets/maps/9dedc9bf1cde03681eeb0dcbd0d391efb5d6faeabaecffe9ca0fabc88d55cc5a.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_grip_roughness_no_patch": {
+      "file": "./assets/maps/5ec903f0bbd4ce36032c773f45592953cde4448e07343b83753286b643ad7053.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_similpelle_roughness_no_patch": {
+      "file": "./assets/maps/48c3a4e670e115774e22291b72f22e16636d4ec4987371f69174555347d335a0.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_prisma_roughness_no_patch": {
+      "file": "./assets/maps/5ec903f0bbd4ce36032c773f45592953cde4448e07343b83753286b643ad7053.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_carbon_roughness_no_patch": {
+      "file": "./assets/maps/dfe8a34546c4afdc705df51ef1cc542d41c43341ed10877d81e101b912fe8696.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_replica_nero_roughness_no_patch": {
+      "file": "./assets/maps/4ef6f6e1cb1fa3c3d441497b0237746b71d968c3553e447b59d6b6f39ab5b90a.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_azzurro_tm_replica_roughness_no_patch": {
+      "file": "./assets/maps/4ef6f6e1cb1fa3c3d441497b0237746b71d968c3553e447b59d6b6f39ab5b90a.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    },
+    "zip_sphere_roughness_no_patch": {
+      "file": "./assets/maps/5ec903f0bbd4ce36032c773f45592953cde4448e07343b83753286b643ad7053.jpg",
+      "level": 2,
+      "uScale": 1,
+      "vScale": 1,
+      "invertY": false,
+      "invertX": false
+    }
+  }
+}

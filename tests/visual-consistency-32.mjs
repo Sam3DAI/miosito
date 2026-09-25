@@ -78,7 +78,15 @@ export function assertHeading32(html,h) {
   assert.deepEqual(highlighted,h.highlights,h.id+" exact highlighted words, allowing the preserved lexical e-commerce span");
 }
 export function assertVisual32Html(route,html) {
-  for(const h of headingContract32.headings.filter(h=>h.route===route)) assertHeading32(html,h);
+  for(const h of headingContract32.headings.filter(h=>h.route===route)) {
+    if(h.id === "ecom-proof") {
+      // WD46 replaces this anonymous proof section, including its heading.
+      // Keep the historical record intact; the other 31 heading contracts apply unchanged.
+      const headings = [...html.matchAll(/<(h[1-6])\b[^>]*id="ecommerce-proof-title"[^>]*>[\s\S]*?<\/\1>/g)];
+      assert.equal(headings.length, 1, "ecom-proof WD46 unique target");
+      assert.equal(headings[0][0], '<h2 id="ecommerce-proof-title">Prova un configuratore e-commerce.</h2>', "ecom-proof exact WD46 replacement heading");
+    } else assertHeading32(html,h);
+  }
   assert.doesNotMatch(html,/>[^<]*(?:Visualizzazione illustrativa SolveX|Illustrazioni di esempio, non screenshot di progetti realizzati|Esempio illustrativo\. Le integrazioni)/);
   if(Object.hasOwn(cardCounts32,route)) {
     const tags=[...html.matchAll(/<[^>]+data-card-accent="([^"]+)"[^>]*>/g)];

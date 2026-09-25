@@ -30,6 +30,11 @@
 .configurator-description h2 {
   margin-bottom: 1.25rem;
 }
+/* AR title only: keep its two authored desktop lines without reducing other H2s. */
+@media (min-width: 75rem) {
+  .configurator-container { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); column-gap: 2rem; }
+  .configurator-description h2 { max-width: none; }
+}
 .configurator-description p { color: var(--sx-text-muted); }
 .configurator-note { margin: 0; color: var(--sx-text-muted); font-size: 0.875rem; grid-column: 1 / -1; }
 .configurator-controls { grid-area: controls; display: grid; gap: 1.25rem; }

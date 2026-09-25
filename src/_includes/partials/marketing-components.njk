@@ -2,6 +2,10 @@
 {% if highlight %}{{ title | replace(highlight, '<span class="accent-text">' ~ highlight ~ '</span>') | safe }}{% else %}{{ title }}{% endif %}
 {% endmacro %}
 
+{% macro cardDetail(entry) %}
+{% if entry %}<details class="card-detail" data-card-detail="{{ entry.key | escape }}" id="{{ entry.domId | escape }}"><summary data-detail-trigger aria-label="Dettagli: {{ entry.title | escape }}">Dettagli <span aria-hidden="true">+</span></summary><div class="card-detail__content" data-detail-content><p>{{ entry.text | escape }}</p><a class="button button--page button--quote" href="{{ entry.href | escape }}">{{ entry.cta | escape }} <span aria-hidden="true">↗</span></a></div><span data-detail-title hidden>{{ entry.title | escape }}</span></details>{% endif %}
+{% endmacro %}
+
 {% macro processSteps(items) %}
 <ol class="process-list">
   {% for item in items %}
@@ -9,6 +13,7 @@
     {{ functionIcon(item.icon) }}
     <strong>{{ cardTitle(item.title, item.highlight) }}</strong>
     <span class="process-list__text">{{ item.text }}</span>
+    {{ cardDetail(cardDetails46.pages[pageKey].process[loop.index0]) }}
   </li>
   {% endfor %}
 </ol>
@@ -51,7 +56,7 @@
   <ol class="visual-card-rail__track" id="{{ id }}" data-rail-track{% if anchorHeading %} data-rail-anchor-heading="{{ anchorHeading }}"{% endif %} tabindex="0">
     {% for item in items %}
     <li class="visual-card{% if item.image %} visual-card--image{% if item.imageMeta %} visual-card--original{% endif %}{% else %} visual-card--text{% endif %}" data-rail-card{% if item.accent and not item.image and variant != "landscape" %} data-card-accent="{{ item.accent }}"{% endif %}{% if item.imageMeta %} data-original-asset="{{ item.imageMeta.id }}" style="--original-image-bg: {{ item.imageMeta.background }}"{% endif %}>
-      {% if item.href %}<a class="visual-card__inner" href="{{ item.href }}">{% else %}<article class="visual-card__inner">{% endif %}
+      <article class="visual-card__inner">
         {% if item.image and variant != "landscape" %}
         {% if item.imageMeta %}
         <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.imageMeta.srcset }}" sizes="{{ item.imageMeta.sizes }}" alt="{{ item.alt }}" width="{{ item.imageMeta.width }}" height="{{ item.imageMeta.height }}" loading="lazy" decoding="async">
@@ -63,6 +68,8 @@
           {% if item.icon and not item.image and variant != "landscape" %}{{ functionIcon(item.icon) }}{% endif %}
           <h3>{% if item.accent %}{{ cardTitle(item.title, item.highlight) }}{% else %}{{ item.title }}{% endif %}</h3>
           <p>{{ item.text }}</p>
+          {% if item.href %}<a class="visual-card__service-link" href="{{ item.href }}">Esplora il servizio <span aria-hidden="true">↗</span></a>{% endif %}
+          {{ cardDetail(cardDetails46.pages[pageKey][id][loop.index0]) }}
         </div>
         {% if variant == "landscape" %}
         <div class="project-media">
@@ -70,7 +77,7 @@
           {% else %}<div class="project-media__placeholder" aria-hidden="true">{{ functionIcon(item.icon or "configuration") }}</div>{% endif %}
         </div>
         {% endif %}
-      {% if item.href %}</a>{% else %}</article>{% endif %}
+      </article>
     </li>
     {% endfor %}
   </ol>
@@ -85,6 +92,6 @@
 <div class="final-cta">
   <h2>{% if title is string %}{{ title }}{% else %}{% for line in title %}<span class="statement-line">{{ line }}</span>{% if not loop.last %} {% endif %}{% endfor %}{% endif %}</h2>
   <p>{{ text }}</p>
-  <a class="button button--page{% if projectSpacing %} button--project{% endif %}" href="{{ href }}">{{ label }} <span aria-hidden="true">↗</span></a>
+  <a class="button button--page{% if projectSpacing %} button--project{% endif %}{% if label == 'Richiedi un preventivo' %} button--quote{% endif %}" href="{{ href }}">{{ label }} <span aria-hidden="true">↗</span></a>
 </div>
 {% endmacro %}

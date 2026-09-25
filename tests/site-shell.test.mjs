@@ -188,7 +188,7 @@ test("page, menu, project spacing and submit variants remain explicit and separa
   assert.match(css, /\.button--secondary\s*\{[^}]*border-color:\s*var\(--sx-pink\)/s);
   assert.match(css, /\.button--submit\s*\{[^}]*width:\s*fit-content[^}]*justify-self:\s*start/s);
   assert.match(css, /@media \(hover: hover\) and \(pointer: fine\)/);
-  assert.match(header, /button--menu button--project header-cta/);
+  assert.match(header, /button--menu button--project button--quote header-cta/);
   assert.doesNotMatch(header, /button--page|button--secondary|button--submit/);
   for (const page of ["configuratori-3d-2d", "contattaci"]) {
     const template = read("src/" + page + ".njk");

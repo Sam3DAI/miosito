@@ -24,6 +24,13 @@
 
   {% block content %}{% endblock %}
 
+  {% if cardDetails46.pages[pageKey] %}
+  <dialog class="proof-gallery card-detail-dialog" id="card-detail-dialog" data-detail-dialog aria-labelledby="card-detail-dialog-title">
+    <header class="proof-gallery__header"><h3 id="card-detail-dialog-title"></h3><button type="button" class="proof-gallery__close" data-gallery-close aria-label="Chiudi i dettagli" autofocus><span aria-hidden="true">×</span></button></header>
+    <div class="proof-gallery__body" data-detail-dialog-body></div>
+  </dialog>
+  {% endif %}
+
   {% include "partials/site-footer.njk" %}
 
   {% include "partials/cookie-loader.njk" %}

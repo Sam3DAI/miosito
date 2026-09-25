@@ -1,7 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { originalContract, assertOriginalSources, assertOriginalFile, webpDimensions, isDeferredOriginalImage } from "./original-images-31.mjs";
+import { originalContract, assertOriginalSources, assertOriginalFile, assertOriginalHtml, webpDimensions, isDeferredOriginalImage } from "./original-images-31.mjs";
+import { detailCounts46, renderRoute46 } from "./site-ui-46.mjs";
+import details46 from "../src/_data/cardDetails46.js";
 
 test("23 historical owner slots and all 69 source WebP files retain true dimensions and source copy", () => {
   assert.deepEqual(assertOriginalSources(), {mapped:23, files:69, bytes:3553550});
@@ -22,4 +24,36 @@ test("only explicitly lazy original IMG variants are excluded from initial trans
   assert.equal(isDeferredOriginalImage('<script loading="lazy">', file), false);
   assert.equal(isDeferredOriginalImage('<img loading="lazy">', "assets/images/rejected-30/fallback.webp"), false);
   assert.equal(isDeferredOriginalImage('<img loading="lazy">', "js/site-shell.js"), false);
+});
+
+test("current UI46 HTML preserves all 32 original/clean image slots, metadata and capability service links", () => {
+  let slots = 0;
+  for (const pageKey of Object.keys(detailCounts46)) {
+    const file = pageKey === "home" ? "index" : details46.routes[pageKey].slice(1);
+    slots += assertOriginalHtml({source:`src/${file}.njk`}, renderRoute46(pageKey));
+  }
+  assert.equal(slots, 32);
+});
+
+test("capability HTML rejects altered image metadata, loading policy, title, wrapper or original service destination", () => {
+  const html = renderRoute46("home"), route = {source:"src/index.njk"};
+  for (const id of ["HOME-CAP-01", "HOME-CAP-02"]) {
+    const block = [...html.matchAll(/<article class="card card--link capability-card"[^>]*>[\s\S]*?<\/article>/g)].find(m => m[0].includes(`data-original-asset="${id}"`))[0];
+    const image = block.match(/<img\b[^>]*>/)[0];
+    const mutations = [
+      block.replace('<article class="card card--link capability-card"', '<article class="card renamed-capability"'),
+      block.replace(/<h3>[\s\S]*?<\/h3>/, '<h3>Unauthorized title.</h3>'),
+      block.replace(/(<a class="card__main-link" href=")[^"]+/, '$1/wrong-service'),
+      block.replace('class="card__main-link"', 'class="changed-main-link"'),
+      block.replace(image, image + image),
+      block.replace(image, '<figure>' + image + '</figure>'),
+      block.replace(image, image.replace('data-original-asset="' + id + '"', 'data-original-asset="UNKNOWN"')),
+      block.replace(image, image.replace(/>$/, ' fetchpriority="high">')),
+      ...["src", "srcset", "sizes", "alt", "width", "height", "loading", "decoding"].map(name => block.replace(image, image.replace(new RegExp('\\b' + name + '="[^"]*"'), name + '="UNAUTHORIZED"')))
+    ];
+    for (const changed of mutations) {
+      assert.notEqual(changed, block, id + ": mutation must actually change the current HTML");
+      assert.throws(() => assertOriginalHtml(route, html.replace(block, changed)), undefined, id + ": altered capability rejected");
+    }
+  }
 });

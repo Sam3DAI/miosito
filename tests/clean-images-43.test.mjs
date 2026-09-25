@@ -6,7 +6,8 @@ import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {assertRetirement42Output} from './legacy-retirement-42r1.mjs';
 import {beforeProof44} from './project-proof-ui-44.mjs';
-import {BASE_43,contract43,aiItems43,cleanFiles43,keptFiles43,unusedFiles43,assertMetadata43,assertAiBindings43,assertCleanFile43,assertImageFiles43,assertCleanSources43,assertCleanOutput43,assertCleanConfig43,clean43Binding,assertClassificationCss43} from './clean-images-43.mjs';
+import {BASE_43,contract43,aiItems43,cleanFiles43,keptFiles43,unusedFiles43,assertMetadata43,assertAiBindings43,assertCleanFile43,assertImageFiles43,assertCleanSources43,assertCleanOutput43,assertCleanConfig43,clean43Binding,assertClassificationCss43,isClean43ProductFile} from './clean-images-43.mjs';
+import {wdStaticFiles46} from './wd-static-46.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
@@ -21,6 +22,10 @@ const outputFixture=()=>new Map([
   ['sitemap.xml',read('sitemap.xml')],
   ['index.html',['contact-main','demo-automazioni-ai','demo-configuratori-ecommerce','demo-cpq-portali','demo-planner-arredamento','mini-demo-configuratori'].map(name=>'<form name="'+name+'" data-netlify="true"></form>').join('')]
 ]);
+test('43/46 product allowlist accepts exact reviewed additions, never private data or arbitrary demo files',()=>{
+ for(const file of ['css/configuratori-3d-2d.css','src/_data/cardDetails46.js','assets/images/projects-46/pilan-06-2560.webp','src/_includes/partials/wd-ecommerce-demo.njk',...wdStaticFiles46(root)])assert.equal(isClean43ProductFile(file,root),true,file);
+ for(const file of ['src/_data/customer-private.json','demo/ecommerce/backend.js','demo/ecommerce/data/orders.json','demo/ecommerce/unknown.glb','assets/images/projects-46/raw-owner.png','assets/images/projects-46/pilan-07-2560.webp','css/unapproved.css'])assert.equal(isClean43ProductFile(file,root),false,file);
+});
 
 test('43 source scope, 19 replacements, nine additions and four retained metadata records',()=>{
   const result=assertCleanSources43(root);

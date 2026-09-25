@@ -2,9 +2,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer, runGitText} from './git-binary-reader.mjs';
 import {beforeProof44,productFiles44,assertProof44Sources} from './project-proof-ui-44.mjs';
-import {beforeGalleries44r2,galleryProductFiles44r2,assertGallerySources44r2} from './project-galleries-44r2.mjs';
+import {beforeGalleries44r2,galleryProductFiles44r2,galleryStatic46,assertGallerySources44r2} from './project-galleries-44r2.mjs';
+import {uiLiterals46} from './site-ui-46-literals.mjs';
+import {wdStaticFiles46} from './wd-static-46.mjs';
 
 // Test-only digest oracle from the owner package, never imported by the site.
 export const contract43 = JSON.parse(fs.readFileSync(new URL('./clean-images-43-contract.json', import.meta.url), 'utf8'));
@@ -103,8 +106,12 @@ export function assertCleanConfig43(current, baseline) {
   assert.equal(strip(current),strip(baseline),'43 configuration changes only exact image allowlist');
 }
 
-export function isClean43ProductFile(file) {
-  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file) || productFiles44.includes(file) || galleryProductFiles44r2.includes(file);
+export function isClean43ProductFile(file,root=fileURLToPath(new URL('../',import.meta.url))) {
+  // Later owner-authorized tasks extend the exact file set; no directory wildcard.
+  // Their current-content/pixel/runtime oracles remain mandatory in full verification.
+  const ui46=Object.keys(uiLiterals46.edits).includes(file)||file==='src/_data/cardDetails46.js'||galleryStatic46.includes(file);
+  const wd46=['css/wd-ecommerce-embed.css','js/wd-ecommerce-embed.js','src/_includes/partials/wd-ecommerce-demo.njk',...wdStaticFiles46(root)].includes(file);
+  return [dataFile,aiFile,'eleventy.config.js','css/marketing-pages.css'].includes(file) || cleanFiles43.includes(file) || productFiles44.includes(file) || galleryProductFiles44r2.includes(file) || ui46 || wd46;
 }
 
 export function assertClassificationCss43(source,baseline) {
@@ -127,7 +134,7 @@ export function assertCleanSources43(root) {
   assert.deepEqual(fs.readdirSync(path.join(root,'assets/images/cards-43')).sort(),cleanFiles43.map(file => path.basename(file)).sort(),'43 no PNG masters, QA files or rejected fallback in new asset folder');
   const images=assertImageFiles43(new Map(cleanFiles43.map(file => [file,fs.readFileSync(path.join(root,file))])));
   for(const file of runGitText(['diff','--name-only',BASE_43,'--'],root).trim().split('\n').filter(Boolean)) {
-    assert.ok(isClean43ProductFile(file)||file.startsWith('tests/')||file==='netlify.toml',file+': outside43 allowlist');
+    assert.ok(isClean43ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside43/44/46 exact allowlist');
   }
   return {...metadata,...images,baseline:BASE_43,publishedImages:publishedImageFiles43.length,unusedVariantsExcluded:unusedFiles43.length};
 }

@@ -12,7 +12,7 @@ export function beforeProof44(file,input){let text=beforeGalleries44r2(file,inpu
 export function assertProof44File(file,current,baseline){
  let expected=lf(baseline);
  for(const edit of contract44.edits[file]||[]){assert.equal(expected.split(edit.before).length,2,file+': unique44 baseline callsite');expected=expected.replace(edit.before,edit.after);}
- assert.equal(lf(current),expected,file+': exact bounded44 delta');
+ assert.equal(beforeGalleries44r2(file,current),expected,file+': exact bounded44 delta after authorized later callsites');
  assert.equal(beforeProof44(file,current),lf(baseline),file+': reversible44 delta');
 }
 export function assertProof44Sources(root){

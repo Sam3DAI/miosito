@@ -18,7 +18,7 @@ twitter:
   description: "Strumenti web per agenti, dealer e clienti B2B, progettati sulle regole commerciali reali."
 ---
 {% extends "layouts/base.njk" %}
-{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon %}
+{% from "partials/marketing-components.njk" import processSteps, faq, visualCardRail, finalCta, functionIcon, cardDetail with context %}
 
 {% set processItems = [
   { title: "Mappa", icon: "users", accent: "teal", highlight: "Mappa", text: "Utenti, regole, dati e documenti." },
@@ -98,7 +98,7 @@ twitter:
         <p class="hero-lead">Trasformiamo configurazioni, listini, sconti e regole commerciali in un processo più rapido e controllato per agenti, dealer e clienti B2B.</p>
         <div class="cta-group">
           <a class="button button--page" href="#demo-form">Richiedi una Demo gratuita <span aria-hidden="true">↗</span></a>
-          <a class="button button--page button--secondary" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
+          <a class="button button--page button--secondary button--quote" href="/contattaci#contatti">Richiedi un preventivo <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       </div>
@@ -112,9 +112,9 @@ twitter:
       <p>Il sistema rende espliciti prodotti, vincoli e passaggi, così ogni utente lavora con informazioni coerenti con il proprio ruolo.</p>
     </div>
     <div class="feature-grid">
-      <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Percorso</span><h3><span class="accent-text">Configurazione</span> guidata</h3><p>Opzioni e passaggi seguono la logica con cui il prodotto viene definito e venduto.</p></article>
-      <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Vincoli</span><h3>Compatibilità e <span class="accent-text">regole</span></h3><p>Combinazioni, dipendenze e controlli riducono configurazioni incoerenti.</p></article>
-      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Commerciale</span><h3>Listini, sconti e <span class="accent-text">prezzi</span></h3><p>Dati e permessi possono differenziare il flusso secondo utente, canale o cliente.</p></article>
+      <article class="card" data-card-accent="blue">{{ functionIcon("configuration") }}<span class="card__label">Percorso</span><h3><span class="accent-text">Configurazione</span> guidata</h3><p>Opzioni e passaggi seguono la logica con cui il prodotto viene definito e venduto.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[0]) }}</article>
+      <article class="card" data-card-accent="violet">{{ functionIcon("rules") }}<span class="card__label">Vincoli</span><h3>Compatibilità e <span class="accent-text">regole</span></h3><p>Combinazioni, dipendenze e controlli riducono configurazioni incoerenti.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[1]) }}</article>
+      <article class="card" data-card-accent="orange">{{ functionIcon("pricing") }}<span class="card__label">Commerciale</span><h3>Listini, sconti e <span class="accent-text">prezzi</span></h3><p>Dati e permessi possono differenziare il flusso secondo utente, canale o cliente.</p>{{ cardDetail(cardDetails46.pages[pageKey].features[2]) }}</article>
     </div>
   </section>
 
@@ -134,9 +134,9 @@ twitter:
       <p>Esperienze descritte per funzione, senza nomi, metriche o dati cliente.</p>
     </div>
     <div class="proof-grid">
-      <article class="card proof-card"><span class="card__label">Portale</span><h3>Portale preventivi B2B.</h3><p>Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.</p></article>
-      <article class="card proof-card card--gradient"><span class="card__label">Configuratore</span><h3>Configuratore tecnico con listini e PDF.</h3><p>Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.</p></article>
-      <article class="card proof-card"><span class="card__label">Approccio</span><h3>Moduli costruiti sul processo.</h3><p>Ruoli, dati e documenti vengono definiti sul caso d’uso, non su un pacchetto universale.</p></article>
+      <article class="card proof-card"><span class="card__label">Portale</span><h3>Portale preventivi B2B.</h3><p>Un flusso riservato per organizzare configurazioni, dati commerciali e documenti.</p>{{ cardDetail(cardDetails46.pages[pageKey].proof[0]) }}</article>
+      <article class="card proof-card card--gradient"><span class="card__label">Configuratore</span><h3>Configuratore tecnico con listini e PDF.</h3><p>Regole, opzioni e prezzi raccolti in un percorso guidato con generazione del preventivo.</p>{{ cardDetail(cardDetails46.pages[pageKey].proof[1]) }}</article>
+      <article class="card proof-card"><span class="card__label">Approccio</span><h3>Moduli costruiti sul processo.</h3><p>Ruoli, dati e documenti vengono definiti sul caso d’uso, non su un pacchetto universale.</p>{{ cardDetail(cardDetails46.pages[pageKey].proof[2]) }}</article>
     </div>
   </section>
 
@@ -148,14 +148,14 @@ twitter:
   </section>
 
   <section class="section container" aria-labelledby="adjacent-title">
-    <div class="split-panel">
+    <div class="split-panel split-panel--centered-process">
       <div class="split-panel__lead">
         <span class="section-kicker">Altri processi B2B</span>
         <h2 id="adjacent-title"><span class="statement-line">Non sai se rientri</span> <span class="statement-line">correttamente nella</span> <span class="statement-line">scelta di un CPQ?</span></h2>
       </div>
       <div class="split-panel__body">
         <p>Quando il processo riguarda cataloghi, documenti, preventivi, clienti B2B o rete vendita, SolveX può progettare un portale o software web dedicato. Partiamo dall’attività da organizzare e dai sistemi già utilizzati.</p>
-        <a class="button button--page" href="/contattaci">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
+        <a class="button button--page" href="/contattaci#contatti">Raccontaci il tuo processo <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>

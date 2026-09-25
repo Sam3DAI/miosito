@@ -1,0 +1,259 @@
+{
+  "palettes": {
+    "named": {
+      "nero": "#212121",
+      "bianco": "#eaeaea",
+      "rosso": "#ff0000",
+      "arancione": "#ff2800",
+      "verde": "#00DD00",
+      "giallo": "#FFF100",
+      "blu_yamaha": "#002cff",
+      "blu_tm": "#054e8c",
+      "azzurro_tm": "#0a5f95",
+      "verde_acqua": "#00DFB8",
+      "blu_husq_ktm": "#273a4d",
+      "fucsia": "#b21d63",
+      "viola": "#372752",
+      "grigio": "#616060",
+      "grigio_scuro": "#505050"
+    },
+    "labels": {
+      "nero": "Nero",
+      "bianco": "Bianco",
+      "rosso": "Rosso",
+      "arancione": "Arancione",
+      "verde": "Verde",
+      "giallo": "Giallo",
+      "blu_yamaha": "Blu Yamaha",
+      "blu_tm": "Blu TM",
+      "azzurro_tm": "Azzurro TM",
+      "verde_acqua": "Verde acqua",
+      "blu_husq_ktm": "Blu Husqvarna/KTM",
+      "fucsia": "Fucsia",
+      "viola": "Viola",
+      "grigio": "Grigio chiaro",
+      "grigio_scuro": "Grigio scuro"
+    },
+    "seatAllowed": [
+      "rosso",
+      "arancione",
+      "verde",
+      "giallo",
+      "blu_tm",
+      "azzurro_tm",
+      "blu_yamaha",
+      "verde_acqua",
+      "blu_husq_ktm",
+      "fucsia",
+      "viola",
+      "nero",
+      "grigio",
+      "grigio_scuro",
+      "bianco"
+    ],
+    "ribsAllowed": [
+      "rosso",
+      "arancione",
+      "verde",
+      "giallo",
+      "blu_tm",
+      "azzurro_tm",
+      "blu_yamaha",
+      "verde_acqua",
+      "blu_husq_ktm",
+      "fucsia",
+      "viola",
+      "nero",
+      "grigio",
+      "grigio_scuro",
+      "bianco"
+    ],
+    "borderAllowed": [
+      "rosso",
+      "arancione",
+      "verde",
+      "giallo",
+      "blu_tm",
+      "azzurro_tm",
+      "blu_yamaha",
+      "verde_acqua",
+      "blu_husq_ktm",
+      "fucsia",
+      "viola",
+      "nero",
+      "grigio",
+      "grigio_scuro",
+      "bianco"
+    ],
+    "wdRacingAllowed": [
+      "nero",
+      "bianco",
+      "rosso",
+      "arancione",
+      "verde",
+      "giallo",
+      "blu_yamaha",
+      "blu_tm",
+      "azzurro_tm",
+      "verde_acqua",
+      "blu_husq_ktm",
+      "fucsia",
+      "viola",
+      "grigio",
+      "grigio_scuro"
+    ]
+  },
+  "motoTextRules": {
+    "alwaysAllowed": [
+      "nero",
+      "bianco"
+    ],
+    "byBrandAllowed": {
+      "Honda": [
+        "rosso"
+      ],
+      "HM": [
+        "rosso"
+      ],
+      "Beta": [
+        "rosso"
+      ],
+      "Fantic": [
+        "rosso"
+      ],
+      "GasGas": [
+        "rosso"
+      ],
+      "Yamaha": [
+        "blu_yamaha"
+      ],
+      "TM": [
+        "blu_tm",
+        "azzurro_tm"
+      ],
+      "Suzuki": [
+        "giallo"
+      ],
+      "Husqvarna": [
+        "giallo",
+        "blu_husq_ktm"
+      ],
+      "Kawasaki": [
+        "verde"
+      ],
+      "KTM": [
+        "arancione"
+      ]
+    }
+  },
+  "logoRules": {
+    "wdFollowsMotoTextColor": true,
+    "allowWdOverride": false
+  },
+  "finishCatalog": {
+    "similpelle": {
+      "label": "Similpelle",
+      "allowedColors": [
+        "rosso",
+        "fucsia",
+        "viola",
+        "nero",
+        "bianco"
+      ],
+      "normalMapByColor": {
+        "*": "restyle_similpelle"
+      },
+      "roughnessMapByColor": {
+        "*": "restyle_similpelle_roughness"
+      }
+    },
+    "grip": {
+      "label": "Grip",
+      "allowedColors": [
+        "rosso",
+        "arancione",
+        "verde",
+        "giallo",
+        "blu_yamaha",
+        "verde_acqua",
+        "blu_husq_ktm",
+        "nero",
+        "grigio",
+        "grigio_scuro",
+        "bianco"
+      ],
+      "normalMapByColor": {
+        "*": "restyle_grip"
+      },
+      "roughnessMapByColor": {
+        "*": "restyle_grip_roughness"
+      }
+    },
+    "prisma": {
+      "label": "Prisma",
+      "allowedColors": [
+        "rosso",
+        "blu_tm",
+        "blu_husq_ktm",
+        "nero"
+      ],
+      "normalMapByColor": {
+        "*": "restyle_prisma"
+      },
+      "roughnessMapByColor": {
+        "*": "restyle_prisma_roughness"
+      }
+    },
+    "carbon": {
+      "label": "Carbon",
+      "allowedColors": [
+        "nero"
+      ],
+      "normalMapByColor": {
+        "*": "restyle_carbon"
+      },
+      "roughnessMapByColor": {
+        "*": "restyle_carbon_roughness"
+      }
+    },
+    "replica": {
+      "label": "Replica",
+      "allowedColors": [
+        "nero",
+        "azzurro_tm"
+      ],
+      "normalMapByColor": {
+        "nero": "restyle_replica_nero",
+        "azzurro_tm": "restyle_azzurro_tm_replica"
+      },
+      "roughnessMapByColor": {
+        "nero": "restyle_replica_nero_roughness",
+        "azzurro_tm": "restyle_azzurro_tm_replica_roughness"
+      }
+    },
+    "sphere": {
+      "label": "Sphere",
+      "allowedColors": [
+        "rosso"
+      ],
+      "normalMapByColor": {
+        "*": "restyle_sphere"
+      },
+      "roughnessMapByColor": {
+        "*": "restyle_sphere_roughness"
+      }
+    }
+  },
+  "normalMapLibrary": {},
+  "roughnessMapLibrary": {},
+  "modelManifests": [
+    {
+      "id": "restyle",
+      "file": "./assets/models/restyle/model.json"
+    },
+    {
+      "id": "zip",
+      "file": "./assets/models/zip/model.json"
+    }
+  ]
+}

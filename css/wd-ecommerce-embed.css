@@ -1,0 +1,10 @@
+.wd46-embed { margin-block: 1.5rem; border: 1px solid var(--sx-border); border-radius: 1.5rem; background: var(--sx-bg-elevated); overflow: clip; }
+.wd46-embed__poster { margin: 0; }
+.wd46-embed__poster img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: contain; }
+.wd46-embed__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; padding: 1.25rem; }
+.wd46-embed__controls p { flex: 1 1 18rem; margin: 0; }
+.wd46-embed__stage iframe { display: block; width: 100%; height: min(760px, 85vh); min-height: 620px; border: 0; color-scheme: light dark; }
+.wd46-embed [hidden] { display: none !important; }
+.wd46-embed[data-state="loading"] [data-wd46-stage] { opacity: .75; }
+@media (max-width: 700px) { .wd46-embed__stage iframe { height: 820px; min-height: 0; } .wd46-embed__controls { align-items: flex-start; } }
+@media (forced-colors: active) { .wd46-embed { border-color: CanvasText; } }
