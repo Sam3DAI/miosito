@@ -46,6 +46,9 @@ import { assertDetailInventory46, assertUi46Html } from "./site-ui-46.mjs";
 import { beforeWd46 } from "./site-wd-delta-46.mjs";
 import { siteFooter46 } from "./site-footer-46.mjs";
 import { UTILITY_CTA47_FROZEN_FILES, assertUtilityCta47Sources, assertUtilityCta47Output, beforeUtilityCta47 } from "./utility-cta47.mjs";
+import { assertMobileHoverOutput47R1 } from "./mobile-hover-47r1.mjs";
+import { assertInputOutput47R2 } from "./input-modality-47r2.mjs";
+import { assertEditorialMotionOutput47R3 } from "./editorial-motion-47r3.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
@@ -1584,6 +1587,9 @@ const performanceEvidence = [];
 
 function verifyBuiltOutput() {
   const utilityCta47OutputEvidence = assertUtilityCta47Output(root, outputRoot);
+  assertMobileHoverOutput47R1(root, outputRoot);
+  assertInputOutput47R2(root, outputRoot);
+  assertEditorialMotionOutput47R3(root, outputRoot);
   const builtInventory = inventory();
   const inventoryComparison = compareInventories(expectedOutputs, builtInventory.rows.map((row) => row.path));
   assert.deepEqual(inventoryComparison.missing, [], "Published output has missing paths");

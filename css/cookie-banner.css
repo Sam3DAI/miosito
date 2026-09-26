@@ -15,9 +15,13 @@ body.dark-mode .cc-window { background:#000; color:#f5f5f7; box-shadow: 0 8px 24
   flex:1; border-radius: 20px; padding: 8px 14px; font-size: 14px; cursor: pointer;
   border: 1px solid #45b6fe; background: transparent; color: inherit; transition: .2s;
 }
-.cc-btn:hover { background:#45b6fe; color:#fff; }
+@media (hover: hover) and (pointer: fine) {
+  .cc-btn:hover { background:#45b6fe; color:#fff; }
+}
 .cc-allow { background: linear-gradient(90deg, #45b6fe, #d95bc5); color:#fff; border:none; }
-.cc-allow:hover { opacity:.9; }
+@media (hover: hover) and (pointer: fine) {
+  .cc-allow:hover { opacity:.9; }
+}
 
 /* Pannello preferenze */
 .cc-panel { margin-top:10px; border-top:1px solid rgba(0,0,0,.08); padding-top:8px; }
@@ -58,10 +62,12 @@ body.dark-mode .cc-revoke { background:#000; }
 .cc-revoke::before {
   content:"🍪"; font-size:20px; line-height:1;
 }
-.cc-revoke:hover { opacity:1; }
+@media (hover: hover) and (pointer: fine) {
+  .cc-revoke:hover { opacity:1; }
+}
 
 /* Accessibilità: focus visibile */
-.cc-window :focus { outline: 2px solid #45b6fe; outline-offset: 2px; }
+.cc-window :focus-visible { outline: 2px solid #45b6fe; outline-offset: 2px; }
 
 /* Controlli privacy accessibili, senza cambiare palette o struttura del sito. */
 .cc-window { max-height: calc(100dvh - 40px); overflow-y: auto; }

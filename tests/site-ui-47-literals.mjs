@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
+import { beforeMobileHover47R1, assertMobileHoverSources47R1 } from "./mobile-hover-47r1.mjs";
+import { beforeInputModality47R2, assertInputSources47R2 } from "./input-modality-47r2.mjs";
 
 export const uiLiterals47 = JSON.parse(fs.readFileSync(new URL("./site-ui-47-literals.json", import.meta.url), "utf8"));
 const lf = value => value.replace(/\r\n/g, "\n");
@@ -24,7 +26,7 @@ function baselineSource(root, file) {
 // always consume the real current product, never this reconstructed string.
 // A changed or duplicated fragment remains visible to the historical guard.
 export function beforeUi47Literals(file, input) {
-  let result = lf(input);
+  let result = beforeMobileHover47R1(file, beforeInputModality47R2(file, input));
   // Older historical passes may contain the same native closing anchor again.
   // Never reinterpret an already reconstructed pre47 file as a current47 file.
   if (!uiLiterals47.edits[file] || !result.includes(currentMarker47(file))) return result;
@@ -38,7 +40,7 @@ export function beforeUi47Literals(file, input) {
 export function assertUi47Delta(file, input, baseline) {
   const edits = uiLiterals47.edits[file];
   assert.ok(edits?.length, file + ": no implicit file-wide UI exception");
-  const old = lf(baseline), current = lf(input);
+  const old = lf(baseline), current = beforeInputModality47R2(file, input);
   let expected = old;
   for (const edit of edits) {
     assert.ok(edit.before && edit.after && edit.before !== edit.after, file + ": non-empty bounded change");
@@ -54,6 +56,8 @@ export function assertUi47Delta(file, input, baseline) {
 }
 
 export function assertUi47Literals(root) {
+  assertMobileHoverSources47R1(root); // The new exact source guard precedes historical reconstruction.
+  assertInputSources47R2(root); // Actual current focus delta is mandatory before historical comparison.
   assert.equal(uiLiterals47.baseline, "887198eb0e7f9bd956ebc32010057d6d03706c4b");
   let literalPairs = 0;
   for (const file of Object.keys(uiLiterals47.edits)) literalPairs += assertUi47Delta(file, fs.readFileSync(path.join(root, file), "utf8"), baselineSource(root, file));

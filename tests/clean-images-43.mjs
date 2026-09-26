@@ -11,6 +11,8 @@ import {uiLiterals47} from './site-ui-47-literals.mjs';
 import {wdStaticFiles46} from './wd-static-46.mjs';
 import {retainedWd46PosterFiles47,assertRetainedWd46PosterSources47,assertRetainedWd46PostersExcluded47} from './wd46-retained-posters47.mjs';
 import {isUtilityCta47ProductFile} from './utility-cta47.mjs';
+import {isMobileHoverProduct47R1} from './mobile-hover-47r1.mjs';
+import {isInputProduct47R2} from './input-modality-47r2.mjs';
 
 // Test-only digest oracle from the owner package, never imported by the site.
 export const contract43 = JSON.parse(fs.readFileSync(new URL('./clean-images-43-contract.json', import.meta.url), 'utf8'));
@@ -111,6 +113,8 @@ export function assertCleanConfig43(current, baseline) {
 
 export function isClean43ProductFile(file,root=fileURLToPath(new URL('../',import.meta.url))) {
   if (isUtilityCta47ProductFile(file,root)) return true; // Exact three-file content guard, never a wildcard.
+  if (isMobileHoverProduct47R1(file,root)) return true; // Three exact CSS paths, each with an independent full-delta guard.
+  if (isInputProduct47R2(file,root)) return true; // Exactly two fully guarded pointer-decoration sources, no directory exception.
   // Later owner-authorized tasks extend the exact file set; no directory wildcard.
   // Their current-content/pixel/runtime oracles remain mandatory in full verification.
   const ui46=Object.keys(uiLiterals46.edits).includes(file)||Object.keys(uiLiterals47.edits).includes(file)||file==='src/_data/cardDetails46.js'||galleryStatic46.includes(file);

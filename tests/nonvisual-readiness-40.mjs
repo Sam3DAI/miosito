@@ -7,6 +7,7 @@ import { readGitBlobBuffer } from './git-binary-reader.mjs';
 import { beforeNonvisual41 } from './nonvisual-closure-41.mjs';
 import { beforeRetirement42 } from './legacy-retirement-42r1.mjs';
 import { beforeGalleries44r2 } from './project-galleries-44r2.mjs';
+import { beforeInputModality47R2, assertInputSources47R2 } from './input-modality-47r2.mjs';
 
 export const BASE_40 = '608dc77bd70362a250a5d651e050c76966e8798a';
 const root40 = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -129,13 +130,14 @@ export function expectedNonvisual40(file, old) {
   return text;
 }
 export function assertNonvisual40Sources(root) {
+  assertInputSources47R2(root); // Mandatory exact47R2 guard before reconstructing the historical shell.
   for (const file of changedProduct40) {
     const current = beforeRetirement42(file, beforeNonvisual41(file, beforeGalleries44r2(file, fs.readFileSync(path.join(root,file), 'utf8'))));
     if (file === 'js/cookie-banner.js') assert.equal(hash(current), banner40Sha256, 'Only reviewed banner40');
     else assert.equal(current, expectedNonvisual40(file, readGitBlobBuffer(BASE_40,file,root).buffer.toString('utf8')), file + ': only exact authorized40 changes');
   }
   for (const file of ['js/netlify-lead-form.js','js/ad-attribution-consent.js','js/site-shell.js','js/ga-autotrack.js','src/_includes/partials/measurement-bootstrap.njk','src/_includes/partials/cookie-loader.njk','src/_data/measurement.json','src/_data/serviceDemos.json','chatbot-ai-intelligenti.html','siti-web-custom-seo.html']) {
-    assert.equal(lf(fs.readFileSync(path.join(root,file),'utf8')), lf(readGitBlobBuffer(BASE_40,file,root).buffer.toString('utf8')), file+': task40 immutable');
+    assert.equal(beforeInputModality47R2(file,fs.readFileSync(path.join(root,file),'utf8')), lf(readGitBlobBuffer(BASE_40,file,root).buffer.toString('utf8')), file+': task40 immutable except exact47R2 presentation provenance');
   }
   return {result:'PASS',baseline:BASE_40,productFiles:changedProduct40.length,oldPolicyPreserved:true,newConsentMetadata:false};
 }

@@ -4,6 +4,17 @@
   const root = document.documentElement;
   const body = document.body;
   root.classList.add("has-site-shell-js");
+
+  //47R2: Pointer decoration only; focus and keyboard navigation stay intact.
+  function clearPointerFocus() { delete root.dataset.sxPointerFocus; }
+  document.addEventListener("pointerdown", function () { root.dataset.sxPointerFocus = ""; }, { capture: true, passive: true });
+  document.addEventListener("keydown", function (event) {
+    if (!event.metaKey && !event.altKey && !event.ctrlKey) clearPointerFocus();
+  }, true);
+  document.addEventListener("click", function (event) {
+    if (event.detail === 0 && !event.pointerType) clearPointerFocus();
+  }, true);
+  window.addEventListener("blur", clearPointerFocus);
   const themeToggle = document.querySelector("[data-theme-toggle]");
   const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
   const pageOwnsTheme = body.dataset.page === "contact" || body.dataset.page === "configurators";
@@ -110,7 +121,7 @@
   }
 
   // Progressive editorial motion: default DOM/CSS never hides content.
-  // Only below-the-fold marketing introductions enter, once, as whole groups.
+  //47R3: Below-fold groups enter slowly once; initial content stays still.
   (function initEditorialMotion() {
     if (!["home", "about", "configurators", "ecommerce", "cpq", "planner", "automation"].includes(body.dataset.page)) return;
     if (!("IntersectionObserver" in window) || !("animate" in Element.prototype)) return;
@@ -143,9 +154,9 @@
           if (motionPreference.matches || group.contains(document.activeElement)) return;
           try {
             const animation = group.animate([
-              { opacity: 0, transform: "translateY(12px)" },
+              { opacity: 0, transform: "translateY(24px)" },
               { opacity: 1, transform: "none" }
-            ], { duration: 420, easing: "ease-out", fill: "none" });
+            ], { duration: 1100, easing: "cubic-bezier(0.22, 0.61, 0.36, 1)", fill: "none" });
             running.set(group, animation);
             animation.onfinish = function () { running.delete(group); };
           } catch (_) { show(group); }

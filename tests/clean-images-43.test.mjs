@@ -24,6 +24,10 @@ const outputFixture=()=>new Map([
   ['index.html',['contact-main','demo-automazioni-ai','demo-configuratori-ecommerce','demo-cpq-portali','demo-planner-arredamento','mini-demo-configuratori'].map(name=>'<form name="'+name+'" data-netlify="true"></form>').join('')]
 ]);
 test('43/46 product allowlist accepts exact reviewed additions, never private data or arbitrary demo files',()=>{
+ for(const file of ['js/site-shell.js','css/foundation.css'])assert.equal(isClean43ProductFile(file,root),true,file);
+ for(const file of ['js/site-shell-copy.js','js/site-shell.js.bak','css/foundation-pointer.css'])assert.equal(isClean43ProductFile(file,root),false,file);
+ for(const file of ['css/site-shell.css','css/marketing-pages.css','css/cookie-banner.css'])assert.equal(isClean43ProductFile(file,root),true,file);
+ for(const file of ['css/site-shell-copy.css','css/marketing-pages-touch.css','css/cookie-banner.css.bak','js/mobile-hover.js'])assert.equal(isClean43ProductFile(file,root),false,file);
  for(const file of ['css/configuratori-3d-2d.css','src/_data/cardDetails46.js','assets/images/projects-46/pilan-06-2560.webp','src/_includes/partials/wd-ecommerce-demo.njk',...wdStaticFiles46(root),...retainedWd46PosterFiles47])assert.equal(isClean43ProductFile(file,root),true,file);
  for(const file of ['src/_data/customer-private.json','demo/ecommerce/backend.js','demo/ecommerce/data/orders.json','demo/ecommerce/unknown.glb','assets/images/projects-46/raw-owner.png','assets/images/projects-46/pilan-07-2560.webp','css/unapproved.css','assets/images/wd46-poster-2560.webp','assets/images/wd46-poster-768.png','assets/images/wd46-poster-1440-copy.webp'])assert.equal(isClean43ProductFile(file,root),false,file);
 });
