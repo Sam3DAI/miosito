@@ -57,20 +57,20 @@ function fixture({ offsets = [0, 370, 740, 1110], max = 404, smooth = false, anc
     },
     querySelectorAll(selector) { return selector === "[data-rail-card]" ? cards : indicators; }
   };
-  const document = {
+  const document = Object.assign(eventTarget(), {
     documentElement: { dataset: { theme: "light" }, classList: { add() {} } },
     body: { dataset: { page: "fixture" }, classList: { toggle() {} } },
     querySelector() { return null; },
     getElementById(id) { return id === "scenario-title" ? heading : null; },
     querySelectorAll(selector) { return selector === "[data-visual-card-rail]" ? [rail] : []; }
-  };
+  });
   track.scrollTo = options => {
     requests.push(options);
     if (!smooth) { track.scrollLeft = options.left; track.emit("scroll"); }
   };
   vm.runInNewContext(shell, { window, document, localStorage: { getItem() { return null; } } });
   return {
-    track, previous, next, controls, status, indicators, requests, anchorProperties,
+    track, previous, next, controls, status, indicators, requests, anchorProperties, document, window,
     remeasure(context) { anchorContext = context; observedResize(); },
     click(button) { document.activeElement = button; button.emit("click"); assert.equal(document.activeElement, button); },
     settle() { track.scrollLeft = requests.at(-1).left; track.emit("scroll"); track.emit("scrollend"); },
@@ -83,6 +83,23 @@ function fixture({ offsets = [0, 370, 740, 1110], max = 404, smooth = false, anc
     expire() { for (const callback of [...timers.values()]) callback(); }
   };
 }
+
+test("document input modality coexists with the full shell and preserves focused controls", () => {
+  const f = fixture();
+  f.document.activeElement = f.next;
+  const pointer = f.document.emit("pointerdown", { pointerType: "touch" });
+  assert.equal(pointer.prevented, false);
+  assert.equal(f.document.documentElement.dataset.sxPointerFocus, "");
+  f.click(f.next);
+  assert.equal(f.document.activeElement, f.next);
+  const keyboard = f.document.emit("keydown", { key: "Tab" });
+  assert.equal(keyboard.prevented, false);
+  assert.equal(Object.hasOwn(f.document.documentElement.dataset, "sxPointerFocus"), false);
+  assert.equal(f.document.activeElement, f.next);
+  f.document.emit("pointerdown", { pointerType: "mouse" });
+  f.window.emit("blur");
+  assert.equal(Object.hasOwn(f.document.documentElement.dataset, "sxPointerFocus"), false);
+});
 
 test("carousel arrow clicks wrap at physical endpoints shared by several visible cards", () => {
   const f = fixture();
@@ -265,13 +282,13 @@ test("orientation realigns only an already aligned fragment, never a reader who 
   });
   const target = { getBoundingClientRect() { return { top: top - window.scrollY }; } };
   const header = { classList: { toggle() {} } };
-  const document = {
+  const document = Object.assign(eventTarget(), {
     documentElement: { dataset: { theme: "light" }, classList: { add() {} } },
     body: { dataset: { page: "fixture" }, classList: { toggle() {}, contains() { return menuOpen; } } },
     querySelector(selector) { return selector === "[data-site-header]" ? header : null; },
     querySelectorAll() { return []; },
     getElementById(id) { return id === "metodo" ? target : null; }
-  };
+  });
   const flush = () => { const callbacks = [...frames.values()]; frames.clear(); callbacks.forEach(callback => callback()); };
   vm.runInNewContext(shell, { window, document, localStorage: { getItem() { return null; } } });
   flush();

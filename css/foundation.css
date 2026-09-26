@@ -154,6 +154,12 @@ li {
   outline-offset: 4px;
 }
 
+/*47R2: Do not paint a retained dialog/menu focus as a touch selection.
+  Keyboard/assistive activation clears the marker; editable fields keep focus. */
+:root[data-sx-pointer-focus] :is(a[href], button, summary, [role="button"], [role="link"]):not(:where([contenteditable], [contenteditable] *)):focus {
+  outline: none;
+}
+
 .container {
   width: min(calc(100% - 3rem), var(--sx-container));
   margin-inline: auto;

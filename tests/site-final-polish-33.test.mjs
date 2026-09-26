@@ -65,11 +65,11 @@ test("theme storage denial remains non-blocking and bootstrap honors explicit co
   const script=fs.readFileSync(path.join(root,"src/_includes/partials/theme-bootstrap.njk"),"utf8").match(/<script>([\s\S]*?)<\/script>/)[1];
   for(const saved of ["dark","light"]){const h=fixture();vm.runInNewContext(script,{document:h.document,localStorage:{getItem(){return saved;}}});assert.ok(h.metas.every(m=>m.content===(saved==="dark"?"#000000":"#f5f5f7")));}
 });
-test("editorial entry is a whole group, 420ms/12px, once only, without a persistent fill",()=>{
+test("editorial entry is a whole group, owner47R3 1100ms/24px, once only, without a persistent fill",()=>{
   const f=fixture();assert.equal(f.groups[0].dataset.editorialMotion,"shown");assert.equal(f.calls.length,0);
   f.enter(1);f.enter(1);assert.equal(f.calls.length,1);assert.equal(f.observed.has(f.groups[1]),false);
-  assert.equal(f.calls[0].options.duration,420);assert.equal(f.calls[0].options.easing,"ease-out");assert.equal(f.calls[0].options.fill,"none");
-  assert.equal(f.calls[0].keyframes[0].transform,"translateY(12px)");assert.equal(f.calls[0].keyframes[1].opacity,1);
+  assert.equal(f.calls[0].options.duration,1100);assert.equal(f.calls[0].options.easing,"cubic-bezier(0.22, 0.61, 0.36, 1)");assert.equal(f.calls[0].options.fill,"none");
+  assert.equal(f.calls[0].keyframes[0].transform,"translateY(24px)");assert.equal(f.calls[0].keyframes[1].opacity,1);
 });
 test("missing observer/WAAPI, reduced motion, print and setup failures never hide or block groups",()=>{
   for(const opts of [{noObserver:true},{noAnimation:true},{reduced:true},{print:true},{setupError:true}]){const f=fixture(opts);assert.equal(f.calls.length,0);assert.equal(f.observed.size,0);for(const g of f.groups)assert.equal(g.style,undefined);}

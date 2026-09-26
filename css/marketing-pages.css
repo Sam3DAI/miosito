@@ -292,7 +292,9 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
 }
 .visual-card-rail__controls svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .visual-card-rail__controls button:focus-visible { outline: 3px solid var(--sx-blue-deep); outline-offset: 3px; }
-.visual-card-rail__controls button:hover:not(:disabled) { color: var(--sx-blue-deep); }
+@media (hover: hover) and (pointer: fine) {
+  .visual-card-rail__controls button:hover:not(:disabled) { color: var(--sx-blue-deep); }
+}
 .visual-card-rail__controls button:disabled { opacity: 0.3; cursor: default; }
 .visual-card-rail__indicators {
   display: flex;
