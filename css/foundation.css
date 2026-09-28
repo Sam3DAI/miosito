@@ -294,10 +294,10 @@ li {
   outline-offset: 3px;
 }
 .button.button--quote:not(:disabled):active { background: var(--sx-gradient) border-box; color: #1d1d1f; }
-.button.button--explore:not(:disabled):active { background: var(--sx-pink); color: #fff; }
+.button.button--explore:not(:disabled):active { background: #bb3fa7; color: #fff; }
 @media (hover: hover) and (pointer: fine) {
   .button.button--quote:not(:disabled):hover { background: var(--sx-gradient) border-box; color: #1d1d1f; }
-  .button.button--explore:not(:disabled):hover { background: var(--sx-pink); color: #fff; }
+  .button.button--explore:not(:disabled):hover { background: #bb3fa7; color: #fff; }
   .button:is(.button--quote, .button--explore):not(:disabled):hover { box-shadow: 0 14px 30px rgb(69 182 254 / 25%); }
 }
 @media (forced-colors: active) {

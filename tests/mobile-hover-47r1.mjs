@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {before48} from './prelaunch-48-literals.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
@@ -51,7 +52,7 @@ export function afterMobileHover47R1(file, baseline) {
 // Historical comparisons only. A partial/mutated/duplicated known delta throws;
 // unknown surrounding bytes are retained so earlier full-source guards reject them.
 export function beforeMobileHover47R1(file, input) {
-  let text = lf(input);
+  let text = before48(file,input);
   const edits = mobileHoverEdits47R1[file];
   if (!edits || !edits.some(([, after]) => text.includes(after))) return text;
   for (const [before, after] of edits) {
@@ -62,6 +63,7 @@ export function beforeMobileHover47R1(file, input) {
 }
 
 export function assertMobileHoverDelta47R1(file, current, baseline) {
+  current = before48(file,current);
   assert.equal(lf(current), afterMobileHover47R1(file, baseline), file + ': only twelve explicit mobile presentation edits');
   assert.equal(beforeMobileHover47R1(file, current), lf(baseline));
   assert.equal(beforeMobileHover47R1(file, baseline), lf(baseline));

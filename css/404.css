@@ -84,9 +84,9 @@ body.dark-mode .error-404 p { color: #a1a1a6; }
 }
 body.dark-mode .btn-home.button--explore { --explore-text: #d95bc5; --explore-focus: #45b6fe; }
 .btn-home.button--explore:focus-visible { outline: 3px solid var(--explore-focus); outline-offset: 3px; }
-.btn-home.button--explore:active { background-color: #d95bc5; color: #fff; }
+.btn-home.button--explore:active { background-color: #bb3fa7; color: #fff; }
 @media (hover: hover) and (pointer: fine) {
-  .btn-home.button--explore:hover { background-color: #d95bc5; color: #fff; }
+  .btn-home.button--explore:hover { background-color: #bb3fa7; color: #fff; }
 }
 @media (forced-colors: active) {
   .btn-home.button--explore, .btn-home.button--explore:is(:hover, :active, :focus-visible) { border-color: ButtonText; background-color: ButtonFace; color: ButtonText; }

@@ -49,9 +49,11 @@ import { UTILITY_CTA47_FROZEN_FILES, assertUtilityCta47Sources, assertUtilityCta
 import { assertMobileHoverOutput47R1 } from "./mobile-hover-47r1.mjs";
 import { assertInputOutput47R2 } from "./input-modality-47r2.mjs";
 import { assertEditorialMotionOutput47R3 } from "./editorial-motion-47r3.mjs";
+import { assert48Current } from "./prelaunch-48-literals.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
+assert48Current(root);
 assertProof44Sources(root);
 assertGallerySources44r2(root);
 const eleventyCli = path.join(root, "node_modules", "@11ty", "eleventy", "cmd.cjs");
@@ -94,6 +96,8 @@ const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
   ...galleryStatic46,
   "css/wd-ecommerce-embed.css",
   "js/wd-ecommerce-embed.js",
+  "js/wd-availability.js",
+  "demo/ecommerce/launch.js",
   ...orderWdOwnedStaticFiles47(wdStaticFiles46(root)),
   ...galleryStatic44r2,
   "404.html",
@@ -1440,7 +1444,7 @@ function assertRouteRegistry() {
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 67, "Historical assets retained; exactly 60 owner46 derivatives, two embed files and 67 reviewed WD47 outputs added");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 67 + 2, "Historical assets retained; exact WD48 gate and launcher supplement the 67 reviewed WD47 outputs");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),

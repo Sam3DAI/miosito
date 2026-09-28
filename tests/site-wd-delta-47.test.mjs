@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {before48} from './prelaunch-48-literals.mjs';
 import {beforeWd46,wd46Edits} from './site-wd-delta-46.mjs';
 import {afterWd47Config,beforeWd47,assertWd47ConfigDelta,wd47ConfigEdits} from './site-wd-delta-47.mjs';
 
@@ -28,7 +29,7 @@ test('47 adapter preserves historical46 and earlier source assertions',()=>{
   assert.equal(beforeWd47('unrelated.js',current),current);
   for(const file of Object.keys(wd46Edits).filter(f=>f!=='eleventy.config.js')) {
     const source=fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n');
-    assert.equal(beforeWd47(file,source),source,file+' is not normalized by47');
+    assert.equal(beforeWd47(file,source),before48(file,source),file+' is not normalized by47 apart from the separately guarded48 delta');
   }
 });
 test('47 adapter refuses every missing, duplicated or partly reverted reviewed callsite',()=>{

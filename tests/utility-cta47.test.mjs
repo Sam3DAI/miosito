@@ -4,6 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { readGitBlobBuffer } from './git-binary-reader.mjs';
+import { before48 } from './prelaunch-48-literals.mjs';
 import {
   UTILITY_CTA47_BASE, UTILITY_CTA47_FILES, UTILITY_CTA47_FROZEN_FILES,
   utilityCta47Edits, afterUtilityCta47, beforeUtilityCta47,
@@ -14,7 +15,9 @@ import {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const lf = value => value.toString('utf8').replace(/\r\n/g, '\n');
 const baseline = Object.fromEntries(UTILITY_CTA47_FILES.map(file => [file, readGitBlobBuffer(UTILITY_CTA47_BASE, file, root).buffer]));
-const current = file => fs.readFileSync(path.join(root, file));
+//48 geometry/contrast has its own mandatory raw oracle and negatives.
+// Preserve this entire historical suite against exact contextual reconstruction.
+const current = file => Buffer.from(before48(file, fs.readFileSync(path.join(root, file))));
 function rejectsChanged(file, mutate) {
   const original = lf(current(file)), changed = mutate(original);
   assert.notEqual(changed, original, file + ': negative mutation must really change the input');

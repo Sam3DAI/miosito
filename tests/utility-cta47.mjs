@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {before48} from './prelaunch-48-literals.mjs';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -124,7 +125,7 @@ export function afterUtilityCta47(file, baseline) {
 
 export function beforeUtilityCta47(file, input) {
   assert.ok(Object.hasOwn(utilityCta47Edits, file), 'T47-15 reverse requires an exact utility file');
-  let current = lf(input);
+  let current = before48(file,input);
   for (const edit of utilityCta47Edits[file]) {
     assert.equal(count(current, edit.after), 1, edit.id + ': exactly one approved callsite');
     assert.equal(count(current, edit.before), 0, edit.id + ': obsolete callsite must be absent');
@@ -134,6 +135,7 @@ export function beforeUtilityCta47(file, input) {
 }
 
 export function assertUtilityCta47Delta(file, current, baseline) {
+  current = before48(file,current);
   const normalized = lf(current), original = pinnedBaseline(file, baseline);
   assert.equal(normalized, afterUtilityCta47(file, original), file + ': T47-15 permits only exact CTA/CSS literals');
   assert.equal(beforeUtilityCta47(file, normalized), original, file + ': T47-15 preserves every other byte apart from CRLF/LF');

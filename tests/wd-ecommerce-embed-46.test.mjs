@@ -113,6 +113,7 @@ function fixture({ theme = 'light', origin = ORIGIN, noIntersection = false, mis
     return node;
   };
   const window = Object.assign(eventTarget(), {
+    WD48Availability: {allowed:()=>true,subscribe:()=>()=>{}},
     location,
     fetch: address => denyRequest('fetch', address),
     navigator: { sendBeacon: address => denyRequest('beacon', address) }
@@ -228,11 +229,13 @@ test('WD46 requests exactly one same-origin demo on click with bounded sandbox a
   }
 });
 
-test('WD46 load sends only exact-origin theme/visibility control, not a premature ready state', () => {
+test('WD48 load sends exact-origin control then explicit start, not a premature ready state', () => {
   const f = fixture({ theme: 'dark' });
   const frame = f.activate();
   frame.emit('load');
-  assertControl(frame, 'dark', true);
+  assert.equal(frame.messages.length, 2);
+  assert.deepEqual(JSON.parse(JSON.stringify(frame.messages[0])), {message:{type:'solvex-wd46-control',theme:'dark',visible:true},targetOrigin:ORIGIN});
+  assert.deepEqual(JSON.parse(JSON.stringify(frame.messages[1])), {message:{type:'solvex-wd48-start'},targetOrigin:ORIGIN});
   assert.equal(f.hosts[0].host.dataset.state, 'loading');
   assert.equal(f.hosts[0].start.hidden, false);
   assert.equal(frame.focusCount, 0);
@@ -417,11 +420,12 @@ test('WD46 ignores stale iframe load/error/messages after retry and cancels the 
   const first = f.activate();
   f.advance(1000);
   first.emit('error');
+  const messagesAfterFailure = first.messages.length;
   const second = f.activate();
   first.emit('load'); first.emit('error');
   f.message(READY, { frame: first }); f.message(ERROR, { frame: first });
   assert.equal(f.hosts[0].host.dataset.state, 'loading');
-  assert.equal(first.messages.length, 0);
+  assert.equal(first.messages.length, messagesAfterFailure, 'Stale events add no messages beyond the48 availability update on failure');
   assert.equal(second.messages.length, 0);
   assert.equal(f.timers.size, 1);
   f.advance(44000); // The first frame's deadline must no longer fire.

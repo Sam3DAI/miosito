@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {is48ProductFile} from './prelaunch-48-literals.mjs';
 import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer, runGitText} from './git-binary-reader.mjs';
 import {beforeProof44,productFiles44,assertProof44Sources} from './project-proof-ui-44.mjs';
@@ -143,7 +144,7 @@ export function assertCleanSources43(root) {
   assert.deepEqual(fs.readdirSync(path.join(root,'assets/images/cards-43')).sort(),cleanFiles43.map(file => path.basename(file)).sort(),'43 no PNG masters, QA files or rejected fallback in new asset folder');
   const images=assertImageFiles43(new Map(cleanFiles43.map(file => [file,fs.readFileSync(path.join(root,file))])));
   for(const file of runGitText(['diff','--name-only',BASE_43,'--'],root).trim().split('\n').filter(Boolean)) {
-    assert.ok(isClean43ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside43/44/46 exact allowlist');
+    assert.ok(isClean43ProductFile(file,root)||is48ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside43/44/46/48 exact allowlist');
   }
   return {...metadata,...images,baseline:BASE_43,publishedImages:publishedImageFiles43.length,unusedVariantsExcluded:unusedFiles43.length,retainedWd46Posters:retainedWd46.files};
 }

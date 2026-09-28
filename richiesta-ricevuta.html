@@ -8,7 +8,7 @@
   <style>
     :root { color-scheme: light dark; font-family: Arial, sans-serif; }
     body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #f5f7fb; color: #1d1d1f; }
-    main { width: min(560px, calc(100% - 48px)); padding: 40px; border: 1px solid #d9e0ea; border-radius: 20px; background: #fff; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); text-align: center; }
+    main { box-sizing: border-box; min-width: 0; width: min(560px, calc(100% - 48px)); padding: clamp(20px, 5vw, 40px); border: 1px solid #d9e0ea; border-radius: 20px; background: #fff; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); text-align: center; }
     h1 { margin-top: 0; }
     .button--explore { display: inline-block; margin-top: 12px; padding: 11px 19px; border: 1px solid #d95bc5; border-radius: 999px; background: transparent; color: #993588; text-decoration: none; font-weight: 700; }
     .button--explore:focus-visible { outline: 3px solid #006eac; outline-offset: 3px; }
@@ -16,9 +16,9 @@
       .button--explore { color: #d95bc5; }
       .button--explore:focus-visible { outline-color: #45b6fe; }
     }
-    .button--explore:active { background: #d95bc5; color: #fff; }
+    .button--explore:active { background: #bb3fa7; color: #fff; }
     @media (hover: hover) and (pointer: fine) {
-      .button--explore:hover { background: #d95bc5; color: #fff; }
+      .button--explore:hover { background: #bb3fa7; color: #fff; }
     }
     @media (forced-colors: active) {
       .button--explore, .button--explore:is(:hover, :active, :focus-visible) { border-color: ButtonText; background: ButtonFace; color: ButtonText; }

@@ -93,8 +93,8 @@ function assertCss({ foundation = read("css/foundation.css"), gallery = read("cs
   const focus = foundation.match(/\.button\.button--quote:focus-visible,[\s\S]*?\n\}/)?.[0];
   assert.ok(focus); assert.match(focus, /outline: 3px solid/); assert.doesNotMatch(focus, /background:|transform:/);
   assert.match(foundation, /\.button\.button--quote:not\(:disabled\):active \{ background: var\(--sx-gradient\) border-box; color: #1d1d1f; \}/);
-  assert.match(foundation, /\.button\.button--explore:not\(:disabled\):active \{ background: var\(--sx-pink\); color: #fff; \}/);
-  assert.match(foundation, /@media \(hover: hover\) and \(pointer: fine\) \{[\s\S]*?button--explore:not\(:disabled\):hover \{ background: var\(--sx-pink\); color: #fff;/);
+  assert.match(foundation, /\.button\.button--explore:not\(:disabled\):active \{ background: #bb3fa7; color: #fff; \}/);
+  assert.match(foundation, /@media \(hover: hover\) and \(pointer: fine\) \{[\s\S]*?button--explore:not\(:disabled\):hover \{ background: #bb3fa7; color: #fff;/);
   assert.doesNotMatch(foundation, /\.button--page:focus-visible\s*,[\s\S]*?background: var\(--sx-gradient\)/);
   assert.match(gallery, /\.proof-gallery::backdrop \{ background: #000a; \}/);
   assert.match(gallery, /@supports \(backdrop-filter: blur\(8px\)\)/);
@@ -137,7 +137,7 @@ test("CTA47 card negatives reject intercepted navigation and a missing informati
 test("CTA47 exact CSS roles, centered dialog CTA, SVG close and image/text plus placement", () => assertCss());
 test("CTA47 CSS negatives reject thick border, focus fill, blue exploration, hidden blur and uncentered CTA", () => {
   const foundation = read("css/foundation.css"), gallery = read("css/project-proof-galleries.css");
-  for (const changed of [{ foundation: foundation.replace("border: 1px solid transparent;", "border: 2px solid transparent;") }, { foundation: foundation.replace(".button.button--explore:focus-visible {", ".button.button--explore:focus-visible {\n  background: var(--sx-gradient);") }, { foundation: foundation.replace("background: var(--sx-pink); color: #fff;", "background: var(--sx-blue); color: #fff;") }, { gallery: gallery.replace("@supports (backdrop-filter: blur(8px))", "@supports (backdrop-filter: none)") }, { gallery: gallery.replace(".proof-gallery__cta, .card-detail__cta { display: flex; justify-content: center;", ".proof-gallery__cta, .card-detail__cta { display: flex; justify-content: flex-start;") }]) {
+  for (const changed of [{ foundation: foundation.replace("border: 1px solid transparent;", "border: 2px solid transparent;") }, { foundation: foundation.replace(".button.button--explore:focus-visible {", ".button.button--explore:focus-visible {\n  background: var(--sx-gradient);") }, { foundation: foundation.replace("background: #bb3fa7; color: #fff;", "background: var(--sx-blue); color: #fff;") }, { foundation: foundation.replace("background: #bb3fa7; color: #fff;", "background: var(--sx-pink); color: #fff;") }, { gallery: gallery.replace("@supports (backdrop-filter: blur(8px))", "@supports (backdrop-filter: none)") }, { gallery: gallery.replace(".proof-gallery__cta, .card-detail__cta { display: flex; justify-content: center;", ".proof-gallery__cta, .card-detail__cta { display: flex; justify-content: flex-start;") }]) {
     const field = Object.keys(changed)[0];
     assert.notEqual(changed[field], { foundation, gallery }[field], "Negative CSS fixture must actually mutate the current declaration");
     assert.throws(() => assertCss(changed));

@@ -92,6 +92,8 @@ export const OWNED_STATIC_FILES = Object.freeze([
   "assets/images/projects-46/pilan-06-2560.webp",
   "css/wd-ecommerce-embed.css",
   "js/wd-ecommerce-embed.js",
+  "js/wd-availability.js",
+  "demo/ecommerce/launch.js",
   "demo/ecommerce/app.js",
   "demo/ecommerce/assets/env/environmentSpecular.env",
   "demo/ecommerce/assets/img-prodotto/Restyle.png",

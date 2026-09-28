@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {MOBILE_BASE47R1, mobileHoverFiles47R1, mobileHoverEdits47R1, afterMobileHover47R1, beforeMobileHover47R1, assertMobileHoverDelta47R1, assertMobileHoverSources47R1, assertMobileHoverOutput47R1} from './mobile-hover-47r1.mjs';
 import {beforeInputModality47R2,assertInputSources47R2} from './input-modality-47r2.mjs';
+import {before48} from './prelaunch-48-literals.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const lf=text=>text.replace(/\r\n/g,'\n');
 const read=file=>lf(fs.readFileSync(path.join(root,file),'utf8'));
@@ -25,7 +26,7 @@ for(const file of mobileHoverFiles47R1) {
     assertMobileHoverDelta47R1(file,current.replaceAll('\n','\r\n'),baseline.replaceAll('\n','\r\n'));
     assert.equal(beforeMobileHover47R1(file,current+'\nUNAUTHORIZED'),baseline+'\nUNAUTHORIZED');
     assert.equal(beforeMobileHover47R1(file,baseline),baseline);
-    assert.equal(afterMobileHover47R1(file,baseline),current);
+    assert.equal(afterMobileHover47R1(file,baseline),before48(file,current));
   });
 }
 

@@ -7,6 +7,7 @@ import { cleanCanonicalOutput } from "./verify-orchestration.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
 const unitTests = Object.freeze([
+  "tests/prelaunch-48.test.mjs",
   "tests/inventory-comparator.test.mjs",
   "tests/git-binary-reader.test.mjs",
   "tests/html-contract.test.mjs",

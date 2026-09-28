@@ -2,6 +2,7 @@
 (() => {
   'use strict';
   const hosts = document.querySelectorAll('[data-wd46-embed]');
+  const gate = window.WD48Availability;
   for (const host of hosts) {
     const start = host.querySelector('[data-wd46-start]');
     const poster = host.querySelector('[data-wd46-poster]');
@@ -22,7 +23,7 @@
     const theme = () => document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
     const control = () => {
       if (!frame?.contentWindow) return;
-      frame.contentWindow.postMessage({ type: 'solvex-wd46-control', theme: theme(), visible: visible && !document.hidden }, location.origin);
+      frame.contentWindow.postMessage({ type: 'solvex-wd46-control', theme: theme(), visible: gate.allowed() && visible && !document.hidden }, location.origin);
     };
     const fail = () => {
       clearTimeout(timeout);
@@ -31,11 +32,15 @@
       host.dataset.state = 'error';
       host.setAttribute('aria-busy', 'false');
       status.textContent = 'La demo non è stata caricata. Riprova ad avviarla.';
+      poster.hidden = false;
+      stage.hidden = true;
       start.hidden = false;
       start.disabled = false;
       start.textContent = 'Riprova ad avviare la demo';
+      updateAvailability();
     };
     const activate = (transferFocus = true) => {
+      if (!gate.allowed()) return;
       if (frame && (ready || host.dataset.state === 'loading')) return;
       // Disabling the focused trigger may move native focus to BODY.
       focusOnReady = transferFocus && document.activeElement === start;
@@ -46,7 +51,11 @@
       frame.setAttribute('referrerpolicy', 'no-referrer');
       frame.src = '/demo/ecommerce/?embed=1&theme=' + theme();
       const requestedFrame = frame;
-      frame.addEventListener('load', () => { if (frame === requestedFrame) control(); });
+      frame.addEventListener('load', () => {
+        if (frame !== requestedFrame) return;
+        control();
+        if (gate.allowed()) frame.contentWindow.postMessage({type:'solvex-wd48-start'}, location.origin);
+      });
       frame.addEventListener('error', () => { if (frame === requestedFrame) fail(); });
       ready = false;
       host.dataset.state = 'loading';
@@ -109,6 +118,7 @@
       const toggleExpanded = event => {
         if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
+        if (!gate.allowed()) return;
         if (fullscreenPending) return;
         if (fallbackRestore) { leaveFallback(); return; }
         if (document.fullscreenElement === host) {
@@ -170,7 +180,8 @@
         start.hidden = false;
         start.disabled = true;
         start.textContent = 'Avvia demo';
-        if (moveFocus) frame.focus();
+        if (moveFocus && gate.allowed()) frame.focus();
+        updateAvailability();
         control();
       } else if (value.type === 'solvex-wd46-error') fail();
       else if (value.type === 'solvex-wd47-exit-expanded') leaveExpandedFallback();
@@ -180,5 +191,27 @@
     }
     new MutationObserver(control).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     document.addEventListener('visibilitychange', control);
+    function updateAvailability() {
+      const allowed = gate.allowed();
+      host.dataset.available = String(allowed);
+      start.hidden = !allowed;
+      if (fullscreen) fullscreen.hidden = !allowed;
+      if (!allowed) {
+        clearTimeout(timeout);
+        leaveExpandedFallback();
+        poster.hidden = false; stage.hidden = true;
+        status.textContent = 'Esplora la demo interattiva da computer o tablet. Possiamo mostrarti come applicare il configuratore ai tuoi prodotti.';
+      } else if (frame && host.dataset.state !== 'error') {
+        poster.hidden = true; stage.hidden = false;
+        if (!ready) {
+          clearTimeout(timeout); timeout = setTimeout(fail,45000);
+          frame.contentWindow?.postMessage({type:'solvex-wd48-start'}, location.origin);
+          status.textContent = 'Caricamento del configuratore e del primo modello…';
+        } else status.textContent = host.dataset.expanded === 'fallback' ? 'Vista estesa nella pagina: lo schermo intero non è disponibile.' : '';
+      } else if (host.dataset.state !== 'error') status.textContent = '';
+      control();
+    }
+    gate.subscribe(updateAvailability);
+    updateAvailability();
   }
 })();

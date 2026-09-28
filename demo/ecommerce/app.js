@@ -123,6 +123,7 @@ import {initialSelection,assertSelection,priceSelection,createSelectionStore,tra
   }
 
   async function loadJson(url) {
+    await window.WD48Availability.wait();
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`Impossibile caricare ${url}`);
     return res.json();
@@ -1092,6 +1093,7 @@ import {initialSelection,assertSelection,priceSelection,createSelectionStore,tra
     document.querySelector('#demoStatus').textContent='Applicazione materiali selezionati…';
     try {
       await preloadMapsForActiveModel(model,snapshot);
+      await window.WD48Availability.wait();
       if(request!==state.materialRequest||model.id!==state.loadedModelId||model.id!==state.selected.seatModelId)return;
       applySelectionToViewer();
       state.modelReady=true;
@@ -1121,6 +1123,7 @@ import {initialSelection,assertSelection,priceSelection,createSelectionStore,tra
 
   async function bootViewer() {
     try {
+      await window.WD48Availability.wait();
       state.engine = window.WDScene.createEngine(dom.viewerCanvas);
 
       const { scene, camera } = window.WDScene.createScene(state.engine, dom.viewerCanvas, {
@@ -1287,5 +1290,6 @@ import {initialSelection,assertSelection,priceSelection,createSelectionStore,tra
       await loadActiveModelIntoViewer();
     }catch{/* The visible boot error remains; never report a successful load. */}
   });
-  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === 'loading') document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();

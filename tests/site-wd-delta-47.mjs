@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {before48} from './prelaunch-48-literals.mjs';
 
 // Only these four reviewed callsites supersede WD46. Models, maps, CSP,
 // generated routes, forms, privacy and every unrelated config byte stay visible.
@@ -38,7 +39,7 @@ export function afterWd47Config(baseline) {
 }
 
 export function beforeWd47(file, input) {
-  let current = lf(input);
+  let current = before48(file,input);
   if (file !== 'eleventy.config.js' || !/wd47-poster-|demo\/ecommerce\/camera-controller\.js|demo\/ecommerce\/assets\/img-prodotto\/Zip\.png/.test(current)) return current;
   // Mixed, duplicated or incomplete integrations fail closed. This never
   // substitutes an entire file and never suppresses unknown additions.

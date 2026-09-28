@@ -421,6 +421,8 @@ function getFocusTarget(area, bounds) {
   }
 
   async function loadGLB(scene, camera, modelState, glbUrl, opts = {}) {
+    await window.WD48Availability.wait();
+    if (opts.isCurrent && !opts.isCurrent()) return null;
     const url = new URL(glbUrl, window.location.href).href;
     const result = await BABYLON.SceneLoader.ImportMeshAsync(null, "", url, scene);
     if(opts.isCurrent&&!opts.isCurrent()){
@@ -666,6 +668,7 @@ focusCameraToArea(scene, camera, "model",{immediate:true});
   }
 
   async function preloadMapLibrary(scene, mapLibrary) {
+    await window.WD48Availability.wait();
     const defs = Object.values(mapLibrary || {}).filter((d) => d && d.file);
     const textures = defs.map((def) => getTextureFromCache(scene, def)).filter(Boolean);
     await Promise.all(textures.map(waitTextureReady));
