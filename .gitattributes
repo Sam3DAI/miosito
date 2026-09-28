@@ -1,0 +1,3 @@
+#48: deterministic template rendering on Windows and fresh checkouts.
+# Only Nunjucks text is normalized. Binary originals/derivatives are untouched.
+src/**/*.njk text eol=lf

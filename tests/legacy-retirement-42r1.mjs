@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {before48,is48ProductFile} from './prelaunch-48-literals.mjs';
 import {readGitBlobBuffer,runGitText,hashFileWithGitFilters} from './git-binary-reader.mjs';
 import {BASE_43,assertCleanConfig43,isClean43ProductFile} from './clean-images-43.mjs';
 import {assertRetainedWd46PosterSources47,assertRetainedWd46PostersExcluded47} from './wd46-retained-posters47.mjs';
@@ -144,7 +145,7 @@ export function expectedRetirement42(file,old) {
 }
 // Reverse only literal approved legal blocks. No broad sanitizer or deleted test.
 export function beforeRetirement42(file,input) {
- let text=lf(input);
+ let text=before48(file,input);
  if(!['src/privacy-policy.njk','src/termini-condizioni.njk'].includes(file)) return text;
  for(const [before,after] of [...edits42[file]].reverse()) {
   if(text.includes(after)) text=text.replace(after,before);
@@ -156,7 +157,7 @@ export function beforeRetirement42(file,input) {
  return text;
 }
 export function assertExactRetirement42(file,current,old) {
- assert.equal(lf(current),expectedRetirement42(file,old),file+': only authorized42 edits');
+ assert.equal(before48(file,current),expectedRetirement42(file,old),file+': only authorized42 edits after exact48 reconstruction');
 }
 export function assertRetirement42Sources(root) {
  const retainedWd46=assertRetainedWd46PosterSources47(root);
@@ -174,7 +175,7 @@ export function assertRetirement42Sources(root) {
   assertExactRetirement42(file,current,readGitBlobBuffer(BASE_42,file,root).buffer.toString('utf8'));
  }
  const changes=runGitText(['diff','--name-only',BASE_42,'--'],root).trim().split('\n').filter(Boolean);
- for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||isClean43ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42/43/44/46 exact product allowlist');
+ for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||isClean43ProductFile(file,root)||is48ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42/43/44/46/48 exact product allowlist');
  // Header41 separately enforces the sole staging noindex difference.
  const sources=retired42.map(file=>{
   const old=readGitBlobBuffer(BASE_42,file,root);

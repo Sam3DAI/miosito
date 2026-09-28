@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import test from 'node:test';
 import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {before48} from './prelaunch-48-literals.mjs';
 import {beforeEditorialMotion47R3} from './editorial-motion-47r3.mjs';
 import {INPUT_BASE47R2,inputFiles47R2,inputEdits47R2,modalityJs47R2,modalityCss47R2,afterInputModality47R2,beforeInputModality47R2,assertInputDelta47R2,assertInputSources47R2,assertInputOutput47R2,isInputProduct47R2} from './input-modality-47r2.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -83,7 +84,7 @@ test('CSS suppresses only marked pointer-control outlines, never editable or sel
   assert(read('css/foundation.css').includes(':focus-visible {\n  outline: 3px solid var(--sx-blue-deep);\n  outline-offset: 4px;\n}'));
 });
 test('gallery focus transfers, six lead contracts, consent, WD and core3D remain frozen',()=>{
-  for(const file of ['js/project-proof-galleries.js','css/project-proof-galleries.css','js/cookie-banner.js','js/netlify-lead-form.js','js/contattaci.js','js/configuratori-3d-2d.js','js/service-demo-form.js','js/ad-attribution-consent.js','js/ga-autotrack.js','src/_data/serviceDemos.json','src/_data/measurement.json','demo/ecommerce/style.css','demo/ecommerce/embed.js'])assert.equal(read(file),old(file),file);
+  for(const file of ['js/project-proof-galleries.js','css/project-proof-galleries.css','js/cookie-banner.js','js/netlify-lead-form.js','js/contattaci.js','js/configuratori-3d-2d.js','js/service-demo-form.js','js/ad-attribution-consent.js','js/ga-autotrack.js','src/_data/serviceDemos.json','src/_data/measurement.json','demo/ecommerce/style.css','demo/ecommerce/embed.js'])assert.equal(before48(file,read(file)),old(file),file);
 });
 test('real source/output guards are mandatory and reject missing output',()=>{
   assert.deepEqual(inputFiles47R2,['js/site-shell.js','css/foundation.css']);assert.equal(assertInputSources47R2(root).files,2);

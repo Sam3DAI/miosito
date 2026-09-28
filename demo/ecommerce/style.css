@@ -731,3 +731,21 @@ body{font-size:16px;line-height:1.5;background:var(--bg);color:var(--text)}
 @media(max-width:1180px){html[data-embedded="true"] .viewer-column{grid-template-rows:400px}.studio-panel__body{overflow:visible}}
 @media(max-width:640px){html[data-embedded="true"] .viewer-column{grid-template-rows:320px}.model-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.model-card__body{padding:10px}.model-card__foot{flex-wrap:wrap}.demo-banner span{flex-basis:100%;order:0}.camera-tools button{min-height:40px;font-size:12px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/*48: real static preview before activation and during an unavailable layout. */
+.demo-preview { width:min(1200px,100%); margin:0 auto; padding:20px; text-align:center; }
+.demo-preview h1 { font-size:clamp(1.5rem,4vw,2.5rem); }
+.demo-preview img { display:block; width:100%; height:auto; margin:16px auto; }
+.demo-preview nav { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+.demo-preview a, .demo-preview button { display:inline-block; color:var(--text); background:var(--panel); border:1px solid var(--line); border-radius:24px; padding:12px 20px; font:inherit; }
+.demo-preview a:focus-visible, .demo-preview button:focus-visible { outline:3px solid #45b6fe; outline-offset:3px; }
+.demo-preview .button--quote { border-color:transparent; background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(90deg,#45b6fe,#d95bc5) border-box; font-weight:700; text-decoration:none; }
+.demo-preview .button--explore { border-color:#d95bc5; background:transparent; color:#993588; font-weight:500; text-decoration:none; }
+html[data-theme="dark"] .demo-preview .button--explore { color:#d95bc5; }
+.demo-preview .button--quote:active { background:linear-gradient(90deg,#45b6fe,#d95bc5) border-box; color:#1d1d1f; }
+.demo-preview .button--explore:active { background:#bb3fa7; color:#fff; }
+@media(hover:hover) and (pointer:fine) {
+  .demo-preview .button--quote:hover { background:linear-gradient(90deg,#45b6fe,#d95bc5) border-box; color:#1d1d1f; }
+  .demo-preview .button--explore:hover { background:#bb3fa7; color:#fff; }
+}
+@media(forced-colors:active) { .demo-preview :is(.button--quote,.button--explore) { border-color:ButtonText; background:ButtonFace; color:ButtonText; } }

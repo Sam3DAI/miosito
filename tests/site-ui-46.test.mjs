@@ -9,13 +9,14 @@ import { dialogFixture46 } from "./dialog-ui-46-fixture.mjs";
 import { uiLiterals46, beforeUi46Literals, assertUi46Literals } from "./site-ui-46-literals.mjs";
 import { uiLiterals47, beforeUi47Literals, assertUi47Delta, assertUi47Literals } from "./site-ui-47-literals.mjs";
 import { readGitBlobBuffer } from "./git-binary-reader.mjs";
+import { before48 } from './prelaunch-48-literals.mjs';
 const read = file => fs.readFileSync(path.join(root46, file), "utf8");
 
 test("UI47 exact current source has71 reviewed callsites across16 files before historical checks", () => assert.deepEqual(assertUi47Literals(root46), { files: 16, literalPairs: 71, unknownDeltas: "NOT_REMOVED", current47: "REQUIRED" }));
 test("UI47 literal gates reject old47-predecessor UI, mutations, duplicates and unrelated changes", () => {
   for (const [file, edits] of Object.entries(uiLiterals47.edits)) {
     const old = readGitBlobBuffer(uiLiterals47.baseline, file, root46).buffer.toString("utf8").replace(/\r\n/g, "\n");
-    const current = read(file).replace(/\r\n/g, "\n");
+    const current = before48(file, read(file));
     assert.throws(() => assertUi47Delta(file, old, old), file + ": the old UI cannot satisfy current47");
     assert.throws(() => assertUi47Delta(file, current + "\nUNAUTHORIZED47\n", old));
     assert.equal(beforeUi47Literals(file, current + "\nUNAUTHORIZED47\n"), old + "\nUNAUTHORIZED47\n");

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {before48} from './prelaunch-48-literals.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -22,7 +23,7 @@ export function afterEditorialMotion47R3(input){
  return result;
 }
 export function beforeEditorialMotion47R3(file,input){
- const current=lf(input);if(file!=='js/site-shell.js'||!current.includes('//47R3:'))return current;
+ const current=before48(file,input);if(file!=='js/site-shell.js'||!current.includes('//47R3:'))return current;
  const old=block(baseline()),expected=afterEditorialMotion47R3(old);
  assert.equal(block(current),expected,'Only three exact motion presentation edits');
  return current.replace(expected,old);

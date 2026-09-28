@@ -19,7 +19,7 @@ function fixture(mode='native',source=code){
  document.querySelectorAll=s=>{assert.equal(s,'[data-wd46-embed]');return[host];};
  const frames=[],timers=new Map();let nextTimer=0,fsCalls=0,resolveFullscreen,rejectFullscreen;
  document.createElement=tag=>{assert.equal(tag,'iframe');const frame=node(tag);frame.contentWindow={postMessage(){}};frame.selection={model:'zip',total:25600,cart:['synthetic']};frames.push(frame);return frame;};
- const window=Object.assign(target(),{scrollX:0,scrollY:370,scrollTo(x,y){this.scrollX=x;this.scrollY=y;}});
+ const window=Object.assign(target(),{WD48Availability:{allowed:()=>true,subscribe:()=>()=>{}},scrollX:0,scrollY:370,scrollTo(x,y){this.scrollX=x;this.scrollY=y;}});
  const enterNative=()=>{document.fullscreenElement=host;document.emit('fullscreenchange');};
  host.requestFullscreen=()=>{fsCalls++;if(mode==='throw')throw Error('Unavailable');if(mode==='denied')return Promise.reject(Error('Denied'));if(mode==='pending')return new Promise((resolve,reject)=>{resolveFullscreen=()=>{enterNative();resolve();};rejectFullscreen=()=>reject(Error('Late denial'));});enterNative();return Promise.resolve();};
  document.exitFullscreen=()=>{document.fullscreenElement=null;document.emit('fullscreenchange');return Promise.resolve();};

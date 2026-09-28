@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { lstatSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
+import { before48 } from './prelaunch-48-literals.mjs';
 
 // The reviewed oracle is supplied separately, after review of the publication.
 // Importing this module neither generates that oracle nor reads product files.
@@ -403,10 +404,15 @@ export function assertWdModels46(base, products, readAsset, reviewedPaths) {
 function assertPublication(root, publicationRoot) {
   const contract = readContract(root);
   const names = contract.files.map(record => record.file);
-  assertWdFileSet46(listStatic(publicationRoot), names.filter(file => file.startsWith(ROUTE)));
+  assertWdFileSet46(listStatic(publicationRoot), [...names.filter(file => file.startsWith(ROUTE)), ROUTE + 'launch.js']);
   const bytes = new Map(contract.files.map(record => [record.file, regularFile(publicationRoot, record.file)]));
-  const assets = contract.files.map(record => assertWdAsset46(bytes.get(record.file), record));
-  const text = file => utf8.decode(canonicalBytes(bytes.get(ROUTE + file), true));
+  //48: only reviewed contextual text deltas are reconstructed for the frozen47
+  // oracle; binary hashes and RAW current application safety checks stay intact.
+  const assets = contract.files.map(record => assertWdAsset46(record.text ? Buffer.from(before48(record.file, bytes.get(record.file))) : bytes.get(record.file), record));
+  const text = file => before48(ROUTE + file, utf8.decode(canonicalBytes(bytes.get(ROUTE + file), true)));
+  const launcher = regularFile(publicationRoot, ROUTE + 'launch.js');
+  assertWdApplicationText46(utf8.decode(launcher), ROUTE + 'launch.js');
+  assert.deepEqual(launcher, regularFile(root, ROUTE + 'launch.js'), 'WD48 launcher copied without transformation');
   const resources = assertWdHtml46(text('index.html'));
   for (const file of resources) fail(bytes.has(file), `unreviewed HTML dependency ${file}`);
   const vendor = [];

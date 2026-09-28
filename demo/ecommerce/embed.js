@@ -21,5 +21,7 @@
     if(value.type!=='solvex-wd46-control'||!['light','dark'].includes(value.theme)||typeof value.visible!=='boolean')return;
     visible=value.visible;setTheme(value.theme);
   });
-  window.WD46Display=Object.freeze({isVisible:()=>visible,ready:()=>notify('solvex-wd46-ready'),error:()=>notify('solvex-wd46-error')});
+  window.WD46Display=Object.freeze({isVisible:()=>visible && window.WD48Availability.allowed(),
+    ready:()=>{document.dispatchEvent(new Event('wd48-ready'));notify('solvex-wd46-ready');},
+    error:()=>{document.dispatchEvent(new Event('wd48-error'));notify('solvex-wd46-error');}});
 })();

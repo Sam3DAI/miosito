@@ -1,6 +1,7 @@
 // frontend/js/modelCatalogLoader.js
 (function () {
   async function fetchJson(url) {
+    await window.WD48Availability.wait();
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) {
       throw new Error(`Impossibile caricare JSON: ${url}`);

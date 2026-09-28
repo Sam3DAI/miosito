@@ -105,7 +105,7 @@
   margin-inline: auto;
   text-align: center;
 }
-.section-heading--center p { margin-inline: auto; text-align: left; }
+.section-heading--center p { margin-inline: auto; text-align: center; }
 .rail-heading {
   max-width: 68rem;
   margin-inline: var(--sx-rail-gutter) 1.5rem;
@@ -253,11 +253,21 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
 .visual-card--original[data-original-asset="HOME-02"] { --subject-reserve: 350 / 303; }
 .visual-card--original[data-original-asset="HOME-03"] { --subject-reserve: 350 / 285; }
 .visual-card--original[data-original-asset="PLANNER-04"] { --subject-reserve: 350 / 297; }
-.visual-card--original[data-original-asset="AI-02"] { --subject-reserve: 350 / 381; }
-.visual-card--original[data-original-asset="AI-08"] { --subject-reserve: 350 / 359; }
+.visual-card--original[data-original-asset="AI-02"] { --subject-reserve: 350 / 288; --quiet-tail: 16.666667%; }
+.visual-card--original[data-original-asset="AI-08"] { --subject-reserve: 350 / 272; --quiet-tail: 18.285714%; }
 .visual-card--original:is([data-original-asset="HOME-02"], [data-original-asset="HOME-03"], [data-original-asset="PLANNER-04"], [data-original-asset="AI-02"], [data-original-asset="AI-08"]) .visual-card__inner::after { content: ""; display: block; flex: 0 0 auto; width: 100%; aspect-ratio: var(--subject-reserve); pointer-events: none; }
 .visual-card--original .visual-card__copy,
 .visual-card--original h3 { color: #1d1d1f; }
+
+/* 48: same vertical family as e-commerce/CPQ. Full-width original pixels;
+   only the documented quiet lower margins of AI-02/08 leave the viewport.
+   Intrinsic reserves and the stretching rail still grow with enlarged text. */
+#automation-uses .visual-card__copy { padding: 1rem 1.25rem 0; }
+#automation-uses .visual-card__copy h3 { margin-bottom: .5rem; }
+#automation-uses .visual-card__copy .card-detail { padding-top: .5rem; }
+#automation-uses .visual-card__image { transform: translateY(var(--quiet-tail, 0%)); }
+.split-panel--home-custom .cta-group,
+.split-panel--centered-process .cta-group { justify-content: center; }
 
 .visual-card-rail--landscape .visual-card { flex-basis: 35rem; }
 .visual-card-rail--landscape .visual-card__inner { height: auto; min-height: 24rem; border-radius: var(--sx-radius-lg); }
@@ -521,7 +531,7 @@ a.visual-card__inner:focus-visible { outline: 3px solid var(--sx-blue-deep); out
   .page-hero--text .hero-introduction, .split-panel--statement .split-panel__body { margin-left: 0; }
   .page-hero--text .page-hero__copy h1 { margin-bottom: 2rem; }
   .hero-media { min-height: min(112vw, 31rem); }
-  .section-heading--center { text-align: left; }
+  .section-heading--center { text-align: center; }
   .visual-card { flex-basis: min(18.75rem, calc(100vw - 3rem)); }
   .visual-card__inner { height: 25rem; }
   :is(#home-problems, #automation-uses, #planner-scenarios) .visual-card__inner { min-height: 25rem; }

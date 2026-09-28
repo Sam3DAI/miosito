@@ -7,12 +7,20 @@
   <meta name="description" content="Due modelli originali, materiali 3D e prezzi esemplificativi. Nessun ordine viene inviato.">
   <meta name="robots" content="noindex,follow">
   <link rel="stylesheet" href="./style.css">
+  <script src="/js/wd-availability.js"></script>
   <script src="./embed.js"></script>
 </head>
 <body>
   <header class="demo-banner"><span id="standaloneDemoNote">Demo con prezzi esemplificativi.</span><button id="demoRetry" type="button" hidden>Riprova caricamento</button></header>
-  <p id="demoStatus" role="status" class="demo-status">Caricamento RESTYLE 3D…</p>
-  <div class="app-shell">
+  <p id="demoStatus" role="status" class="demo-status"></p>
+  <section id="demoPreview" class="demo-preview" aria-label="Anteprima configuratore WDRacing">
+    <h1>Configuratore WDRacing</h1>
+    <p id="demoAvailability">Esplora la demo interattiva da computer o tablet. Possiamo mostrarti come applicare il configuratore ai tuoi prodotti.</p>
+    <button type="button" id="demoStart" class="button--explore" hidden>Avvia demo</button>
+    <img src="/assets/images/wd47-poster-768.webp" srcset="/assets/images/wd47-poster-768.webp 768w, /assets/images/wd47-poster-1200.webp 1200w" sizes="(max-width: 1200px) calc(100vw - 40px), 1160px" width="1200" height="800" alt="Anteprima reale della demo WDRacing con materiali e riepilogo esemplificativo.">
+    <nav aria-label="Richiedi informazioni"><a class="button--quote" data-cta-role="quote" href="/contattaci#contatti" target="_top">Richiedi un preventivo ↗</a> <a class="button--explore" data-cta-role="explore" href="/configuratori-ecommerce#demo-form" target="_top">Richiedi una Demo gratuita ↓</a></nav>
+  </section>
+  <div class="app-shell" hidden>
     <main class="studio-layout">
       <section class="viewer-column">
         <div id="viewerArea" class="viewer-shell">
@@ -160,15 +168,6 @@
     </main>
   </div>
 
-  <script src="./vendor/babylon.js"></script>
-  <script src="./vendor/babylonjs.loaders.min.js"></script>
-
-  <script src="./babylonFx.js"></script>
-  <script src="./camera-controller.js"></script>
-  <script src="./babylonScene.js"></script>
-  <script src="./materialResolver.js"></script>
-  <script src="./modelCatalogLoader.js"></script>
-  <script src="./startupPreloader.js"></script>
-  <script type="module" src="./app.js"></script>
+  <script src="./launch.js"></script>
 </body>
 </html>
