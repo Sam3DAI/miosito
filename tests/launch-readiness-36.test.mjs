@@ -61,10 +61,15 @@ test('task36 output guard rejects checked including false-valued boolean attribu
 });
 
 test('50 moved host guard remains effective: removing it fails the original non-production negative',()=>{
+ for(const endOfLine of ['\n','\r\n']) {
   const scripts=[],context=vm.createContext({location:{hostname:'solvex-ai3d.com.evil.invalid',pathname:'/'},dataLayer:[],document:{cookie:'',currentScript:{dataset:{measurementMode:'legacy-direct',ga4Id:measurement.ga4Id,adsId:measurement.adsId}},createElement:()=>({}),head:{appendChild:s=>scripts.push(s)}}});context.window=context;
-  const mutant=controller.replace("    if (mode !== 'gtm-verified' && window.location.hostname !== 'solvex-ai3d.com') return;\n",'');assert.notEqual(mutant,controller);
+  const fixture=controller.replaceAll('\r\n','\n').replaceAll('\n',endOfLine);
+  const guard="    if (mode !== 'gtm-verified' && window.location.hostname !== 'solvex-ai3d.com') return;";
+  assert.equal(fixture.split(guard).length,2,'One exact host guard in each checkout-EOL fixture');
+  const mutant=fixture.replace(guard,'');assert.notEqual(mutant,fixture);
   vm.runInContext(script,context);vm.runInContext(mutant,context);vm.runInContext(dispatcher+'\napplyConsent({analytics:true,ads:true});',context);
   assert.throws(()=>assert.equal(scripts.length,0),'Removing the real host guard cannot pass its original containment oracle');
+ }
 });
 test('task36 historical exceptions do not hide unrelated changes', () => {
   assert.equal(beforeReadiness36('unrelated.html','<input name="privacy">'),'<input name="privacy">');
