@@ -12,6 +12,7 @@ const unitTests = Object.freeze([
   "tests/privacy-terms50.test.mjs",
   "tests/consent-basic50.test.mjs",
   "tests/spam-watch50.test.mjs",
+  "tests/spam-watch-exclusion50.test.mjs",
   "tests/prelaunch-48.test.mjs",
   "tests/inventory-comparator.test.mjs",
   "tests/git-binary-reader.test.mjs",

@@ -10,6 +10,7 @@ import {assertUtilityCta47Source,beforeUtilityCta47} from './utility-cta47.mjs';
 import {consent50,assertConsent50Delta,assertConsent50Sources,controller50Sha256} from './consent-50-literals.mjs';
 import {docs50,assertDocs50Delta,assertDocs50Sources} from './docs-50-literals.mjs';
 import {dependencies50,dependencies50Files,assertDependencies50Delta,assertDependencies50Sources,spamWatch50File,assertSpamWatch50Source} from './dependencies50.mjs';
+import {exclusion50Marker,assertExclusion50Marker} from './spam-watch-exclusion50.mjs';
 export const BASE_42='12392f74c007c597394abf864bc4dc31484c8e2f';
 export const retired42=Object.freeze([
   "chatbot-ai-intelligenti.html",
@@ -171,11 +172,12 @@ export function assertReviewed50Source42(file,current,old) {
  else if(Object.hasOwn(docs50.edits,file))assertDocs50Delta(file,current,old);
  else if(dependencies50Files.includes(file))assertDependencies50Delta(file,current,old);
  else if(file===spamWatch50File)assertSpamWatch50Source(file,current);
+ else if(file===exclusion50Marker)assertExclusion50Marker(file,current);
  else assert.fail(file+': not in the exact reviewed consent/docs/dependencies/function50 exception');
 }
 function isReviewed50ProductFile42(file,root) {
  const contract=Object.hasOwn(consent50.edits,file)?consent50:Object.hasOwn(docs50.edits,file)?docs50:dependencies50Files.includes(file)?dependencies50:null;
- if(!contract && file!=='js/consent-basic50.js' && file!==spamWatch50File)return false;
+ if(!contract && file!=='js/consent-basic50.js' && file!==spamWatch50File && file!==exclusion50Marker)return false;
  assertReviewed50Source42(file,fs.readFileSync(path.join(root,file),'utf8'),contract?readGitBlobBuffer(contract.baseline,file,root).buffer:'');
  return true;
 }
