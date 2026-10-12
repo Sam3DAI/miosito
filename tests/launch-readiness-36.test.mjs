@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import nunjucks from 'nunjucks';
 import { assertLaunch36Sources, assertLaunch36Html, beforeLegacyHostGuard36, beforeReadiness36 } from './launch-readiness-36.mjs';
+import {beforeConsent50LegalHtml} from './consent-50-literals.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = fs.readFileSync(path.join(root, 'src/_includes/partials/measurement-bootstrap.njk'), 'utf8');
@@ -13,15 +14,17 @@ const measurement = JSON.parse(fs.readFileSync(path.join(root, 'src/_data/measur
 const html = nunjucks.renderString(source, {measurement});
 const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 const banner = fs.readFileSync(path.join(root, 'js/cookie-banner.js'), 'utf8');
+const controller = fs.readFileSync(path.join(root,'js/consent-basic50.js'),'utf8');
 // Execute the real, bounded banner consent dispatcher with the rendered loader.
 const dispatcher = banner.match(/  function applyConsent\([\s\S]*?\n  \}\r?\n/)[0];
 const hosts = ['solvex-ai3d.com','solvex-ai3d-measurement-staging.netlify.app','localhost','127.0.0.1','solvex-ai3d.com.evil.invalid'];
 for (const hostname of hosts) for (const granted of [false,true]) {
   test(`task36 mock host=${hostname} consent=${granted ? 'granted':'denied'}`, () => {
     const scripts = [], dataLayer = [];
-    const context = vm.createContext({location:{hostname},dataLayer,document:{createElement:() => ({}),head:{appendChild:element=>scripts.push(element)}}});
+    const context = vm.createContext({location:{hostname,pathname:'/'},dataLayer,document:{cookie:'',currentScript:{dataset:{measurementMode:'legacy-direct',ga4Id:measurement.ga4Id,adsId:measurement.adsId}},createElement:() => ({}),head:{appendChild:element=>scripts.push(element)}}});
     context.window = context;
     vm.runInContext(script, context);
+    vm.runInContext(controller, context);
     vm.runInContext(dispatcher + `\napplyConsent({analytics:${granted},ads:${granted}});`, context);
     assert.equal(context.__analyticsConsentGranted, granted);
     assert.equal(context.__adsConsentGranted, granted);
@@ -53,7 +56,15 @@ test('task36 output guard rejects checked including false-valued boolean attribu
     assertLaunch36Html('/fixture', `<input id="${id}" name="privacy" type="checkbox" required>`);
     for (const checked of ['checked','checked="false"']) assert.throws(()=>assertLaunch36Html('/fixture', `<input id="${id}" name="privacy" required ${checked}>`));
   }
-  assert.throws(()=>assertLaunch36Html('/fixture', html.replace("if (location.hostname !== 'solvex-ai3d.com') return;",'')));
+  assert.throws(()=>assertLaunch36Html('/fixture', beforeConsent50LegalHtml(html).replace("if (location.hostname !== 'solvex-ai3d.com') return;",'')));
+  assert.throws(()=>assertLaunch36Html('/fixture', html.replace('src="/js/consent-basic50.js"','src="/js/unknown.js"')));
+});
+
+test('50 moved host guard remains effective: removing it fails the original non-production negative',()=>{
+  const scripts=[],context=vm.createContext({location:{hostname:'solvex-ai3d.com.evil.invalid',pathname:'/'},dataLayer:[],document:{cookie:'',currentScript:{dataset:{measurementMode:'legacy-direct',ga4Id:measurement.ga4Id,adsId:measurement.adsId}},createElement:()=>({}),head:{appendChild:s=>scripts.push(s)}}});context.window=context;
+  const mutant=controller.replace("    if (mode !== 'gtm-verified' && window.location.hostname !== 'solvex-ai3d.com') return;\n",'');assert.notEqual(mutant,controller);
+  vm.runInContext(script,context);vm.runInContext(mutant,context);vm.runInContext(dispatcher+'\napplyConsent({analytics:true,ads:true});',context);
+  assert.throws(()=>assert.equal(scripts.length,0),'Removing the real host guard cannot pass its original containment oracle');
 });
 test('task36 historical exceptions do not hide unrelated changes', () => {
   assert.equal(beforeReadiness36('unrelated.html','<input name="privacy">'),'<input name="privacy">');

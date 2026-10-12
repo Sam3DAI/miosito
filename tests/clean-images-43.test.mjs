@@ -6,9 +6,12 @@ import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {assertRetirement42Output} from './legacy-retirement-42r1.mjs';
 import {beforeProof44} from './project-proof-ui-44.mjs';
-import {BASE_43,contract43,aiItems43,cleanFiles43,keptFiles43,unusedFiles43,assertMetadata43,assertAiBindings43,assertCleanFile43,assertImageFiles43,assertCleanSources43,assertCleanOutput43,assertCleanConfig43,clean43Binding,assertClassificationCss43,isClean43ProductFile} from './clean-images-43.mjs';
+import {BASE_43,contract43,aiItems43,cleanFiles43,keptFiles43,unusedFiles43,assertMetadata43,assertAiBindings43,assertCleanFile43,assertImageFiles43,assertCleanSources43,assertCleanOutput43,assertCleanConfig43,clean43Binding,assertClassificationCss43,isClean43ProductFile,assertReviewed50Source43} from './clean-images-43.mjs';
 import {wdStaticFiles46} from './wd-static-46.mjs';
 import {WD46_POSTER_BASE47,retainedWd46Posters47,retainedWd46PosterFiles47,assertRetainedWd46PosterBytes47} from './wd46-retained-posters47.mjs';
+import {consent50} from './consent-50-literals.mjs';
+import {docs50} from './docs-50-literals.mjs';
+import {BASE_DEPENDENCIES50,dependencies50Files,spamWatch50File} from './dependencies50.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
@@ -30,6 +33,29 @@ test('43/46 product allowlist accepts exact reviewed additions, never private da
  for(const file of ['css/site-shell-copy.css','css/marketing-pages-touch.css','css/cookie-banner.css.bak','js/mobile-hover.js'])assert.equal(isClean43ProductFile(file,root),false,file);
  for(const file of ['css/configuratori-3d-2d.css','src/_data/cardDetails46.js','assets/images/projects-46/pilan-06-2560.webp','src/_includes/partials/wd-ecommerce-demo.njk',...wdStaticFiles46(root),...retainedWd46PosterFiles47])assert.equal(isClean43ProductFile(file,root),true,file);
  for(const file of ['src/_data/customer-private.json','demo/ecommerce/backend.js','demo/ecommerce/data/orders.json','demo/ecommerce/unknown.glb','assets/images/projects-46/raw-owner.png','assets/images/projects-46/pilan-07-2560.webp','css/unapproved.css','assets/images/wd46-poster-2560.webp','assets/images/wd46-poster-768.png','assets/images/wd46-poster-1440-copy.webp'])assert.equal(isClean43ProductFile(file,root),false,file);
+});
+
+test('43/50 source exceptions validate exact current code and copy; unknown deltas stay visible',()=>{
+  for(const contract of [consent50,docs50])for(const file of Object.keys(contract.edits)) {
+    const current=read(file).replaceAll('\r\n','\n'),old=readGitBlobBuffer(contract.baseline,file,root).buffer;
+    assertReviewed50Source43(file,current,old);
+    assert.throws(()=>assertReviewed50Source43(file,current+'\nUNREVIEWED_43_DELTA',old));
+    const removed=current.replace(contract.edits[file][0].after,'');assert.notEqual(removed,current);
+    assert.throws(()=>assertReviewed50Source43(file,removed,old));
+  }
+  for(const file of dependencies50Files) {
+    const current=read(file),old=readGitBlobBuffer(BASE_DEPENDENCIES50,file,root).buffer;
+    assertReviewed50Source43(file,current,old);
+    const changed=JSON.parse(current);changed.unreviewed=true;
+    assert.throws(()=>assertReviewed50Source43(file,JSON.stringify(changed,null,2)+'\n',old));
+  }
+  for(const file of ['js/consent-basic50.js',spamWatch50File]) {
+    const current=read(file);assertReviewed50Source43(file,current,'');
+    assert.throws(()=>assertReviewed50Source43(file,current+'\nUNREVIEWED_43_DELTA',''));
+  }
+  for(const file of ['js/cookie-banner-copy.js','js/consent-basic50.js.bak','src/privacy-policy-copy.njk','netlify/functions/unknown.mjs','netlify/config.json','package-other.json']) {
+    assert.throws(()=>assertReviewed50Source43(file,'UNREVIEWED_43_DELTA',''),/not in the exact reviewed50 exception/);
+  }
 });
 
 const retainedPosterFiles=()=>new Map(retainedWd46PosterFiles47.map(file=>[file,fs.readFileSync(path.join(root,file))]));

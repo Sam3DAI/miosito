@@ -501,6 +501,38 @@ function parseRequestBody(call) {
   return new URLSearchParams(call.options.body);
 }
 
+//50: integrate the unmodified helper with the consent runtime. No provider exists
+// in this fixture: every form request terminates in its synthetic fetch stub.
+function attachConsent50(env) {
+  const scripts=[];
+  env.document.currentScript={dataset:{measurementMode:'gtm-verified',ga4Id:'G-VW0JHKW0ZW',adsId:'AW-17512988470',gtmId:'GTM-MBBDZZFT'}};
+  env.document.cookie='';
+  env.document.head={appendChild(script){scripts.push(script);}};
+  env.window.location.hostname='fixture.invalid';
+  env.window.gtag=function(){env.window.dataLayer.push(arguments);};
+  vm.runInContext(fs.readFileSync(path.join(root,'js/consent-basic50.js'),'utf8'),env.context,{filename:'js/consent-basic50.js'});
+  return scripts;
+}
+
+for(const profile of profiles) {
+  test(`50 ${profile.formName}: real helper success before consent is local-only, no PII/event mutation/replay`,async()=>{
+    const env=createRuntimeEnvironment(profile);const scripts=attachConsent50(env);env.bind();
+    await env.form.emit('submit').promise;assert.equal(env.fetchCalls.length,1);assert.equal(env.successCalls.length,1);assert.equal(scripts.length,0);
+    const original=env.window.dataLayer.find(row=>row?.event==='solvex_lead_success');assert(original);
+    assert.deepEqual(Object.keys(original).sort(),['event','form_name','lead_id','lead_source']);
+    const snapshot=env.window.dataLayer[env.window.dataLayer.indexOf(original)-1];assert.equal(snapshot.solvex_event_statistics,false);assert.equal(snapshot.solvex_event_marketing,false);
+    for(const value of Object.values(profile.pii))assert.equal(JSON.stringify(env.window.dataLayer).includes(value),false);
+    env.window.SolveXConsent50.apply({analytics:true,ads:true});assert.equal(scripts.length,1);assert.equal(env.window.dataLayer.includes(original),false);
+    assert.equal(env.successCalls.length,1);assert.equal(env.form.dataset.deliveryState,'SUCCEEDED');assert.equal(env.fetchCalls.length,1);
+  });
+  test(`50 ${profile.formName}: error and pending double click never create a retrospective conversion`,async()=>{
+    const response=deferred();const env=createRuntimeEnvironment(profile,{fetchImpl:()=>response.promise});const scripts=attachConsent50(env);env.bind();
+    const first=env.form.emit('submit');await env.form.emit('submit').promise;assert.equal(env.fetchCalls.length,1);
+    env.window.SolveXConsent50.apply({analytics:true,ads:false});response.resolve({ok:false,status:500});await first.promise;
+    assert.equal(scripts.length,1);assert.equal(env.window.dataLayer.some(row=>row?.event==='solvex_lead_success'),false);assert.equal(env.form.resetCount,0);assert.equal(env.successCalls.length,0);
+  });
+}
+
 function createServiceAdapterEnvironment(profile, options) {
   const env = createRuntimeEnvironment(profile, options);
   env.form.id = "service-demo-form";

@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
 import {before48,after48,contract48,assert48Current,newFiles48,assert48NewFile} from './prelaunch-48-literals.mjs';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {beforeDocs50} from './docs-50-literals.mjs';
 const read=f=>fs.readFileSync(new URL('../'+f,import.meta.url),'utf8').replaceAll('\r\n','\n');
 function fixture48(overrides={}) {
   const events=new Map(),query={matches:false,addEventListener(){}};
@@ -144,7 +145,9 @@ test('48 card family remains full width and content-led; only blank-tail crop, n
   assert.doesNotMatch(css,/section-heading--center[^}]*text-align: left/);
 });
 test('48 privacy facts do not imply legal approval, anonymous leads, retention or pre-consent silence',()=>{
-  const html=read('src/privacy-policy.njk'),terms=read('src/termini-condizioni.njk');
+  // Preserve the historical48 facts; docs50 has a mandatory raw-source oracle
+  // and semantic/negative tests for the newly approved criteria and runtime.
+  const html=beforeDocs50('src/privacy-policy.njk',read('src/privacy-policy.njk')),terms=beforeDocs50('src/termini-condizioni.njk',read('src/termini-condizioni.njk'));
   for(const literal of ['unico operatore umano','Zoho Mail nel piano gratuito','lead_id','lead_source','non rende anonimi','prima della scelta','ad_personalization=denied','Puoi rifiutare Statistiche e Marketing']) assert(html.includes(literal),literal);
   assert.doesNotMatch(html,/24 mesi|14 mesi|IP troncato|Marketing\/Remarketing|società di hosting\/infrastruttura e manutenzione IT|adottiamo le garanzie/);
   assert.doesNotMatch(terms,/Foro competente esclusivo|implica accettazione|“as is”|Analytics\/Ads sono attivati solo/);

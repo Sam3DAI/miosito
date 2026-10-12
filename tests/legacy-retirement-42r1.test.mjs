@@ -4,7 +4,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
-import {BASE_42,edits42,retired42,expectedRetirement42,beforeRetirement42,assertExactRetirement42,assertRetirement42Sources,assertRetirement42Output,assertRetiredResponse42} from './legacy-retirement-42r1.mjs';
+import {BASE_42,edits42,retired42,expectedRetirement42,beforeRetirement42,assertExactRetirement42,assertRetirement42Sources,assertRetirement42Output,assertRetiredResponse42,assertReviewed50Source42} from './legacy-retirement-42r1.mjs';
+import {consent50} from './consent-50-literals.mjs';
+import {docs50} from './docs-50-literals.mjs';
+import {BASE_DEPENDENCIES50,dependencies50Files,spamWatch50File} from './dependencies50.mjs';
 import {retainedWd46PosterFiles47} from './wd46-retained-posters47.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 test('42R1 exact source delta and preservation of retired Git blobs',()=>{
@@ -19,6 +22,35 @@ test('42R1 legal reverse oracle cannot hide unauthorized clauses',()=>{
   assert.equal(beforeRetirement42(file,next),old);
   assert.notEqual(beforeRetirement42(file,next+'\nUnauthorized retention'),old);
  }
+});
+test('42R1/50 additions require exact reviewed code/copy; an unrelated delta or path cannot pass',()=>{
+ for(const contract of [consent50,docs50])for(const file of Object.keys(contract.edits)) {
+  const current=fs.readFileSync(path.join(root,file),'utf8').replaceAll('\r\n','\n');
+  const old=readGitBlobBuffer(contract.baseline,file,root).buffer;
+  assertReviewed50Source42(file,current,old);
+  assert.throws(()=>assertReviewed50Source42(file,current+'\nUNREVIEWED_42_DELTA',old));
+  const removed=current.replace(contract.edits[file][0].after,'');assert.notEqual(removed,current);
+  assert.throws(()=>assertReviewed50Source42(file,removed,old));
+ }
+ const controller=fs.readFileSync(path.join(root,'js/consent-basic50.js'),'utf8');
+ assertReviewed50Source42('js/consent-basic50.js',controller,'');
+ assert.throws(()=>assertReviewed50Source42('js/consent-basic50.js',controller+'\nUNREVIEWED_42_DELTA',''));
+ assert.throws(()=>assertReviewed50Source42('js/unknown50.js',controller,''));
+ assert.throws(()=>assertReviewed50Source42('js/netlify-lead-form.js','UNREVIEWED_42_DELTA',''));
+});
+test('42R1/50 dependency exception reconstructs all baseline fields and permits only one reviewed function',()=>{
+ for(const file of dependencies50Files) {
+  const current=fs.readFileSync(path.join(root,file),'utf8');
+  const old=readGitBlobBuffer(BASE_DEPENDENCIES50,file,root).buffer;
+  assertReviewed50Source42(file,current,old);
+  const mutated=JSON.parse(current);mutated.unreviewed=true;
+  assert.throws(()=>assertReviewed50Source42(file,JSON.stringify(mutated,null,2)+'\n',old));
+ }
+ const source=fs.readFileSync(path.join(root,spamWatch50File),'utf8');
+ assertReviewed50Source42(spamWatch50File,source,'');
+ assert.throws(()=>assertReviewed50Source42(spamWatch50File,source+'\nUNREVIEWED_42_DELTA',''));
+ assert.throws(()=>assertReviewed50Source42('netlify/functions/another.mjs',source,''));
+ assert.throws(()=>assertReviewed50Source42('netlify/unknown.json','{}',''));
 });
 const names=['contact-main','demo-automazioni-ai','demo-configuratori-ecommerce','demo-cpq-portali','demo-planner-arredamento','mini-demo-configuratori'];
 const fixture=()=>new Map([

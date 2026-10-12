@@ -14,6 +14,9 @@ import {retainedWd46PosterFiles47,assertRetainedWd46PosterSources47,assertRetain
 import {isUtilityCta47ProductFile} from './utility-cta47.mjs';
 import {isMobileHoverProduct47R1} from './mobile-hover-47r1.mjs';
 import {isInputProduct47R2} from './input-modality-47r2.mjs';
+import {consent50,assertConsent50Delta,assertConsent50Sources,controller50Sha256} from './consent-50-literals.mjs';
+import {docs50,assertDocs50Delta,assertDocs50Sources} from './docs-50-literals.mjs';
+import {dependencies50,dependencies50Files,assertDependencies50Delta,assertDependencies50Sources,spamWatch50File,assertSpamWatch50Source} from './dependencies50.mjs';
 
 // Test-only digest oracle from the owner package, never imported by the site.
 export const contract43 = JSON.parse(fs.readFileSync(new URL('./clean-images-43-contract.json', import.meta.url), 'utf8'));
@@ -130,7 +133,25 @@ export function assertClassificationCss43(source,baseline) {
   assert.equal(beforeCleanImages43('css/marketing-pages.css',source),lf(baseline),'43 CSS only the exact AI-02/AI-08 positioning deltas');
 }
 
+// Reuse the independent50 guards before any historical reverse transform.
+// Every recognized path still needs its exact current bytes/delta validated.
+export function assertReviewed50Source43(file,current,old) {
+  if(file==='js/consent-basic50.js')assert.equal(sha(lf(String(current))),controller50Sha256,'43/50 reviewed consent controller only');
+  else if(Object.hasOwn(consent50.edits,file))assertConsent50Delta(file,current,old);
+  else if(Object.hasOwn(docs50.edits,file))assertDocs50Delta(file,current,old);
+  else if(dependencies50Files.includes(file))assertDependencies50Delta(file,current,old);
+  else if(file===spamWatch50File)assertSpamWatch50Source(file,current);
+  else assert.fail(file+': not in the exact reviewed50 exception');
+}
+function isReviewed50ProductFile43(file,root) {
+  const contract=Object.hasOwn(consent50.edits,file)?consent50:Object.hasOwn(docs50.edits,file)?docs50:dependencies50Files.includes(file)?dependencies50:null;
+  if(!contract && file!=='js/consent-basic50.js' && file!==spamWatch50File)return false;
+  assertReviewed50Source43(file,fs.readFileSync(path.join(root,file),'utf8'),contract?readGitBlobBuffer(contract.baseline,file,root).buffer:'');
+  return true;
+}
+
 export function assertCleanSources43(root) {
+  assertConsent50Sources(root);assertDocs50Sources(root);assertDependencies50Sources(root);
   const retainedWd46=assertRetainedWd46PosterSources47(root);
   assertGallerySources44r2(root);
   // Owner explicitly approved the literal CSS/SVG adaptation for44. Validate
@@ -144,7 +165,7 @@ export function assertCleanSources43(root) {
   assert.deepEqual(fs.readdirSync(path.join(root,'assets/images/cards-43')).sort(),cleanFiles43.map(file => path.basename(file)).sort(),'43 no PNG masters, QA files or rejected fallback in new asset folder');
   const images=assertImageFiles43(new Map(cleanFiles43.map(file => [file,fs.readFileSync(path.join(root,file))])));
   for(const file of runGitText(['diff','--name-only',BASE_43,'--'],root).trim().split('\n').filter(Boolean)) {
-    assert.ok(isClean43ProductFile(file,root)||is48ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside43/44/46/48 exact allowlist');
+    assert.ok(isClean43ProductFile(file,root)||is48ProductFile(file,root)||isReviewed50ProductFile43(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside43/44/46/48 and reviewed50 exact allowlist');
   }
   return {...metadata,...images,baseline:BASE_43,publishedImages:publishedImageFiles43.length,unusedVariantsExcluded:unusedFiles43.length,retainedWd46Posters:retainedWd46.files};
 }

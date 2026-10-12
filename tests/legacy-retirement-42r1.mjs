@@ -7,6 +7,9 @@ import {readGitBlobBuffer,runGitText,hashFileWithGitFilters} from './git-binary-
 import {BASE_43,assertCleanConfig43,isClean43ProductFile} from './clean-images-43.mjs';
 import {assertRetainedWd46PosterSources47,assertRetainedWd46PostersExcluded47} from './wd46-retained-posters47.mjs';
 import {assertUtilityCta47Source,beforeUtilityCta47} from './utility-cta47.mjs';
+import {consent50,assertConsent50Delta,assertConsent50Sources,controller50Sha256} from './consent-50-literals.mjs';
+import {docs50,assertDocs50Delta,assertDocs50Sources} from './docs-50-literals.mjs';
+import {dependencies50,dependencies50Files,assertDependencies50Delta,assertDependencies50Sources,spamWatch50File,assertSpamWatch50Source} from './dependencies50.mjs';
 export const BASE_42='12392f74c007c597394abf864bc4dc31484c8e2f';
 export const retired42=Object.freeze([
   "chatbot-ai-intelligenti.html",
@@ -159,7 +162,25 @@ export function beforeRetirement42(file,input) {
 export function assertExactRetirement42(file,current,old) {
  assert.equal(before48(file,current),expectedRetirement42(file,old),file+': only authorized42 edits after exact48 reconstruction');
 }
+// An additive50 exception is validated, not a blanket pathname allowlist.
+// New executable files have reviewed hashes; dependencies reconstruct the entire raw baseline.
+export function assertReviewed50Source42(file,current,old) {
+ if(file==='js/consent-basic50.js') {
+  assert.equal(sha(lf(String(current))),controller50Sha256,'42/50 reviewed consent controller only');
+ } else if(Object.hasOwn(consent50.edits,file))assertConsent50Delta(file,current,old);
+ else if(Object.hasOwn(docs50.edits,file))assertDocs50Delta(file,current,old);
+ else if(dependencies50Files.includes(file))assertDependencies50Delta(file,current,old);
+ else if(file===spamWatch50File)assertSpamWatch50Source(file,current);
+ else assert.fail(file+': not in the exact reviewed consent/docs/dependencies/function50 exception');
+}
+function isReviewed50ProductFile42(file,root) {
+ const contract=Object.hasOwn(consent50.edits,file)?consent50:Object.hasOwn(docs50.edits,file)?docs50:dependencies50Files.includes(file)?dependencies50:null;
+ if(!contract && file!=='js/consent-basic50.js' && file!==spamWatch50File)return false;
+ assertReviewed50Source42(file,fs.readFileSync(path.join(root,file),'utf8'),contract?readGitBlobBuffer(contract.baseline,file,root).buffer:'');
+ return true;
+}
 export function assertRetirement42Sources(root) {
+ assertConsent50Sources(root);assertDocs50Sources(root);assertDependencies50Sources(root);
  const retainedWd46=assertRetainedWd46PosterSources47(root);
  for(const file of Object.keys(edits42)) {
   let current=fs.readFileSync(path.join(root,file),'utf8');
@@ -175,7 +196,7 @@ export function assertRetirement42Sources(root) {
   assertExactRetirement42(file,current,readGitBlobBuffer(BASE_42,file,root).buffer.toString('utf8'));
  }
  const changes=runGitText(['diff','--name-only',BASE_42,'--'],root).trim().split('\n').filter(Boolean);
- for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||isClean43ProductFile(file,root)||is48ProductFile(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42/43/44/46/48 exact product allowlist');
+ for(const file of changes) assert.ok(Object.hasOwn(edits42,file)||isClean43ProductFile(file,root)||is48ProductFile(file,root)||isReviewed50ProductFile42(file,root)||file.startsWith('tests/')||file==='netlify.toml',file+': outside42/43/44/46/48 and reviewed consent/docs/dependencies/function50 exact product allowlist');
  // Header41 separately enforces the sole staging noindex difference.
  const sources=retired42.map(file=>{
   const old=readGitBlobBuffer(BASE_42,file,root);

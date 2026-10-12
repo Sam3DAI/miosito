@@ -14,8 +14,14 @@
 
   function gtag(){ (window.dataLayer = window.dataLayer || []).push(arguments); }
 
-  // Helper consent update
+  const CONSENT_VERSION = 'basic50-v1';
+
+  // Helper consent update: enqueue the explicit update before loading tags.
   function applyConsent({analytics, ads}) {
+    // Revoke the local event guards before the loaded container receives updates.
+    window.__analyticsConsentGranted = !!analytics;
+    window.__adsConsentGranted = !!ads;
+    window.__gaConsentGranted = !!analytics; // per compatibilità con ga-autotrack.js
     // Analytics
     gtag('consent', 'update', {
       analytics_storage: analytics ? 'granted' : 'denied'
@@ -25,16 +31,11 @@
     gtag('consent', 'update', {
       ad_storage: ads ? 'granted' : 'denied',
       ad_user_data: ads ? 'granted' : 'denied',
-      ad_personalization: 'denied'  // metti 'granted' SOLO se farai pubblicità personalizzata
+      ad_personalization: 'denied'  // La personalizzazione pubblicitaria resta sempre negata.
     });
 
-    window.__analyticsConsentGranted = !!analytics;
-    window.__adsConsentGranted = !!ads;
-    window.__gaConsentGranted = !!analytics; // per compatibilità con ga-autotrack.js
-
-    // Carico i tag in base al consenso
-    if (window.__analyticsConsentGranted && typeof window.__loadGA4 === 'function') window.__loadGA4();
-    if (window.__adsConsentGranted && typeof window.__loadAds === 'function') window.__loadAds();
+    // Fail closed if the local basic controller could not load. Forms stay usable.
+    if (window.SolveXConsent50) window.SolveXConsent50.apply({ analytics: !!analytics, ads: !!ads });
 
     // Se ora sono consentiti gli Ads, posso persistere eventuali parametri ads
     if (window.__adsConsentGranted && typeof window.__persistAdParams === 'function') window.__persistAdParams();
@@ -114,19 +115,22 @@
     wrap.append(msg, btnRow, panel, status);
     document.body.append(wrap, revoke);
 
-    // Lettura preferenze pregresse (back-compat)
+    // Only grants saved under this stable text/behavior version are restored.
+    // Older denials remain valid; old grants require a new affirmative choice.
     let prefs = null;
     try {
       const raw = localStorage.getItem('cookieconsent_prefs');
       if (raw !== null) {
         const parsed = JSON.parse(raw);
         if (parsed && !Array.isArray(parsed) && typeof parsed === 'object'
-          && Object.keys(parsed).length === 2
-          && typeof parsed.analytics === 'boolean' && typeof parsed.ads === 'boolean') prefs = parsed;
+          && typeof parsed.analytics === 'boolean' && typeof parsed.ads === 'boolean') {
+          const keys = Object.keys(parsed);
+          if (keys.length === 3 && parsed.version === CONSENT_VERSION) prefs = parsed;
+          else if (keys.length === 2 && !parsed.analytics && !parsed.ads) prefs = parsed;
+        }
       } else {
         // Mantiene la sola migrazione storica; nessun fallback da dati corrotti.
         const legacy = localStorage.getItem('cookieconsent_status');
-        if (legacy === 'allow') prefs = { analytics: true, ads: true };
         if (legacy === 'deny') prefs = { analytics: false, ads: false };
       }
     } catch(_) { /* Storage negato o JSON invalido: default senza grant. */ }
@@ -157,7 +161,7 @@
     }
 
     function saveAndApply(a, m) {
-      const toSave = { analytics: !!a, ads: !!m };
+      const toSave = { analytics: !!a, ads: !!m, version: CONSENT_VERSION };
       let saved = false;
       try {
         localStorage.setItem('cookieconsent_prefs', JSON.stringify(toSave));

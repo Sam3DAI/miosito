@@ -53,7 +53,9 @@ export function cookieFixture(source = code, options = {}) {
   };
   const calls = { analytics: 0, ads: 0, persist: 0, clear: 0, observers: 0 };
   const window = { dataLayer: [], __loadGA4() { calls.analytics++; }, __loadAds() { calls.ads++; }, __persistAdParams() { calls.persist++; }, __clearAdParams() { calls.clear++; } };
+  window.SolveXConsent50 = { apply({analytics, ads}) { if (analytics) window.__loadGA4(); if (ads) window.__loadAds(); } };
   const context = vm.createContext({ window, document, localStorage, MutationObserver: class { observe() { calls.observers++; } } });
+  if (options.beforeBanner) options.beforeBanner({window,document,context});
   const run = () => vm.runInContext(source, context);
   run();
   if (document.readyState === 'loading') { document.readyState = 'interactive'; for (const fn of listeners.get('DOMContentLoaded') || []) fn(); }
@@ -75,7 +77,7 @@ test('40 fresh / reject / statistics / ads / both / revocation retain Google key
     env.get('.cc-prefs').click();
     env.get('#cc-analytics').checked = a; env.get('#cc-ads').checked = m;
     env.get('.cc-panel-actions .cc-allow').click(); assertUpdates(env,a,m);
-    assert.deepEqual(JSON.parse(env.store.get('cookieconsent_prefs')), { analytics:a, ads:m });
+    assert.deepEqual(JSON.parse(env.store.get('cookieconsent_prefs')), { analytics:a, ads:m, version:'basic50-v1' });
     env.get('.cc-revoke').click(); env.get('.cc-panel-actions .cc-deny').click(); assertUpdates(env,false,false);
     assert.equal(env.calls.analytics, Number(a)); assert.equal(env.calls.ads, Number(m));
   }
@@ -94,13 +96,15 @@ for (const raw of ['{broken','null','false','42','"false"','[]','{}','{"analytic
   });
 }
 test('40 a malformed current preference cannot fall back to a stale legacy grant', () => { const env = cookieFixture(code,{storage:{cookieconsent_prefs:'{broken',cookieconsent_status:'allow'}}); assertUpdates(env,false,false); });
-test('40 explicit historic boolean choices survive without retroactive metadata', () => {
+test('50 versioned grants restore; unversioned40 grants require renewed choice, preserving denials', () => {
   for (const [analytics,ads] of [[false,false],[true,false],[false,true],[true,true]]) {
-    const raw = JSON.stringify({analytics,ads}); const env = cookieFixture(code,{storage:{cookieconsent_prefs:raw}}); assertUpdates(env,analytics,ads); assert.equal(env.store.get('cookieconsent_prefs'),raw);
+    const raw = JSON.stringify({analytics,ads}); const env = cookieFixture(code,{storage:{cookieconsent_prefs:raw}}); assertUpdates(env,false,false); assert.equal(env.store.get('cookieconsent_prefs'),raw);
+    assert.equal(env.get('.cc-window').style.display === 'none', !analytics && !ads);
+    const valid = JSON.stringify({analytics,ads,version:'basic50-v1'}); const restored = cookieFixture(code,{storage:{cookieconsent_prefs:valid}}); assertUpdates(restored,analytics,ads); assert.equal(restored.store.get('cookieconsent_prefs'),valid);
   }
 });
-test('40 lone legacy allow/deny policy is preserved, not silently changed', () => {
-  for (const value of ['allow','deny']) { const env = cookieFixture(code,{storage:{cookieconsent_status:value}}); assertUpdates(env,value==='allow',value==='allow'); assert.equal(env.store.has('cookieconsent_prefs'),false); }
+test('50 lone legacy deny remains effective; legacy allow is not proof for the new contract', () => {
+  for (const value of ['allow','deny']) { const env = cookieFixture(code,{storage:{cookieconsent_status:value}}); assertUpdates(env,false,false); assert.equal(env.store.has('cookieconsent_prefs'),false); assert.equal(env.get('.cc-window').style.display === 'none',value==='deny'); }
 });
 test('40 late script and repeated execution initialize one nonmodal banner and listeners only once', () => {
   const env = cookieFixture(code,{readyState:'complete'}); assert.ok(env.get('.cc-window')); env.run();

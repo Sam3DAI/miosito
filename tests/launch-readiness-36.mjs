@@ -62,4 +62,8 @@ export function assertLaunch36Html(route, html) {
   if (html.includes('window.__loadGA4 = function(){')) {
     for (const loader of loaders) assert.ok(lf(html).includes(loader + guard), route + ': exact guarded loader');
   }
+  if (html.includes('data-measurement-mode="legacy-direct"')) {
+    assert.equal((html.match(/src="\/js\/consent-basic50\.js"/g)||[]).length,1,route+': exactly one reviewed50 local loader');
+    assert.match(html,/data-ga4-id="G-VW0JHKW0ZW" data-ads-id="AW-17512988470"/,route+': original destinations');
+  }
 }

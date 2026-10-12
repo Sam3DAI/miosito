@@ -191,6 +191,7 @@ export const OWNED_STATIC_FILES = Object.freeze([
   "js/configuratori-3d-2d.js",
   "css/cookie-banner.css",
   "js/cookie-banner.js",
+  "js/consent-basic50.js",
   "js/contattaci.js",
   "css/foundation.css",
   "css/site-shell.css",
