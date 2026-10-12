@@ -1,0 +1,57 @@
+{
+  "baseline": "53966e6437037e045b1ed39666962f6790096969",
+  "scope": "CONSENT_BASIC50_ONLY",
+  "edits": {
+    "eleventy.config.js": [
+      {
+        "id": "C50-01",
+        "before": "  \"js/configuratori-3d-2d.js\",\n  \"css/cookie-banner.css\",\n  \"js/cookie-banner.js\",\n  \"js/contattaci.js\",\n  \"css/foundation.css\",\n  \"css/site-shell.css\",\n",
+        "after": "  \"js/configuratori-3d-2d.js\",\n  \"css/cookie-banner.css\",\n  \"js/cookie-banner.js\",\n  \"js/consent-basic50.js\",\n  \"js/contattaci.js\",\n  \"css/foundation.css\",\n  \"css/site-shell.css\",\n"
+      }
+    ],
+    "js/cookie-banner.js": [
+      {
+        "id": "C50-02",
+        "before": "\n  function gtag(){ (window.dataLayer = window.dataLayer || []).push(arguments); }\n\n  // Helper consent update\n  function applyConsent({analytics, ads}) {\n    // Analytics\n    gtag('consent', 'update', {\n      analytics_storage: analytics ? 'granted' : 'denied'\n",
+        "after": "\n  function gtag(){ (window.dataLayer = window.dataLayer || []).push(arguments); }\n\n  const CONSENT_VERSION = 'basic50-v1';\n\n  // Helper consent update: enqueue the explicit update before loading tags.\n  function applyConsent({analytics, ads}) {\n    // Revoke the local event guards before the loaded container receives updates.\n    window.__analyticsConsentGranted = !!analytics;\n    window.__adsConsentGranted = !!ads;\n    window.__gaConsentGranted = !!analytics; // per compatibilità con ga-autotrack.js\n    // Analytics\n    gtag('consent', 'update', {\n      analytics_storage: analytics ? 'granted' : 'denied'\n"
+      },
+      {
+        "id": "C50-03",
+        "before": "    gtag('consent', 'update', {\n      ad_storage: ads ? 'granted' : 'denied',\n      ad_user_data: ads ? 'granted' : 'denied',\n      ad_personalization: 'denied'  // metti 'granted' SOLO se farai pubblicità personalizzata\n    });\n\n    window.__analyticsConsentGranted = !!analytics;\n    window.__adsConsentGranted = !!ads;\n    window.__gaConsentGranted = !!analytics; // per compatibilità con ga-autotrack.js\n\n    // Carico i tag in base al consenso\n    if (window.__analyticsConsentGranted && typeof window.__loadGA4 === 'function') window.__loadGA4();\n    if (window.__adsConsentGranted && typeof window.__loadAds === 'function') window.__loadAds();\n\n    // Se ora sono consentiti gli Ads, posso persistere eventuali parametri ads\n    if (window.__adsConsentGranted && typeof window.__persistAdParams === 'function') window.__persistAdParams();\n",
+        "after": "    gtag('consent', 'update', {\n      ad_storage: ads ? 'granted' : 'denied',\n      ad_user_data: ads ? 'granted' : 'denied',\n      ad_personalization: 'denied'  // La personalizzazione pubblicitaria resta sempre negata.\n    });\n\n    // Fail closed if the local basic controller could not load. Forms stay usable.\n    if (window.SolveXConsent50) window.SolveXConsent50.apply({ analytics: !!analytics, ads: !!ads });\n\n    // Se ora sono consentiti gli Ads, posso persistere eventuali parametri ads\n    if (window.__adsConsentGranted && typeof window.__persistAdParams === 'function') window.__persistAdParams();\n"
+      },
+      {
+        "id": "C50-04",
+        "before": "    wrap.append(msg, btnRow, panel, status);\n    document.body.append(wrap, revoke);\n\n    // Lettura preferenze pregresse (back-compat)\n    let prefs = null;\n    try {\n      const raw = localStorage.getItem('cookieconsent_prefs');\n      if (raw !== null) {\n        const parsed = JSON.parse(raw);\n        if (parsed && !Array.isArray(parsed) && typeof parsed === 'object'\n          && Object.keys(parsed).length === 2\n          && typeof parsed.analytics === 'boolean' && typeof parsed.ads === 'boolean') prefs = parsed;\n      } else {\n        // Mantiene la sola migrazione storica; nessun fallback da dati corrotti.\n        const legacy = localStorage.getItem('cookieconsent_status');\n        if (legacy === 'allow') prefs = { analytics: true, ads: true };\n        if (legacy === 'deny') prefs = { analytics: false, ads: false };\n      }\n    } catch(_) { /* Storage negato o JSON invalido: default senza grant. */ }\n",
+        "after": "    wrap.append(msg, btnRow, panel, status);\n    document.body.append(wrap, revoke);\n\n    // Only grants saved under this stable text/behavior version are restored.\n    // Older denials remain valid; old grants require a new affirmative choice.\n    let prefs = null;\n    try {\n      const raw = localStorage.getItem('cookieconsent_prefs');\n      if (raw !== null) {\n        const parsed = JSON.parse(raw);\n        if (parsed && !Array.isArray(parsed) && typeof parsed === 'object'\n          && typeof parsed.analytics === 'boolean' && typeof parsed.ads === 'boolean') {\n          const keys = Object.keys(parsed);\n          if (keys.length === 3 && parsed.version === CONSENT_VERSION) prefs = parsed;\n          else if (keys.length === 2 && !parsed.analytics && !parsed.ads) prefs = parsed;\n        }\n      } else {\n        // Mantiene la sola migrazione storica; nessun fallback da dati corrotti.\n        const legacy = localStorage.getItem('cookieconsent_status');\n        if (legacy === 'deny') prefs = { analytics: false, ads: false };\n      }\n    } catch(_) { /* Storage negato o JSON invalido: default senza grant. */ }\n"
+      },
+      {
+        "id": "C50-05",
+        "before": "    }\n\n    function saveAndApply(a, m) {\n      const toSave = { analytics: !!a, ads: !!m };\n      let saved = false;\n      try {\n        localStorage.setItem('cookieconsent_prefs', JSON.stringify(toSave));\n",
+        "after": "    }\n\n    function saveAndApply(a, m) {\n      const toSave = { analytics: !!a, ads: !!m, version: CONSENT_VERSION };\n      let saved = false;\n      try {\n        localStorage.setItem('cookieconsent_prefs', JSON.stringify(toSave));\n"
+      }
+    ],
+    "src/_includes/partials/measurement-bootstrap.njk": [
+      {
+        "id": "C50-06",
+        "before": "      wait_for_update: 800\n    });\n  </script>\n  <!-- Google Tag Manager -->\n  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n  })(window,document,'script','dataLayer','{{ measurement.gtmId }}');</script>\n  <!-- End Google Tag Manager -->\n{% else %}\n  <script>\n  // === Consent Mode v2: default negato ===\n",
+        "after": "      wait_for_update: 800\n    });\n  </script>\n  <!-- Basic50: the local controller loads the shared container only on consent. -->\n{% else %}\n  <script>\n  // === Consent Mode v2: default negato ===\n"
+      },
+      {
+        "id": "C50-07",
+        "before": "    wait_for_update:800\n  });\n\n  (function(){\n    let gtagLoaded=false;\n    function loadGtagOnce(){\n      if (gtagLoaded) return; gtagLoaded=true;\n      const s=document.createElement('script');\n      s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id={{ measurement.ga4Id }}';\n      document.head.appendChild(s);\n      gtag('js', new Date());\n    }\n\n    // === Loader separati per categorie (chiamati dal banner) ===\n    window.__loadGA4 = function(){ // Statistiche\n      if (location.hostname !== 'solvex-ai3d.com') return;\n      loadGtagOnce();\n      const isDev = location.hostname !== 'solvex-ai3d.com';\n      gtag('config','{{ measurement.ga4Id }}',{ debug_mode: isDev ? true : undefined });\n    };\n    window.__loadAds = function(){ // Marketing (solo misurazione conversioni)\n      if (location.hostname !== 'solvex-ai3d.com') return;\n      loadGtagOnce();\n      gtag('config','{{ measurement.adsId }}',{ allow_enhanced_conversions:true });\n    };\n  })();\n  </script>\n\n  <!-- Gestione gclid/gbraid/wbraid conforme al consenso -->\n",
+        "after": "    wait_for_update:800\n  });\n\n  // Basic50 supplies the two category loaders locally, after this denied default.\n  </script>\n\n  <!-- Gestione gclid/gbraid/wbraid conforme al consenso -->\n"
+      },
+      {
+        "id": "C50-08",
+        "before": "    const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };\n\n    function fillHidden(){\n      const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');\n      if (g) document.querySelectorAll('#gclid_field,[name=\"gclid\"]').forEach(el=> el.value=g);\n    }\n",
+        "after": "    const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };\n\n    function fillHidden(){\n      if (!window.__adsConsentGranted) return;\n      const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');\n      if (g) document.querySelectorAll('#gclid_field,[name=\"gclid\"]').forEach(el=> el.value=g);\n    }\n"
+      },
+      {
+        "id": "C50-09",
+        "before": "  })();\n  </script>\n{% endif %}\n",
+        "after": "  })();\n  </script>\n{% endif %}\n  <script src=\"/js/consent-basic50.js\" data-measurement-mode=\"{{ activeMeasurementMode }}\" data-ga4-id=\"{{ measurement.ga4Id }}\" data-ads-id=\"{{ measurement.adsId }}\"{% if activeMeasurementMode == \"gtm-verified\" %} data-gtm-id=\"{{ measurement.gtmId }}\"{% endif %}></script>\n"
+      }
+    ]
+  }
+}

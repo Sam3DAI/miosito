@@ -50,9 +50,12 @@ import { assertMobileHoverOutput47R1 } from "./mobile-hover-47r1.mjs";
 import { assertInputOutput47R2 } from "./input-modality-47r2.mjs";
 import { assertEditorialMotionOutput47R3 } from "./editorial-motion-47r3.mjs";
 import { assert48Current } from "./prelaunch-48-literals.mjs";
+import { assertConsent50Sources, beforeConsent50LegalHtml } from "./consent-50-literals.mjs";
+import { beforeDocs50, assertPublicLinkExtensions50 } from "./docs-50-literals.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
+assertConsent50Sources(root);
 assert48Current(root);
 assertProof44Sources(root);
 assertGallerySources44r2(root);
@@ -104,6 +107,7 @@ const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
   "js/configuratori-3d-2d.js",
   "css/cookie-banner.css",
   "js/cookie-banner.js",
+  "js/consent-basic50.js",
   "js/contattaci.js",
   "css/foundation.css",
   "css/site-shell.css",
@@ -834,6 +838,8 @@ function assertHeadingOrder(html, route) {
 }
 
 function assertLegalContract(route, outputHtml) {
+  outputHtml = beforeDocs50(route.destination.startsWith("privacy") ? "src/privacy-policy.njk" : "src/termini-condizioni.njk", outputHtml);
+  outputHtml = beforeConsent50LegalHtml(outputHtml);
   outputHtml = route.destination.startsWith("privacy") ? beforePrivacy40Html(outputHtml) : beforeNonvisual40('src/termini-condizioni.njk',outputHtml);
   const baselineHtml = gitBlob(route.baseline).toString("utf8");
   const sectionId = route.destination.startsWith("privacy") ? "privacy-content" : "terms-content";
@@ -937,7 +943,7 @@ function assertGeneratedPageContract(route, html) {
   assert.equal((secondaryList.match(/<li\b/g) ?? []).length, 4, `${route.publicUrl}: secondary menu must expose four links`);
   assert.doesNotMatch(shell, /brand__name[\s\S]{0,80}<strong\b/i, `${route.publicUrl}: AI3D must not receive separate brand emphasis`);
   assert.equal(linkPairs(header).filter((link) => link.href === "/contattaci#contatti" && link.text.includes("Richiedi un preventivo")).length, 2, `${route.publicUrl}: exact header and menu quote CTA`);
-  assert.doesNotMatch(html, /<a\b[^>]*href=["'][^"']*\.html(?:[?#][^"']*)?["']/i, `${route.publicUrl}: .html appears in a public link`);
+  assertPublicLinkExtensions50(route.publicUrl, html);
 
   assertHardenedCsp(html, route);
   assert.doesNotMatch(html, /<script\b[^>]*\bsrc=["'][^"']*(?:chatbot|apexcharts|font-awesome)[^"']*["']/i, `${route.publicUrl}: forbidden runtime script`);
@@ -947,6 +953,7 @@ function assertGeneratedPageContract(route, html) {
   assert.doesNotMatch(html, /<link\b[^>]*\bhref=["'][^"']*(?:google|doubleclick)[^"']*["'][^>]*\brel=["'](?:preconnect|dns-prefetch)["']/i, `${route.publicUrl}: Google connection hint before consent`);
   assert.equal((html.match(/id=["']root["']/gi) ?? []).length, 0, `${route.publicUrl}: chatbot root present`);
   assert.equal((html.match(/\/js\/cookie-banner\.js/g) ?? []).length, 1, `${route.publicUrl}: cookie loader duplicated or missing`);
+  assert.equal((html.match(/src="\/js\/consent-basic50\.js"/g) ?? []).length, 1, `${route.publicUrl}: one local consent50 controller`);
   assert.equal((html.match(/\/js\/site-shell\.js/g) ?? []).length, 1, `${route.publicUrl}: shell script duplicated or missing`);
   assert.equal((html.match(/\/js\/ga-autotrack\.js/g) ?? []).length, 1, `${route.publicUrl}: autotrack duplicated or missing`);
 
@@ -960,7 +967,9 @@ function assertGeneratedPageContract(route, html) {
   if (measurementMode === "gtm-verified") {
     assert.equal((html.match(/GTM-MBBDZZFT/g) ?? []).length, 1, `${route.publicUrl}: GTM container must appear exactly once`);
     assert.equal((html.match(/gtag\/js\?id=G-VW0JHKW0ZW/g) ?? []).length, 0, `${route.publicUrl}: legacy loader must be absent in gtm-verified mode`);
-    assert.ok(consentIndex < html.indexOf("googletagmanager.com/gtm.js"), `${route.publicUrl}: consent default must execute before GTM`);
+    assert.ok(consentIndex < html.indexOf('src="/js/consent-basic50.js"'), `${route.publicUrl}: denied default must precede the consent-gated loader`);
+    assert.match(html, /data-measurement-mode="gtm-verified"[^>]*data-gtm-id="GTM-MBBDZZFT"/, `${route.publicUrl}: original container behind basic50 gate`);
+    assert.doesNotMatch(html, /googletagmanager\.com\/gtm\.js/, `${route.publicUrl}: eager inline GTM loader must be absent`);
     const orderedScripts = [
       "/js/site-shell.js",
       "/js/ad-attribution-consent.js",
@@ -977,9 +986,10 @@ function assertGeneratedPageContract(route, html) {
       previousIndex = index;
     }
   } else {
-    assert.equal((html.match(/gtag\/js\?id=G-VW0JHKW0ZW/g) ?? []).length, 1, `${route.publicUrl}: gtag loader definition must appear once`);
+    assert.equal((html.match(/gtag\/js\?id=G-VW0JHKW0ZW/g) ?? []).length, 0, `${route.publicUrl}: category loader resides in the single local controller`);
     assert.equal(html.includes("GTM-"), false, `${route.publicUrl}: GTM container forbidden in legacy-direct mode`);
-    assert.ok(consentIndex < html.indexOf("function loadGtagOnce"), `${route.publicUrl}: default consent must precede loader`);
+    assert.ok(consentIndex < html.indexOf('src="/js/consent-basic50.js"'), `${route.publicUrl}: default consent must precede loader`);
+    assert.match(html, /data-measurement-mode="legacy-direct" data-ga4-id="G-VW0JHKW0ZW" data-ads-id="AW-17512988470"/, `${route.publicUrl}: original legacy destinations behind separate category loaders`);
     assert.doesNotMatch(html, /\/js\/(?:ad-attribution-consent|netlify-lead-form|contattaci|configuratori-3d-2d)\.js/i, `${route.publicUrl}: lead runtime leaked into legacy-direct page`);
   }
 
@@ -1444,7 +1454,7 @@ function assertRouteRegistry() {
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 67 + 2, "Historical assets retained; exact WD48 gate and launcher supplement the 67 reviewed WD47 outputs");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 67 + 2 + 1, "Historical assets retained; WD48 gate/launcher plus one local consent50 controller");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),

@@ -12,13 +12,7 @@
       wait_for_update: 800
     });
   </script>
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','{{ measurement.gtmId }}');</script>
-  <!-- End Google Tag Manager -->
+  <!-- Basic50: the local controller loads the shared container only on consent. -->
 {% else %}
   <script>
   // === Consent Mode v2: default negato ===
@@ -32,29 +26,7 @@
     wait_for_update:800
   });
 
-  (function(){
-    let gtagLoaded=false;
-    function loadGtagOnce(){
-      if (gtagLoaded) return; gtagLoaded=true;
-      const s=document.createElement('script');
-      s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id={{ measurement.ga4Id }}';
-      document.head.appendChild(s);
-      gtag('js', new Date());
-    }
-
-    // === Loader separati per categorie (chiamati dal banner) ===
-    window.__loadGA4 = function(){ // Statistiche
-      if (location.hostname !== 'solvex-ai3d.com') return;
-      loadGtagOnce();
-      const isDev = location.hostname !== 'solvex-ai3d.com';
-      gtag('config','{{ measurement.ga4Id }}',{ debug_mode: isDev ? true : undefined });
-    };
-    window.__loadAds = function(){ // Marketing (solo misurazione conversioni)
-      if (location.hostname !== 'solvex-ai3d.com') return;
-      loadGtagOnce();
-      gtag('config','{{ measurement.adsId }}',{ allow_enhanced_conversions:true });
-    };
-  })();
+  // Basic50 supplies the two category loaders locally, after this denied default.
   </script>
 
   <!-- Gestione gclid/gbraid/wbraid conforme al consenso -->
@@ -65,6 +37,7 @@
     const fromUrl={ gclid:sp.get('gclid')||'', gbraid:sp.get('gbraid')||'', wbraid:sp.get('wbraid')||'' };
 
     function fillHidden(){
+      if (!window.__adsConsentGranted) return;
       const g=(sessionStorage.getItem('gclid')||fromUrl.gclid||'');
       if (g) document.querySelectorAll('#gclid_field,[name="gclid"]').forEach(el=> el.value=g);
     }
@@ -84,3 +57,4 @@
   })();
   </script>
 {% endif %}
+  <script src="/js/consent-basic50.js" data-measurement-mode="{{ activeMeasurementMode }}" data-ga4-id="{{ measurement.ga4Id }}" data-ads-id="{{ measurement.adsId }}"{% if activeMeasurementMode == "gtm-verified" %} data-gtm-id="{{ measurement.gtmId }}"{% endif %}></script>

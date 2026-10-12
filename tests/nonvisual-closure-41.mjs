@@ -4,6 +4,7 @@ import path from 'node:path';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {beforeUi46Literals} from './site-ui-46-literals.mjs';
 import {beforeWd46} from './site-wd-delta-46.mjs';
+import {beforeDependencies50} from './dependencies50.mjs';
 export const BASE_41 = 'f06d7ad296cae2b3968916f8075c341e6dcef7f6';
 const lf = text => text.replace(/\r\n/g,'\n');
 // Exact reviewed consumer deltas only: the rest of both files, including 3D, stays frozen.
@@ -44,7 +45,7 @@ export function assertNonvisual41Sources(root,target=process.env.SOLVEX_VERIFY_T
   }
   assertHeaders41(fs.readFileSync(path.join(root,'netlify.toml'),'utf8'),target);
   for(const file of ['package.json','package-lock.json','js/netlify-lead-form.js','js/service-demo-form.js','js/ad-attribution-consent.js','js/ga-autotrack.js','js/cookie-banner.js','css/cookie-banner.css','js/site-shell.js','src/contattaci.njk','src/configuratori-3d-2d.njk','src/_data/serviceDemos.json','src/_data/measurement.json','src/_includes/partials/measurement-bootstrap.njk']) {
-    assert.equal(beforeUi46Literals(file,beforeWd46(file,fs.readFileSync(path.join(root,file),'utf8'))),lf(readGitBlobBuffer(BASE_41,file,root).buffer.toString('utf8')),file+': task41 immutable apart from exact authorized46 UI callsites');
+    assert.equal(beforeUi46Literals(file,beforeWd46(file,beforeDependencies50(file,fs.readFileSync(path.join(root,file),'utf8'),root))),lf(readGitBlobBuffer(BASE_41,file,root).buffer.toString('utf8')),file+': task41 immutable apart from exact authorized46 UI callsites and reviewed SDK50 delta');
   }
-  return {result:'PASS',baseline:BASE_41,headers:['nosniff','strict-origin-when-cross-origin'],focusConsumers:2,enginesAndDependencies:'UNCHANGED'};
+  return {result:'PASS',baseline:BASE_41,headers:['nosniff','strict-origin-when-cross-origin'],focusConsumers:2,engines:'UNCHANGED',dependencies:'EXACT_SDK50_DELTA_VALIDATED'};
 }
