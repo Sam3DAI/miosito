@@ -33,11 +33,16 @@ export function beforeWhitespace47(file, source) {
   return result;
 }
 
-export function renderWhitespace47(pageKey, { before = false, autoescape = false } = {}) {
+export function renderWhitespace47(pageKey, { before = false, autoescape = false, sourceTransform = text => text } = {}) {
   const loader = new nunjucks.FileSystemLoader(path.join(root46, 'src/_includes'));
   const getSource = loader.getSource.bind(loader);
   loader.getSource = name => {
     const result = getSource(name);
+    // Canonicalize both comparison-render inputs, not accepted source or real
+    // output. Previously only the historical side used LF, so CRLF checkouts
+    // failed before the compaction oracle was tested. sourceTransform is a
+    // fixture hook for proving this with actual CRLF text and adverse edits.
+    if (result) result.src = lf(sourceTransform(result.src));
     if (result && before && name === 'partials/site-header.njk') {
       result.src = beforeWhitespace47('src/_includes/' + name, result.src);
     }
@@ -47,7 +52,8 @@ export function renderWhitespace47(pageKey, { before = false, autoescape = false
   env.addFilter('json', value => JSON.stringify(value));
   const file = pageKey === 'home' ? 'index' : details.routes[pageKey].slice(1);
   const sourceFile = 'src/' + file + '.njk';
-  const source = (before ? beforeWhitespace47(sourceFile, read(sourceFile)) : read(sourceFile))
+  const current = lf(sourceTransform(read(sourceFile)));
+  const source = (before ? beforeWhitespace47(sourceFile, current) : current)
     .replace(/^---[\s\S]*?\r?\n---\r?\n/, '');
   const json = name => JSON.parse(read('src/_data/' + name + '.json'));
   const context = {

@@ -93,3 +93,26 @@ test('T47-14 captured markup remains escaped before safe output, in both autoesc
     assert.doesNotMatch(output, /<script>/);
   }
 });
+
+test('T50 comparison fixtures render identically from LF and CRLF on both sides', () => {
+  const crlf = source => source.replaceAll('\r\n', '\n').replaceAll('\n', '\r\n');
+  for (const pageKey of [...whitespaceMainKeys47, 'contact']) for (const before of [false, true]) {
+    assert.deepEqual(renderWhitespace47(pageKey, { before, sourceTransform: crlf }), renderWhitespace47(pageKey, { before }));
+  }
+});
+
+test('T50 comparison input EOL handling does not permit changes inside a real protected output block', () => {
+  const before = renderWhitespace47('planner', { before: true }), after = renderWhitespace47('planner');
+  const changed = after.html.replace(after.form, after.form.replaceAll('\n', '\r\n'));
+  assert.notEqual(changed, after.html, 'Negative changes the actual protected form output');
+  assert.throws(() => assertWhitespaceHtml47(before.html, changed, 'planner', before.form), /exact header\/main output/);
+});
+
+test('T50 CRLF fixture handling still rejects a changed lead field instead of hiding it', () => {
+  const before = renderWhitespace47('planner', { before: true });
+  const after = renderWhitespace47('planner', { sourceTransform: source => source
+    .replace('name="lead_id" value=""', 'name="lead_id" value="unexpected"')
+    .replaceAll('\r\n', '\n').replaceAll('\n', '\r\n') });
+  assert.notEqual(after.form, before.form, 'Negative changes its intended field');
+  assert.throws(() => assertWhitespaceHtml47(before.html, after.html, 'planner', before.form), /exact header\/main output/);
+});
