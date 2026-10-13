@@ -13,8 +13,23 @@ for(const file of Object.keys(media50r1.edits))test('50R1 rejects an unrelated m
  assert.throws(()=>assertMediaDelta50R1(file,current+'\nUNAUTHORIZED',original));
  assert.notEqual(beforeLocalMedia50R1(file,current+'\nUNAUTHORIZED'),original.toString().replaceAll('\r\n','\n'));
  assert.equal(beforeLocalMedia50R1(file,original),original.toString().replaceAll('\r\n','\n'),'historical reconstruction is idempotent');
- for(const edit of media50r1.edits[file])for(const replacement of ['',edit.after+edit.after])
-  assert.throws(()=>assertMediaDelta50R1(file,current.replace(edit.after,replacement),original),'missing or duplicated authorized hunk must fail');
+ // The multiline Eleventy fixture must mutate both checkout representations.
+ // Only in-memory fixtures change; source files and the product oracle do not.
+ const formats=file==='eleventy.config.js'?['LF','CRLF']:['AS_READ'];
+ for(const format of formats){
+  const represent=value=>format==='AS_READ'?value:value.replaceAll('\r\n','\n').replaceAll('\n',format==='LF'?'\n':'\r\n');
+  const fixture=represent(current);
+  assert.doesNotThrow(()=>assertMediaDelta50R1(file,fixture,original),'unaltered product must pass: '+format);
+  for(const edit of media50r1.edits[file]){
+   const literal=represent(edit.after);
+   assert.equal(fixture.split(literal).length,2,'mutation target must occur exactly once: '+format);
+   for(const replacement of ['',literal+literal]){
+    const mutated=fixture.replace(literal,replacement);
+    assert.notEqual(mutated,fixture,'intentional mutation must actually be applied: '+format);
+    assert.throws(()=>assertMediaDelta50R1(file,mutated,original),'missing or duplicated authorized hunk must fail: '+format);
+   }
+  }
+ }
 });
 test('50R1 no wildcard media directory allowance',()=>assert.equal(isMediaProduct50R1('assets/media-local50r1/unreviewed.webp',root),false));
 test('50R1 rejects truncated, corrupted and swapped media',()=>{
