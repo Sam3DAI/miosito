@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = "_site"
 
+# First release: retain the monitor source, but deploy no server functions.
+[functions]
+  directory = "netlify/functions-disabled"
+
 [[headers]]
   for = "/*"
   [headers.values]

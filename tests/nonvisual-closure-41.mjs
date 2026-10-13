@@ -5,6 +5,8 @@ import {readGitBlobBuffer} from './git-binary-reader.mjs';
 import {beforeUi46Literals} from './site-ui-46-literals.mjs';
 import {beforeWd46} from './site-wd-delta-46.mjs';
 import {beforeDependencies50} from './dependencies50.mjs';
+import {beforeSpamWatchExclusion50} from './spam-watch-exclusion50.mjs';
+import {beforeLocalMedia50R1} from './local-media50r1.mjs';
 export const BASE_41 = 'f06d7ad296cae2b3968916f8075c341e6dcef7f6';
 const lf = text => text.replace(/\r\n/g,'\n');
 // Exact reviewed consumer deltas only: the rest of both files, including 3D, stays frozen.
@@ -23,7 +25,7 @@ export const edits41 = Object.freeze({
   ]
 });
 export function beforeNonvisual41(file,input) {
-  let text=lf(input);
+  let text=beforeLocalMedia50R1(file,input);
   for(const [before,after] of edits41[file]||[]) text=text.replace(after,before);
   return text;
 }
@@ -31,7 +33,7 @@ export function assertHeaders41(input,target='candidate') {
   assert.ok(['candidate','staging'].includes(target));
   const expected='[build]\n  command = "npm run build"\n  publish = "_site"\n\n[[headers]]\n  for = "/*"\n  [headers.values]\n    X-Content-Type-Options = "nosniff"\n    Referrer-Policy = "strict-origin-when-cross-origin"\n'
     +(target==='staging'?'    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"\n':'');
-  assert.equal(beforeWd46('netlify.toml',input).trimEnd(),expected.trimEnd(),'One global block, two exact basic headers; staging-only noindex; authorized46 route header checked separately');
+  assert.equal(beforeWd46('netlify.toml',beforeSpamWatchExclusion50(input)).trimEnd(),expected.trimEnd(),'One global block, two exact basic headers; staging-only noindex; authorized46 route header and exact50 Functions exclusion checked separately');
 }
 export function assertNonvisual41Sources(root,target=process.env.SOLVEX_VERIFY_TARGET||'candidate') {
   for(const [file,pairs] of Object.entries(edits41)) {
@@ -41,7 +43,7 @@ export function assertNonvisual41Sources(root,target=process.env.SOLVEX_VERIFY_T
       assert.equal(expected.split(before).length,2,file+': unique focus replacement');
       expected=expected.replace(before,after);
     }
-    assert.equal(lf(fs.readFileSync(path.join(root,file),'utf8')),expected,file+': no edits beyond invalid-field focus');
+    assert.equal(beforeLocalMedia50R1(file,fs.readFileSync(path.join(root,file),'utf8')),expected,file+': no edits beyond invalid-field focus and exact50R1 media URLs');
   }
   assertHeaders41(fs.readFileSync(path.join(root,'netlify.toml'),'utf8'),target);
   for(const file of ['package.json','package-lock.json','js/netlify-lead-form.js','js/service-demo-form.js','js/ad-attribution-consent.js','js/ga-autotrack.js','js/cookie-banner.js','css/cookie-banner.css','js/site-shell.js','src/contattaci.njk','src/configuratori-3d-2d.njk','src/_data/serviceDemos.json','src/_data/measurement.json','src/_includes/partials/measurement-bootstrap.njk']) {

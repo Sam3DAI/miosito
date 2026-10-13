@@ -7,11 +7,13 @@ import { cleanCanonicalOutput } from "./verify-orchestration.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
 const unitTests = Object.freeze([
+  "tests/local-media50r1.test.mjs",
   "tests/docs-links50.test.mjs",
   "tests/dependencies50.test.mjs",
   "tests/privacy-terms50.test.mjs",
   "tests/consent-basic50.test.mjs",
   "tests/spam-watch50.test.mjs",
+  "tests/spam-watch-exclusion50.test.mjs",
   "tests/prelaunch-48.test.mjs",
   "tests/inventory-comparator.test.mjs",
   "tests/git-binary-reader.test.mjs",

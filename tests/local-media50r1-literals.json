@@ -1,0 +1,197 @@
+{
+  "baseline": "1d3216c49d7dd46682412487813b00b31fbd2adc",
+  "edits": {
+    "src/configuratori-3d-2d.njk": [
+      {
+        "id": "hub-card-ecommerce",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Configuratore_e-commerce_x0cfvo.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-card-ecommerce\"].src, localImage: localMedia50r1.cards[\"hub-card-ecommerce\"]"
+      },
+      {
+        "id": "hub-card-portale",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/Portale_commerciali_gu6ta3.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-card-portale\"].src, localImage: localMedia50r1.cards[\"hub-card-portale\"]"
+      },
+      {
+        "id": "hub-card-cpq",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/CPQ_lv1miq.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-card-cpq\"].src, localImage: localMedia50r1.cards[\"hub-card-cpq\"]"
+      },
+      {
+        "id": "hub-card-planner",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/Planner_arredamento_eg9vpf.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-card-planner\"].src, localImage: localMedia50r1.cards[\"hub-card-planner\"]"
+      },
+      {
+        "id": "hub-sector-arredamento",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/arredamento_pdjefm.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-sector-arredamento\"].src, localImage: localMedia50r1.cards[\"hub-sector-arredamento\"]"
+      },
+      {
+        "id": "hub-sector-industria",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/macchinari_e_attrezzature_ujxyrm.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-sector-industria\"].src, localImage: localMedia50r1.cards[\"hub-sector-industria\"]"
+      },
+      {
+        "id": "hub-sector-moda",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/moda_e_acessori_cbiexl.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-sector-moda\"].src, localImage: localMedia50r1.cards[\"hub-sector-moda\"]"
+      },
+      {
+        "id": "hub-sector-automotive",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911838/automotive_i0mcou.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-sector-automotive\"].src, localImage: localMedia50r1.cards[\"hub-sector-automotive\"]"
+      },
+      {
+        "id": "hub-sector-serramenti",
+        "before": "image: \"https://res.cloudinary.com/dqhbriryo/image/upload/f_auto,q_auto,w_900,h_1150,c_fill,g_auto/v1777911837/serramenti_f2nxbu.jpg\"",
+        "after": "image: localMedia50r1.cards[\"hub-sector-serramenti\"].src, localImage: localMedia50r1.cards[\"hub-sector-serramenti\"]"
+      },
+      {
+        "id": "demo-swatch-bianco",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-bianco.png"
+      },
+      {
+        "id": "demo-swatch-grigio",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-grigio.png"
+      },
+      {
+        "id": "demo-swatch-bronzo",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-bronzo.png"
+      },
+      {
+        "id": "demo-swatch-nero",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-nero.png"
+      },
+      {
+        "id": "demo-wallpaper-nero-bronzo",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-nero-bronzo.webp"
+      },
+      {
+        "id": "demo-wallpaper-arancio-nero",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-arancio-nero.webp"
+      },
+      {
+        "id": "demo-wallpaper-nero-blu",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-nero-blu.webp"
+      },
+      {
+        "id": "demo-wallpaper-nero-viola",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-nero-viola.webp"
+      }
+    ],
+    "js/configuratori-3d-2d.js": [
+      {
+        "id": "demo-swatch-bianco",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-bianco.png"
+      },
+      {
+        "id": "demo-swatch-grigio",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-grigio.png"
+      },
+      {
+        "id": "demo-swatch-bronzo",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-bronzo.png"
+      },
+      {
+        "id": "demo-swatch-nero",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-swatch-nero.png"
+      },
+      {
+        "id": "demo-wallpaper-nero-bronzo",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-nero-bronzo.webp"
+      },
+      {
+        "id": "demo-wallpaper-arancio-nero",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-arancio-nero.webp"
+      },
+      {
+        "id": "demo-wallpaper-nero-blu",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-nero-blu.webp"
+      },
+      {
+        "id": "demo-wallpaper-nero-viola",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto",
+        "after": "/assets/media-local50r1/demo-wallpaper-nero-viola.webp"
+      },
+      {
+        "id": "demo-ar-icon",
+        "before": "https://res.cloudinary.com/dqhbriryo/image/upload/v1755855493/icona_Realt%C3%A0_Aumentata_y2p4ga.webp",
+        "after": "/assets/media-local50r1/demo-ar-icon.webp"
+      },
+      {
+        "id": "technical-comment",
+        "before": "// Textures (Cloudinary)",
+        "after": "// Textures (local media)"
+      }
+    ],
+    "src/_includes/partials/marketing-components.njk": [
+      {
+        "id": "static-responsive-metadata",
+        "before": "        {% if item.image and variant != \"landscape\" %}\n        {% if item.imageMeta %}",
+        "after": "        {% if item.image and variant != \"landscape\" %}\n        {% if item.localImage %}\n        <img class=\"visual-card__image\" src=\"{{ item.localImage.src }}\" srcset=\"{{ item.localImage.srcset }}\" sizes=\"{{ item.localImage.sizes }}\" alt=\"{{ item.alt or '' }}\" width=\"{{ item.localImage.width }}\" height=\"{{ item.localImage.height }}\" loading=\"lazy\" decoding=\"async\">\n        {% elif item.imageMeta %}"
+      }
+    ],
+    "eleventy.config.js": [
+      {
+        "id": "explicit-local-media",
+        "before": "export const OWNED_STATIC_FILES = Object.freeze([",
+        "after": "export const OWNED_STATIC_FILES = Object.freeze([\n  \"assets/media-local50r1/demo-ar-icon.webp\",\n  \"assets/media-local50r1/demo-swatch-bianco.png\",\n  \"assets/media-local50r1/demo-swatch-bronzo.png\",\n  \"assets/media-local50r1/demo-swatch-grigio.png\",\n  \"assets/media-local50r1/demo-swatch-nero.png\",\n  \"assets/media-local50r1/demo-wallpaper-arancio-nero.webp\",\n  \"assets/media-local50r1/demo-wallpaper-nero-blu.webp\",\n  \"assets/media-local50r1/demo-wallpaper-nero-bronzo.webp\",\n  \"assets/media-local50r1/demo-wallpaper-nero-viola.webp\",\n  \"assets/media-local50r1/hub-card-cpq-350.webp\",\n  \"assets/media-local50r1/hub-card-cpq-700.webp\",\n  \"assets/media-local50r1/hub-card-cpq-900.webp\",\n  \"assets/media-local50r1/hub-card-ecommerce-350.webp\",\n  \"assets/media-local50r1/hub-card-ecommerce-700.webp\",\n  \"assets/media-local50r1/hub-card-ecommerce-900.webp\",\n  \"assets/media-local50r1/hub-card-planner-350.webp\",\n  \"assets/media-local50r1/hub-card-planner-700.webp\",\n  \"assets/media-local50r1/hub-card-planner-900.webp\",\n  \"assets/media-local50r1/hub-card-portale-350.webp\",\n  \"assets/media-local50r1/hub-card-portale-700.webp\",\n  \"assets/media-local50r1/hub-card-portale-900.webp\",\n  \"assets/media-local50r1/hub-sector-arredamento-350.webp\",\n  \"assets/media-local50r1/hub-sector-arredamento-700.webp\",\n  \"assets/media-local50r1/hub-sector-arredamento-900.webp\",\n  \"assets/media-local50r1/hub-sector-automotive-350.webp\",\n  \"assets/media-local50r1/hub-sector-automotive-700.webp\",\n  \"assets/media-local50r1/hub-sector-automotive-900.webp\",\n  \"assets/media-local50r1/hub-sector-industria-350.webp\",\n  \"assets/media-local50r1/hub-sector-industria-700.webp\",\n  \"assets/media-local50r1/hub-sector-industria-900.webp\",\n  \"assets/media-local50r1/hub-sector-moda-350.webp\",\n  \"assets/media-local50r1/hub-sector-moda-700.webp\",\n  \"assets/media-local50r1/hub-sector-moda-900.webp\",\n  \"assets/media-local50r1/hub-sector-serramenti-350.webp\",\n  \"assets/media-local50r1/hub-sector-serramenti-700.webp\",\n  \"assets/media-local50r1/hub-sector-serramenti-900.webp\","
+      }
+    ],
+    "src/_includes/partials/seo-head.njk": [
+      {
+        "id": "csp-remove-cloudinary-0",
+        "before": "    img-src 'self' data: blob: https://res.cloudinary.com https://assets.babylonjs.com https://api.qrserver.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;",
+        "after": "    img-src 'self' data: blob: https://assets.babylonjs.com https://api.qrserver.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;"
+      },
+      {
+        "id": "csp-remove-cloudinary-1",
+        "before": "    connect-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://region1.analytics.google.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googleadservices.com;",
+        "after": "    connect-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://region1.analytics.google.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googleadservices.com;"
+      },
+      {
+        "id": "csp-remove-cloudinary-2",
+        "before": "    img-src 'self' data: https://res.cloudinary.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;",
+        "after": "    img-src 'self' data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net;"
+      }
+    ],
+    "src/privacy-policy.njk": [
+      {
+        "id": "privacy-active-distribution",
+        "before": "      <p>I sei moduli di contatto e richiesta demo utilizzano Netlify Forms. La posta aziendale info@solvex-ai3d.com e la relativa corrispondenza utilizzano Zoho Mail nel piano gratuito. Il percorso previsto per le notifiche dei moduli collega Netlify alla posta aziendale; il messaggio di conferma sul sito non attesta il recapito di un’email. Alcune immagini e risorse sono distribuite tramite Cloudinary e servizi CDN.</p>",
+        "after": "      <p>I sei moduli di contatto e richiesta demo utilizzano Netlify Forms. La posta aziendale info@solvex-ai3d.com e la relativa corrispondenza utilizzano Zoho Mail nel piano gratuito. Il percorso previsto per le notifiche dei moduli collega Netlify alla posta aziendale; il messaggio di conferma sul sito non attesta il recapito di un’email. Le immagini, le anteprime e le texture delle demo sono distribuite dall’hosting Netlify del sito. Alcune librerie tecniche sono caricate da servizi CDN.</p>"
+      },
+      {
+        "id": "privacy-remove-active-cloudinary-recipient",
+        "before": "        <li><strong>Cloudinary</strong>: distribuzione di determinate immagini, anteprime e texture. Si applicano i <a href=\"https://cloudinary.com/tou\" target=\"_blank\" rel=\"noopener\">termini del piano Free</a> e la <a href=\"https://cloudinary.com/privacy\" target=\"_blank\" rel=\"noopener\">relativa informativa</a>. Non viene esteso automaticamente al piano gratuito l’accordo Enterprise. Il ruolo del fornitore dipende dal trattamento: l’informativa di Cloudinary descrive anche attività svolte come titolare per propri dati di servizio.</li>\n        <li><strong>Google</strong>: Tag Manager distribuisce i tag; Analytics 4 e Ads svolgono finalità di misurazione distinte, collegate alle preferenze descritte nella sezione 8. I <a href=\"https://marketingplatform.google.com/about/analytics/terms/it/\" target=\"_blank\" rel=\"noopener\">termini italiani di Analytics</a> identificano Google Ireland Limited. Le tecnologie Google possono trattare identificatori online e dati tecnici del dispositivo e della navigazione: non sono descritte come raccolta anonima in senso assoluto. I contenuti dei campi nome, email, telefono e messaggio dei moduli non fanno parte dell’evento di misurazione della richiesta.</li>",
+        "after": "        <li><strong>Google</strong>: Tag Manager distribuisce i tag; Analytics 4 e Ads svolgono finalità di misurazione distinte, collegate alle preferenze descritte nella sezione 8. I <a href=\"https://marketingplatform.google.com/about/analytics/terms/it/\" target=\"_blank\" rel=\"noopener\">termini italiani di Analytics</a> identificano Google Ireland Limited. Le tecnologie Google possono trattare identificatori online e dati tecnici del dispositivo e della navigazione: non sono descritte come raccolta anonima in senso assoluto. I contenuti dei campi nome, email, telefono e messaggio dei moduli non fanno parte dell’evento di misurazione della richiesta.</li>"
+      },
+      {
+        "id": "privacy-transfer-current-providers",
+        "before": "      <p>L’account Zoho utilizzato per la posta è registrato nel data center Europe; questo non esclude accessi autorizzati di supporto da altri Paesi. Netlify, Cloudinary e Google possono utilizzare infrastrutture e soggetti anche fuori dallo Spazio economico europeo. La localizzazione di un account non garantisce che ogni accesso o trattamento avvenga esclusivamente in Italia o nell’UE.</p>",
+        "after": "      <p>L’account Zoho utilizzato per la posta è registrato nel data center Europe; questo non esclude accessi autorizzati di supporto da altri Paesi. Netlify e Google possono utilizzare infrastrutture e soggetti anche fuori dallo Spazio economico europeo. La localizzazione di un account non garantisce che ogni accesso o trattamento avvenga esclusivamente in Italia o nell’UE.</p>"
+      },
+      {
+        "id": "privacy-current-provider-links",
+        "before": "      <p>Le documentazioni dei fornitori descrivono, secondo il servizio e il trasferimento, decisioni di adeguatezza, Data Privacy Framework e clausole contrattuali standard: <a href=\"https://www.netlify.com/pdf/netlify-dpa.pdf\" target=\"_blank\" rel=\"noopener\">Netlify</a>, <a href=\"https://www.zoho.com/privacy/privacy-faq.html\" target=\"_blank\" rel=\"noopener\">Zoho</a>, <a href=\"https://cloudinary.com/privacy\" target=\"_blank\" rel=\"noopener\">Cloudinary</a> e <a href=\"https://business.safety.google/adsdatatransfers/\" target=\"_blank\" rel=\"noopener\">Google</a>. Un meccanismo non si applica indistintamente a ogni flusso: per informazioni pertinenti ai tuoi dati e alle garanzie applicabili puoi scrivere al titolare.</p>",
+        "after": "      <p>Le documentazioni dei fornitori descrivono, secondo il servizio e il trasferimento, decisioni di adeguatezza, Data Privacy Framework e clausole contrattuali standard: <a href=\"https://www.netlify.com/pdf/netlify-dpa.pdf\" target=\"_blank\" rel=\"noopener\">Netlify</a>, <a href=\"https://www.zoho.com/privacy/privacy-faq.html\" target=\"_blank\" rel=\"noopener\">Zoho</a> e <a href=\"https://business.safety.google/adsdatatransfers/\" target=\"_blank\" rel=\"noopener\">Google</a>. Un meccanismo non si applica indistintamente a ogni flusso: per informazioni pertinenti ai tuoi dati e alle garanzie applicabili puoi scrivere al titolare.</p>"
+      }
+    ]
+  }
+}

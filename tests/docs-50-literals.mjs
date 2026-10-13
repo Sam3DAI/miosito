@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {beforeLocalMedia50R1} from './local-media50r1.mjs';
 
 export const docs50=JSON.parse(fs.readFileSync(new URL('./docs-50-literals.json',import.meta.url),'utf8'));
 const lf=input=>input.toString('utf8').replaceAll('\r\n','\n');
@@ -9,7 +10,7 @@ const lf=input=>input.toString('utf8').replaceAll('\r\n','\n');
 // Reverse only complete, unique reviewed paragraphs. Unknown edits stay visible
 // to the historical oracles; assertDocs50Sources also checks the raw current text.
 export function beforeDocs50(file,input) {
-  let text=lf(input);
+  let text=beforeLocalMedia50R1(file,input);
   for(const edit of [...(docs50.edits[file]||[])].reverse()) {
     if(text.split(edit.after).length===2)text=text.replace(edit.after,edit.before);
   }
@@ -24,6 +25,7 @@ export function afterDocs50(file,input) {
   return text;
 }
 export function assertDocs50Delta(file,current,baseline) {
+  current=beforeLocalMedia50R1(file,current);
   assert(Object.hasOwn(docs50.edits,file),'No implicit docs50 file exception');
   for(const edit of docs50.edits[file]) {
     assert(edit.before.length<lf(baseline).length && edit.after.length<lf(current).length,'No whole-file docs50 rollback');

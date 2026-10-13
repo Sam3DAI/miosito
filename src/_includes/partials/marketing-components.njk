@@ -58,7 +58,9 @@
     <li class="visual-card{% if item.image %} visual-card--image{% if item.imageMeta %} visual-card--original{% endif %}{% else %} visual-card--text{% endif %}" data-rail-card{% if item.accent and not item.image and variant != "landscape" %} data-card-accent="{{ item.accent }}"{% endif %}{% if item.imageMeta %} data-original-asset="{{ item.imageMeta.id }}" style="--original-image-bg: {{ item.imageMeta.background }}"{% endif %}>
       {% if item.href %}<a class="visual-card__inner" data-card-navigation href="{{ item.href | escape }}">{% else %}<article class="visual-card__inner">{% endif %}
         {% if item.image and variant != "landscape" %}
-        {% if item.imageMeta %}
+        {% if item.localImage %}
+        <img class="visual-card__image" src="{{ item.localImage.src }}" srcset="{{ item.localImage.srcset }}" sizes="{{ item.localImage.sizes }}" alt="{{ item.alt or '' }}" width="{{ item.localImage.width }}" height="{{ item.localImage.height }}" loading="lazy" decoding="async">
+        {% elif item.imageMeta %}
         <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.imageMeta.srcset }}" sizes="{{ item.imageMeta.sizes }}" alt="{{ item.alt }}" width="{{ item.imageMeta.width }}" height="{{ item.imageMeta.height }}" loading="lazy" decoding="async">
         {% else %}
         <img class="visual-card__image" src="{{ item.image }}" srcset="{{ item.image | replace('w_900,h_1150', 'w_540,h_690') | replace(',', '%2C') }} 540w, {{ item.image | replace(',', '%2C') }} 900w, {{ item.image | replace('w_900,h_1150', 'w_1200,h_1533') | replace(',', '%2C') }} 1200w" sizes="(max-width: 720px) 300px, 350px" alt="{{ item.alt or '' }}" width="900" height="1150" loading="lazy" decoding="async">
