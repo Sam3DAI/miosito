@@ -1,0 +1,293 @@
+{
+  "schema": 1,
+  "assets": [
+    {
+      "file": "assets/media-local50r1/hub-card-ecommerce-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 13440,
+      "sha256": "1e58975df5a27a257b1be3e527e02f83e30ce964509c49da1cf3d01e63c8a578"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-ecommerce-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 37166,
+      "sha256": "dabed6e0a1efdb315b37af1517eb7f35b3e8146cf3f6606228c51f4ab97c956a"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-ecommerce-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 51934,
+      "sha256": "5cbe32390ca70d9f1c63c81da9db1a6381aef113d6a2d201e4e03b63cac11c6e"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-portale-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 13096,
+      "sha256": "59dab94ee7b285ddcc0c405ed56241ecd921cb2cb00840032efece24ee881c7e"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-portale-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 35234,
+      "sha256": "d6a5d23337802429f0427ce2686cbc257829b1a6d2c35d8fc5fc091a9f30dc5b"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-portale-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 49242,
+      "sha256": "de2a92b77398e41f2cc8e0bbbd849e0a6fa10524e14ead63b08e2f57e9afe72f"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-cpq-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 13006,
+      "sha256": "71d07e4f29c28b1727f0a2259b53ca2a6eac6f7bb27eec1a98ac46c53d1bb87c"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-cpq-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 35670,
+      "sha256": "017bb23614d5086c6ef4217ef6cfebda00cf56293e55178361519f505b9d0bc8"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-cpq-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 49184,
+      "sha256": "8d82fab63c6c6ffefd5a290bb9b91864552a9dcf8b5e544a302c119315f984d3"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-planner-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 16274,
+      "sha256": "84c940af79484e6eb3becc6984fc5ef9de160a443b9752431169c0c216dccdb3"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-planner-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 47280,
+      "sha256": "95d3f38b616e4ad33178bc5ed0c017acecd5755cad0354099f6e97da3d6fd813"
+    },
+    {
+      "file": "assets/media-local50r1/hub-card-planner-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 67114,
+      "sha256": "1249f11ed0b24d786b403fc44771c9f27904160748776306bd034d599a3c1c5e"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-arredamento-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 19788,
+      "sha256": "9ac210e6e9bb43163ca0afbc542935f0f4a1682f1f6b506b08f1ec6b05b21c31"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-arredamento-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 56010,
+      "sha256": "8ad2442f63ac286c42a2b8eb292f250ecb1f450231b5f344627ecb01bab97e8a"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-arredamento-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 83988,
+      "sha256": "cece7679ac5336b5a01d83075f77328646ba0acb27ae0e9235c7d772775cb39f"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-industria-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 22890,
+      "sha256": "dd07cafd51883ccdf17f71271daf34a2e019ac4350567410fea953d9604667ea"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-industria-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 59176,
+      "sha256": "586d50b60a67df0efc3975ca5bf3865b0b61deb6c4563fa16823409e8a04c4cb"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-industria-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 85472,
+      "sha256": "3c3c55f4716da6d1ebf5d54bb15b14a079787986b700ec1d93fd9e5ad9e60944"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-moda-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 20634,
+      "sha256": "33c36f9a3589b1276a9482b27bda03d32ceea3708fe16dce19b23cc0a57af4df"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-moda-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 56414,
+      "sha256": "09df3b8f352c2e43885bda2f6699d09967fc5c1b31498b9e484abd4e0de88680"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-moda-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 83640,
+      "sha256": "bcfe0b52f7d788c5cce4c2a30d1ca728fe4c32f0ca260497d41f535855a609ce"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-automotive-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 22062,
+      "sha256": "bd6ea73c8ec408255ae300909498e79b1cade56c03b26771fd59d3595512a804"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-automotive-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 58212,
+      "sha256": "e47ae7adbe5091d87ab77428b61cce7e8f294d2e5cbbff6e84b70713fa36e8cc"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-automotive-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 87296,
+      "sha256": "951a3ef1e79e383caf016475af762121084a05b278342bdf54df582f16b87c2b"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-serramenti-350.webp",
+      "width": 350,
+      "height": 447,
+      "format": "webp",
+      "bytes": 19978,
+      "sha256": "f64f4d4b5e771e1a98d415c4f762862ae668f335a3f8b2af87523eb52f82526e"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-serramenti-700.webp",
+      "width": 700,
+      "height": 894,
+      "format": "webp",
+      "bytes": 51038,
+      "sha256": "3ab4f8dc681242fbe6fa61b61cc83fe1f30ae10e6efa517c14dd4e3f51b25a20"
+    },
+    {
+      "file": "assets/media-local50r1/hub-sector-serramenti-900.webp",
+      "width": 900,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 72940,
+      "sha256": "cc1b183d83c4a2fd473c2055aa4c921cc142eb6027087a16810e4ab48599e9f0"
+    },
+    {
+      "file": "assets/media-local50r1/demo-swatch-bianco.png",
+      "width": 390,
+      "height": 342,
+      "format": "png",
+      "bytes": 182,
+      "sha256": "e380f46c60cdb44c51510cb258bcf18b90f30f39c60b637bcf7f33382a8f2df0"
+    },
+    {
+      "file": "assets/media-local50r1/demo-swatch-grigio.png",
+      "width": 150,
+      "height": 200,
+      "format": "png",
+      "bytes": 120,
+      "sha256": "0ce703a2ef1f03a3f3dd0847ea5da253dbaceec57b1e04be5905591cd764227a"
+    },
+    {
+      "file": "assets/media-local50r1/demo-swatch-bronzo.png",
+      "width": 390,
+      "height": 342,
+      "format": "png",
+      "bytes": 182,
+      "sha256": "ef3b565e7ecd9d35eca81898fc04aed179ac966251c326e972d5aecae59b1e55"
+    },
+    {
+      "file": "assets/media-local50r1/demo-swatch-nero.png",
+      "width": 150,
+      "height": 200,
+      "format": "png",
+      "bytes": 120,
+      "sha256": "a23aac74207a5ca82bee09d7383af9a8d0f46ad3ece88728d3c30f1b2fd07fc4"
+    },
+    {
+      "file": "assets/media-local50r1/demo-wallpaper-nero-bronzo.webp",
+      "width": 1320,
+      "height": 2868,
+      "format": "webp",
+      "bytes": 43856,
+      "sha256": "02da21da1eb24832671aadaf7517356d7420b4a2e8d5cfa18f0b329fa886465b"
+    },
+    {
+      "file": "assets/media-local50r1/demo-wallpaper-arancio-nero.webp",
+      "width": 1320,
+      "height": 2868,
+      "format": "webp",
+      "bytes": 47464,
+      "sha256": "83046d488fe712da8e42704adba13a449ed9337fb49201fc6cf58f6a18145b31"
+    },
+    {
+      "file": "assets/media-local50r1/demo-wallpaper-nero-blu.webp",
+      "width": 1320,
+      "height": 2868,
+      "format": "webp",
+      "bytes": 43020,
+      "sha256": "136081fc3c2f528d3d98b06c4b40a03a1342797e50fb227771ba48e120160b91"
+    },
+    {
+      "file": "assets/media-local50r1/demo-wallpaper-nero-viola.webp",
+      "width": 1320,
+      "height": 2868,
+      "format": "webp",
+      "bytes": 44958,
+      "sha256": "b0b645af79cd3421bdaa2adb4bfd866c412ae22029cc33b66d6a273609098eb3"
+    },
+    {
+      "file": "assets/media-local50r1/demo-ar-icon.webp",
+      "width": 1024,
+      "height": 1024,
+      "format": "webp",
+      "bytes": 39242,
+      "sha256": "86d013e91b2db28f17bafafd10bc987055d29b819b99e553f4f191f1180cfeb4"
+    }
+  ]
+}

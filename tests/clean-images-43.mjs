@@ -18,6 +18,7 @@ import {consent50,assertConsent50Delta,assertConsent50Sources,controller50Sha256
 import {docs50,assertDocs50Delta,assertDocs50Sources} from './docs-50-literals.mjs';
 import {dependencies50,dependencies50Files,assertDependencies50Delta,assertDependencies50Sources,spamWatch50File,assertSpamWatch50Source} from './dependencies50.mjs';
 import {exclusion50Marker,assertExclusion50Marker} from './spam-watch-exclusion50.mjs';
+import {isMediaProduct50R1} from './local-media50r1.mjs';
 
 // Test-only digest oracle from the owner package, never imported by the site.
 export const contract43 = JSON.parse(fs.readFileSync(new URL('./clean-images-43-contract.json', import.meta.url), 'utf8'));
@@ -117,6 +118,7 @@ export function assertCleanConfig43(current, baseline) {
 }
 
 export function isClean43ProductFile(file,root=fileURLToPath(new URL('../',import.meta.url))) {
+  if(isMediaProduct50R1(file,root))return true; // Exact current bytes/delta, never a directory exemption.
   if (isUtilityCta47ProductFile(file,root)) return true; // Exact three-file content guard, never a wildcard.
   if (isMobileHoverProduct47R1(file,root)) return true; // Three exact CSS paths, each with an independent full-delta guard.
   if (isInputProduct47R2(file,root)) return true; // Exactly two fully guarded pointer-decoration sources, no directory exception.

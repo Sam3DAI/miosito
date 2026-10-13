@@ -452,19 +452,19 @@ const updateActiveFromScroll = () => {
       window.scoccaMaterials = scoccaMaterials;
       window.schermoMaterial = schermoMaterial;
 
-      // Textures (Cloudinary)
+      // Textures (local media)
       const textures = {
         color: {
-          bianco: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068874/bianco_sdebye.png?quality=auto&format=auto',
-          grigio: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068859/grigio_iutpvj.png?quality=auto&format=auto',
-          bronzo: 'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068893/bronzo_g23m36.png?quality=auto&format=auto',
-          nero:   'https://res.cloudinary.com/dqhbriryo/image/upload/v1752068910/nero_whga1l.png?quality=auto&format=auto'
+          bianco: '/assets/media-local50r1/demo-swatch-bianco.png',
+          grigio: '/assets/media-local50r1/demo-swatch-grigio.png',
+          bronzo: '/assets/media-local50r1/demo-swatch-bronzo.png',
+          nero:   '/assets/media-local50r1/demo-swatch-nero.png'
         },
         background: {
-          'sfondo-nero-bronzo': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981260/sfondo_iphone_viola_e_nero_qhggk6.webp?quality=auto&format=auto',
-          'sfondo-arancio-nero': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981229/sfondo_iphone_nero_e_rosso_yzpl6h.webp?quality=auto&format=auto',
-          'sfondo-nero-blu': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981196/sfondo_iphone_nero_e_bronzo_cmmt3h.webp?quality=auto&format=auto',
-          'sfondo-nero-viola': 'https://res.cloudinary.com/dqhbriryo/image/upload/v1751981244/sfondo_iphone_nero_e_blue_h6rgcb.webp?quality=auto&format=auto'
+          'sfondo-nero-bronzo': '/assets/media-local50r1/demo-wallpaper-nero-bronzo.webp',
+          'sfondo-arancio-nero': '/assets/media-local50r1/demo-wallpaper-arancio-nero.webp',
+          'sfondo-nero-blu': '/assets/media-local50r1/demo-wallpaper-nero-blu.webp',
+          'sfondo-nero-viola': '/assets/media-local50r1/demo-wallpaper-nero-viola.webp'
         }
       };
       window.textures = textures;
@@ -687,7 +687,7 @@ const updateActiveFromScroll = () => {
     const btn = document.getElementById('ar-button');
     if (!btn) return;
     btn.innerHTML = `
-      <img src="https://res.cloudinary.com/dqhbriryo/image/upload/v1755855493/icona_Realt%C3%A0_Aumentata_y2p4ga.webp"
+      <img src="/assets/media-local50r1/demo-ar-icon.webp"
            alt="" decoding="async" loading="eager"
            style="display:block;width:100%;height:100%;object-fit:contain;padding:12%;" />
     `;

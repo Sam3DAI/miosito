@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "cards": {
+    "hub-card-ecommerce": {
+      "src": "/assets/media-local50r1/hub-card-ecommerce-900.webp",
+      "srcset": "/assets/media-local50r1/hub-card-ecommerce-350.webp 350w, /assets/media-local50r1/hub-card-ecommerce-700.webp 700w, /assets/media-local50r1/hub-card-ecommerce-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-card-portale": {
+      "src": "/assets/media-local50r1/hub-card-portale-900.webp",
+      "srcset": "/assets/media-local50r1/hub-card-portale-350.webp 350w, /assets/media-local50r1/hub-card-portale-700.webp 700w, /assets/media-local50r1/hub-card-portale-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-card-cpq": {
+      "src": "/assets/media-local50r1/hub-card-cpq-900.webp",
+      "srcset": "/assets/media-local50r1/hub-card-cpq-350.webp 350w, /assets/media-local50r1/hub-card-cpq-700.webp 700w, /assets/media-local50r1/hub-card-cpq-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-card-planner": {
+      "src": "/assets/media-local50r1/hub-card-planner-900.webp",
+      "srcset": "/assets/media-local50r1/hub-card-planner-350.webp 350w, /assets/media-local50r1/hub-card-planner-700.webp 700w, /assets/media-local50r1/hub-card-planner-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-sector-arredamento": {
+      "src": "/assets/media-local50r1/hub-sector-arredamento-900.webp",
+      "srcset": "/assets/media-local50r1/hub-sector-arredamento-350.webp 350w, /assets/media-local50r1/hub-sector-arredamento-700.webp 700w, /assets/media-local50r1/hub-sector-arredamento-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-sector-industria": {
+      "src": "/assets/media-local50r1/hub-sector-industria-900.webp",
+      "srcset": "/assets/media-local50r1/hub-sector-industria-350.webp 350w, /assets/media-local50r1/hub-sector-industria-700.webp 700w, /assets/media-local50r1/hub-sector-industria-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-sector-moda": {
+      "src": "/assets/media-local50r1/hub-sector-moda-900.webp",
+      "srcset": "/assets/media-local50r1/hub-sector-moda-350.webp 350w, /assets/media-local50r1/hub-sector-moda-700.webp 700w, /assets/media-local50r1/hub-sector-moda-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-sector-automotive": {
+      "src": "/assets/media-local50r1/hub-sector-automotive-900.webp",
+      "srcset": "/assets/media-local50r1/hub-sector-automotive-350.webp 350w, /assets/media-local50r1/hub-sector-automotive-700.webp 700w, /assets/media-local50r1/hub-sector-automotive-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    },
+    "hub-sector-serramenti": {
+      "src": "/assets/media-local50r1/hub-sector-serramenti-900.webp",
+      "srcset": "/assets/media-local50r1/hub-sector-serramenti-350.webp 350w, /assets/media-local50r1/hub-sector-serramenti-700.webp 700w, /assets/media-local50r1/hub-sector-serramenti-900.webp 900w",
+      "sizes": "(max-width: 720px) 300px, 350px",
+      "width": 900,
+      "height": 1150
+    }
+  },
+  "technical": {
+    "demo-swatch-bianco": "/assets/media-local50r1/demo-swatch-bianco.png",
+    "demo-swatch-grigio": "/assets/media-local50r1/demo-swatch-grigio.png",
+    "demo-swatch-bronzo": "/assets/media-local50r1/demo-swatch-bronzo.png",
+    "demo-swatch-nero": "/assets/media-local50r1/demo-swatch-nero.png",
+    "demo-wallpaper-nero-bronzo": "/assets/media-local50r1/demo-wallpaper-nero-bronzo.webp",
+    "demo-wallpaper-arancio-nero": "/assets/media-local50r1/demo-wallpaper-arancio-nero.webp",
+    "demo-wallpaper-nero-blu": "/assets/media-local50r1/demo-wallpaper-nero-blu.webp",
+    "demo-wallpaper-nero-viola": "/assets/media-local50r1/demo-wallpaper-nero-viola.webp",
+    "demo-ar-icon": "/assets/media-local50r1/demo-ar-icon.webp"
+  }
+}

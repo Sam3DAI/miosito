@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {readGitBlobBuffer,hashFileWithGitFilters} from './git-binary-reader.mjs';
 import {FROZEN_PASSTHROUGH_FILES,OWNED_STATIC_FILES,GENERATED_ROUTES} from '../eleventy.config.js';
 import {assertHeaders41} from './nonvisual-closure-41.mjs';
+import {beforeLocalMedia50R1,assertMediaSources50R1} from './local-media50r1.mjs';
 import {assertReviewed50Source42} from './legacy-retirement-42r1.mjs';
 import {assertReviewed50Source43} from './clean-images-43.mjs';
 import {exclusion50Baseline,exclusion50Directory,exclusion50Marker,exclusion50MarkerText,
@@ -61,10 +62,12 @@ test('50 retained monitor source and 38-test suite preserve exact LF/CRLF conten
     assert.equal(exact(Buffer.concat([original,Buffer.from('unreviewed')])),false,`${file}: no non-EOL drift`);
   }
   // Existing CRLF checkouts are not normalized or misreported as raw Git bytes.
-  for(const file of ['package.json','package-lock.json','eleventy.config.js']) {
+  for(const file of ['package.json','package-lock.json']) {
     assert.equal(hashFileWithGitFilters(file,file,root),readGitBlobBuffer(exclusion50Baseline,file,root).objectId,
       `${file}: retained Git blob including the checkout's existing EOL filters`);
   }
+  assertMediaSources50R1(root);
+  assert.equal(beforeLocalMedia50R1('eleventy.config.js',read('eleventy.config.js')),readGitBlobBuffer(exclusion50Baseline,'eleventy.config.js',root).buffer.toString('utf8').replaceAll('\r\n','\n'),'Only the exact36 media entries may change; build command and monitor exclusion are unchanged');
 });
 
 test('50 future staging integration permits only its existing global noindex header',()=>{
@@ -90,6 +93,8 @@ test('50 exclusion tests are mandatory and all previous verification suites are 
   const previous=readGitBlobBuffer(exclusion50Baseline,'tests/verify-orchestrator.mjs',root).buffer.toString('utf8').replaceAll('\r\n','\n');
   const current=read('tests/verify-orchestrator.mjs').replaceAll('\r\n','\n');
   const added='  "tests/spam-watch-exclusion50.test.mjs",\n';
+  const mediaAdded='  "tests/local-media50r1.test.mjs",\n';
   assert.equal(current.split(added).length,2);
-  assert.equal(current.replace(added,''),previous);
+  assert.equal(current.split(mediaAdded).length,2);
+  assert.equal(current.replace(added,'').replace(mediaAdded,''),previous);
 });

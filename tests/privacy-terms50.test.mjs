@@ -4,9 +4,11 @@ import test from 'node:test';
 import {fileURLToPath} from 'node:url';
 import {docs50,beforeDocs50,afterDocs50,assertDocs50Delta,assertDocs50Sources} from './docs-50-literals.mjs';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {beforeLocalMedia50R1} from './local-media50r1.mjs';
 
 const root=fileURLToPath(new URL('..',import.meta.url));
-const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
+// Preserve every50 factual/negative oracle; the exact current50R1 notice has its own mandatory guard.
+const read=file=>beforeLocalMedia50R1(file,fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'));
 const privacy=read('src/privacy-policy.njk'),terms=read('src/termini-condizioni.njk');
 const requireAll=(text,literals)=>{for(const literal of literals)assert(text.includes(literal),literal);};
 

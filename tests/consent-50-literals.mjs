@@ -3,12 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {readGitBlobBuffer} from './git-binary-reader.mjs';
+import {beforeLocalMedia50R1} from './local-media50r1.mjs';
 
 export const consent50 = JSON.parse(fs.readFileSync(new URL('./consent-50-literals.json',import.meta.url),'utf8'));
 export const controller50Sha256 = 'b54b769512fc4085fb735dbe294075126193662e9087f4f66dd4995d8d7b3ea6';
 const lf = input => input.toString('utf8').replaceAll('\r\n','\n');
 export function beforeConsent50(file,input) {
-  let text=lf(input);
+  let text=beforeLocalMedia50R1(file,input);
   for(const edit of [...(consent50.edits[file]||[])].reverse()) {
     if(text.split(edit.after).length===2) text=text.replace(edit.after,edit.before);
   }
@@ -23,6 +24,7 @@ export function afterConsent50(file,input) {
   return text;
 }
 export function assertConsent50Delta(file,current,baseline) {
+  current=beforeLocalMedia50R1(file,current);
   assert(Object.hasOwn(consent50.edits,file),'No implicit consent50 file exception');
   for(const edit of consent50.edits[file]) {
     assert(edit.before.length<lf(baseline).length && edit.after.length<lf(current).length,'No whole-file consent50 rollback');

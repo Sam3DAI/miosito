@@ -52,9 +52,11 @@ import { assertEditorialMotionOutput47R3 } from "./editorial-motion-47r3.mjs";
 import { assert48Current } from "./prelaunch-48-literals.mjs";
 import { assertConsent50Sources, beforeConsent50LegalHtml } from "./consent-50-literals.mjs";
 import { beforeDocs50, assertPublicLinkExtensions50 } from "./docs-50-literals.mjs";
+import { media50r1, mediaFiles50r1, assertMediaSources50R1, assertMediaOutput50R1 } from "./local-media50r1.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "_site");
+assertMediaSources50R1(root);
 assertConsent50Sources(root);
 assert48Current(root);
 assertProof44Sources(root);
@@ -96,6 +98,7 @@ const EXPECTED_FROZEN_PASSTHROUGH_FILES = Object.freeze([
 ]);
 
 const EXPECTED_OWNED_STATIC_FILES = Object.freeze([
+  ...mediaFiles50r1,
   ...galleryStatic46,
   "css/wd-ecommerce-embed.css",
   "js/wd-ecommerce-embed.js",
@@ -716,18 +719,18 @@ function assertHardenedCsp(html, route) {
   const expected = route.profile === "configurator"
     ? {
         ...shared,
-        "img-src": sourceList("'self' data: blob: https://res.cloudinary.com https://assets.babylonjs.com https://api.qrserver.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net"),
+        "img-src": sourceList("'self' data: blob: https://assets.babylonjs.com https://api.qrserver.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net"),
         "media-src": sourceList("'self' blob:"),
         "script-src": sourceList("'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://cdn.babylonjs.com https://cdnjs.cloudflare.com"),
         "style-src": sourceList("'self' 'unsafe-inline'"),
         "font-src": sourceList("'self' data:"),
         "frame-src": sourceList("https://www.googletagmanager.com"),
-        "connect-src": sourceList("'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://region1.analytics.google.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googleadservices.com"),
+        "connect-src": sourceList("'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://region1.analytics.google.com https://cdn.babylonjs.com https://assets.babylonjs.com https://immersive-web.github.io https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googleadservices.com"),
         "worker-src": sourceList("'self' blob:")
       }
     : {
         ...shared,
-        "img-src": sourceList("'self' data: https://res.cloudinary.com https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net"),
+        "img-src": sourceList("'self' data: https://www.google-analytics.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net"),
         "script-src": sourceList("'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com"),
         "style-src": sourceList("'self' 'unsafe-inline'"),
         "font-src": sourceList("'self' data:"),
@@ -1023,7 +1026,9 @@ function assertGeneratedPageContract(route, html) {
     assert.ok(legacySectionOrder.every((index) => index >= 0), `${route.publicUrl}: a required legacy section anchor is missing`);
     assert.deepEqual([...legacySectionOrder].sort((a, b) => a - b), legacySectionOrder, `${route.publicUrl}: legacy section order changed`);
     for (const assetPath of approvedLegacyCardAssetPaths) {
-      assert.ok(html.includes(assetPath), `${route.publicUrl}: approved legacy card asset missing: ${assetPath}`);
+      const mapping = media50r1.edits['src/configuratori-3d-2d.njk'].find(edit => edit.before.includes(assetPath));
+      const id = mapping?.after.match(/cards\["([^"]+)"\]/)?.[1];
+      assert.ok(id && html.includes(`/assets/media-local50r1/${id}-900.webp`), `${route.publicUrl}: approved legacy card remapped locally: ${assetPath}`);
     }
   } else {
     assert.doesNotMatch(html, /<model-viewer\b|\.glb(?:[?"'])|babylon|ApexCharts/i, `${route.publicUrl}: heavy visual runtime leaked into non-configurator page`);
@@ -1387,7 +1392,8 @@ function resourceReferences(html, route) {
         const clean = raw.split(/[?#]/, 1)[0].replace(/^\//, "");
         if (clean) {
           references.add(clean);
-          if (isDeferredOriginalImage(tag, clean) || isDeferredGallery44r2(tag, clean)) deferredOriginalImages.add(clean);
+          if (isDeferredOriginalImage(tag, clean) || isDeferredGallery44r2(tag, clean)
+            || (mediaFiles50r1.includes(clean) && /\bloading="lazy"/.test(tag) && /\bdecoding="async"/.test(tag))) deferredOriginalImages.add(clean);
         }
       }
     }
@@ -1454,7 +1460,7 @@ function assertRouteRegistry() {
   assert.deepEqual(GENERATED_ROUTES, EXPECTED_GENERATED_ROUTES, "Eleventy route registry differs from the independent page contract");
   assert.equal(EXPECTED_GENERATED_ROUTES.length, 10, "Exactly ten HTML routes must be generated");
   assert.equal(EXPECTED_FROZEN_PASSTHROUGH_FILES.length, 19, "42R1: eleven retired files excluded, bounded 404 edit owned separately");
-  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 67 + 2 + 1, "Historical assets retained; WD48 gate/launcher plus one local consent50 controller");
+  assert.equal(EXPECTED_OWNED_STATIC_FILES.length, 15 + publishedImageFiles43.length + 26 + 60 + 2 + 67 + 2 + 1 + 36, "Historical assets retained; WD48 gate/launcher, consent50 controller and 36 exact local media50R1 files");
 
   const allEntries = [
     ...EXPECTED_FROZEN_PASSTHROUGH_FILES.map((destination) => ({ destination })),
@@ -1740,9 +1746,11 @@ const browserVisual32Evidence = process.env.SOLVEX_VISUAL_32_EVIDENCE
   ? assertVisualEvidence32(root, process.env.SOLVEX_VISUAL_32_EVIDENCE)
   : { result: "NOT_RUN_SEPARATE_REAL_BROWSER_GATE", requiredBeforeStaging: true };
 const firstVerification = verifyBuiltOutput();
+const localMedia50R1Evidence = assertMediaOutput50R1(root);
 
 buildFromAbsentOutput();
 const secondVerification = verifyBuiltOutput();
+assertMediaOutput50R1(root);
 assert.deepEqual(secondVerification.builtInventory, firstVerification.builtInventory, "Two clean consecutive builds are not byte-for-byte reproducible");
 performanceEvidence.push(...secondVerification.currentPerformance);
 
@@ -1819,7 +1827,8 @@ const summary = {
   generatedPagesChatbotRuntime: 0,
   legalContentFreeze: "PASS",
   cspHardening: "PASS",
-  configuratorFunctionalFreeze: "PASS_WITH_EXACT_32_DISPLAY_40_PRIVACY_41_FOCUS_DELTAS",
+  configuratorFunctionalFreeze: "PASS_WITH_EXACT_32_DISPLAY_40_PRIVACY_41_FOCUS_AND_50R1_MEDIA_URL_DELTAS",
+  localMedia50R1: localMedia50R1Evidence,
   contactFunctionalFreeze: "PASS",
   formsDetected: 6,
   sourceAllowlistEvidence,
